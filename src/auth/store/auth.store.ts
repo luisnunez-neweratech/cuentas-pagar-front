@@ -16,7 +16,7 @@ type AuthState = {
 
   // actions
   login: (email: string, password: string) => Promise<boolean>;
-  //logout: () => void,
+  logout: () => void;
   checkAuthStatus: () => Promise<boolean>;
   setLoading: (state: boolean) => void;
 };
@@ -49,12 +49,10 @@ export const useAuthStore = create<AuthState>()((set, _get) => ({
       return false;
     }
   },
-  /*
-    logout: () => {
-        localStorage.removeItem('token')
-        set({ user: null, token: null, authStatus: 'not-authenticated' })
-    },
-*/
+  logout: () => {
+    localStorage.removeItem("token");
+    set({ user: null, token: null, authStatus: "not-authenticated" });
+  },
   checkAuthStatus: async () => {
     /* try {
             const { user, token } = await checkAuthAction()

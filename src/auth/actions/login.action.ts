@@ -13,8 +13,8 @@ export const loginAction = async (
         }) */
 
     //mock response
+    
     const data: AuthResponse = loginResponse;
-
     console.log({ data });
 
     return data;

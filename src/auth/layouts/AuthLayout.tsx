@@ -5,6 +5,8 @@ import { useAuthStore } from "../store/auth.store";
 import logo from "../../assets/newera-logo.svg";
 import "./authStyle.css";
 
+
+//TODO check if is logged
 const AuthLayout = () => {
   const { loading } = useAuthStore();
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 import { validationSchema } from "../Validations";
 import { useAuthStore } from "../../../store/auth.store";
 
@@ -30,7 +31,7 @@ export const useLoginPage = () => {
           return;
         }
 
-        //toast.error('Correo o contraseña incorrecta ')
+        toast.error("Correo o contraseña incorrecta ");
         setIsPosting(false);
       },
     });
