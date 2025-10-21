@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router";
 import { validationSchema } from "../Validations";
 import { useAuthStore } from "../../../store/auth.store";
 
 export const useNewPassword = () => {
   const { setLoading } = useAuthStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(false);
@@ -20,6 +22,7 @@ export const useNewPassword = () => {
       onSubmit: (values) => {
         console.log(values);
         setLoading(true);
+        navigate("/auth/login");
       },
     });
 
