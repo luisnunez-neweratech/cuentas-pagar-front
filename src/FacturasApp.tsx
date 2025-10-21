@@ -1,4 +1,4 @@
-import { FacturasRoutes } from "./FacturasRoutes";
+import { FacturasRoutes } from "./routes/FacturasRoutes";
 
 export const FacturasApp = () => {
   return <FacturasRoutes />;

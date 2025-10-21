@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from "react-router";
-import { LoginPage } from "./auth/pages/login/LoginPage";
-import AuthLayout from "./auth/layouts/AuthLayout";
-import { RecoverPasswordPage } from "./auth/pages/recoverPassword/RecoverPassword";
-import { DashboardLayout } from "./dashboard/layouts/DashboardLayout";
-import { ProveedoresPage } from "./dashboard/pages/proveedores/ProveedoresPage";
-import { NuevoProveedorPage } from "./dashboard/pages/nuevoProveedor/NuevoProveedorPage";
-import { RecoverTokenPage } from "./auth/pages/recoverToken/RecoverToken";
-import { NewPasswordPage } from "./auth/pages/newPassword/NewPassword";
+import { DashboardLayout } from "../dashboard/layouts/DashboardLayout";
+import { ProveedoresPage } from "../dashboard/pages/proveedores/ProveedoresPage";
+import { NuevoProveedorPage } from "../dashboard/pages/nuevoProveedor/NuevoProveedorPage";
+import AuthLayout from "../auth/layouts/AuthLayout";
+import { LoginPage } from "../auth/pages/login/LoginPage";
+import { NewPasswordPage } from "../auth/pages/newPassword/NewPassword";
+import { RecoverPasswordPage } from "../auth/pages/recoverPassword/RecoverPassword";
+import { RecoverTokenPage } from "../auth/pages/recoverToken/RecoverToken";
 
 export const FacturasRoutes = () => {
   return (
