@@ -5,13 +5,14 @@ import { useLoginPage } from "./hooks/useLoginPage";
 import "./loginStyle.css";
 
 export const LoginPage = () => {
-  const {    
+  const {
     handleSubmit,
     values,
     handleChange,
     handleBlur,
     touched,
     errors,
+    isPosting,
   } = useLoginPage();
 
   return (
@@ -60,9 +61,9 @@ export const LoginPage = () => {
 
           <Button
             disabled={
-              values.password.length === 0 || values.email.length === 0
+              (values.password.length === 0 || values.email.length === 0
                 ? true
-                : false
+                : false) || isPosting
             }
             type="submit"
             fullWidth

@@ -1,11 +1,13 @@
 import { create } from "zustand";
+import { loginAction } from "../actions/login.action";
+import type { User } from "../../interfaces/user.interface";
 
 type AuthStatus = "authenticated" | "not-authenticated" | "checking";
 
 type AuthState = {
   // properties
-  //user: User | null,
-  //token: string | null,
+  user: User | null;
+  token: string | null;
   authStatus: AuthStatus;
   loading: boolean;
 
@@ -13,7 +15,7 @@ type AuthState = {
   //isAdmin: () => boolean,
 
   // actions
-  //login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
   //logout: () => void,
   checkAuthStatus: () => Promise<boolean>;
   setLoading: (state: boolean) => void;
@@ -21,8 +23,8 @@ type AuthState = {
 
 export const useAuthStore = create<AuthState>()((set, _get) => ({
   //implementacion
-  //user: null,
-  //token: null,
+  user: null,
+  token: null,
   authStatus: "checking",
   loading: false,
 
@@ -33,25 +35,21 @@ export const useAuthStore = create<AuthState>()((set, _get) => ({
     },
  */
   //actions
-  /* login: async (email: string, password: string) => {
+  login: async (email: string, password: string) => {
+    console.log({ email, password });
+    try {
+      const data = await loginAction(email, password);
+      localStorage.setItem("token", data.token);
 
-        console.log({ email, password })
-        try {
-
-            const data = await loginAction(email, password)
-            localStorage.setItem('token', data.token)
-
-            set({ user: data.user, token: data.token, authStatus: 'authenticated' })
-            return true
-
-        } catch (error) {
-            localStorage.removeItem('token')
-            set({ user: null, token: null, authStatus: 'not-authenticated' })
-            return false
-        }
-
-
-    },
+      set({ user: data.user, token: data.token, authStatus: "authenticated" });
+      return true;
+    } catch (error) {
+      localStorage.removeItem("token");
+      set({ user: null, token: null, authStatus: "not-authenticated" });
+      return false;
+    }
+  },
+  /*
     logout: () => {
         localStorage.removeItem('token')
         set({ user: null, token: null, authStatus: 'not-authenticated' })

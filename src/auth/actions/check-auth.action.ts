@@ -1,4 +1,4 @@
-import { cuentasApi } from "@/api/cuentasApi";
+import { cuentasApi } from "../../api/cuentasApi";
 import type { AuthResponse } from "../interfaces/auth.response";
 
 export const checkAuthAction = async (): Promise<AuthResponse> => {
