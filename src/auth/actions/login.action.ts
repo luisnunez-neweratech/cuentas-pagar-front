@@ -1,10 +1,11 @@
-/* import { tesloApi } from "@/api/tesloApi"
+import { cuentasApi } from "@/api/cuentasApi"
 import type { AuthResponse } from "../interfaces/auth.response";
 
 export const loginAction = async (email: string, password: string): Promise<AuthResponse> => {
     try {
 
-        const { data } = await tesloApi.post<AuthResponse>('/auth/login', {
+        //TODO llamar endpoint para login de usuario
+        const { data } = await cuentasApi.post<AuthResponse>('/auth/login', {
             email, password
         })
 
@@ -15,4 +16,4 @@ export const loginAction = async (email: string, password: string): Promise<Auth
         console.log(error)
         throw error;
     }
-} */
+} 
