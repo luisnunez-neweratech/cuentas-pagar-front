@@ -15,18 +15,22 @@ const DashboardLayout = lazy(
 export const FacturasRoutes = () => {
   return (
     <Routes>
-      <Route path="auth" element={<AuthLayout />}>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="recover" element={<RecoverPasswordPage />} />
-        <Route path="token" element={<RecoverTokenPage />} />
-        <Route path="new-password" element={<NewPasswordPage />} />
-      </Route>
+      {/* Main routes */}
       <Route path="/" element={<DashboardLayout />}>
         <Route path="proveedor">
           <Route index element={<ProveedoresPage />} />
           <Route path="nuevo" element={<NuevoProveedorPage />} />
         </Route>
       </Route>
+
+      {/* auth routes */}
+      <Route path="auth" element={<AuthLayout />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="recover" element={<RecoverPasswordPage />} />
+        <Route path="token" element={<RecoverTokenPage />} />
+        <Route path="new-password" element={<NewPasswordPage />} />
+      </Route>
+      
       <Route path="*" element={<Navigate to="/" replace />}></Route>
     </Routes>
   );
