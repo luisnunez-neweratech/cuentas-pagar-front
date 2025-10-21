@@ -26,7 +26,7 @@ import { mainBackgroundColor } from "../../lib/constants";
 import logo from "../../assets/newera-logo.svg";
 //import { useNavigate } from "react-router";
 
-export const DashboardLayout = () => {
+const DashboardLayout = () => {
   const theme = useTheme();
   const {
     open,
@@ -158,3 +158,5 @@ export const DashboardLayout = () => {
     </Box>
   );
 };
+
+export default DashboardLayout;
