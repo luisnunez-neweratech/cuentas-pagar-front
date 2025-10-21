@@ -6,6 +6,7 @@ import { DashboardLayout } from "./dashboard/layouts/DashboardLayout";
 import { ProveedoresPage } from "./dashboard/pages/proveedores/ProveedoresPage";
 import { NuevoProveedorPage } from "./dashboard/pages/nuevoProveedor/NuevoProveedorPage";
 import { RecoverTokenPage } from "./auth/pages/recoverToken/RecoverToken";
+import { NewPasswordPage } from "./auth/pages/newPassword/NewPassword";
 
 export const FacturasRoutes = () => {
   return (
@@ -14,6 +15,7 @@ export const FacturasRoutes = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="recover" element={<RecoverPasswordPage />} />
         <Route path="token" element={<RecoverTokenPage />} />
+        <Route path="new-password" element={<NewPasswordPage />} />
       </Route>
       <Route path="/" element={<DashboardLayout />}>
         <Route path="proveedor">
