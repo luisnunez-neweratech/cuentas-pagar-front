@@ -13,7 +13,7 @@ export const useLoginPage = () => {
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
-        rfc: "",
+        email: "",
         password: "",
       },
       validationSchema: validationSchema,
