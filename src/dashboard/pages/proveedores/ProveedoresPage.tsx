@@ -1,19 +1,12 @@
-import { Button, Grid } from "@mui/material";
-import { useNavigate } from "react-router";
+import { Grid } from "@mui/material";
+import { HeaderButtons } from "./headerButtons/HeaderButtons";
+import { Filters } from "./filters/Filters";
 
 export const ProveedoresPage = () => {
-  const navigate = useNavigate();
   return (
-    <Grid container>
-      <Grid size={12}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate("nuevo")}
-        >
-          Nuevo Proveedor
-        </Button>
-      </Grid>
+    <Grid container spacing={2}>
+      <HeaderButtons />
+      <Filters />
     </Grid>
   );
 };

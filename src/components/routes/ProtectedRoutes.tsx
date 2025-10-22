@@ -17,9 +17,7 @@ export const NotAuthenticatedRoute = ({ children }: PropsWithChildren) => {
 
   console.log("authStatus", authStatus);
 
-  if (authStatus !== "authenticated") return null;
-
-  console.log("here");
+  if (authStatus !== "authenticated") return children;
 
   if (authStatus === "authenticated") return <Navigate to="/" />;
 
