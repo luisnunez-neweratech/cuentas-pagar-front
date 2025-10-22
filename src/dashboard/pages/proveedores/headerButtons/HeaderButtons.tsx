@@ -3,9 +3,19 @@ import { Grid, Tooltip, IconButton } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import { mainBackgroundColor } from "../../../../lib/constants";
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 
-export const HeaderButtons = () => {
+interface HeaderButtonsProps {
+  showFilter: boolean;
+  onClickShowFilter: () => void;
+}
+
+export const HeaderButtons = ({
+  onClickShowFilter,
+  showFilter,
+}: HeaderButtonsProps) => {
   const navigate = useNavigate();
   return (
     <>
@@ -24,16 +34,42 @@ export const HeaderButtons = () => {
           </IconButton>
         </Tooltip>
       </Grid>
-      <Grid size={9} />
+      <Grid size={8} />
       <Grid size={1}>
-        <Tooltip title="Mostrar Filtros">
-          <IconButton sx={{ color: mainBackgroundColor }}>
-            <FilterListIcon
-              style={{
-                height: "36px",
-                width: "36px",
-              }}
-            />
+        {showFilter && (
+          <Tooltip title="Limpiar Filtros">
+            <IconButton sx={{ color: mainBackgroundColor }}>
+              <DeleteSweepIcon
+                style={{
+                  height: "36px",
+                  width: "36px",
+                }}
+              />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Grid>
+      <Grid size={1}>
+        <Tooltip title={`${showFilter ? "Ocultar" : "Mostrar"} Filtros`}>
+          <IconButton
+            sx={{ color: mainBackgroundColor }}
+            onClick={onClickShowFilter}
+          >
+            {showFilter ? (
+              <FilterListOffIcon
+                style={{
+                  height: "36px",
+                  width: "36px",
+                }}
+              />
+            ) : (
+              <FilterListIcon
+                style={{
+                  height: "36px",
+                  width: "36px",
+                }}
+              />
+            )}
           </IconButton>
         </Tooltip>
       </Grid>
