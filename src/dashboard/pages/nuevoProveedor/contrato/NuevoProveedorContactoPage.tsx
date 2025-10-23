@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useNuevoProveedorPage } from "./hooks/useNuevoProveedorPage";
 
-export const NuevoProveedorPage = () => {
+export const NuevoProveedorContactoPage = () => {
   const {
     steps,
     activeStep,
