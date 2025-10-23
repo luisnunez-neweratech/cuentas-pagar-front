@@ -1,4 +1,4 @@
-import { useAuthStore } from "../../auth/store/auth.store";
+import { useAuthStore } from "../../stores/auth/auth.store";
 import type { PropsWithChildren } from "react";
 import { Navigate } from "react-router";
 

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import { useTheme } from "@mui/material/styles";
 import {
   ListItem,
@@ -24,9 +24,10 @@ import { useDashboardLayout } from "./hooks/useDashboardLayout";
 import { IconAvatar } from "./components/IconAvatar";
 import { mainBackgroundColor } from "../../lib/constants";
 import logo from "../../assets/newera-logo.svg";
-//import { useNavigate } from "react-router";
+import { useAuthStore } from "../../stores/auth/auth.store";
 
 const DashboardLayout = () => {
+  const authStatus = useAuthStore((state) => state.status);
   const theme = useTheme();
   const {
     open,
@@ -38,14 +39,19 @@ const DashboardLayout = () => {
     iconDrawer,
   } = useDashboardLayout();
 
-  //const navigate = useNavigate();
+  //TODO status del token
+  /* const checkAuthStatus = useAuthStore( state => state.checkAuthStatus );
 
-  //check if user is logged
-  /*  useEffect(() => {
-    navigate("/auth/login", {
-      replace: true,
-    });
-  }, []); */
+  if ( authStatus === 'pending' ) {
+    checkAuthStatus();
+    return <>Loading...</>
+  } */
+
+  console.log("Auth status:", authStatus);
+
+  if (authStatus !== "authorized") {
+    return <Navigate to="/auth/login" replace />;
+  }
 
   return (
     <Box sx={{ display: "flex" }}>

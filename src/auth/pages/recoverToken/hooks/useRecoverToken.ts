@@ -1,16 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useFormik } from "formik";
-import { useAuthStore } from "../../../store/auth.store";
 import { validationSchema } from "../Validations";
 
-export const useRecoverToken = () => {
-  const { setLoading } = useAuthStore();
+export const useRecoverToken = () => {  
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
@@ -19,8 +15,7 @@ export const useRecoverToken = () => {
       },
       validationSchema: validationSchema,
       onSubmit: (values) => {
-        console.log(values);
-        setLoading(true);
+        console.log(values);        
         navigate("/auth/new-password");
       },
     });
