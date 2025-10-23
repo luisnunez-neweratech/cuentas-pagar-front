@@ -5,8 +5,12 @@ export const validationSchema = yup.object().shape({
   tipoPersona: yup.string().required("Tipo Persona es requerido"),
   razonSocial: yup.string().required("Razon Social es requerido"),
   alias: yup.string().required("Alias es requerido"),
-  rfc: yup.string().ensure().when('tipoEntidad', {
-    is: 'local',
-    then: (schema) => schema.required(),
-  })
+  rfc: yup
+    .string()
+    .ensure()
+    .when("tipoEntidad", {
+      is: "local",
+      then: (schema) => schema.required(),
+    }),
+  email: yup.string().email("Email no es válido"),
 });
