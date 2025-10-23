@@ -3,15 +3,18 @@ import { HeaderButtons } from "./headerButtons/HeaderButtons";
 import { Filters } from "./filters/Filters";
 import { ProveedorTable } from "./proveedorTable/ProveedorTable";
 import { useProveedoresPage } from "./hooks/useProveedoresPage";
+import { NuevoProvedor } from "./nuevoProveedor/NuevoProveedor";
 
 export const ProveedoresPage = () => {
-  const { showFilter, onClickShowFilter } = useProveedoresPage();
+  const { showFilter, onClickShowFilter } =
+    useProveedoresPage();
 
   return (
     <Grid container spacing={2}>
       <HeaderButtons {...{ onClickShowFilter, showFilter }} />
       <Filters {...{ showFilter }} />
       <ProveedorTable />
+      <NuevoProvedor />
     </Grid>
   );
 };
