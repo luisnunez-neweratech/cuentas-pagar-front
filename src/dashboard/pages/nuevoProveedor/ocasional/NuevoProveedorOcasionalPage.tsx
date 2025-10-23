@@ -16,23 +16,11 @@ import SaveIcon from "@mui/icons-material/Save";
 import { AutoCompleteComponent } from "../../../../components/common/AutoComplete";
 import { useNuevoProveedorOcasional } from "./hooks/useNuevoProveedorOcasional";
 import { mainBackgroundColor } from "../../../../lib/constants";
-import { Form } from "formik";
 
 export const NuevoProveedorOcasionalPage = () => {
   const navigate = useNavigate();
-  const {
-    tipoPersona,
-    tipoEntidad,
-    handleChangeTipoPersona,
-    handleChangeTipoEntidad,
-
-    handleSubmit,
-    values,
-    handleChange,
-    handleBlur,
-    touched,
-    errors,
-  } = useNuevoProveedorOcasional();
+  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
+    useNuevoProveedorOcasional();
 
   return (
     <form onSubmit={handleSubmit}>
