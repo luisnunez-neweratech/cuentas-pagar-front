@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
+import { useFormik } from "formik";
 import { type SelectChangeEvent } from "@mui/material";
+import { validationSchema } from "../Validations";
 
 export const useNuevoProveedorOcasional = () => {
   const [fileList, setFileList] = useState<File | null>(null);
@@ -7,6 +9,24 @@ export const useNuevoProveedorOcasional = () => {
   const [tipoEntidad, setTipoEntidad] = useState("");
   const [contractor, setContractor] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
+    useFormik({
+      initialValues: {
+        tipoEntidad: "",
+        tipoPersona: "",
+        rfc: "",
+        razonSocial: "",
+        alias: "",
+        email: "",
+        giroPrincipal: "",
+        productos: "",
+      },
+      validationSchema: validationSchema,
+      onSubmit: async (values) => {
+        console.log(values);
+      },
+    });
 
   const handleChangeTipoPersona = (event: SelectChangeEvent) => {
     setTipoPersona(event.target.value as string);
@@ -25,5 +45,12 @@ export const useNuevoProveedorOcasional = () => {
     inputRef,
     handleChangeTipoPersona,
     handleChangeTipoEntidad,
+
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
   };
 };

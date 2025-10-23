@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router";
 import {
+  Button,
   FormControl,
+  FormHelperText,
   Grid,
   IconButton,
   InputLabel,
@@ -10,8 +12,11 @@ import {
   Tooltip,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SaveIcon from "@mui/icons-material/Save";
 import { AutoCompleteComponent } from "../../../../components/common/AutoComplete";
 import { useNuevoProveedorOcasional } from "./hooks/useNuevoProveedorOcasional";
+import { mainBackgroundColor } from "../../../../lib/constants";
+import { Form } from "formik";
 
 export const NuevoProveedorOcasionalPage = () => {
   const navigate = useNavigate();
@@ -20,114 +25,179 @@ export const NuevoProveedorOcasionalPage = () => {
     tipoEntidad,
     handleChangeTipoPersona,
     handleChangeTipoEntidad,
+
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
   } = useNuevoProveedorOcasional();
 
   return (
-    <Grid container spacing={2}>
-      <Grid size={2}>
-        <Tooltip title="Regresar">
-          <IconButton
-            aria-label="open drawer"
-            edge="start"
-            onClick={() => navigate("/proveedor")}
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid size={2}>
+          <Tooltip title="Regresar">
+            <IconButton
+              aria-label="open drawer"
+              edge="start"
+              onClick={() => navigate("/proveedor")}
+            >
+              <ArrowBackIcon sx={{ color: "black" }} />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+        <Grid size={10} />
+        <Grid size={4}>
+          <FormControl
+            fullWidth
+            error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
           >
-            <ArrowBackIcon sx={{ color: "black" }} />
-          </IconButton>
-        </Tooltip>
-      </Grid>
-      <Grid size={10} />
-      <Grid size={4}>
-        <FormControl fullWidth>
-          <InputLabel id="tipo-entidad-label">Tipo Entidad</InputLabel>
-          <Select
-            labelId="tipo-entidad-label"
-            id="tipo-entidad-select"
-            value={tipoEntidad}
-            label="Tipo Entidad"
-            onChange={handleChangeTipoEntidad}
+            <InputLabel id="tipo-entidad-label">Tipo Entidad</InputLabel>
+            <Select
+              labelId="tipo-entidad-label"
+              id="tipoEntidad"
+              name="tipoEntidad"
+              label="Tipo Entidad"
+              value={values.tipoEntidad}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              <MenuItem value="local">Local</MenuItem>
+              <MenuItem value="extranjero">Extranjero</MenuItem>
+            </Select>
+            <FormHelperText>
+              {touched.tipoEntidad && errors.tipoEntidad
+                ? errors.tipoEntidad
+                : ""}
+            </FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid size={4}>
+          <FormControl
+            fullWidth
+            error={touched.tipoPersona && Boolean(errors.tipoPersona)}
           >
-            <MenuItem value="local">Local</MenuItem>
-            <MenuItem value="extranjero">Extranjero</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid size={4}>
-        <FormControl fullWidth>
-          <InputLabel id="tipo-persona-label">Tipo Persona</InputLabel>
-          <Select
-            labelId="tipo-persona-label"
-            id="tipo-persona-select"
-            value={tipoPersona}
-            label="Tipo Persona"
-            onChange={handleChangeTipoPersona}
+            <InputLabel id="tipo-persona-label">Tipo Persona</InputLabel>
+            <Select
+              labelId="tipo-persona-label"
+              id="tipoPersona"
+              name="tipoPersona"
+              label="Tipo Persona"
+              value={values.tipoPersona}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              <MenuItem value="fisica">F&iacute;sica</MenuItem>
+              <MenuItem value="moral">Moral</MenuItem>
+            </Select>
+            <FormHelperText>
+              {touched.tipoPersona && errors.tipoPersona
+                ? errors.tipoPersona
+                : ""}
+            </FormHelperText>
+          </FormControl>
+        </Grid>
+
+        <Grid size={4}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="rfc"
+            label="RFC"
+            name="rfc"
+            sx={{ marginTop: 0 }}
+            value={values.rfc}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.rfc && Boolean(errors.rfc)}
+            helperText={touched.rfc && errors.rfc}
+          />
+        </Grid>
+
+        <Grid size={4}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="razonSocial"
+            label="Raz&oacute;n Social"
+            name="razonSocial"
+            value={values.razonSocial}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.razonSocial && Boolean(errors.razonSocial)}
+            helperText={touched.razonSocial && errors.razonSocial}
+          />
+        </Grid>
+
+        <Grid size={4}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="alias"
+            label="Alias"
+            name="alias"
+            value={values.alias}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.alias && Boolean(errors.alias)}
+            helperText={touched.alias && errors.alias}
+          />
+        </Grid>
+
+        <Grid size={4}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="email"
+            label="Email"
+            name="email"
+            type="email"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </Grid>
+
+        <Grid size={4}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="giroPrincipal"
+            label="Giro Principal"
+            name="giroPrincipal"
+            sx={{ marginTop: 4 }}
+            value={values.giroPrincipal}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
+            helperText={touched.giroPrincipal && errors.giroPrincipal}
+          />
+        </Grid>
+
+        <Grid size={4}>
+          <AutoCompleteComponent />
+        </Grid>
+        <Grid size={4} />
+        <Grid size={10} />
+        <Grid size={2}>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: mainBackgroundColor }}
+            fullWidth
+            type="submit"
           >
-            <MenuItem value="fisica">F&iacute;sica</MenuItem>
-            <MenuItem value="moral">Moral</MenuItem>
-          </Select>
-        </FormControl>
+            Guardar
+            <SaveIcon sx={{ marginLeft: 1 }} />
+          </Button>
+        </Grid>
       </Grid>
-
-      <Grid size={4}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="rfc"
-          label="RFC"
-          name="rfc"
-          sx={{ marginTop: 0 }}
-        />
-      </Grid>
-
-      <Grid size={4}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="razonSocial"
-          label="Raz&oacute;n Social"
-          name="razonSocial"
-        />
-      </Grid>
-
-      <Grid size={4}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="alias"
-          label="Alias"
-          name="alias"
-        />
-      </Grid>
-
-      <Grid size={4}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="email"
-          label="Email"
-          name="email"
-          type="email"          
-        />
-      </Grid>
-
-      <Grid size={4}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="giroPrincipal"
-          label="Giro Principal"
-          name="giroPrincipal"
-          sx={{ marginTop: 4,}}
-        />
-      </Grid>
-
-      <Grid size={4}>
-        <AutoCompleteComponent />
-      </Grid>
-    </Grid>
+    </form>
   );
 };
