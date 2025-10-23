@@ -5,7 +5,7 @@ import { FacturasRoutes } from "./routes/FacturasRoutes";
 export const FacturasApp = () => {
   return (
     <BrowserRouter>
-      <Toaster />
+      <Toaster richColors />
       <FacturasRoutes />
     </BrowserRouter>
   );
