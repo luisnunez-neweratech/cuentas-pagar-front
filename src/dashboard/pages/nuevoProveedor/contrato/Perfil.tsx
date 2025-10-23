@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { AutoCompleteComponent } from "../../../components/common/AutoComplete";
+import { AutoCompleteComponent } from "../../../../components/common/AutoComplete";
 import { usePerfil } from "./hooks/usePerfil";
 
 export const Perfil = () => {

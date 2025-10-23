@@ -42,7 +42,7 @@ export const NuevoProvedor = () => {
             fullWidth
             variant="contained"
             sx={{ backgroundColor: mainBackgroundColor, marginTop: 4 }}
-            onClick={() => navigate("nuevo")}
+            onClick={() => navigate("nuevo-contrato")}
           >
             Contrato <HistoryEduIcon sx={{ marginLeft: 1 }} />
           </Button>

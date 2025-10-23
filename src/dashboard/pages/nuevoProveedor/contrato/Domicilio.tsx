@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { countries } from "../../../lib/constants";
+import { countries } from "../../../../lib/constants";
 
 export const Domicilio = () => {
   return (
