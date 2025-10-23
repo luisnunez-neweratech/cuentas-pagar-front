@@ -35,6 +35,7 @@ export const NuevoProvedor = () => {
             variant="contained"
             color="primary"
             sx={{ backgroundColor: mainBackgroundColor }}
+            onClick={() => navigate("nuevo-ocasional")}
           >
             Ocasional <ReceiptLongIcon sx={{ marginLeft: 1 }} />
           </Button>

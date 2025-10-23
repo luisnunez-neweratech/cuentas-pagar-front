@@ -5,7 +5,7 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import { mainBackgroundColor } from "../../../lib/constants";
 
-const menuOptions = ["Proovedores", "Facturas", "Reportes"];
+const menuOptions = ["Proveedores", "Facturas", "Reportes"];
 
 export const useDashboardLayout = () => {
   const navigate = useNavigate();

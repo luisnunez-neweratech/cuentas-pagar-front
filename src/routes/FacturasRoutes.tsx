@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { ProveedoresPage } from "../dashboard/pages/proveedores/ProveedoresPage";
 import { NuevoProveedorContactoPage } from "../dashboard/pages/nuevoProveedor/contrato/NuevoProveedorContactoPage";
+import { NuevoProveedorOcasionalPage } from "../dashboard/pages/nuevoProveedor/ocasional/NuevoProveedorOcasionalPage";
 import { LoginPage } from "../auth/pages/login/LoginPage";
 import { NewPasswordPage } from "../auth/pages/newPassword/NewPassword";
 import { RecoverPasswordPage } from "../auth/pages/recoverPassword/RecoverPassword";
@@ -22,6 +23,10 @@ export const FacturasRoutes = () => {
           <Route
             path="nuevo-contrato"
             element={<NuevoProveedorContactoPage />}
+          />
+          <Route
+            path="nuevo-ocasional"
+            element={<NuevoProveedorOcasionalPage />}
           />
         </Route>
       </Route>

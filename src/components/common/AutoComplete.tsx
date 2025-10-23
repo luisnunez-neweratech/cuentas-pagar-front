@@ -187,7 +187,7 @@ function CustomAutocomplete<Value>(
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label>Giros</Label>
+        <Label sx={{ paddingTop: 0 }}>Productos o Servicios</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
           {value.map((option, index) => {
             const { key, ...itemProps } = getItemProps({ index });
