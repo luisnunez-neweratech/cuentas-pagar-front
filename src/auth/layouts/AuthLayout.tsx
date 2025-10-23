@@ -29,6 +29,23 @@ const AuthLayout = () => {
         <Grid size={6}>
           <Outlet />
         </Grid>
+        <Grid size={6} />
+        <Grid
+          size={6}
+          sx={{
+            borderLeft: "4px solid #FFC000",
+            paddingLeft: "8px",
+            position: "absolute",
+            top: "90%",
+            right: 0,
+          }}
+        >
+          <span
+            style={{ color: "#00b0f0", fontWeight: 500, fontSize: "1.2em" }}
+          >
+            Community, Integrity, Agility and Commitment.
+          </span>
+        </Grid>
       </Grid>
     </NotAuthenticatedRoute>
   );
