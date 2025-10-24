@@ -10,7 +10,7 @@ export const validationSchema = yup.object().shape({
     .ensure()
     .when("tipoEntidad", {
       is: "local",
-      then: (schema) => schema.required(),
+      then: (schema) => schema.required("RFC es requerido"),
     }),
   email: yup.string().email("Email no es válido"),
 });

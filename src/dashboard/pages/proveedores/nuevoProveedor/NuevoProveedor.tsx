@@ -9,6 +9,9 @@ export const NuevoProvedor = () => {
   const navigate = useNavigate();
   const openModal = useProveedoresPageStore((state) => state.openModal);
   const handleClose = useProveedoresPageStore((state) => state.handleClose);
+  const clearProveedorOcasional = useProveedoresPageStore(
+    (state) => state.clearProveedorOcasional
+  );
   return (
     <Backdrop
       sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
@@ -35,7 +38,10 @@ export const NuevoProvedor = () => {
             variant="contained"
             color="primary"
             sx={{ backgroundColor: mainBackgroundColor }}
-            onClick={() => navigate("nuevo-ocasional")}
+            onClick={() => {
+              clearProveedorOcasional();
+              navigate("nuevo-ocasional");
+            }}
           >
             Ocasional <ReceiptLongIcon sx={{ marginLeft: 1 }} />
           </Button>

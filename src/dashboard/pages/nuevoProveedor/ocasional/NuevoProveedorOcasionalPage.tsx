@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import {
   Button,
   FormControl,
@@ -16,11 +15,20 @@ import SaveIcon from "@mui/icons-material/Save";
 import { AutoCompleteComponent } from "../../../../components/common/AutoComplete";
 import { useNuevoProveedorOcasional } from "./hooks/useNuevoProveedorOcasional";
 import { mainBackgroundColor } from "../../../../lib/constants";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export const NuevoProveedorOcasionalPage = () => {
-  const navigate = useNavigate();
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    useNuevoProveedorOcasional();
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    onClickBack,
+    id,
+    onClickEliminar
+  } = useNuevoProveedorOcasional();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -30,7 +38,7 @@ export const NuevoProveedorOcasionalPage = () => {
             <IconButton
               aria-label="open drawer"
               edge="start"
-              onClick={() => navigate("/proveedor")}
+              onClick={onClickBack}
             >
               <ArrowBackIcon sx={{ color: "black" }} />
             </IconButton>
@@ -173,18 +181,46 @@ export const NuevoProveedorOcasionalPage = () => {
           <AutoCompleteComponent />
         </Grid>
         <Grid size={4} />
-        <Grid size={10} />
-        <Grid size={2}>
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: mainBackgroundColor }}
-            fullWidth
-            type="submit"
-          >
-            Guardar
-            <SaveIcon sx={{ marginLeft: 1 }} />
-          </Button>
-        </Grid>
+        <Grid size={id ? 8 : 10} />
+        {id ? (
+          <>
+            <Grid size={2}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: mainBackgroundColor }}
+                fullWidth
+                type="submit"
+              >
+                Modificar
+                <SaveIcon sx={{ marginLeft: 1 }} />
+              </Button>
+            </Grid>
+            <Grid size={2}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: mainBackgroundColor }}
+                fullWidth
+                type="button"
+                onClick={onClickEliminar}
+              >
+                Eliminar
+                <DeleteIcon sx={{ marginLeft: 1 }} />
+              </Button>
+            </Grid>
+          </>
+        ) : (
+          <Grid size={2}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: mainBackgroundColor }}
+              fullWidth
+              type="submit"
+            >
+              Guardar
+              <SaveIcon sx={{ marginLeft: 1 }} />
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </form>
   );

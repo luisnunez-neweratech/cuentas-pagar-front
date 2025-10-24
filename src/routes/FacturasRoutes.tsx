@@ -20,6 +20,7 @@ export const FacturasRoutes = () => {
       <Route path="/" element={<DashboardLayout />}>
         <Route path="proveedor">
           <Route index element={<ProveedoresPage />} />
+          <Route path=":id" element={<NuevoProveedorOcasionalPage />} />
           <Route
             path="nuevo-contrato"
             element={<NuevoProveedorContactoPage />}

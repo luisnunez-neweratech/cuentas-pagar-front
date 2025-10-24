@@ -12,8 +12,11 @@ import {
 } from "@mui/material";
 import TaskIcon from "@mui/icons-material/Task";
 import { TablePaginationActions } from "./TablePaginationActions";
+import { useProveedorTable } from "./hooks/useProveedorTable";
 
 function createData(
+  id: string,
+  tipoProveedor: string,
   rfc: string,
   alias: string,
   razonSocial: string,
@@ -26,6 +29,8 @@ function createData(
   poderRepresentanteLegal: boolean
 ) {
   return {
+    id,
+    tipoProveedor,
     rfc,
     alias,
     razonSocial,
@@ -41,6 +46,8 @@ function createData(
 
 const rows = [
   createData(
+    "1",
+    "ocasional",
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -53,6 +60,8 @@ const rows = [
     true
   ),
   createData(
+    "2",
+    "ocasional",
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -65,6 +74,8 @@ const rows = [
     true
   ),
   createData(
+    "3",
+    "ocasional",
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -77,6 +88,8 @@ const rows = [
     true
   ),
   createData(
+    "4",
+    "ocasional",
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -93,11 +106,12 @@ const rows = [
 const cellHeaderStyle = { fontWeight: "bold" };
 
 export const ProveedorTable = () => {
+  const { rowClick } = useProveedorTable();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage);
@@ -136,8 +150,15 @@ export const ProveedorTable = () => {
         <TableBody>
           {rows.map((row, index) => (
             <TableRow
+              hover
               key={index}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              sx={{
+                "&:last-child td, &:last-child th": { border: 0 },
+                cursor: "pointer",
+              }}
+              onClick={(_e) => {
+                rowClick(row);
+              }}
             >
               <TableCell component="th" scope="row">
                 {row.rfc}
@@ -163,7 +184,7 @@ export const ProveedorTable = () => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              style={{width: '100%'}}
+              style={{ width: "100%" }}
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
               count={rows.length}
