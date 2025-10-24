@@ -18,9 +18,9 @@ export const ProveedorContratoPage = () => {
     steps,
     activeStep,
     isStepSkipped,
-    handleNext,
-    handleBack,
-    handleReset,
+    //handleNext,
+    //handleBack,
+    //handleReset,
     getStepScreen,
     onClickBack
   } = useProveedorContratoPage();
@@ -62,13 +62,13 @@ export const ProveedorContratoPage = () => {
               </Typography>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleReset}>Reset</Button>
+                {/* <Button onClick={handleReset}>Reset</Button> */}
               </Box>
             </>
           ) : (
             <Grid container>
               <Grid size={12}>{getStepScreen(activeStep)}</Grid>
-              <Grid size={12}>
+             {/*  <Grid size={12}>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                   <Button
                     color="inherit"
@@ -80,11 +80,11 @@ export const ProveedorContratoPage = () => {
                   </Button>
                   <Box sx={{ flex: "1 1 auto" }} />
 
-                  <Button onClick={handleNext}>
+                  <Button type="submit" onClick={handleNext}>
                     {activeStep === steps.length - 1 ? "Guardar" : "Siguiente"}
                   </Button>
                 </Box>
-              </Grid>
+              </Grid> */}
             </Grid>
           )}
         </Box>

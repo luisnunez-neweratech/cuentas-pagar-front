@@ -1,10 +1,9 @@
 import { useFormik } from "formik";
 import { validationSchema } from "../Validations";
-import { toast } from "sonner";
-import { useNavigate } from "react-router";
+import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
 
 export const usePerfil = () => {
-  const navigate = useNavigate();
+  const handleNext = useProveedorContratoStore((state) => state.handleNext);
 
   const initialFormValues = () => {
     /* if (id) {
@@ -36,17 +35,11 @@ export const usePerfil = () => {
       initialValues: initialFormValues(),
       validationSchema: validationSchema,
       onSubmit: async (values) => {
-        console.log(values);
-        //TODO enviar data al api
-        /* if (id) {
-          toast.info("Proveedor actualizado correctamente");
-          navigate("/proveedor");
-        } else { */
-        toast.success("Proveedor creado correctamente");
-        navigate("/proveedor");
-        //}
+        console.log("perfil", values);
+        handleNext();
+        //next page
       },
-    });
+    });  
 
   return {
     handleSubmit,

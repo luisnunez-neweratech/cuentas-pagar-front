@@ -4,19 +4,23 @@ import { Domicilio } from "../components/steps/Domicilio";
 import { CuentaBancaria } from "../components/steps/CuentaBancaria";
 import { Contacto } from "../components/steps/Contacto";
 import { useNavigate } from "react-router";
+import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
 
 const steps = ["Perfil", "Domicilio Fiscal", "Cuenta Bancaria", "Contactos"];
 
 export const useProveedorContratoPage = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [skipped, setSkipped] = useState(new Set<number>());
+  const activeStep = useProveedorContratoStore((state) => state.activeStep);
+  const isStepSkipped = useProveedorContratoStore((state) => state.isStepSkipped);
+
+//  const [activeStep, setActiveStep] = useState(0);
+  //const [skipped, setSkipped] = useState(new Set<number>());
   const navigate = useNavigate();
 
-  const isStepSkipped = (step: number) => {
+  /* const isStepSkipped = (step: number) => {
     return skipped.has(step);
-  };
+  }; */
 
-  const handleNext = () => {
+ /*  const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -25,15 +29,15 @@ export const useProveedorContratoPage = () => {
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
-  };
+  }; */
 
-  const handleBack = () => {
+ /*  const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  }; */
 
-  const handleReset = () => {
+  /* const handleReset = () => {
     setActiveStep(0);
-  };
+  }; */
 
   const getStepScreen = (index: number) => {
     switch (index) {
@@ -57,9 +61,9 @@ export const useProveedorContratoPage = () => {
     activeStep,
     isStepSkipped,
 
-    handleNext,
+    /*handleNext,
     handleBack,
-    handleReset,
+    handleReset, */
     getStepScreen,
     onClickBack
   };
