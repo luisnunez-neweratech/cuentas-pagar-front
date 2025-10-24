@@ -1,5 +1,6 @@
 import {
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -10,43 +11,59 @@ import { AutoCompleteComponent } from "../../../../../../components/common/AutoC
 import { usePerfil } from "../../hooks/usePerfil";
 
 export const Perfil = () => {
-  const {
-    tipoPersona,
-    tipoEntidad,
-    handleChangeTipoPersona,
-    handleChangeTipoEntidad,
-  } = usePerfil();
+  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
+    usePerfil();
 
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
       <Grid size={4}>
-        <FormControl fullWidth>
+        <FormControl
+          fullWidth
+          error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
+        >
           <InputLabel id="tipo-entidad-label">Tipo Entidad</InputLabel>
           <Select
             labelId="tipo-entidad-label"
-            id="tipo-entidad-select"
-            value={tipoEntidad}
+            id="tipoEntidad"
+            name="tipoEntidad"
             label="Tipo Entidad"
-            onChange={handleChangeTipoEntidad}
+            value={values.tipoEntidad}
+            onChange={handleChange}
+            onBlur={handleBlur}
           >
             <MenuItem value="local">Local</MenuItem>
             <MenuItem value="extranjero">Extranjero</MenuItem>
           </Select>
+          <FormHelperText>
+            {touched.tipoEntidad && errors.tipoEntidad
+              ? errors.tipoEntidad
+              : ""}
+          </FormHelperText>
         </FormControl>
       </Grid>
       <Grid size={4}>
-        <FormControl fullWidth>
+        <FormControl
+          fullWidth
+          error={touched.tipoPersona && Boolean(errors.tipoPersona)}
+        >
           <InputLabel id="tipo-persona-label">Tipo Persona</InputLabel>
           <Select
             labelId="tipo-persona-label"
-            id="tipo-persona-select"
-            value={tipoPersona}
+            id="tipoPersona"
+            name="tipoPersona"
             label="Tipo Persona"
-            onChange={handleChangeTipoPersona}
+            value={values.tipoPersona}
+            onChange={handleChange}
+            onBlur={handleBlur}
           >
             <MenuItem value="fisica">F&iacute;sica</MenuItem>
             <MenuItem value="moral">Moral</MenuItem>
           </Select>
+          <FormHelperText>
+            {touched.tipoPersona && errors.tipoPersona
+              ? errors.tipoPersona
+              : ""}
+          </FormHelperText>
         </FormControl>
       </Grid>
 
@@ -59,6 +76,11 @@ export const Perfil = () => {
           label="RFC"
           name="rfc"
           sx={{ marginTop: 0 }}
+          value={values.rfc}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.rfc && Boolean(errors.rfc)}
+          helperText={touched.rfc && errors.rfc}
         />
       </Grid>
 
@@ -70,6 +92,11 @@ export const Perfil = () => {
           id="razonSocial"
           label="Raz&oacute;n Social"
           name="razonSocial"
+          value={values.razonSocial}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.razonSocial && Boolean(errors.razonSocial)}
+          helperText={touched.razonSocial && errors.razonSocial}
         />
       </Grid>
 
@@ -81,11 +108,11 @@ export const Perfil = () => {
           id="alias"
           label="Alias"
           name="alias"
-          /* value={values.alias}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.alias && Boolean(errors.alias)}
-                  helperText={touched.alias && errors.alias} */
+          value={values.alias}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.alias && Boolean(errors.alias)}
+          helperText={touched.alias && errors.alias}
         />
       </Grid>
 
@@ -98,6 +125,9 @@ export const Perfil = () => {
           label="Email"
           name="email"
           type="email"
+          value={values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </Grid>
 
@@ -110,11 +140,11 @@ export const Perfil = () => {
           label="Giro Principal"
           name="giroPrincipal"
           sx={{ marginTop: 4 }}
-          /* value={values.giroPrincipal}
+          value={values.giroPrincipal}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
-          helperText={touched.giroPrincipal && errors.giroPrincipal} */
+          helperText={touched.giroPrincipal && errors.giroPrincipal}
         />
       </Grid>
 

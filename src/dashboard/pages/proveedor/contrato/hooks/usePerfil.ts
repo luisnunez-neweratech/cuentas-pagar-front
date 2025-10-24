@@ -1,21 +1,59 @@
-import { useState } from "react";
-import { type SelectChangeEvent } from "@mui/material";
+import { useFormik } from "formik";
+import { validationSchema } from "../Validations";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 export const usePerfil = () => {
-  const [tipoPersona, setTipoPersona] = useState("");
-  const [tipoEntidad, setTipoEntidad] = useState("");
+  const navigate = useNavigate();
 
-  const handleChangeTipoPersona = (event: SelectChangeEvent) => {
-    setTipoPersona(event.target.value as string);
+  const initialFormValues = () => {
+    /* if (id) {
+      return {
+        tipoEntidad: proveedorOcasional!.tipoEntidad,
+        tipoPersona: proveedorOcasional!.tipoPersona,
+        rfc: proveedorOcasional?.rfc ?? "",
+        razonSocial: proveedorOcasional!.razonSocial,
+        alias: proveedorOcasional!.alias,
+        email: proveedorOcasional?.email ?? "",
+        giroPrincipal: proveedorOcasional?.giroPrincipal ?? "",
+        productos: "", //TODO valores para los productos
+      };
+    } */
+    return {
+      tipoEntidad: "",
+      tipoPersona: "",
+      rfc: "",
+      razonSocial: "",
+      alias: "",
+      email: "",
+      giroPrincipal: "",
+      productos: "",
+    };
   };
 
-  const handleChangeTipoEntidad = (event: SelectChangeEvent) => {
-    setTipoEntidad(event.target.value as string);
-  };
+  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
+    useFormik({
+      initialValues: initialFormValues(),
+      validationSchema: validationSchema,
+      onSubmit: async (values) => {
+        console.log(values);
+        //TODO enviar data al api
+        /* if (id) {
+          toast.info("Proveedor actualizado correctamente");
+          navigate("/proveedor");
+        } else { */
+        toast.success("Proveedor creado correctamente");
+        navigate("/proveedor");
+        //}
+      },
+    });
+
   return {
-    tipoPersona,
-    tipoEntidad,
-    handleChangeTipoPersona,
-    handleChangeTipoEntidad,
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
   };
 };
