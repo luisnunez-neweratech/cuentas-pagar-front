@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Perfil } from "../Perfil";
-import { Domicilio } from "../Domicilio";
-import { CuentaBancaria } from "../CuentaBancaria";
-import { Contacto } from "../Contacto";
+import { Perfil } from "../components/steps/Perfil";
+import { Domicilio } from "../components/steps/Domicilio";
+import { CuentaBancaria } from "../components/steps/CuentaBancaria";
+import { Contacto } from "../components/steps/Contacto";
+import { useNavigate } from "react-router";
 
 const steps = ["Perfil", "Domicilio Fiscal", "Cuenta Bancaria", "Contactos"];
 
 export const useProveedorContratoPage = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
+  const navigate = useNavigate();
 
   const isStepSkipped = (step: number) => {
     return skipped.has(step);
@@ -46,6 +48,10 @@ export const useProveedorContratoPage = () => {
     }
   };
 
+  const onClickBack = () => {
+    navigate("/proveedor");
+  };
+
   return {
     steps,
     activeStep,
@@ -55,5 +61,6 @@ export const useProveedorContratoPage = () => {
     handleBack,
     handleReset,
     getStepScreen,
+    onClickBack
   };
 };

@@ -2,12 +2,16 @@ import {
   Box,
   Button,
   Grid,
+  IconButton,
   Step,
   StepLabel,
   Stepper,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useProveedorContratoPage } from "./hooks/useProveedorContratoPage";
+
 
 export const ProveedorContratoPage = () => {
   const {
@@ -18,11 +22,24 @@ export const ProveedorContratoPage = () => {
     handleBack,
     handleReset,
     getStepScreen,
+    onClickBack
   } = useProveedorContratoPage();
 
   return (
     <Grid container>
-      <Grid size={12}>
+      <Grid size={2}>
+        <Tooltip title="Regresar">
+          <IconButton
+            aria-label="open drawer"
+            edge="start"
+            onClick={onClickBack}
+          >
+            <ArrowBackIcon sx={{ color: "black" }} />
+          </IconButton>
+        </Tooltip>
+      </Grid>
+      <Grid size={10} />
+      <Grid size={12} sx={{marginTop:3}}>
         <Box sx={{ width: "100%" }}>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
