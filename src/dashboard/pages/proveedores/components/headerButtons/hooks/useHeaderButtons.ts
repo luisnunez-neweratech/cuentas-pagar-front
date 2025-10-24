@@ -1,4 +1,4 @@
-import { useProveedoresPageStore } from "../../store/ProveedoresPage.store";
+import { useProveedoresPageStore } from "../../../store/ProveedoresPage.store";
 
 export const useHeaderButtons = () => {
   const handleOpenModal = useProveedoresPageStore(

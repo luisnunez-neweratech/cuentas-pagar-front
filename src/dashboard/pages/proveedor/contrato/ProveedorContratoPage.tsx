@@ -7,9 +7,9 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
-import { useNuevoProveedorPage } from "./hooks/useNuevoProveedorPage";
+import { useProveedorContratoPage } from "./hooks/useProveedorContratoPage";
 
-export const NuevoProveedorContactoPage = () => {
+export const ProveedorContratoPage = () => {
   const {
     steps,
     activeStep,
@@ -18,7 +18,7 @@ export const NuevoProveedorContactoPage = () => {
     handleBack,
     handleReset,
     getStepScreen,
-  } = useNuevoProveedorPage();
+  } = useProveedorContratoPage();
 
   return (
     <Grid container>

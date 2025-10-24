@@ -1,8 +1,8 @@
 import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { ProveedoresPage } from "../dashboard/pages/proveedores/ProveedoresPage";
-import { NuevoProveedorContactoPage } from "../dashboard/pages/nuevoProveedor/contrato/NuevoProveedorContactoPage";
-import { NuevoProveedorOcasionalPage } from "../dashboard/pages/nuevoProveedor/ocasional/NuevoProveedorOcasionalPage";
+import { ProveedorContratoPage } from "../dashboard/pages/proveedor/contrato/ProveedorContratoPage";
+import { ProveedorOcasionalPage } from "../dashboard/pages/proveedor/ocasional/ProveedorOcasionalPage";
 import { LoginPage } from "../auth/pages/login/LoginPage";
 import { NewPasswordPage } from "../auth/pages/newPassword/NewPassword";
 import { RecoverPasswordPage } from "../auth/pages/recoverPassword/RecoverPassword";
@@ -20,14 +20,14 @@ export const FacturasRoutes = () => {
       <Route path="/" element={<DashboardLayout />}>
         <Route path="proveedor">
           <Route index element={<ProveedoresPage />} />
-          <Route path=":id" element={<NuevoProveedorOcasionalPage />} />
+          <Route path=":id" element={<ProveedorOcasionalPage />} />
           <Route
             path="nuevo-contrato"
-            element={<NuevoProveedorContactoPage />}
+            element={<ProveedorContratoPage />}
           />
           <Route
             path="nuevo-ocasional"
-            element={<NuevoProveedorOcasionalPage />}
+            element={<ProveedorOcasionalPage />}
           />
         </Route>
       </Route>

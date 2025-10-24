@@ -1,13 +1,12 @@
 import { Grid } from "@mui/material";
-import { HeaderButtons } from "./headerButtons/HeaderButtons";
-import { Filters } from "./filters/Filters";
-import { ProveedorTable } from "./proveedorTable/ProveedorTable";
+import { HeaderButtons } from "./components/headerButtons/HeaderButtons";
+import { Filters } from "./components/filters/Filters";
+import { ProveedorTable } from "./components/proveedorTable/ProveedorTable";
 import { useProveedoresPage } from "./hooks/useProveedoresPage";
-import { NuevoProvedor } from "./nuevoProveedor/NuevoProveedor";
+import { NuevoProvedor } from "./components/nuevoProveedor/NuevoProveedor";
 
 export const ProveedoresPage = () => {
-  const { showFilter, onClickShowFilter } =
-    useProveedoresPage();
+  const { showFilter, onClickShowFilter } = useProveedoresPage();
 
   return (
     <Grid container spacing={2}>

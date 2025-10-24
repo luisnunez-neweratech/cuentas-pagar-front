@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
-import { useProveedoresPageStore } from "../../store/ProveedoresPage.store";
-import type { ProveedorOcasional } from "../../../../../interfaces/proveedor-ocasional.interface";
+import { useProveedoresPageStore } from "../../../store/ProveedoresPage.store";
+import type { ProveedorOcasional } from "../../../../../../interfaces/proveedor-ocasional.interface";
 
 export const useProveedorTable = () => {
   const navigate = useNavigate();

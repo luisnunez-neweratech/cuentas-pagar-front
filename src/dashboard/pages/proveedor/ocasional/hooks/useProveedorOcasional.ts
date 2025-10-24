@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { validationSchema } from "../Validations";
 import { useProveedoresPageStore } from "../../../proveedores/store/ProveedoresPage.store";
 
-export const useNuevoProveedorOcasional = () => {
+export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();

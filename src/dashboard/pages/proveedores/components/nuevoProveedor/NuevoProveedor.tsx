@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router";
 import { Backdrop, Box, Button, Paper } from "@mui/material";
-import { useProveedoresPageStore } from "../store/ProveedoresPage.store";
+import { useProveedoresPageStore } from "../../store/ProveedoresPage.store";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-import { mainBackgroundColor } from "../../../../lib/constants";
+import { mainBackgroundColor } from "../../../../../lib/constants";
 
 export const NuevoProvedor = () => {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import { Contacto } from "../Contacto";
 
 const steps = ["Perfil", "Domicilio Fiscal", "Cuenta Bancaria", "Contactos"];
 
-export const useNuevoProveedorPage = () => {
+export const useProveedorContratoPage = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
 

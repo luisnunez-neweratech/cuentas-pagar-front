@@ -13,11 +13,11 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
 import { AutoCompleteComponent } from "../../../../components/common/AutoComplete";
-import { useNuevoProveedorOcasional } from "./hooks/useNuevoProveedorOcasional";
+import { useProveedorOcasional } from "./hooks/useProveedorOcasional";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export const NuevoProveedorOcasionalPage = () => {
+export const ProveedorOcasionalPage = () => {
   const {
     handleSubmit,
     values,
@@ -28,7 +28,7 @@ export const NuevoProveedorOcasionalPage = () => {
     onClickBack,
     id,
     onClickEliminar
-  } = useNuevoProveedorOcasional();
+  } = useProveedorOcasional();
 
   return (
     <form onSubmit={handleSubmit}>

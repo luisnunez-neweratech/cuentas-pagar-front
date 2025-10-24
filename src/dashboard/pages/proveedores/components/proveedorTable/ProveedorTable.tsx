@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@mui/material";
 import TaskIcon from "@mui/icons-material/Task";
-import { TablePaginationActions } from "./TablePaginationActions";
+import { TablePaginationActions } from "./components/TablePaginationActions";
 import { useProveedorTable } from "./hooks/useProveedorTable";
 
 function createData(
