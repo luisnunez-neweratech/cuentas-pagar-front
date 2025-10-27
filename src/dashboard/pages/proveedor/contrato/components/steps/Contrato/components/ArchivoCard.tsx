@@ -39,7 +39,7 @@ export const ArchivoCard = ({ contrato }: props) => {
               <Grid size={12}>
                 <Divider />
               </Grid>
-              <ArchivoElement title="Anexo" indeterminado={false} />
+              <ArchivoElement title="Anexo" indeterminado={false} multiple={true} />
             </>
           )}
         </Grid>

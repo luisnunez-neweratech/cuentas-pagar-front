@@ -8,9 +8,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 interface props {
   title: string;
   indeterminado?: boolean;
+  multiple?: boolean;
 }
 
-export const ArchivoElement = ({ title, indeterminado = true }: props) => {
+export const ArchivoElement = ({
+  title,
+  indeterminado = true,
+  multiple = false,
+}: props) => {
   const [fileName, setFileName] = useState("");
 
   const handleFileChange = (event: any) => {
@@ -27,7 +32,7 @@ export const ArchivoElement = ({ title, indeterminado = true }: props) => {
           id="icon-button-file"
           style={{ display: "none" }}
           onChange={handleFileChange}
-          accept=".pdf, image/*"
+          accept=".pdf, image/*"                    
         />
         <label htmlFor="icon-button-file">
           <Button
@@ -48,7 +53,11 @@ export const ArchivoElement = ({ title, indeterminado = true }: props) => {
       </Grid>
       <Grid size={3}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Fecha Vencimiento" format="DD-MM-YYYY" disabled={indeterminado } />
+          <DatePicker
+            label="Fecha Vencimiento"
+            format="DD-MM-YYYY"
+            disabled={indeterminado}
+          />
         </LocalizationProvider>
       </Grid>
       {indeterminado && (
