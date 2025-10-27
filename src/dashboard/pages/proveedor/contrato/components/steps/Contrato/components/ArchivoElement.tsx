@@ -8,15 +8,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 interface props {
   title: string;
   indeterminado?: boolean;
-  multiple?: boolean;
+  multiple: boolean;
 }
 
 export const ArchivoElement = ({
   title,
   indeterminado = true,
-  multiple = false,
+  multiple,
 }: props) => {
   const [fileName, setFileName] = useState("");
+
+  console.log("multiple", title, multiple);
 
   const handleFileChange = (event: any) => {
     if (event.target.files.length > 0) {
@@ -27,23 +29,48 @@ export const ArchivoElement = ({
   return (
     <>
       <Grid size={3}>
-        <input
-          type="file"
-          id="icon-button-file"
-          style={{ display: "none" }}
-          onChange={handleFileChange}
-          accept=".pdf, image/*"                    
-        />
-        <label htmlFor="icon-button-file">
-          <Button
-            color="primary"
-            component="span"
-            style={{ display: "flex", textAlign: "center", marginTop: 14 }}
-          >
-            {title}
-            <FileUploadIcon />
-          </Button>
-        </label>
+        {multiple === true ? (
+          <>
+            <input
+              type="file"
+              id="multipleFile"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+              accept=".pdf, image/*"
+              multiple
+            />
+            <label htmlFor="multipleFile">
+              <Button
+                color="primary"
+                component="span"
+                style={{ display: "flex", textAlign: "center", marginTop: 14 }}
+              >
+                {title}
+                <FileUploadIcon />
+              </Button>
+            </label>
+          </>
+        ) : (
+          <>
+            <input
+              type="file"
+              id="singleFile"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+              accept=".pdf, image/*"
+            />
+            <label htmlFor="singleFile">
+              <Button
+                color="primary"
+                component="span"
+                style={{ display: "flex", textAlign: "center", marginTop: 14 }}
+              >
+                {title}
+                <FileUploadIcon />
+              </Button>
+            </label>
+          </>
+        )}
       </Grid>
 
       <Grid size={3}>
