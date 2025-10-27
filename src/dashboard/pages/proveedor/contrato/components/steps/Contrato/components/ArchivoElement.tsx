@@ -7,13 +7,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 interface props {
   title: string;
-  indeterminado?: boolean;
-  contrato: boolean;
+  indeterminado?: boolean;  
 }
 
 export const ArchivoElement = ({
-  title,
-  contrato = true,
+  title,  
   indeterminado = true,
 }: props) => {
   const [fileName, setFileName] = useState("");

@@ -1,28 +1,22 @@
-import {
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Divider, Grid, Typography } from "@mui/material";
 import { ArchivoElement } from "./ArchivoElement";
 
 interface props {
-  title: string;
+  contrato: boolean;
 }
 
-export const ArchivoCard = ({ title }: props) => {
+export const ArchivoCard = ({ contrato }: props) => {
   return (
     <Card elevation={3}>
       <CardContent>
         <Grid container spacing={1}>
           <Grid size={12}>
             <Typography variant="h5" component="div">
-              {title}
+              {contrato ? "Contrato" : "Propuesta"}
             </Typography>
           </Grid>
 
-          <ArchivoElement title={title} />
+          <ArchivoElement title={contrato ? "Contrato" : "Propuesta"} />
           <Grid size={12}>
             <Divider />
           </Grid>
@@ -42,13 +36,8 @@ export const ArchivoCard = ({ title }: props) => {
           <Grid size={12}>
             <Divider />
           </Grid>
-          <Grid size={12}>
-            <Divider />
-          </Grid>
-          <ArchivoElement title="Anexo" indeterminado={false} />
-          <Grid size={12}>
-            <Divider />
-          </Grid>
+          
+          {contrato && <ArchivoElement title="Anexo" indeterminado={false} />}
         </Grid>
       </CardContent>
     </Card>

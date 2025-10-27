@@ -1,10 +1,23 @@
-import { Box, Button, Checkbox, FormControlLabel, Grid, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  TextField,
+} from "@mui/material";
 import { useContrato } from "./hooks/useContrato";
 import { ColaboradorMoral } from "./components/ColaboradorMoral";
 import { ArchivoCard } from "./components/ArchivoCard";
+import { useState } from "react";
 
 export const Contrato = () => {
   const { handleBack, getStepPerfil } = useContrato();
+  const [selected, setSelected] = useState(0);
+
+  const handleChange = (index: any) => {
+    setSelected(index === selected ? null : index); // Toggle selection
+  };
 
   return (
     <form /* onSubmit={handleSubmit} */>
@@ -35,22 +48,44 @@ export const Contrato = () => {
 
         <Grid size={2}>
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={
+              <Checkbox
+                checked={selected === 0}
+                onChange={() => handleChange(0)}
+                disabled={selected === 0}                
+                sx={{
+                  "&.Mui-disabled": {
+                    color: "blue",
+                  },
+                }}
+              />
+            }
             label="Contrato"
           />
         </Grid>
         <Grid size={2}>
           <FormControlLabel
-            control={<Checkbox />}
+            control={
+              <Checkbox
+                checked={selected === 1}
+                onChange={() => handleChange(1)}
+                disabled={selected === 1}
+                sx={{
+                  "&.Mui-disabled": {
+                    color: "blue",
+                  },
+                }}
+              />
+            }
             label="Propuesta"
           />
         </Grid>
 
         <Grid size={12}>
-          <ArchivoCard title="Contrato" />
+          <ArchivoCard  contrato={selected === 0} />
         </Grid>
 
-       {/*  <Grid size={6}>
+        {/*  <Grid size={6}>
           <ArchivoCard title="Propuesta" />
         </Grid>
         <Grid size={3}>
