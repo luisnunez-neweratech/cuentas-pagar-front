@@ -5,14 +5,23 @@ import { CuentaBancaria } from "../components/steps/CuentaBancaria";
 import { Contacto } from "../components/steps/Contacto";
 import { useNavigate } from "react-router";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
+import { Contrato } from "../components/steps/Contrato";
 
-const steps = ["Perfil", "Domicilio Fiscal", "Cuenta Bancaria", "Contactos"];
+const steps = [
+  "Perfil",
+  "Contrato",
+  "Domicilio Fiscal",
+  "Cuenta Bancaria",
+  "Contactos",
+];
 
 export const useProveedorContratoPage = () => {
   const activeStep = useProveedorContratoStore((state) => state.activeStep);
-  const isStepSkipped = useProveedorContratoStore((state) => state.isStepSkipped);
+  const isStepSkipped = useProveedorContratoStore(
+    (state) => state.isStepSkipped
+  );
 
-//  const [activeStep, setActiveStep] = useState(0);
+  //  const [activeStep, setActiveStep] = useState(0);
   //const [skipped, setSkipped] = useState(new Set<number>());
   const navigate = useNavigate();
 
@@ -20,7 +29,7 @@ export const useProveedorContratoPage = () => {
     return skipped.has(step);
   }; */
 
- /*  const handleNext = () => {
+  /*  const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -31,7 +40,7 @@ export const useProveedorContratoPage = () => {
     setSkipped(newSkipped);
   }; */
 
- /*  const handleBack = () => {
+  /*  const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   }; */
 
@@ -44,10 +53,12 @@ export const useProveedorContratoPage = () => {
       case 0:
         return <Perfil />;
       case 1:
-        return <Domicilio />;
+        return <Contrato />;
       case 2:
-        return <CuentaBancaria />;
+        return <Domicilio />;
       case 3:
+        return <CuentaBancaria />;
+      case 4:
         return <Contacto />;
     }
   };
@@ -65,6 +76,6 @@ export const useProveedorContratoPage = () => {
     handleBack,
     handleReset, */
     getStepScreen,
-    onClickBack
+    onClickBack,
   };
 };
