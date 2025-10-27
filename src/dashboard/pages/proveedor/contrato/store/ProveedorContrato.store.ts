@@ -1,10 +1,12 @@
 import { type StateCreator, create } from "zustand";
 import type { StepPerfil } from "../interface/stepPerfil";
+import type { StepContrato } from "../interface/stepContrato";
 
 export interface AuthState {
   skipped: Set<number>;
   activeStep: number;
   stepPerfil?: StepPerfil | null;
+  stepContrato?: StepContrato | null;
 
   isStepSkipped: (step: number) => boolean;
   handleNext: () => void;
@@ -12,13 +14,17 @@ export interface AuthState {
   handleReset: () => void;
 
   setStepPerfil: (stepPerfil: StepPerfil) => void;
-  getStepPerfil:() => StepPerfil | null;
+  getStepPerfil: () => StepPerfil | null | undefined;
+
+  setStepContrato: (stepContrato: StepContrato) => void;
+  getStepContrato: () => StepContrato | null | undefined;
 }
 
 const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   skipped: new Set<number>(),
   activeStep: 0,
   stepPerfil: null,
+  stepContrato: null,
 
   isStepSkipped: (step: number) => {
     return get().skipped.has(step);
@@ -44,12 +50,15 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   setStepPerfil: (stepPerfil: StepPerfil) => {
     set({ stepPerfil: stepPerfil });
   },
-  getStepPerfil: () => {
-    const stepPerfil = get().stepPerfil;
-    if (!stepPerfil) {
-      return null;
-    }
-    return stepPerfil;
+  getStepPerfil: () => {    
+    return get().stepPerfil;
+  },
+
+  setStepContrato: (stepContrato: StepContrato) => {
+    set({ stepContrato: stepContrato });
+  },
+  getStepContrato: () => {
+    return get().stepContrato;
   }
 });
 

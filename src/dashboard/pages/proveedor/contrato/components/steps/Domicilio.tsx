@@ -1,10 +1,14 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { countries } from "../../../../../../lib/constants";
+import { useProveedorContratoStore } from "../../store/ProveedorContrato.store";
 
 export const Domicilio = () => {
+  const handleNext = useProveedorContratoStore((state) => state.handleNext);
+  const handleBack = useProveedorContratoStore((state) => state.handleBack);
+
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
       <Grid size={4}>
@@ -128,6 +132,16 @@ export const Domicilio = () => {
           label="# Exterior"
           name="numExterior"
         />
+      </Grid>
+      <Grid size={12}>
+        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+            Atras
+          </Button>
+          <Box sx={{ flex: "1 1 auto" }} />
+
+          <Button type="submit">Siguiente</Button>
+        </Box>
       </Grid>
     </Grid>
   );

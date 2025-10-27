@@ -9,18 +9,23 @@ import {
 import { useContrato } from "./hooks/useContrato";
 import { ColaboradorMoral } from "./components/ColaboradorMoral";
 import { ArchivoCard } from "./components/ArchivoCard";
-import { useState } from "react";
 
 export const Contrato = () => {
-  const { handleBack, getStepPerfil } = useContrato();
-  const [selected, setSelected] = useState(0);
-
-  const handleChange = (index: any) => {
-    setSelected(index === selected ? null : index); // Toggle selection
-  };
+  const {
+    handleBack,
+    getStepPerfil,
+    handleChangeTipoArchivo,
+    tipoArchivos,
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+  } = useContrato();
 
   return (
-    <form /* onSubmit={handleSubmit} */>
+    <form onSubmit={handleSubmit}>
       <Grid container sx={{ marginTop: 4 }} spacing={2}>
         {/* colaborador fisico */}
         {getStepPerfil()?.tipoPersona === "fisica" ? (
@@ -33,11 +38,11 @@ export const Contrato = () => {
                 id="noColaborador"
                 label="Num. Colaborador"
                 name="noColaborador"
-                /* value={values.razonSocial}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.razonSocial && Boolean(errors.razonSocial)}
-            helperText={touched.razonSocial && errors.razonSocial} */
+                value={values.noColaborador}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.noColaborador && Boolean(errors.noColaborador)}
+                helperText={touched.noColaborador && errors.noColaborador}
               />
             </Grid>
             <Grid size={9} />
@@ -50,9 +55,9 @@ export const Contrato = () => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={selected === 0}
-                onChange={() => handleChange(0)}
-                disabled={selected === 0}                
+                checked={tipoArchivos === 0}
+                onChange={() => handleChangeTipoArchivo(0)}
+                disabled={tipoArchivos === 0}
                 sx={{
                   "&.Mui-disabled": {
                     color: "blue",
@@ -67,9 +72,9 @@ export const Contrato = () => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={selected === 1}
-                onChange={() => handleChange(1)}
-                disabled={selected === 1}
+                checked={tipoArchivos === 1}
+                onChange={() => handleChangeTipoArchivo(1)}
+                disabled={tipoArchivos === 1}
                 sx={{
                   "&.Mui-disabled": {
                     color: "blue",
@@ -82,27 +87,8 @@ export const Contrato = () => {
         </Grid>
 
         <Grid size={12}>
-          <ArchivoCard  contrato={selected === 0} />
+          <ArchivoCard contrato={tipoArchivos === 0} />
         </Grid>
-
-        {/*  <Grid size={6}>
-          <ArchivoCard title="Propuesta" />
-        </Grid>
-        <Grid size={3}>
-          <ArchivoCard title="CSF" />
-        </Grid>
-        <Grid size={3}>
-          <ArchivoCard title="Id Rep Legal" />
-        </Grid>
-        <Grid size={3}>
-          <ArchivoCard title="Comp Domicilio" />
-        </Grid>
-        <Grid size={3}>
-          <ArchivoCard title="Poder Rep Legal" />
-        </Grid>
-        <Grid size={3}>
-          <ArchivoCard title="Anexo" indeterminado={false} />
-        </Grid> */}
 
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

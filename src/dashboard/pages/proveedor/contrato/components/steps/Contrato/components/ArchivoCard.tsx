@@ -16,28 +16,32 @@ export const ArchivoCard = ({ contrato }: props) => {
             </Typography>
           </Grid>
 
-          <ArchivoElement title={contrato ? "Contrato" : "Propuesta"} />
+          <ArchivoElement title={contrato ? "*Contrato" : "*Propuesta"} />
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="CSF" />
+          <ArchivoElement title="*CSF" />
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="Id Rep. Legal" />
+          <ArchivoElement title="*Id Rep. Legal" />
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="Comp. Domicilio" />
+          <ArchivoElement title="*Comp. Domicilio" />
           <Grid size={12}>
             <Divider />
           </Grid>
           <ArchivoElement title="Poder Rep. Legal" />
-          <Grid size={12}>
-            <Divider />
-          </Grid>
-          
-          {contrato && <ArchivoElement title="Anexo" indeterminado={false} />}
+
+          {contrato && (
+            <>
+              <Grid size={12}>
+                <Divider />
+              </Grid>
+              <ArchivoElement title="Anexo" indeterminado={false} />
+            </>
+          )}
         </Grid>
       </CardContent>
     </Card>
