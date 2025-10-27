@@ -5,7 +5,7 @@ import { CuentaBancaria } from "../components/steps/CuentaBancaria";
 import { Contacto } from "../components/steps/Contacto";
 import { useNavigate } from "react-router";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
-import { Contrato } from "../components/steps/Contrato";
+import { Contrato } from "../components/steps/Contrato/Contrato";
 
 const steps = [
   "Perfil",

@@ -42,8 +42,7 @@ export const usePerfil = () => {
     useFormik({
       initialValues: initialFormValues(),
       validationSchema: validationSchema,
-      onSubmit: async (values) => {
-        console.log("perfil", values);
+      onSubmit: async (values) => {        
         const pasoPerfil: StepPerfil = {
           tipoProveedor: "contrato",
           tipoEntidad: values.tipoEntidad,
@@ -57,7 +56,6 @@ export const usePerfil = () => {
         };
         setStepPerfil(pasoPerfil);
         handleNext();
-        //next page
       },
     });
 
