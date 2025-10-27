@@ -10,7 +10,9 @@ export interface AuthState {
   handleNext: () => void;
   handleBack: () => void;
   handleReset: () => void;
+
   setStepPerfil: (stepPerfil: StepPerfil) => void;
+  getStepPerfil:() => StepPerfil | null;
 }
 
 const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
@@ -42,6 +44,13 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   setStepPerfil: (stepPerfil: StepPerfil) => {
     set({ stepPerfil: stepPerfil });
   },
+  getStepPerfil: () => {
+    const stepPerfil = get().stepPerfil;
+    if (!stepPerfil) {
+      return null;
+    }
+    return stepPerfil;
+  }
 });
 
 export const useProveedorContratoStore = create<AuthState>()(

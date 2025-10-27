@@ -1,9 +1,16 @@
 import { useFormik } from "formik";
 import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
+import type { StepPerfil } from "../interface/stepPerfil";
 
 export const usePerfil = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
+  const setStepPerfil = useProveedorContratoStore(
+    (state) => state.setStepPerfil
+  );
+  const getStepPerfil = useProveedorContratoStore(
+    (state) => state.getStepPerfil
+  );
 
   const initialFormValues = () => {
     /* if (id) {
@@ -18,15 +25,16 @@ export const usePerfil = () => {
         productos: "", //TODO valores para los productos
       };
     } */
+    const stepPerfil = getStepPerfil();
     return {
-      tipoEntidad: "",
-      tipoPersona: "",
-      rfc: "",
-      razonSocial: "",
-      alias: "",
-      email: "",
-      giroPrincipal: "",
-      productos: "",
+      tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
+      tipoPersona: stepPerfil ? stepPerfil.tipoPersona : "",
+      rfc: stepPerfil ? stepPerfil.rfc : "",
+      razonSocial: stepPerfil ? stepPerfil.razonSocial : "",
+      alias: stepPerfil ? stepPerfil.alias : "",
+      email: stepPerfil ? stepPerfil.email : "",
+      giroPrincipal: stepPerfil ? stepPerfil.giroPrincipal : "",
+      productos: [],
     };
   };
 
@@ -36,10 +44,22 @@ export const usePerfil = () => {
       validationSchema: validationSchema,
       onSubmit: async (values) => {
         console.log("perfil", values);
+        const pasoPerfil: StepPerfil = {
+          tipoProveedor: "contrato",
+          tipoEntidad: values.tipoEntidad,
+          tipoPersona: values.tipoPersona,
+          razonSocial: values.razonSocial,
+          alias: values.alias,
+          rfc: values.rfc,
+          email: values.email,
+          giroPrincipal: values.giroPrincipal,
+          productos: [],
+        };
+        setStepPerfil(pasoPerfil);
         handleNext();
         //next page
       },
-    });  
+    });
 
   return {
     handleSubmit,
