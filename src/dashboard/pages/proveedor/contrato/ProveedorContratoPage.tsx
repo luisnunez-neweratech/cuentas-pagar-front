@@ -1,14 +1,11 @@
 import {
   Box,
   Grid,
-  IconButton,
   Step,
   StepLabel,
-  Stepper,
-  Tooltip,
+  Stepper,  
   Typography,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useProveedorContratoPage } from "./hooks/useProveedorContratoPage";
 
 
@@ -17,27 +14,12 @@ export const ProveedorContratoPage = () => {
     steps,
     activeStep,
     isStepSkipped,
-    //handleNext,
-    //handleBack,
-    //handleReset,
     getStepScreen,
-    onClickBack
   } = useProveedorContratoPage();
 
   return (
     <Grid container>
-      <Grid size={2}>
-        <Tooltip title="Regresar">
-          <IconButton
-            aria-label="open drawer"
-            edge="start"
-            onClick={onClickBack}
-          >
-            <ArrowBackIcon sx={{ color: "black" }} />
-          </IconButton>
-        </Tooltip>
-      </Grid>
-      <Grid size={10} />
+      
       <Grid size={12} sx={{marginTop:3}}>
         <Box sx={{ width: "100%" }}>
           <Stepper activeStep={activeStep}>
@@ -60,30 +42,12 @@ export const ProveedorContratoPage = () => {
                 All steps completed - you&apos;re finished
               </Typography>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
-                {/* <Button onClick={handleReset}>Reset</Button> */}
+                <Box sx={{ flex: "1 1 auto" }} />                
               </Box>
             </>
           ) : (
             <Grid container>
-              <Grid size={12}>{getStepScreen(activeStep)}</Grid>
-             {/*  <Grid size={12}>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    sx={{ mr: 1 }}
-                  >
-                    Atras
-                  </Button>
-                  <Box sx={{ flex: "1 1 auto" }} />
-
-                  <Button type="submit" onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? "Guardar" : "Siguiente"}
-                  </Button>
-                </Box>
-              </Grid> */}
+              <Grid size={12}>{getStepScreen(activeStep)}</Grid>           
             </Grid>
           )}
         </Box>

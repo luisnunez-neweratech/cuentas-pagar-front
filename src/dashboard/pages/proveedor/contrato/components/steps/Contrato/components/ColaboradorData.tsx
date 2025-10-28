@@ -94,6 +94,7 @@ export const ColaboradorData = ({ id, deleteColaborador }: props) => {
             <Grid size={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  sx={{ width: "100%" }}
                   label="Fecha Inicio"
                   value={values.fechaInicio}
                   onChange={(newValue) =>
@@ -115,6 +116,7 @@ export const ColaboradorData = ({ id, deleteColaborador }: props) => {
             <Grid size={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  sx={{ width: "100%" }}
                   label="Fecha Fin"
                   value={values.fechaFin}
                   onChange={(newValue) => setFieldValue("fechaFin", newValue)}

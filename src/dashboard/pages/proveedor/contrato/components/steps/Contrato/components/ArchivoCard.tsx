@@ -11,7 +11,7 @@ export const ArchivoCard = ({ contrato }: props) => {
       <CardContent>
         <Grid container spacing={1}>
           <Grid size={12}>
-            <Typography variant="h5" component="div">
+            <Typography variant="h6" component="div">
               {contrato ? "Contrato" : "Propuesta"}
             </Typography>
           </Grid>

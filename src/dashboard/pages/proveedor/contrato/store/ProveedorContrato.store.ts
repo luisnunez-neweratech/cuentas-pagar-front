@@ -25,6 +25,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   activeStep: 0,
   stepPerfil: null,
   stepContrato: {
+    contractor: false,
     noColaborador: "",
     colaboradores: [
       {
@@ -64,7 +65,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
     return get().stepPerfil;
   },
 
-  setStepContrato: (stepContrato: StepContrato) => {
+  setStepContrato: (stepContrato: StepContrato) => {    
     set({ stepContrato: stepContrato });
   },
   getStepContrato: () => {

@@ -3,14 +3,11 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
   TextField,
-  Tooltip,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
 import { AutoCompleteComponent } from "../../../../components/common/AutoComplete";
 import { useProveedorOcasional } from "./hooks/useProveedorOcasional";
@@ -24,26 +21,14 @@ export const ProveedorOcasionalPage = () => {
     handleChange,
     handleBlur,
     touched,
-    errors,
-    onClickBack,
+    errors,    
     id,
-    onClickEliminar
+    onClickEliminar,
   } = useProveedorOcasional();
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        <Grid size={2}>
-          <Tooltip title="Regresar">
-            <IconButton
-              aria-label="open drawer"
-              edge="start"
-              onClick={onClickBack}
-            >
-              <ArrowBackIcon sx={{ color: "black" }} />
-            </IconButton>
-          </Tooltip>
-        </Grid>
         <Grid size={10} />
         <Grid size={4}>
           <FormControl

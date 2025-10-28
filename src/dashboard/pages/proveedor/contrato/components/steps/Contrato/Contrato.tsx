@@ -5,10 +5,12 @@ import {
   FormControlLabel,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useContrato } from "./hooks/useContrato";
 import { ColaboradorMoral } from "./components/ColaboradorMoral";
 import { ArchivoCard } from "./components/ArchivoCard";
+import { mainBackgroundColor } from "../../../../../../../lib/constants";
 
 export const Contrato = () => {
   const {
@@ -22,13 +24,27 @@ export const Contrato = () => {
     handleBlur,
     touched,
     errors,
+    checkContractor,
+    setCheckContractor,
   } = useContrato();
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container sx={{ marginTop: 4 }} spacing={2}>
+        <Grid size={2}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkContractor}
+                onChange={() => setCheckContractor(!checkContractor)}
+              />
+            }
+            label="Contractor"
+            sx={{ marginTop: 3 }}
+          />
+        </Grid>
         {/* colaborador fisico */}
-        {getStepPerfil()?.tipoPersona === "fisica" ? (
+        {checkContractor && getStepPerfil()?.tipoPersona === "fisica" && (
           <>
             <Grid size={3}>
               <TextField
@@ -47,10 +63,16 @@ export const Contrato = () => {
             </Grid>
             <Grid size={9} />
           </>
-        ) : (
+        )}
+        {checkContractor && getStepPerfil()?.tipoPersona !== "fisica" && (
           <ColaboradorMoral />
         )}
-
+        {!checkContractor && <Grid size={10} />}
+        <Grid size={12} sx={{ marginTop: 1 }}>
+          <Typography variant="h5" component="div">
+            Documentos
+          </Typography>
+        </Grid>
         <Grid size={2}>
           <FormControlLabel
             control={
@@ -60,7 +82,7 @@ export const Contrato = () => {
                 disabled={tipoArchivos === 0}
                 sx={{
                   "&.Mui-disabled": {
-                    color: "blue",
+                    color: mainBackgroundColor,
                   },
                 }}
               />
@@ -77,7 +99,7 @@ export const Contrato = () => {
                 disabled={tipoArchivos === 1}
                 sx={{
                   "&.Mui-disabled": {
-                    color: "blue",
+                    color: mainBackgroundColor,
                   },
                 }}
               />

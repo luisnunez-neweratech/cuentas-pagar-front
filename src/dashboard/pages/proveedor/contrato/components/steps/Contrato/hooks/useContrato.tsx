@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { useFormik } from "formik";
 import { validationFisicoSchema } from "../Validations";
+import type { StepContrato } from "../../../../interface/stepContrato";
 
 export const useContrato = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -12,10 +13,17 @@ export const useContrato = () => {
   const getStepContrato = useProveedorContratoStore(
     (state) => state.getStepContrato
   );
+  const setStepContrato = useProveedorContratoStore(
+    (state) => state.setStepContrato
+  );
 
   const [contrato, setContrato] = useState<boolean>(true);
   const [propuesta, setPropuesta] = useState<boolean>(false);
+
   const [tipoArchivos, setTipoArchivos] = useState<number>(0);
+  const [checkContractor, setCheckContractor] = useState<boolean>(
+    getStepContrato()?.contractor ?? false
+  );
 
   const initialFormValues = () => {
     /* if (id) {
@@ -25,6 +33,7 @@ export const useContrato = () => {
       };
     } */
     const stepContrato = getStepContrato();
+    console.log("stepContrato", stepContrato);
     return {
       noColaborador: stepContrato ? stepContrato.noColaborador : "",
     };
@@ -33,7 +42,10 @@ export const useContrato = () => {
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: initialFormValues(),
-      validationSchema: validationFisicoSchema,
+      validationSchema:
+        getStepPerfil()?.tipoPersona === "fisica"
+          ? validationFisicoSchema
+          : null,
       onSubmit: async (values) => {
         /*  const pasoPerfil: StepPerfil = {
             tipoProveedor: "contrato",
@@ -47,8 +59,19 @@ export const useContrato = () => {
             productos: [],
           };
           setStepPerfil(pasoPerfil); */
-        
-          //handleNext();
+        console.log("values", values);
+        //validate files
+        if (getStepPerfil()?.tipoPersona === "fisica") {
+          //type fisico
+          const prevStepContrato = getStepContrato();
+          const stepContrato: StepContrato = {
+            ...prevStepContrato,
+            noColaborador: values.noColaborador,
+            contractor: checkContractor,
+          };
+          setStepContrato(stepContrato);
+          handleNext();
+        }
       },
     });
 
@@ -91,5 +114,7 @@ export const useContrato = () => {
     handleBlur,
     touched,
     errors,
+    checkContractor,
+    setCheckContractor,
   };
 };

@@ -51,7 +51,7 @@ export const ArchivoElement = ({
               <Button
                 color="primary"
                 component="span"
-                style={{ marginTop: 14 }}
+                style={{ marginTop: 14 }}                
               >
                 {title}
                 <FileUploadIcon />
@@ -109,7 +109,7 @@ export const ArchivoElement = ({
       ) : (<Grid size={1} />)}
 
       {indeterminado && (
-        <Grid size={3}>
+        <Grid size={3} sx={{marginTop:1}}>
           <FormControlLabel
             control={
               <Checkbox
