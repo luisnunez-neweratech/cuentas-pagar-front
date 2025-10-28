@@ -4,21 +4,25 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface props {
   title: string;
   indeterminado?: boolean;
   multiple: boolean;
+  idInput: string;
 }
 
 export const ArchivoElement = ({
   title,
   indeterminado = true,
   multiple,
+  idInput,
 }: props) => {
   const [fileName, setFileName] = useState("");
-
-  console.log("multiple", title, multiple);
+  const [checkIndeterminado, setCheckIndeterminado] =
+    useState<boolean>(indeterminado);
+  const [fechaFin, setFechaFin] = useState<Dayjs | null>(null);
 
   const handleFileChange = (event: any) => {
     if (event.target.files.length > 0) {
@@ -33,17 +37,17 @@ export const ArchivoElement = ({
           <>
             <input
               type="file"
-              id="multipleFile"
+              id={idInput}
               style={{ display: "none" }}
               onChange={handleFileChange}
               accept=".pdf, image/*"
               multiple
             />
-            <label htmlFor="multipleFile">
+            <label htmlFor={idInput}>
               <Button
                 color="primary"
                 component="span"
-                style={{ display: "flex", textAlign: "center", marginTop: 14 }}
+                style={{ marginTop: 14 }}
               >
                 {title}
                 <FileUploadIcon />
@@ -54,16 +58,16 @@ export const ArchivoElement = ({
           <>
             <input
               type="file"
-              id="singleFile"
+              id={idInput}
               style={{ display: "none" }}
               onChange={handleFileChange}
               accept=".pdf, image/*"
             />
-            <label htmlFor="singleFile">
+            <label htmlFor={idInput}>
               <Button
                 color="primary"
                 component="span"
-                style={{ display: "flex", textAlign: "center", marginTop: 14 }}
+                style={{ marginTop: 14 }}
               >
                 {title}
                 <FileUploadIcon />
@@ -75,7 +79,13 @@ export const ArchivoElement = ({
 
       <Grid size={3}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Fecha Inicio" format="DD-MM-YYYY" />
+          <DatePicker
+            label="Fecha Inicio"
+            format="DD-MM-YYYY"
+            slotProps={{
+              field: { clearable: true },
+            }}
+          />
         </LocalizationProvider>
       </Grid>
       <Grid size={3}>
@@ -83,14 +93,29 @@ export const ArchivoElement = ({
           <DatePicker
             label="Fecha Vencimiento"
             format="DD-MM-YYYY"
-            disabled={indeterminado}
+            disabled={checkIndeterminado}
+            value={fechaFin}
+            onChange={(newValue) => setFechaFin(newValue)}
+            slotProps={{
+              field: { clearable: true },
+            }}
           />
         </LocalizationProvider>
       </Grid>
       {indeterminado && (
         <Grid size={3}>
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={
+              <Checkbox
+                defaultChecked
+                onChange={() => {
+                  setCheckIndeterminado(!checkIndeterminado);
+                  if (!checkIndeterminado) {
+                    setFechaFin(null);
+                  }
+                }}
+              />
+            }
             label="Indeterminado"
             style={{ marginTop: 8 }}
           />

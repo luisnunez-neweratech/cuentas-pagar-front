@@ -19,23 +19,36 @@ export const ArchivoCard = ({ contrato }: props) => {
           <ArchivoElement
             title={contrato ? "*Contrato" : "*Propuesta"}
             multiple={false}
+            idInput={contrato ? "fileContrato" : "filePropuesta"}
           />
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="*CSF" multiple={false} />
+          <ArchivoElement title="*CSF" multiple={false} idInput="fileCSF" />
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="*Id Rep. Legal" multiple={false} />
+          <ArchivoElement
+            title="*Id Rep. Legal"
+            multiple={false}
+            idInput="fileIdRepLegal"
+          />
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="*Comp. Domicilio" multiple={false} />
+          <ArchivoElement
+            title="*Comp. Domicilio"
+            multiple={false}
+            idInput="fileCompDomicilio"
+          />
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="Poder Rep. Legal" multiple={false} />
+          <ArchivoElement
+            title="Poder Rep. Legal"
+            multiple={false}
+            idInput="filePoderRepLegal"
+          />
 
           {contrato && (
             <>
@@ -46,6 +59,7 @@ export const ArchivoCard = ({ contrato }: props) => {
                 title="Anexo"
                 indeterminado={false}
                 multiple={true}
+                idInput="fileAnexo"
               />
             </>
           )}

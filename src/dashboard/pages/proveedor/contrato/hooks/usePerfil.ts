@@ -53,7 +53,7 @@ export const usePerfil = () => {
           email: values.email,
           giroPrincipal: values.giroPrincipal,
           productos: [],
-        };
+        };        
         setStepPerfil(pasoPerfil);
         handleNext();
       },

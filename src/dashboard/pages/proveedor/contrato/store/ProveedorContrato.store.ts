@@ -24,7 +24,17 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   skipped: new Set<number>(),
   activeStep: 0,
   stepPerfil: null,
-  stepContrato: null,
+  stepContrato: {
+    noColaborador: "",
+    colaboradores: [
+      {
+        nombre: "",
+        noColaborador: "",
+        fechaFin: "",
+        fechaInicio: "",
+      },
+    ],
+  },
 
   isStepSkipped: (step: number) => {
     return get().skipped.has(step);
@@ -50,7 +60,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   setStepPerfil: (stepPerfil: StepPerfil) => {
     set({ stepPerfil: stepPerfil });
   },
-  getStepPerfil: () => {    
+  getStepPerfil: () => {
     return get().stepPerfil;
   },
 
@@ -59,7 +69,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   },
   getStepContrato: () => {
     return get().stepContrato;
-  }
+  },
 });
 
 export const useProveedorContratoStore = create<AuthState>()(
