@@ -20,13 +20,17 @@ export const ArchivoElement = ({
   idInput,
 }: props) => {
   const [fileName, setFileName] = useState("");
+  const [numArchivos, setNumArchivos] = useState(0);
   const [checkIndeterminado, setCheckIndeterminado] =
     useState<boolean>(indeterminado);
   const [fechaFin, setFechaFin] = useState<Dayjs | null>(null);
 
   const handleFileChange = (event: any) => {
     if (event.target.files.length > 0) {
-      setFileName(event.target.files[0].name);
+      const files = event.target.files; // Get the FileList object
+      const fileNames = Array.from(files).map((file: any) => file.name);
+      setNumArchivos(event.target.files.length);
+      setFileName(fileNames.join(" "));
     }
   };
 
@@ -77,7 +81,7 @@ export const ArchivoElement = ({
         )}
       </Grid>
 
-      <Grid size={3}>
+      <Grid size={3} sx={{marginTop:1}}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Fecha Inicio"
@@ -88,20 +92,22 @@ export const ArchivoElement = ({
           />
         </LocalizationProvider>
       </Grid>
-      <Grid size={3}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="Fecha Vencimiento"
-            format="DD-MM-YYYY"
-            disabled={checkIndeterminado}
-            value={fechaFin}
-            onChange={(newValue) => setFechaFin(newValue)}
-            slotProps={{
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
-      </Grid>
+      {!checkIndeterminado ? (
+        <Grid size={3} sx={{marginTop:1}}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Fecha Vencimiento"
+              format="DD-MM-YYYY"
+              value={fechaFin}
+              onChange={(newValue) => setFechaFin(newValue)}
+              slotProps={{
+                field: { clearable: true },
+              }}
+            />
+          </LocalizationProvider>
+        </Grid>
+      ) : (<Grid size={1} />)}
+
       {indeterminado && (
         <Grid size={3}>
           <FormControlLabel
@@ -120,11 +126,13 @@ export const ArchivoElement = ({
             style={{ marginTop: 8 }}
           />
         </Grid>
-      )}
+      ) }
       <Grid size={12}>
         {fileName && (
           <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
-            Nombre Archivo: {fileName}
+            {numArchivos === 1
+              ? `Nombre del Archivo: ${fileName}`
+              : `Nombre de los Archivos: ${fileName}`}
           </p>
         )}
       </Grid>
