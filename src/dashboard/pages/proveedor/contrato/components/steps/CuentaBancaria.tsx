@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Grid,
   IconButton,
@@ -13,6 +14,7 @@ import { useRef, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import type { GridColDef } from "@mui/x-data-grid";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { useProveedorContratoStore } from "../../store/ProveedorContrato.store";
 
 function createData(
   id: number,
@@ -220,6 +222,8 @@ export const CuentaBancaria = () => {
     },
   ];
 
+  const handleBack = useProveedorContratoStore((state) => state.handleBack);
+
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
       <Grid size={12}>
@@ -239,6 +243,16 @@ export const CuentaBancaria = () => {
           sx={{ border: 0 }}
           disableRowSelectionOnClick
         />
+      </Grid>
+      <Grid size={12}>
+        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+            Atras
+          </Button>
+          <Box sx={{ flex: "1 1 auto" }} />
+
+          <Button type="submit">Siguiente</Button>
+        </Box>
       </Grid>
     </Grid>
   );

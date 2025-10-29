@@ -25,7 +25,7 @@ export const Contrato = () => {
     touched,
     errors,
     checkContractor,
-    setCheckContractor,
+    onChangeContractor,
   } = useContrato();
 
   return (
@@ -35,8 +35,10 @@ export const Contrato = () => {
           <FormControlLabel
             control={
               <Checkbox
+                id="checkContractor"
+                name="checkContractor"
                 checked={checkContractor}
-                onChange={() => setCheckContractor(!checkContractor)}
+                onChange={onChangeContractor}
               />
             }
             label="Contractor"
@@ -52,7 +54,7 @@ export const Contrato = () => {
                 margin="normal"
                 fullWidth
                 id="noColaborador"
-                label="Num. Colaborador"
+                label="*Num. Colaborador"
                 name="noColaborador"
                 value={values.noColaborador}
                 onChange={handleChange}

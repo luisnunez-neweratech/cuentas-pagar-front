@@ -1,10 +1,9 @@
 import { Button, Checkbox, FormControlLabel, Grid } from "@mui/material";
-import { useState } from "react";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
+import { useArchivoElement } from "../hooks/useArchivoElement";
 
 interface props {
   title: string;
@@ -19,20 +18,18 @@ export const ArchivoElement = ({
   multiple,
   idInput,
 }: props) => {
-  const [fileName, setFileName] = useState("");
-  const [numArchivos, setNumArchivos] = useState(0);
-  const [checkIndeterminado, setCheckIndeterminado] =
-    useState<boolean>(indeterminado);
-  const [fechaFin, setFechaFin] = useState<Dayjs | null>(null);
-
-  const handleFileChange = (event: any) => {
-    if (event.target.files.length > 0) {
-      const files = event.target.files; // Get the FileList object
-      const fileNames = Array.from(files).map((file: any) => file.name);
-      setNumArchivos(event.target.files.length);
-      setFileName(fileNames.join(" "));
-    }
-  };
+  const {
+    handleFileChange,
+    values,
+    setFieldValue,
+    touched,
+    errors,
+    setFieldTouched,
+    checkIndeterminado,
+    setCheckIndeterminado,
+    fileName,
+    numArchivos,
+  } = useArchivoElement(indeterminado);
 
   return (
     <>
@@ -51,7 +48,7 @@ export const ArchivoElement = ({
               <Button
                 color="primary"
                 component="span"
-                style={{ marginTop: 14 }}                
+                style={{ marginTop: 14 }}
               >
                 {title}
                 <FileUploadIcon />
@@ -81,44 +78,59 @@ export const ArchivoElement = ({
         )}
       </Grid>
 
-      <Grid size={3} sx={{marginTop:1}}>
+      <Grid size={3} sx={{ marginTop: 1 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
+            sx={{ width: "100%" }}
             label="Fecha Inicio"
+            value={values.fechaInicio}
+            onChange={(newValue) => setFieldValue("fechaInicio", newValue)}
             format="DD-MM-YYYY"
             slotProps={{
+              textField: {
+                name: "fechaInicio",
+                error: touched.fechaInicio && Boolean(errors.fechaInicio),
+                helperText: touched.fechaInicio && errors.fechaInicio,
+                onBlur: () => setFieldTouched("fechaInicio", true),
+              },
               field: { clearable: true },
             }}
           />
         </LocalizationProvider>
       </Grid>
       {!checkIndeterminado ? (
-        <Grid size={3} sx={{marginTop:1}}>
+        <Grid size={3} sx={{ marginTop: 1 }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Fecha Vencimiento"
+              sx={{ width: "100%" }}
+              label="Fecha Fin"
+              value={values.fechaFin}
+              onChange={(newValue) => setFieldValue("fechaFin", newValue)}
               format="DD-MM-YYYY"
-              value={fechaFin}
-              onChange={(newValue) => setFechaFin(newValue)}
               slotProps={{
+                textField: {
+                  name: "fechaFin",
+                  error: touched.fechaFin && Boolean(errors.fechaFin),
+                  helperText: touched.fechaFin && errors.fechaFin,
+                  onBlur: () => setFieldTouched("fechaFin", true),
+                },
                 field: { clearable: true },
               }}
             />
           </LocalizationProvider>
         </Grid>
-      ) : (<Grid size={1} />)}
+      ) : (
+        <Grid size={1} />
+      )}
 
       {indeterminado && (
-        <Grid size={3} sx={{marginTop:1}}>
+        <Grid size={3} sx={{ marginTop: 1 }}>
           <FormControlLabel
             control={
               <Checkbox
                 defaultChecked
                 onChange={() => {
                   setCheckIndeterminado(!checkIndeterminado);
-                  if (!checkIndeterminado) {
-                    setFechaFin(null);
-                  }
                 }}
               />
             }
@@ -126,7 +138,7 @@ export const ArchivoElement = ({
             style={{ marginTop: 8 }}
           />
         </Grid>
-      ) }
+      )}
       <Grid size={12}>
         {fileName && (
           <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>

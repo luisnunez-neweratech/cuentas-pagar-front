@@ -1,12 +1,14 @@
 import { type StateCreator, create } from "zustand";
 import type { StepPerfil } from "../interface/stepPerfil";
 import type { StepContrato } from "../interface/stepContrato";
+import type { StepDomicilio } from "../interface/stepDomicilio";
 
 export interface AuthState {
   skipped: Set<number>;
   activeStep: number;
   stepPerfil?: StepPerfil | null;
   stepContrato?: StepContrato | null;
+  stepDomicilio?: StepDomicilio | null;
 
   isStepSkipped: (step: number) => boolean;
   handleNext: () => void;
@@ -18,6 +20,9 @@ export interface AuthState {
 
   setStepContrato: (stepContrato: StepContrato) => void;
   getStepContrato: () => StepContrato | null | undefined;
+
+  setStepDomicilio: (stepDomicilio: StepDomicilio) => void;
+  getStepDomicilio: () => StepDomicilio | null | undefined;
 }
 
 const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
@@ -35,6 +40,17 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
         fechaInicio: "",
       },
     ],
+  },
+  stepDomicilio: {
+    pais: "",
+    codigoPostal: "",
+    estado: "",
+    municipio: "",
+    ciudad: "",
+    colonia: "",
+    calle: "",
+    numInterior: "",
+    numExterior: "",
   },
 
   isStepSkipped: (step: number) => {
@@ -65,11 +81,18 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
     return get().stepPerfil;
   },
 
-  setStepContrato: (stepContrato: StepContrato) => {    
+  setStepContrato: (stepContrato: StepContrato) => {
     set({ stepContrato: stepContrato });
   },
   getStepContrato: () => {
     return get().stepContrato;
+  },
+
+  setStepDomicilio: (stepDomicilio: StepDomicilio) => {
+    set({ stepDomicilio: stepDomicilio });
+  },
+  getStepDomicilio: () => {
+    return get().stepDomicilio;
   },
 });
 

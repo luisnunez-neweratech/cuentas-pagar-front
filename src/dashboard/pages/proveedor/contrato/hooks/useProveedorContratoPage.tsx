@@ -1,5 +1,5 @@
 import { Perfil } from "../components/steps/Perfil";
-import { Domicilio } from "../components/steps/Domicilio";
+import { Domicilio } from "../components/steps/Domicilio/Domicilio";
 import { CuentaBancaria } from "../components/steps/CuentaBancaria";
 import { Contacto } from "../components/steps/Contacto";
 import { useNavigate } from "react-router";

@@ -33,21 +33,27 @@ export const useContrato = () => {
       };
     } */
     const stepContrato = getStepContrato();
-    console.log("stepContrato", stepContrato);
     return {
-      noColaborador: stepContrato ? stepContrato.noColaborador : "",
+      noColaborador: stepContrato?.noColaborador
+        ? stepContrato?.noColaborador
+        : " ",
     };
   };
 
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    useFormik({
-      initialValues: initialFormValues(),
-      validationSchema:
-        getStepPerfil()?.tipoPersona === "fisica"
-          ? validationFisicoSchema
-          : null,
-      onSubmit: async (values) => {
-        /*  const pasoPerfil: StepPerfil = {
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    setFieldValue,
+  } = useFormik({
+    initialValues: initialFormValues(),
+    validationSchema:
+      getStepPerfil()?.tipoPersona === "fisica" ? validationFisicoSchema : null,
+    onSubmit: async (values) => {
+      /*  const pasoPerfil: StepPerfil = {
             tipoProveedor: "contrato",
             tipoEntidad: values.tipoEntidad,
             tipoPersona: values.tipoPersona,
@@ -59,21 +65,20 @@ export const useContrato = () => {
             productos: [],
           };
           setStepPerfil(pasoPerfil); */
-        console.log("values", values);
-        //validate files
-        if (getStepPerfil()?.tipoPersona === "fisica") {
-          //type fisico
-          const prevStepContrato = getStepContrato();
-          const stepContrato: StepContrato = {
-            ...prevStepContrato,
-            noColaborador: values.noColaborador,
-            contractor: checkContractor,
-          };
-          setStepContrato(stepContrato);
-          handleNext();
-        }
-      },
-    });
+      //validate files
+      if (getStepPerfil()?.tipoPersona === "fisica") {
+        //type fisico
+        const prevStepContrato = getStepContrato();
+        const stepContrato: StepContrato = {
+          ...prevStepContrato,
+          noColaborador: checkContractor ? values.noColaborador : "",
+          contractor: checkContractor,
+        };
+        setStepContrato(stepContrato);
+        handleNext();
+      }
+    },
+  });
 
   const onClickContrato = () => {
     if (contrato) {
@@ -99,6 +104,11 @@ export const useContrato = () => {
     setTipoArchivos(index === tipoArchivos ? null : index); // Toggle selection
   };
 
+  const onChangeContractor = () => {    
+    setFieldValue("noColaborador", !checkContractor ? "" : " ");
+    setCheckContractor(!checkContractor);
+  };
+
   return {
     handleBack,
     getStepPerfil,
@@ -116,5 +126,6 @@ export const useContrato = () => {
     errors,
     checkContractor,
     setCheckContractor,
+    onChangeContractor,
   };
 };

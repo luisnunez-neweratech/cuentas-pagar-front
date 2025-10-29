@@ -48,7 +48,7 @@ export const ColaboradorData = ({ id, deleteColaborador }: props) => {
                 margin="normal"
                 fullWidth
                 id="noColaborador"
-                label="Num. Colaborador"
+                label="*Num. Colaborador"
                 name="noColaborador"
                 value={values.noColaborador}
                 onChange={handleChange}
@@ -63,7 +63,7 @@ export const ColaboradorData = ({ id, deleteColaborador }: props) => {
                 margin="normal"
                 fullWidth
                 id="nombreColaborador"
-                label="Nombre"
+                label="*Nombre"
                 name="nombreColaborador"
                 value={values.nombreColaborador}
                 onChange={handleChange}
@@ -95,7 +95,7 @@ export const ColaboradorData = ({ id, deleteColaborador }: props) => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   sx={{ width: "100%" }}
-                  label="Fecha Inicio"
+                  label="*Fecha Inicio"
                   value={values.fechaInicio}
                   onChange={(newValue) =>
                     setFieldValue("fechaInicio", newValue)
@@ -117,7 +117,7 @@ export const ColaboradorData = ({ id, deleteColaborador }: props) => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   sx={{ width: "100%" }}
-                  label="Fecha Fin"
+                  label="*Fecha Fin"
                   value={values.fechaFin}
                   onChange={(newValue) => setFieldValue("fechaFin", newValue)}
                   format="DD-MM-YYYY"
