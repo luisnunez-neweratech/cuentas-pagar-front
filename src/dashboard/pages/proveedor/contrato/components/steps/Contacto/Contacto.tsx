@@ -1,20 +1,22 @@
 import { Box, Button, Grid } from "@mui/material";
-import { usecuentaBancaria } from "./hooks/usecuentaBancaria";
-import { CuentasBancarias } from "./components/CuentasBancarias";
+import { useContacto } from "./hooks/useContacto";
+import { Contactos } from "./components/Contactos";
 
-export const CuentaBancaria = () => {
-  const { handleBack, handleNext } = usecuentaBancaria();
+export const Contacto = () => {
+  const { handleBack, handleNext } = useContacto();
 
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
-      <CuentasBancarias />
+      <Contactos />
       <Grid size={12}>
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
             Atras
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
-          <Button onClick={handleNext}>Siguiente</Button>
+          <Button disabled={true} onClick={handleNext}>
+            Guardar Proveedor
+          </Button>
         </Box>
       </Grid>
     </Grid>

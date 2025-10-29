@@ -1,10 +1,9 @@
-import { useFormik } from "formik";
-
 import { useState } from "react";
-import { validationSchema } from "../components/Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import { useFormik } from "formik";
+import { validationSchema } from "../components/Validations";
 
-export const useCuentasBancariasData = () => {
+export const useContactosData = () => {
   const getStepPerfil = useProveedorContratoStore(
     (state) => state.getStepPerfil
   );
@@ -24,11 +23,11 @@ export const useCuentasBancariasData = () => {
     validateForm,
   } = useFormik({
     initialValues: {
-      banco: "",
-      monedaVenta: "",
-      clabe: "",
-      swift: "",
-      condicionesPago: "",
+      tipoContacto: "",
+      contacto: "",
+      telefono: "",
+      email: "",
+      paginaWeb: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {

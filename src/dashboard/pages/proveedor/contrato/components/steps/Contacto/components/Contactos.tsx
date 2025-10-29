@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { CuentasBancariasData } from "./CuentasBancariasData";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useCuentasBancarias } from "../hooks/useCuentasBancarias";
+import { useContactos } from "../hooks/useContactos";
+import { ContactosData } from "./ContactosData";
 
-export const CuentasBancarias = () => {
-  const { items, addCuenta, deleteCuenta, setItems } = useCuentasBancarias();
+export const Contactos = () => {
+  const { items, addCuenta, deleteCuenta, setItems } = useContactos();
 
   useEffect(() => {
     setItems([{ id: 1 }]);
@@ -14,7 +14,7 @@ export const CuentasBancarias = () => {
   return (
     <>
       {items.map((item) => (
-        <CuentasBancariasData
+        <ContactosData
           key={item.id}
           id={item.id}
           deleteCuenta={deleteCuenta}

@@ -2,6 +2,7 @@ import { type StateCreator, create } from "zustand";
 import type { StepPerfil } from "../interface/stepPerfil";
 import type { StepContrato } from "../interface/stepContrato";
 import type { StepDomicilio } from "../interface/stepDomicilio";
+import type { StepCuentaBancaria } from "../interface/stepCuentaBancaria";
 
 export interface AuthState {
   skipped: Set<number>;
@@ -9,6 +10,7 @@ export interface AuthState {
   stepPerfil?: StepPerfil | null;
   stepContrato?: StepContrato | null;
   stepDomicilio?: StepDomicilio | null;
+  stepCuentaBancaria?: StepCuentaBancaria | null;
 
   isStepSkipped: (step: number) => boolean;
   handleNext: () => void;
@@ -23,6 +25,9 @@ export interface AuthState {
 
   setStepDomicilio: (stepDomicilio: StepDomicilio) => void;
   getStepDomicilio: () => StepDomicilio | null | undefined;
+
+  setStepCuentaBancaria: (stepCuentaBancaria: StepCuentaBancaria) => void;
+  getStepCuentaBancaria: () => StepCuentaBancaria | null | undefined;
 }
 
 const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
@@ -51,6 +56,18 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
     calle: "",
     numInterior: "",
     numExterior: "",
+  },
+  stepCuentaBancaria: {
+    cuentasBancarias: [
+      {
+        banco: "",
+        monedaVenta: "",
+        clabe: "",
+        swift: "",
+        condicionesPago: "",
+        status: true,
+      },
+    ],
   },
 
   isStepSkipped: (step: number) => {
@@ -93,6 +110,13 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   },
   getStepDomicilio: () => {
     return get().stepDomicilio;
+  },
+
+  setStepCuentaBancaria: (stepCuentaBancaria: StepCuentaBancaria) => {
+    set({ stepCuentaBancaria: stepCuentaBancaria });
+  },
+  getStepCuentaBancaria: () => {
+    return get().stepCuentaBancaria;
   },
 });
 

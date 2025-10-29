@@ -1,7 +1,7 @@
 import { Perfil } from "../components/steps/Perfil";
 import { Domicilio } from "../components/steps/Domicilio/Domicilio";
 import { CuentaBancaria } from "../components/steps/CuentaBancaria/CuentaBancaria";
-import { Contacto } from "../components/steps/Contacto";
+import { Contacto } from "../components/steps/Contacto/Contacto";
 import { useNavigate } from "react-router";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
 import { Contrato } from "../components/steps/Contrato/Contrato";

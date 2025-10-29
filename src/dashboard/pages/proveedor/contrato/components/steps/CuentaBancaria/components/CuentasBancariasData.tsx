@@ -24,13 +24,6 @@ interface props {
   idInput: string;
 }
 
-/* interface props {
-  title: string;
-  indeterminado?: boolean;
-  multiple: boolean;
-  
-} */
-
 export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
   const {
     handleSubmit,
@@ -43,6 +36,7 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
     setStatus,
     handleFileChange,
     fileName,
+    tipoEntidad,
   } = useCuentasBancariasData();
 
   return (
@@ -158,20 +152,22 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
               </FormControl>
             </Grid>
             <Grid size={4}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="swift"
-                label="Codigo Swift"
-                name="swift"
-                value={values.swift}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.swift && Boolean(errors.swift)}
-                helperText={touched.swift && errors.swift}
-                sx={{ marginTop: 1 }}
-              />
+              {tipoEntidad === "extranjero" && (
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="swift"
+                  label="Codigo Swift"
+                  name="swift"
+                  value={values.swift}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.swift && Boolean(errors.swift)}
+                  helperText={touched.swift && errors.swift}
+                  sx={{ marginTop: 1 }}
+                />
+              )}
             </Grid>
             <Grid size={3}>
               <>
@@ -188,7 +184,7 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
                     component="span"
                     style={{ marginTop: 14 }}
                   >
-                    Caratula Bancaria
+                    *Caratula Bancaria
                     <FileUploadIcon />
                   </Button>
                 </label>
@@ -205,7 +201,7 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
             <Grid size={1} />
             {id > 1 && (
               <Grid size={1}>
-                <Tooltip title="Eliminar Colaborador">
+                <Tooltip title="Eliminar Cuenta">
                   <IconButton
                     sx={{ color: "red" }}
                     onClick={() => deleteCuenta(id)}
