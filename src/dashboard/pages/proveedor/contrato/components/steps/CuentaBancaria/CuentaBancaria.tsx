@@ -11,11 +11,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { red, green } from "@mui/material/colors";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useRef, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+
 import type { GridColDef } from "@mui/x-data-grid";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { useProveedorContratoStore } from "../../store/ProveedorContrato.store";
+import { usecuentaBancaria } from "./hooks/usecuentaBancaria";
+import { CuentasBancarias } from "./components/CuentasBancarias";
 
+/* 
 function createData(
   id: number,
   banco: string,
@@ -34,10 +36,10 @@ function createData(
     condicionesDePago,
     caraturlaBancaria,
   };
-}
+} */
 
 export const CuentaBancaria = () => {
-  const [rows, setRows] = useState([
+  /*   const [rows, setRows] = useState([
     createData(
       1,
       "BBVA",
@@ -220,13 +222,13 @@ export const CuentaBancaria = () => {
         );
       },
     },
-  ];
+  ]; */
 
-  const handleBack = useProveedorContratoStore((state) => state.handleBack);
+  const { handleBack } = usecuentaBancaria();
 
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
-      <Grid size={12}>
+      {/* <Grid size={12}>
         <DataGrid
           disableColumnMenu
           rows={rows}
@@ -244,6 +246,9 @@ export const CuentaBancaria = () => {
           disableRowSelectionOnClick
         />
       </Grid>
+ */}
+
+      <CuentasBancarias />
       <Grid size={12}>
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
