@@ -88,9 +88,11 @@ export const useContrato = () => {
           console.log("validar documentos");
           handleNext();
         } else {
-          console.log("colaboradores validos?", getColaboradoresValidos());
-          console.log("validar documentos");
-          handleNext();
+          console.log("colaboradores validos?");
+          if (getColaboradoresValidos()) {
+            console.log("validar documentos");
+            handleNext();
+          }
         }
       }
     },

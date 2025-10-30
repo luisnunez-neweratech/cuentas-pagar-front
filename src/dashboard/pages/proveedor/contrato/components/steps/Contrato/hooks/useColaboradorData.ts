@@ -2,7 +2,12 @@ import { useFormik } from "formik";
 import { validationMoralSchema } from "../components/ColaboratorValidation";
 import { useState } from "react";
 
-export const useColaboradorData = () => {
+interface props {
+  id: number;
+  isValidForm: (id: number, valid: boolean) => void;
+}
+
+export const useColaboradorData = ({ id, isValidForm }: props) => {
   const [status, setStatus] = useState<boolean>(true);
 
   const {
@@ -24,12 +29,24 @@ export const useColaboradorData = () => {
     },
     validationSchema: validationMoralSchema,
     onSubmit: (values) => {
-      console.log(values);      
+      console.log(values);
     },
   });
 
+  const onMouseLeaveComponent = async () => {
+    handleSubmit(); // show the errors
+    validateForm().then((errors) => {
+      if (Object.keys(errors).length === 0) {
+        isValidForm(id, true);
+      } else {
+        isValidForm(id, false);
+      }
+
+      //console.log("values validated 2", value)
+    }); // si no es objeto vacio hay errores
+  };
+
   return {
-    handleSubmit,
     values,
     handleChange,
     handleBlur,
@@ -37,8 +54,8 @@ export const useColaboradorData = () => {
     errors,
     setFieldValue,
     setFieldTouched,
-    validateForm,
     status,
     setStatus,
+    onMouseLeaveComponent,
   };
 };

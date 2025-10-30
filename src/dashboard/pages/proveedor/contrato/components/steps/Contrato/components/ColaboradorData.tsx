@@ -25,8 +25,7 @@ export const ColaboradorData = ({
   deleteColaborador,
   isValidForm,
 }: props) => {
-  const {
-    handleSubmit,
+  const {    
     values,
     handleChange,
     handleBlur,
@@ -35,26 +34,13 @@ export const ColaboradorData = ({
     setFieldValue,
     setFieldTouched,
     status,
-    setStatus,
-    validateForm,
-  } = useColaboradorData();
+    setStatus,    
+    onMouseLeaveComponent,
+  } = useColaboradorData({ id, isValidForm });
 
   return (
     <Grid size={12}>
-      <div
-        onMouseLeave={async () => {
-          handleSubmit(); // show the errors
-          validateForm().then((errors) => {
-            if (Object.keys(errors).length === 0) {
-              isValidForm(id, true);
-            } else {
-              isValidForm(id, false);
-            }
-
-            //console.log("values validated 2", value)
-          }); // si no es objeto vacio hay errores
-        }}
-      >
+      <div onMouseLeave={onMouseLeaveComponent}>
         <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
           <Grid container spacing={2}>
             <Grid size={4}>
