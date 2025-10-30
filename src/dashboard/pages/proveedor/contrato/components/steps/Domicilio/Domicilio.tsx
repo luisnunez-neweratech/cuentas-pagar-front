@@ -4,6 +4,11 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { countries } from "../../../../../../../lib/constants";
 import { useDomicilio } from "./hooks/useDomicilio";
+import {
+  useJsApiLoader,
+  Autocomplete as AutocompleteGoogle,
+} from "@react-google-maps/api";
+import { useRef } from "react";
 
 export const Domicilio = () => {
   const {
@@ -16,6 +21,52 @@ export const Domicilio = () => {
     errors,
     setFieldValue,
   } = useDomicilio();
+  const inputRef = useRef<any | null>(null);
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+    libraries: ["places"],
+  });
+
+  const handleOnPlacesChanged = () => {
+    let address = inputRef.current.getPlace();
+    //setFieldValue("codigoPostal", "28019");
+    console.log("address", address);
+    if (address && address?.address_components.length > 0) {
+      const colonia = address?.address_components.filter(
+        (addressFound: any) => {
+          if (addressFound.types.includes("sublocality")) {
+            return addressFound;
+          }
+        }
+      );
+      if (colonia.length > 0) {
+        setFieldValue("colonia", colonia[0].long_name);
+      }
+
+      const ciudad = address?.address_components.filter((addressFound: any) => {
+        if (addressFound.types.includes("locality")) {
+          return addressFound;
+        }
+      });
+      if (ciudad.length > 0) {
+        setFieldValue("ciudad", ciudad[0].long_name);
+        setFieldValue("municipio", ciudad[0].long_name);
+      }
+
+      const estado = address?.address_components.filter(
+        (addressFound: any) => {
+          if (addressFound.types.includes("administrative_area_level_1")) {
+            return addressFound;
+          }
+        }
+      );
+      if (estado.length > 0) {
+        setFieldValue("estado", estado[0].long_name);
+      }
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -58,7 +109,7 @@ export const Domicilio = () => {
                 slotProps={{
                   htmlInput: {
                     ...params.inputProps,
-                    autoComplete: "new-password", // disable autocomplete and autofill
+                    autoComplete: "new-password",
                   },
                 }}
                 value={values.pais}
@@ -71,6 +122,33 @@ export const Domicilio = () => {
           />
         </Grid>
         <Grid size={4}>
+          {isLoaded && (
+            <AutocompleteGoogle
+              onLoad={(ref) => (inputRef.current = ref)}
+              onPlaceChanged={handleOnPlacesChanged}
+              options={{
+                componentRestrictions: { country: "MX" },
+                fields: ["address_components", "formatted_address"],
+              }}
+            >
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                label="*C&oacute;digo Postal"
+                type="number"
+                id="codigoPostal"
+                name="codigoPostal"
+                onChange={handleChange}
+                value={values.codigoPostal}
+                onBlur={handleBlur}
+                error={touched.codigoPostal && Boolean(errors.codigoPostal)}
+                helperText={touched.codigoPostal && errors.codigoPostal}
+              />
+            </AutocompleteGoogle>
+          )}
+        </Grid>
+        {/*  <Grid size={4}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -84,7 +162,7 @@ export const Domicilio = () => {
             error={touched.codigoPostal && Boolean(errors.codigoPostal)}
             helperText={touched.codigoPostal && errors.codigoPostal}
           />
-        </Grid>
+        </Grid> */}
         <Grid size={4}>
           <TextField
             variant="outlined"
