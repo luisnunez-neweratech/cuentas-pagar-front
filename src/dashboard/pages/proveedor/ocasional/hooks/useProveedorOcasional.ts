@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import { validationSchema } from "../Validations";
-import { useProveedoresPageStore } from "../../../proveedores/store/ProveedoresPage.store";
+import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 import type { ActividadType } from "../../../../../components/common/AutoComplete/interfaces/Actividad";
 
 export const useProveedorOcasional = () => {
@@ -11,7 +11,7 @@ export const useProveedorOcasional = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { id } = useParams();
-  const proveedorOcasional = useProveedoresPageStore(
+  const proveedorOcasional = useProveedorOcasionalStore(
     (state) => state.proveedorOcasional
   );
 

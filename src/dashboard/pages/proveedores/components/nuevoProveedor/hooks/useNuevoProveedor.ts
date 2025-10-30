@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router";
 import { useProveedoresPageStore } from "../../../store/ProveedoresPage.store";
+import { useProveedorOcasionalStore } from "../../../../proveedor/ocasional/store/ProveedorOcasional.store";
 import { useProveedorContratoStore } from "../../../../proveedor/contrato/store/ProveedorContrato.store";
 
 export const useNuevoProveedor = () => {
   const navigate = useNavigate();
   const openModal = useProveedoresPageStore((state) => state.openModal);
   const handleClose = useProveedoresPageStore((state) => state.handleClose);
-  const clearProveedorOcasional = useProveedoresPageStore(
+  const clearProveedorOcasional = useProveedorOcasionalStore(
     (state) => state.clearProveedorOcasional
   );
   const handleReset = useProveedorContratoStore((state) => state.handleReset);
@@ -25,6 +26,6 @@ export const useNuevoProveedor = () => {
     openModal,
     handleClose,
     onClickOcasional,
-    onClickContrato
+    onClickContrato,
   };
 };
