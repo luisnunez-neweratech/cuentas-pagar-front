@@ -40,10 +40,8 @@ export const useColaboradorData = ({ id, isValidForm }: props) => {
         isValidForm(id, true);
       } else {
         isValidForm(id, false);
-      }
-
-      //console.log("values validated 2", value)
-    }); // si no es objeto vacio hay errores
+      }      
+    }); 
   };
 
   return {

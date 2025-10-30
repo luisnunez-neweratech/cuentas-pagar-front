@@ -4,7 +4,17 @@ import { useState } from "react";
 import { validationSchema } from "../components/Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
-export const useCuentasBancariasData = (idInput: string) => {
+interface props {
+  id: number;
+  idInput: string;
+  isValidForm: (id: number, valid: boolean) => void;
+}
+
+export const useCuentasBancariasData = ({
+  id,
+  idInput,
+  isValidForm,
+}: props) => {
   const getStepPerfil = useProveedorContratoStore(
     (state) => state.getStepPerfil
   );
@@ -44,8 +54,18 @@ export const useCuentasBancariasData = (idInput: string) => {
     }
   };
 
-  return {
-    handleSubmit,
+  const onMouseLeaveComponent = async () => {
+    handleSubmit(); // show the errors
+    validateForm().then((errors) => {
+      if (Object.keys(errors).length === 0) {
+        isValidForm(id, true);
+      } else {
+        isValidForm(id, false);
+      }
+    });
+  };
+
+  return {    
     values,
     handleChange,
     handleBlur,
@@ -58,5 +78,6 @@ export const useCuentasBancariasData = (idInput: string) => {
     handleFileChange,
     fileName,
     tipoEntidad: getStepPerfil()?.tipoEntidad,
+    onMouseLeaveComponent,
   };
 };

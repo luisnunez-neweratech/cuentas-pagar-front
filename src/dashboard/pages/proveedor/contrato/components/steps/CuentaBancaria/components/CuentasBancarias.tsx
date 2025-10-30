@@ -5,10 +5,18 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useCuentasBancarias } from "../hooks/useCuentasBancarias";
 
 export const CuentasBancarias = () => {
-  const { items, addCuenta, deleteCuenta, setItems } = useCuentasBancarias();
+  const {
+    items,
+    addCuenta,
+    deleteCuenta,
+    setItems,
+    isValidForm,
+    setCuentasValidos,
+  } = useCuentasBancarias();
 
   useEffect(() => {
-    setItems([{ id: 1 }]);
+    setItems([{ id: 1, valido: false }]);
+    setCuentasValidos(false);
   }, []);
 
   return (
@@ -19,6 +27,7 @@ export const CuentasBancarias = () => {
           id={item.id}
           deleteCuenta={deleteCuenta}
           idInput={`caratulaBancaria-${item.id}`}
+          isValidForm={isValidForm}
         />
       ))}
       <Grid size={11} />

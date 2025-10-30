@@ -3,7 +3,7 @@ import { usecuentaBancaria } from "./hooks/usecuentaBancaria";
 import { CuentasBancarias } from "./components/CuentasBancarias";
 
 export const CuentaBancaria = () => {
-  const { handleBack, handleNext } = usecuentaBancaria();
+  const { handleBack, onClickNext } = usecuentaBancaria();
 
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
@@ -14,7 +14,7 @@ export const CuentaBancaria = () => {
             Atras
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
-          <Button onClick={handleNext}>Siguiente</Button>
+          <Button onClick={onClickNext}>Siguiente</Button>
         </Box>
       </Grid>
     </Grid>

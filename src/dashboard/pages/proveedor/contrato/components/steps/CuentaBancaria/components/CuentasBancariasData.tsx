@@ -22,11 +22,17 @@ interface props {
   id: number;
   deleteCuenta: (id: number) => void;
   idInput: string;
+  isValidForm: (id: number, valid: boolean) => void;
 }
 
-export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
+export const CuentasBancariasData = ({
+  id,
+  deleteCuenta,
+  idInput,
+  isValidForm,
+}: props) => {
   const {
-    handleSubmit,
+    onMouseLeaveComponent,
     values,
     handleChange,
     handleBlur,
@@ -37,13 +43,13 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
     handleFileChange,
     fileName,
     tipoEntidad,
-  } = useCuentasBancariasData(idInput);
+  } = useCuentasBancariasData({ idInput, isValidForm, id });
 
   return (
     <Grid size={12}>
       <div
         onMouseLeave={async () => {
-          handleSubmit();
+          onMouseLeaveComponent();
         }}
       >
         <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
