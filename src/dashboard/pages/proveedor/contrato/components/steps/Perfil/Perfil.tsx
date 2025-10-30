@@ -13,8 +13,15 @@ import { AutoCompleteComponent } from "../../../../../../../components/common/Au
 import { usePerfil } from "./hooks/usePerfil";
 
 export const Perfil = () => {
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    usePerfil();
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    onChangeAutocomplete,
+  } = usePerfil();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -152,7 +159,10 @@ export const Perfil = () => {
         </Grid>
 
         <Grid size={4}>
-          <AutoCompleteComponent  />
+          <AutoCompleteComponent
+            onChange={onChangeAutocomplete}
+            setValues={values.productos}
+          />
         </Grid>
 
         <Grid size={12}>

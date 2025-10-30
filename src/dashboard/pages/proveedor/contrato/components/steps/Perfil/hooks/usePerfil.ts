@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepPerfil } from "../../../../interface/stepPerfil";
+import type { ActividadType } from "../../../../../../../../components/common/AutoComplete/interfaces/Actividad";
 
 export const usePerfil = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -22,10 +23,11 @@ export const usePerfil = () => {
         alias: proveedorOcasional!.alias,
         email: proveedorOcasional?.email ?? "",
         giroPrincipal: proveedorOcasional?.giroPrincipal ?? "",
-        productos: "", //TODO valores para los productos
+        productos: proveedorOcasional?.productos, //TODO valores para los productos
       };
     } */
     const stepPerfil = getStepPerfil();
+    console.log("stepPerfil", stepPerfil);
     return {
       tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
       tipoPersona: stepPerfil ? stepPerfil.tipoPersona : "",
@@ -34,30 +36,42 @@ export const usePerfil = () => {
       alias: stepPerfil ? stepPerfil.alias : "",
       email: stepPerfil ? stepPerfil.email : "",
       giroPrincipal: stepPerfil ? stepPerfil.giroPrincipal : "",
-      productos: [],
+      productos: stepPerfil ? stepPerfil.productos : [],
     };
   };
 
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    useFormik({
-      initialValues: initialFormValues(),
-      validationSchema: validationSchema,
-      onSubmit: async (values) => {        
-        const pasoPerfil: StepPerfil = {
-          tipoProveedor: "contrato",
-          tipoEntidad: values.tipoEntidad,
-          tipoPersona: values.tipoPersona,
-          razonSocial: values.razonSocial,
-          alias: values.alias,
-          rfc: values.rfc,
-          email: values.email,
-          giroPrincipal: values.giroPrincipal,
-          productos: [],
-        };        
-        setStepPerfil(pasoPerfil);
-        handleNext();
-      },
-    });
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    setFieldValue,
+  } = useFormik({
+    initialValues: initialFormValues(),
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      console.log("values", values);
+      const pasoPerfil: StepPerfil = {
+        tipoProveedor: "contrato",
+        tipoEntidad: values.tipoEntidad,
+        tipoPersona: values.tipoPersona,
+        razonSocial: values.razonSocial,
+        alias: values.alias,
+        rfc: values.rfc,
+        email: values.email,
+        giroPrincipal: values.giroPrincipal,
+        productos: values.productos,
+      };
+      setStepPerfil(pasoPerfil);
+      handleNext();
+    },
+  });
+
+  const onChangeAutocomplete = (newValues: ActividadType[]) => {
+    setFieldValue("productos", newValues);
+  };
 
   return {
     handleSubmit,
@@ -66,5 +80,6 @@ export const usePerfil = () => {
     handleBlur,
     touched,
     errors,
+    onChangeAutocomplete,
   };
 };

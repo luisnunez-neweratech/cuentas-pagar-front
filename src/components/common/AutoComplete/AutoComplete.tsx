@@ -6,15 +6,14 @@ interface Props {
   setValues?: ActividadType[];
 }
 
-export const AutoCompleteComponent = ( { onChange, setValues = [] }: Props ) => {
+export const AutoCompleteComponent = ({ onChange, setValues = [] }: Props) => {
   return (
     <CustomAutocomplete<ActividadType>
       id="customized-autocomplete"
       options={actividades}
       getOptionLabel={(option) => option.title}
-      onChange={(_e, newvalue) => onChange(newvalue)}
-      //value={[{title:'actividad 1', id:1}]}
-      //value={setValues}
+      onChange={(_e, newvalue) => onChange(newvalue)}      
+      value={setValues}
     />
   );
 };

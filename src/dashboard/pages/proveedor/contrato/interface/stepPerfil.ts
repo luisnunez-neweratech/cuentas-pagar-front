@@ -1,11 +1,13 @@
+import type { ActividadType } from "../../../../../components/common/AutoComplete/interfaces/Actividad";
+
 export interface StepPerfil {
-    tipoProveedor: string;
-    tipoEntidad: string;
-    tipoPersona: string;
-    rfc?: string;
-    razonSocial: string;
-    alias: string;
-    email?: string;
-    giroPrincipal?: string;
-    productos?: string[];
+  tipoProveedor: string;
+  tipoEntidad: string;
+  tipoPersona: string;
+  rfc?: string;
+  razonSocial: string;
+  alias: string;
+  email?: string;
+  giroPrincipal?: string;
+  productos?: ActividadType[];
 }
