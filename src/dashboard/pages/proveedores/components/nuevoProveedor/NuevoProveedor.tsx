@@ -1,17 +1,13 @@
-import { useNavigate } from "react-router";
 import { Backdrop, Box, Button, Paper } from "@mui/material";
-import { useProveedoresPageStore } from "../../store/ProveedoresPage.store";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import { mainBackgroundColor } from "../../../../../lib/constants";
+import { useNuevoProveedor } from "./hooks/useNuevoProveedor";
 
 export const NuevoProvedor = () => {
-  const navigate = useNavigate();
-  const openModal = useProveedoresPageStore((state) => state.openModal);
-  const handleClose = useProveedoresPageStore((state) => state.handleClose);
-  const clearProveedorOcasional = useProveedoresPageStore(
-    (state) => state.clearProveedorOcasional
-  );
+  const { openModal, handleClose, onClickOcasional, onClickContrato } =
+    useNuevoProveedor();
+
   return (
     <Backdrop
       sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
@@ -38,10 +34,7 @@ export const NuevoProvedor = () => {
             variant="contained"
             color="primary"
             sx={{ backgroundColor: mainBackgroundColor }}
-            onClick={() => {
-              clearProveedorOcasional();
-              navigate("nuevo-ocasional");
-            }}
+            onClick={onClickOcasional}
           >
             Ocasional <ReceiptLongIcon sx={{ marginLeft: 1 }} />
           </Button>
@@ -49,7 +42,7 @@ export const NuevoProvedor = () => {
             fullWidth
             variant="contained"
             sx={{ backgroundColor: mainBackgroundColor, marginTop: 4 }}
-            onClick={() => navigate("nuevo-contrato")}
+            onClick={onClickContrato}
           >
             Contrato <HistoryEduIcon sx={{ marginLeft: 1 }} />
           </Button>

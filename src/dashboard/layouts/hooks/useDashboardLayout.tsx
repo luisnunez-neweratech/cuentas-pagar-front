@@ -13,12 +13,10 @@ export const useDashboardLayout = () => {
   const [open, setOpen] = useState(false);
 
   const checkPathname = () => {
-    switch (location.pathname) {
-      case "/proveedor/nuevo":
-        return 0;
-      default:
-        return -1;
+    if (location.pathname.includes("/proveedor")) {
+      return 0;
     }
+    return -1;
   };
 
   const [optionSelected, setOptionSelected] = useState<number>(checkPathname());
