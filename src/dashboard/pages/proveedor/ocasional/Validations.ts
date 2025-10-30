@@ -7,6 +7,7 @@ export const validationSchema = yup.object().shape({
   alias: yup.string().required("Alias es requerido"),
   rfc: yup
     .string()
+    .max(13,'13 caracteres máximo')
     .ensure()
     .when("tipoEntidad", {
       is: "local",

@@ -4,10 +4,10 @@ export const validationMoralSchema = yup.object().shape({
   noColaborador: yup
     .string()
     .max(8, "Maximo 8 caracteres")
-    .required("Numero de Colaborador es requerido"),
+    .required("Número de Colaborador es requerido"),
   nombreColaborador: yup
     .string()
-    .required("Numero de Colaborador es requerido"),
+    .required("Número de Colaborador es requerido"),
   fechaInicio: yup.date().required("Fecha inicio es requerida"),
   fechaFin: yup.date().when("fechaInicio", (fechaInicio, schema) => {
     const fecha = Array.isArray(fechaInicio) ? fechaInicio[0] : fechaInicio;

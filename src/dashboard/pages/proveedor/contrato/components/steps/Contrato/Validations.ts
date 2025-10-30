@@ -4,6 +4,6 @@ export const validationFisicoSchema = yup.object().shape({
   checkContractor: yup.boolean(),
   noColaborador: yup
     .string()
-    .max(8, "Maximo 8 caracteres")
-    .required("Numero de Colaborador es requerido"),
+    .max(8, "Máximo 8 caracteres")
+    .required("Número de Colaborador es requerido"),
 });

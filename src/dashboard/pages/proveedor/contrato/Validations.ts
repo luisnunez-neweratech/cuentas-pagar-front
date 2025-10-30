@@ -8,6 +8,7 @@ export const validationSchema = yup.object().shape({
   rfc: yup
     .string()
     .ensure()
+    .max(13,'13 caracteres máximo')
     .when("tipoEntidad", {
       is: "local",
       then: (schema) => schema.required("RFC es requerido"),
