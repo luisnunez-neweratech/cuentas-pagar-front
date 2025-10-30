@@ -13,6 +13,7 @@ import { AutoCompleteComponent } from "../../../../components/common/AutoComplet
 import { useProveedorOcasional } from "./hooks/useProveedorOcasional";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
+import UpgradeIcon from "@mui/icons-material/Upgrade";
 
 export const ProveedorOcasionalPage = () => {
   const {
@@ -21,7 +22,7 @@ export const ProveedorOcasionalPage = () => {
     handleChange,
     handleBlur,
     touched,
-    errors,    
+    errors,
     id,
     onClickEliminar,
   } = useProveedorOcasional();
@@ -166,9 +167,20 @@ export const ProveedorOcasionalPage = () => {
           <AutoCompleteComponent />
         </Grid>
         <Grid size={4} />
-        <Grid size={id ? 8 : 10} />
+        <Grid size={id ? 4 : 10} />
         {id ? (
           <>
+            <Grid size={4}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: mainBackgroundColor }}
+                fullWidth
+                type="submit"
+              >
+                Actualizar a Contrato
+                <UpgradeIcon sx={{ marginLeft: 1 }} />
+              </Button>
+            </Grid>
             <Grid size={2}>
               <Button
                 variant="contained"
