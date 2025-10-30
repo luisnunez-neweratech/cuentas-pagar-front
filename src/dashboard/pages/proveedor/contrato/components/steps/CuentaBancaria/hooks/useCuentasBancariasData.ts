@@ -4,7 +4,7 @@ import { useState } from "react";
 import { validationSchema } from "../components/Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
-export const useCuentasBancariasData = () => {
+export const useCuentasBancariasData = (idInput: string) => {
   const getStepPerfil = useProveedorContratoStore(
     (state) => state.getStepPerfil
   );
@@ -29,8 +29,9 @@ export const useCuentasBancariasData = () => {
       clabe: "",
       swift: "",
       condicionesPago: "",
+      [idInput]: "",
     },
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(idInput),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -39,6 +40,7 @@ export const useCuentasBancariasData = () => {
   const handleFileChange = (event: any) => {
     if (event.target.files.length > 0) {
       setFileName(event.target.files[0].name);
+      setFieldValue(idInput, event.target.files[0]);
     }
   };
 

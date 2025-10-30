@@ -37,7 +37,7 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
     handleFileChange,
     fileName,
     tipoEntidad,
-  } = useCuentasBancariasData();
+  } = useCuentasBancariasData(idInput);
 
   return (
     <Grid size={12}>
@@ -178,6 +178,7 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
                   onChange={handleFileChange}
                   accept=".pdf"
                 />
+
                 <label htmlFor={idInput}>
                   <Button
                     color="primary"
@@ -188,6 +189,12 @@ export const CuentasBancariasData = ({ id, deleteCuenta, idInput }: props) => {
                     <FileUploadIcon />
                   </Button>
                 </label>
+                {errors[idInput] && (
+                  <span style={{ color: "#d32f2f", fontSize: "12px" }}>
+                    La caratula es requerida
+                  </span>
+                )}
+                {console.log(errors)}
               </>
             </Grid>
 
