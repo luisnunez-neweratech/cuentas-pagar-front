@@ -26,6 +26,7 @@ export const Contrato = () => {
     errors,
     checkContractor,
     onChangeContractor,
+    onClickNext,
   } = useContrato();
 
   return (
@@ -120,7 +121,9 @@ export const Contrato = () => {
               Atras
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button type="submit">Siguiente</Button>
+            <Button onClick={onClickNext} type="submit">
+              Siguiente
+            </Button>
           </Box>
         </Grid>
       </Grid>

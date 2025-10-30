@@ -31,8 +31,11 @@ export const useArchivoElement = (indeterminado: boolean) => {
   });
 
   const handleFileChange = (event: any) => {
+    // envio del archivo al api
+     /* const formData = new FormData();
+    formData.append('file',files[0]) */
     if (event.target.files.length > 0) {
-      const files = event.target.files; // Get the FileList object
+      const files = event.target.files; // Get the FileList object           
       const fileNames = Array.from(files).map((file: any) => file.name);
       setNumArchivos(event.target.files.length);
       setFileName(fileNames.join(" "));

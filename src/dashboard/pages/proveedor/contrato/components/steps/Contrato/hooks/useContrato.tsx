@@ -109,6 +109,13 @@ export const useContrato = () => {
     setCheckContractor(!checkContractor);
   };
 
+  const onClickNext = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   return {
     handleBack,
     getStepPerfil,
@@ -127,5 +134,6 @@ export const useContrato = () => {
     checkContractor,
     setCheckContractor,
     onChangeContractor,
+    onClickNext
   };
 };
