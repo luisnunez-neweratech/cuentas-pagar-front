@@ -1,3 +1,5 @@
+import type { ActividadType } from "../components/common/AutoComplete/interfaces/Actividad";
+
 export interface ProveedorOcasional {
     tipoProveedor: string;
     tipoEntidad: string;
@@ -7,5 +9,5 @@ export interface ProveedorOcasional {
     alias: string;
     email?: string;
     giroPrincipal?: string;
-    productos?: string[];
+    productos?: ActividadType[];
 }

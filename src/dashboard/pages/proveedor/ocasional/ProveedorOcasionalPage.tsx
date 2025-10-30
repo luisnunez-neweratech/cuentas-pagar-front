@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
-import { AutoCompleteComponent } from "../../../../components/common/AutoComplete";
+import { AutoCompleteComponent } from "../../../../components/common/AutoComplete/AutoComplete";
 import { useProveedorOcasional } from "./hooks/useProveedorOcasional";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +25,7 @@ export const ProveedorOcasionalPage = () => {
     errors,
     id,
     onClickEliminar,
+    onChangeAutocomplete
   } = useProveedorOcasional();
 
   return (
@@ -164,7 +165,7 @@ export const ProveedorOcasionalPage = () => {
         </Grid>
 
         <Grid size={4}>
-          <AutoCompleteComponent />
+          <AutoCompleteComponent onChange={onChangeAutocomplete} />
         </Grid>
         <Grid size={4} />
         <Grid size={id ? 4 : 10} />

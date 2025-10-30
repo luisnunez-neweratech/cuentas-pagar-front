@@ -166,7 +166,7 @@ const Listbox = styled("ul")(({ theme }) => ({
   },
 }));
 
-function CustomAutocomplete<Value>(
+export function CustomAutocomplete<Value>(
   props: UseAutocompleteProps<Value, true, false, false>
 ) {
   const {
@@ -218,26 +218,3 @@ function CustomAutocomplete<Value>(
     </Root>
   );
 }
-
-export const AutoCompleteComponent = () => {
-  return (
-    <CustomAutocomplete<FilmOptionType>
-      id="customized-hook-demo"      
-      options={top100Films}
-      getOptionLabel={(option) => option.title}
-    />
-  );
-};
-
-interface FilmOptionType {
-  title: string;
-  year: number;
-}
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { title: "Actividad Economica 1", year: 1 },
-  { title: "Actividad Economica 2", year: 2 },
-  { title: "Actividad Economica 3", year: 3 },
-  { title: "Actividad Economica 4", year: 4 },
-];

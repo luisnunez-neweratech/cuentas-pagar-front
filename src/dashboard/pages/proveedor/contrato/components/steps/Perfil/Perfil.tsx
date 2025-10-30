@@ -9,7 +9,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { AutoCompleteComponent } from "../../../../../../../components/common/AutoComplete";
+import { AutoCompleteComponent } from "../../../../../../../components/common/AutoComplete/AutoComplete";
 import { usePerfil } from "./hooks/usePerfil";
 
 export const Perfil = () => {
@@ -152,7 +152,7 @@ export const Perfil = () => {
         </Grid>
 
         <Grid size={4}>
-          <AutoCompleteComponent />
+          <AutoCompleteComponent  />
         </Grid>
 
         <Grid size={12}>
