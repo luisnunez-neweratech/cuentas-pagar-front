@@ -5,6 +5,56 @@ import type { StepDomicilio } from "../interface/stepDomicilio";
 import type { StepCuentaBancaria } from "../interface/stepCuentaBancaria";
 import type { StepContacto } from "../interface/stepContacto";
 
+const initialStepContrato = {
+  contractor: false,
+  noColaborador: "",
+  colaboradores: [
+    {
+      nombre: "",
+      noColaborador: "",
+      fechaFin: "",
+      fechaInicio: "",
+    },
+  ],
+};
+
+const initialStepDomicilio = {
+  pais: "",
+  codigoPostal: "",
+  estado: "",
+  municipio: "",
+  ciudad: "",
+  colonia: "",
+  calle: "",
+  numInterior: "",
+  numExterior: "",
+};
+
+const initialStepCuentBancaria = {
+  cuentasBancarias: [
+    {
+      banco: "",
+      monedaVenta: "",
+      clabe: "",
+      swift: "",
+      condicionesPago: "",
+      status: true,
+    },
+  ],
+};
+
+const initialStepContacto = {
+  contactos: [
+    {
+      tipoContacto: "",
+      contacto: "",
+      telefono: "",
+      email: "",
+      paginaWeb: "",
+    },
+  ],
+};
+
 export interface AuthState {
   skipped: Set<number>;
   activeStep: number;
@@ -39,52 +89,10 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   skipped: new Set<number>(),
   activeStep: 0,
   stepPerfil: null,
-  stepContrato: {
-    contractor: false,
-    noColaborador: "",
-    colaboradores: [
-      {
-        nombre: "",
-        noColaborador: "",
-        fechaFin: "",
-        fechaInicio: "",
-      },
-    ],
-  },
-  stepDomicilio: {
-    pais: "",
-    codigoPostal: "",
-    estado: "",
-    municipio: "",
-    ciudad: "",
-    colonia: "",
-    calle: "",
-    numInterior: "",
-    numExterior: "",
-  },
-  stepCuentaBancaria: {
-    cuentasBancarias: [
-      {
-        banco: "",
-        monedaVenta: "",
-        clabe: "",
-        swift: "",
-        condicionesPago: "",
-        status: true,
-      },
-    ],
-  },
-  stepContacto: {
-    contactos: [
-      {
-        tipoContacto: "",
-        contacto: "",
-        telefono: "",
-        email: "",
-        paginaWeb: "",
-      },
-    ],
-  },
+  stepContrato: initialStepContrato,
+  stepDomicilio: initialStepDomicilio,
+  stepCuentaBancaria: initialStepCuentBancaria,
+  stepContacto: initialStepContacto,
 
   isStepSkipped: (step: number) => {
     return get().skipped.has(step);
@@ -105,6 +113,11 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   handleReset: () => {
     set({
       activeStep: 0,
+      stepPerfil: null,
+      stepContrato: initialStepContrato,
+      stepDomicilio: initialStepDomicilio,
+      stepCuentaBancaria: initialStepCuentBancaria,
+      stepContacto: initialStepContacto,
     });
   },
   setStepPerfil: (stepPerfil: StepPerfil) => {

@@ -3,7 +3,7 @@ import { useContacto } from "./hooks/useContacto";
 import { Contactos } from "./components/Contactos";
 
 export const Contacto = () => {
-  const { handleBack, handleNext } = useContacto();
+  const { handleBack, guardarProovedor } = useContacto();
 
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
@@ -14,9 +14,7 @@ export const Contacto = () => {
             Atras
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
-          <Button disabled={true} onClick={handleNext}>
-            Guardar Proveedor
-          </Button>
+          <Button onClick={guardarProovedor}>Guardar Proveedor</Button>
         </Box>
       </Grid>
     </Grid>
