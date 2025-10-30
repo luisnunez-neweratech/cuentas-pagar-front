@@ -1,4 +1,4 @@
-import { Perfil } from "../components/steps/Perfil";
+import { Perfil } from "../components/steps/Perfil/Perfil";
 import { Domicilio } from "../components/steps/Domicilio/Domicilio";
 import { CuentaBancaria } from "../components/steps/CuentaBancaria/CuentaBancaria";
 import { Contacto } from "../components/steps/Contacto/Contacto";

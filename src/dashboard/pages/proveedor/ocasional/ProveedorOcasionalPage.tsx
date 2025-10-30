@@ -36,12 +36,12 @@ export const ProveedorOcasionalPage = () => {
             fullWidth
             error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
           >
-            <InputLabel id="tipo-entidad-label">Tipo Entidad</InputLabel>
+            <InputLabel id="tipo-entidad-label">*Tipo Entidad</InputLabel>
             <Select
               labelId="tipo-entidad-label"
               id="tipoEntidad"
               name="tipoEntidad"
-              label="Tipo Entidad"
+              label="*Tipo Entidad"
               value={values.tipoEntidad}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -61,12 +61,12 @@ export const ProveedorOcasionalPage = () => {
             fullWidth
             error={touched.tipoPersona && Boolean(errors.tipoPersona)}
           >
-            <InputLabel id="tipo-persona-label">Tipo Persona</InputLabel>
+            <InputLabel id="tipo-persona-label">*Tipo Persona</InputLabel>
             <Select
               labelId="tipo-persona-label"
               id="tipoPersona"
               name="tipoPersona"
-              label="Tipo Persona"
+              label="*Tipo Persona"
               value={values.tipoPersona}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -88,7 +88,7 @@ export const ProveedorOcasionalPage = () => {
             margin="normal"
             fullWidth
             id="rfc"
-            label="RFC"
+            label={`${values.tipoEntidad === "local" ? "*" : ""}RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
             value={values.rfc}
@@ -105,7 +105,7 @@ export const ProveedorOcasionalPage = () => {
             margin="normal"
             fullWidth
             id="razonSocial"
-            label="Raz&oacute;n Social"
+            label="*Raz&oacute;n Social"
             name="razonSocial"
             value={values.razonSocial}
             onChange={handleChange}
@@ -121,7 +121,7 @@ export const ProveedorOcasionalPage = () => {
             margin="normal"
             fullWidth
             id="alias"
-            label="Alias"
+            label="*Alias"
             name="alias"
             value={values.alias}
             onChange={handleChange}

@@ -9,8 +9,8 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { AutoCompleteComponent } from "../../../../../../components/common/AutoComplete";
-import { usePerfil } from "../../hooks/usePerfil";
+import { AutoCompleteComponent } from "../../../../../../../components/common/AutoComplete";
+import { usePerfil } from "./hooks/usePerfil";
 
 export const Perfil = () => {
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
@@ -76,7 +76,7 @@ export const Perfil = () => {
             margin="normal"
             fullWidth
             id="rfc"
-            label="*RFC"
+            label={`${values.tipoEntidad === "local" ? "*" : ""}RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
             value={values.rfc}

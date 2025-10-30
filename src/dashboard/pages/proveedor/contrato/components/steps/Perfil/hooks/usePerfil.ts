@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { validationSchema } from "../Validations";
-import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
-import type { StepPerfil } from "../interface/stepPerfil";
+import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import type { StepPerfil } from "../../../../interface/stepPerfil";
 
 export const usePerfil = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
