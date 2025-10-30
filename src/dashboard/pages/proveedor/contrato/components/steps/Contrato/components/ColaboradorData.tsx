@@ -17,9 +17,14 @@ import { useColaboradorData } from "../hooks/useColaboradorData";
 interface props {
   id: number;
   deleteColaborador: (id: number) => void;
+  isValidForm: (id: number, valid: boolean) => void;
 }
 
-export const ColaboradorData = ({ id, deleteColaborador }: props) => {
+export const ColaboradorData = ({
+  id,
+  deleteColaborador,
+  isValidForm,
+}: props) => {
   const {
     handleSubmit,
     values,
@@ -31,13 +36,23 @@ export const ColaboradorData = ({ id, deleteColaborador }: props) => {
     setFieldTouched,
     status,
     setStatus,
+    validateForm,
   } = useColaboradorData();
 
   return (
     <Grid size={12}>
       <div
         onMouseLeave={async () => {
-          handleSubmit();
+          handleSubmit(); // show the errors
+          validateForm().then((errors) => {
+            if (Object.keys(errors).length === 0) {
+              isValidForm(id, true);
+            } else {
+              isValidForm(id, false);
+            }
+
+            //console.log("values validated 2", value)
+          }); // si no es objeto vacio hay errores
         }}
       >
         <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>

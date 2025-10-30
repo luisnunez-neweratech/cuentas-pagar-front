@@ -3,6 +3,7 @@ import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.s
 import { useFormik } from "formik";
 import { validationFisicoSchema } from "../Validations";
 import type { StepContrato } from "../../../../interface/stepContrato";
+import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 
 export const useContrato = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -15,6 +16,10 @@ export const useContrato = () => {
   );
   const setStepContrato = useProveedorContratoStore(
     (state) => state.setStepContrato
+  );
+
+  const getColaboradoresValidos = useColaboradorMoralStore(
+    (state) => state.getColaboradoresValidos
   );
 
   const [contrato, setContrato] = useState<boolean>(true);
@@ -76,6 +81,17 @@ export const useContrato = () => {
         };
         setStepContrato(stepContrato);
         handleNext();
+      } else {
+        //moral
+        if (!checkContractor) {
+          console.log("no se valida colaboradres");
+          console.log("validar documentos");
+          handleNext();
+        } else {
+          console.log("colaboradores validos?", getColaboradoresValidos());
+          console.log("validar documentos");
+          handleNext();
+        }
       }
     },
   });
@@ -104,7 +120,7 @@ export const useContrato = () => {
     setTipoArchivos(index === tipoArchivos ? null : index); // Toggle selection
   };
 
-  const onChangeContractor = () => {    
+  const onChangeContractor = () => {
     setFieldValue("noColaborador", !checkContractor ? "" : " ");
     setCheckContractor(!checkContractor);
   };
@@ -114,7 +130,7 @@ export const useContrato = () => {
       top: 0,
       behavior: "smooth",
     });
-  }
+  };
 
   return {
     handleBack,
@@ -134,6 +150,6 @@ export const useContrato = () => {
     checkContractor,
     setCheckContractor,
     onChangeContractor,
-    onClickNext
+    onClickNext,
   };
 };

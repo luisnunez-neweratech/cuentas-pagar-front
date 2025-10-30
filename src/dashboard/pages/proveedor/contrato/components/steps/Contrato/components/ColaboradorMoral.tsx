@@ -6,10 +6,18 @@ import { usecolaboradorMoral } from "../hooks/useColaboradorMoral";
 import { useEffect } from "react";
 
 export const ColaboradorMoral = () => {
-  const { items, addColaborador, deleteColaborador, setItems } = usecolaboradorMoral();
+  const {
+    items,
+    addColaborador,
+    deleteColaborador,
+    setItems,
+    isValidForm,
+    setColaboradoresValidos,
+  } = usecolaboradorMoral();
 
-  useEffect(() => {    
-    setItems([{ id: 1 }]);
+  useEffect(() => {
+    setItems([{ id: 1, valido: false }]);
+    setColaboradoresValidos(false);
   }, []);
 
   return (
@@ -19,6 +27,7 @@ export const ColaboradorMoral = () => {
           key={item.id}
           id={item.id}
           deleteColaborador={deleteColaborador}
+          isValidForm={isValidForm}
         />
       ))}
       <Grid size={11} />

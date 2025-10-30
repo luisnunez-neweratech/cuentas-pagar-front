@@ -24,7 +24,7 @@ export const useColaboradorData = () => {
     },
     validationSchema: validationMoralSchema,
     onSubmit: (values) => {
-      console.log(values);
+      console.log(values);      
     },
   });
 
@@ -39,6 +39,6 @@ export const useColaboradorData = () => {
     setFieldTouched,
     validateForm,
     status,
-    setStatus
+    setStatus,
   };
 };
