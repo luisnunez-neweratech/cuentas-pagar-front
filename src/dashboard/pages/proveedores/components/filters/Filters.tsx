@@ -51,7 +51,20 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               <DatePicker
                 sx={{ width: "100%" }}
                 label="Fecha Alta"
+                //value={values.fechaInicio}
+                /* onChange={(newValue) =>
+                    setFieldValue("fechaInicio", newValue)
+                  } */
                 format="DD-MM-YYYY"
+                slotProps={{
+                  textField: {
+                    name: "fechaAlta",
+                    /* error: touched.fechaInicio && Boolean(errors.fechaInicio),
+                      helperText: touched.fechaInicio && errors.fechaInicio,
+                      onBlur: () => setFieldTouched("fechaInicio", true),*/
+                  },
+                  field: { clearable: true },
+                }}
               />
             </LocalizationProvider>
           </Grid>
@@ -61,7 +74,20 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               <DatePicker
                 sx={{ width: "100%" }}
                 label="Fecha Inicio Contrato"
+                //value={values.fechaInicio}
+                /* onChange={(newValue) =>
+                    setFieldValue("fechaInicio", newValue)
+                  } */
                 format="DD-MM-YYYY"
+                slotProps={{
+                  textField: {
+                    name: "fechaInicioContrato",
+                    /* error: touched.fechaInicio && Boolean(errors.fechaInicio),
+                      helperText: touched.fechaInicio && errors.fechaInicio,
+                      onBlur: () => setFieldTouched("fechaInicio", true),*/
+                  },
+                  field: { clearable: true },
+                }}
               />
             </LocalizationProvider>
           </Grid>
@@ -71,7 +97,20 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               <DatePicker
                 sx={{ width: "100%" }}
                 label="Fecha Fin Contrato"
+                //value={values.fechaInicio}
+                /* onChange={(newValue) =>
+                    setFieldValue("fechaInicio", newValue)
+                  } */
                 format="DD-MM-YYYY"
+                slotProps={{
+                  textField: {
+                    name: "fechaFinContrato",
+                    /* error: touched.fechaInicio && Boolean(errors.fechaInicio),
+                      helperText: touched.fechaInicio && errors.fechaInicio,
+                      onBlur: () => setFieldTouched("fechaInicio", true),*/
+                  },
+                  field: { clearable: true },
+                }}
               />
             </LocalizationProvider>
           </Grid>
