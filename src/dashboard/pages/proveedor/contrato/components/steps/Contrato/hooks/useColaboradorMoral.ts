@@ -1,17 +1,36 @@
 import { useState } from "react";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
+import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 type Colaborador = { id: number; valido: boolean };
 
 export const usecolaboradorMoral = () => {
   const [items, setItems] = useState<Colaborador[]>([]);
-  const setColaboradoresValidos = useColaboradorMoralStore((state) => state.setColaboradoresValidos);
+  const setColaboradoresValidos = useColaboradorMoralStore(
+    (state) => state.setColaboradoresValidos
+  );
 
-  const addColaborador = () => {
-    setItems([...items, { id: items.length + 1, valido: false }]);
+  const addColaborador = useProveedorContratoStore(
+    (state) => state.addColaborador
+  );
+  const stepContrato = useProveedorContratoStore((state) => state.stepContrato);
+  const removeColaborador = useProveedorContratoStore(
+    (state) => state.removeColaborador
+  );
+
+  const clickAddColaborador = () => {
+    addColaborador({
+      id: (stepContrato?.colaboradores?.length ?? 0) + 1,
+      valido: false,
+      noColaborador: "",
+      nombre: "",
+      fechaInicio: "",
+      fechaFin: "",
+      status: true
+    });
   };
 
   const deleteColaborador = (id: number) => {
-    setItems(items.filter((item) => item.id !== id));
+    removeColaborador(id);
   };
 
   const isValidForm = (id: number, valid: boolean) => {
@@ -41,11 +60,10 @@ export const usecolaboradorMoral = () => {
   };
 
   return {
-    items,
-    addColaborador,
+    clickAddColaborador,
     deleteColaborador,
-    setItems,
     isValidForm,
     setColaboradoresValidos,
+    stepContrato
   };
 };

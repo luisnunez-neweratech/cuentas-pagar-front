@@ -4,16 +4,20 @@ import type { StepContrato } from "../interface/stepContrato";
 import type { StepDomicilio } from "../interface/stepDomicilio";
 import type { StepCuentaBancaria } from "../interface/stepCuentaBancaria";
 import type { StepContacto } from "../interface/stepContacto";
+import type { Colaboradores } from "../interface/colaboradores";
 
 const initialStepContrato = {
   contractor: false,
   noColaborador: "",
   colaboradores: [
     {
+      id: 1,
+      valido: false,
       nombre: "",
       noColaborador: "",
       fechaFin: "",
       fechaInicio: "",
+      status: true,
     },
   ],
 };
@@ -74,6 +78,9 @@ export interface AuthState {
 
   setStepContrato: (stepContrato: StepContrato) => void;
   getStepContrato: () => StepContrato | null | undefined;
+  addColaborador: (colaborador: Colaboradores) => void;
+  removeColaborador: (id: number) => void;
+  updateColaborador: (id: number, colaborador: Colaboradores) => void;
 
   setStepDomicilio: (stepDomicilio: StepDomicilio) => void;
   getStepDomicilio: () => StepDomicilio | null | undefined;
@@ -141,6 +148,39 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   },
   getStepContrato: () => {
     return get().stepContrato;
+  },
+  addColaborador: (colaborador: Colaboradores) => {
+    set((state) => ({
+      stepContrato: {
+        ...state.stepContrato!,
+        colaboradores: [
+          ...(state.stepContrato?.colaboradores ?? []),
+          colaborador,
+        ],
+      },
+    }));
+  },
+  removeColaborador: (id: number) => {
+    set((state) => ({
+      stepContrato: {
+        ...state.stepContrato!,
+        colaboradores: [
+          ...(state.stepContrato!.colaboradores!.filter(
+            (item) => item.id !== id
+          ) ?? []),
+        ],
+      },
+    }));
+  },
+  updateColaborador: (id: number, colaborador: Colaboradores) => {
+    set((state) => ({
+      stepContrato: {
+        ...state.stepContrato!,
+        colaboradores: (state.stepContrato?.colaboradores ?? []).map((item) =>
+          item.id === id ? { ...colaborador } : item
+        ),
+      },
+    }));
   },
 
   setStepDomicilio: (stepDomicilio: StepDomicilio) => {

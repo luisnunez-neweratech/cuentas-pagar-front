@@ -11,6 +11,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useColaboradorData } from "../hooks/useColaboradorData";
 
@@ -25,17 +26,15 @@ export const ColaboradorData = ({
   deleteColaborador,
   isValidForm,
 }: props) => {
-  const {    
+  const {
     values,
     handleChange,
     handleBlur,
     touched,
     errors,
+    onMouseLeaveComponent,
     setFieldValue,
     setFieldTouched,
-    status,
-    setStatus,    
-    onMouseLeaveComponent,
   } = useColaboradorData({ id, isValidForm });
 
   return (
@@ -85,7 +84,7 @@ export const ColaboradorData = ({
                     <Switch
                       defaultChecked
                       value={status}
-                      onChange={() => setStatus(!status)}
+                      onChange={() => setFieldValue("status", !status)}
                     />
                   }
                   label={status ? "Activo" : "Inactivo"}
@@ -96,8 +95,9 @@ export const ColaboradorData = ({
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   sx={{ width: "100%" }}
-                  label="*Fecha Inicio"
-                  value={values.fechaInicio}
+                  value={
+                    values.fechaInicio ? dayjs(values.fechaInicio) : undefined
+                  }
                   onChange={(newValue) =>
                     setFieldValue("fechaInicio", newValue)
                   }
@@ -118,8 +118,7 @@ export const ColaboradorData = ({
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   sx={{ width: "100%" }}
-                  label="*Fecha Fin"
-                  value={values.fechaFin}
+                  value={values.fechaFin ? dayjs(values.fechaFin) : undefined}
                   onChange={(newValue) => setFieldValue("fechaFin", newValue)}
                   format="DD-MM-YYYY"
                   slotProps={{

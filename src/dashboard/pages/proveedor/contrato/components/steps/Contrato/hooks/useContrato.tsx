@@ -14,6 +14,7 @@ export const useContrato = () => {
   const getStepContrato = useProveedorContratoStore(
     (state) => state.getStepContrato
   );
+  const stepContrato = useProveedorContratoStore((state) => state.stepContrato);
   const setStepContrato = useProveedorContratoStore(
     (state) => state.setStepContrato
   );
@@ -22,7 +23,7 @@ export const useContrato = () => {
     (state) => state.getColaboradoresValidos
   );
 
-  const [contrato, setContrato] = useState<boolean>(true);
+  const [contrato, setContrato] = useState<boolean>(stepContrato?.contractor!);
   const [propuesta, setPropuesta] = useState<boolean>(false);
 
   const [tipoArchivos, setTipoArchivos] = useState<number>(0);
@@ -38,10 +39,12 @@ export const useContrato = () => {
       };
     } */
     const stepContrato = getStepContrato();
+
     return {
       noColaborador: stepContrato?.noColaborador
         ? stepContrato?.noColaborador
         : " ",
+      contractor: stepContrato?.contractor,
     };
   };
 
@@ -84,12 +87,40 @@ export const useContrato = () => {
       } else {
         //moral
         if (!checkContractor) {
-          console.log("no se valida colaboradres");
+          console.log(
+            "no se valida colaboradres y se limpia los colaboradores"
+          );
+          const prevStepContrato = getStepContrato();
+          const newStepContrato: StepContrato = {
+            ...prevStepContrato,
+            noColaborador: "",
+            contractor: checkContractor,
+            colaboradores: [
+              {
+                id: 1,
+                valido: false,
+                nombre: "",
+                noColaborador: "",
+                fechaFin: "",
+                fechaInicio: "",
+                status: true,
+              },
+            ],
+          };
+          setStepContrato(newStepContrato);
           console.log("validar documentos");
           handleNext();
         } else {
           console.log("colaboradores validos?");
           if (getColaboradoresValidos()) {
+            const prevStepContrato = getStepContrato();
+            const newStepContrato: StepContrato = {
+              ...prevStepContrato,
+              noColaborador: "",
+              contractor: checkContractor,
+              colaboradores: stepContrato?.colaboradores,
+            };
+            setStepContrato(newStepContrato);
             console.log("validar documentos");
             handleNext();
           }

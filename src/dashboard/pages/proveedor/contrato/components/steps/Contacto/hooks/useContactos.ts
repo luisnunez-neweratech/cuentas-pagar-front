@@ -33,7 +33,6 @@ export const useContactos = () => {
   };
 
   const isValidForm = (id: number, valid: boolean) => {
-    console.log("here?", id, valid);
     setItems(
       items.map((item) => {
         if (item.id === id) {
@@ -52,7 +51,6 @@ export const useContactos = () => {
           }
         }
       });
-      console.log('checkValid', checkValid)
       setContactosValidos(checkValid);
     } else {
       setContactosValidos(false);
