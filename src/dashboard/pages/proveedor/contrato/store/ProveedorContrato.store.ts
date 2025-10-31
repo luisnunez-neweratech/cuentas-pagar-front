@@ -30,19 +30,18 @@ const initialStepDomicilio = {
   numExterior: "",
 };
 
-const initialStepCuentBancaria = {
-  cuentasBancarias: [
-    {
-      banco: "",
-      monedaVenta: "",
-      clabe: "",
-      swift: "",
-      condicionesPago: "",
-      status: true,
-    },
-  ],
-};
-
+const initialStepCuentBancaria = [
+  {
+    id: 1,
+    valido: false,
+    banco: "",
+    monedaVenta: "",
+    clabe: "",
+    swift: "",
+    condicionesPago: "",
+    status: true,
+  },
+];
 const initialStepContacto = {
   contactos: [
     {
@@ -61,7 +60,7 @@ export interface AuthState {
   stepPerfil?: StepPerfil | null;
   stepContrato?: StepContrato | null;
   stepDomicilio?: StepDomicilio | null;
-  stepCuentaBancaria?: StepCuentaBancaria | null;
+  stepCuentaBancaria?: StepCuentaBancaria[] | null;
   stepContacto?: StepContacto | null;
 
   isStepSkipped: (step: number) => boolean;
@@ -78,8 +77,10 @@ export interface AuthState {
   setStepDomicilio: (stepDomicilio: StepDomicilio) => void;
   getStepDomicilio: () => StepDomicilio | null | undefined;
 
-  setStepCuentaBancaria: (stepCuentaBancaria: StepCuentaBancaria) => void;
-  getStepCuentaBancaria: () => StepCuentaBancaria | null | undefined;
+  setStepCuentaBancaria: (stepCuentaBancaria: StepCuentaBancaria[]) => void;
+  getStepCuentaBancaria: () => StepCuentaBancaria[] | null | undefined;
+  addCuentaBancaria: (cuentaBancaria: StepCuentaBancaria) => void;
+  removeCuentaBancaria: (id: number) => void;  
 
   setStepContacto: (stepContacto: StepContacto) => void;
   getStepContacto: () => StepContacto | null | undefined;
@@ -141,12 +142,25 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
     return get().stepDomicilio;
   },
 
-  setStepCuentaBancaria: (stepCuentaBancaria: StepCuentaBancaria) => {
+  setStepCuentaBancaria: (stepCuentaBancaria: StepCuentaBancaria[]) => {
     set({ stepCuentaBancaria: stepCuentaBancaria });
   },
   getStepCuentaBancaria: () => {
     return get().stepCuentaBancaria;
   },
+  addCuentaBancaria: (cuentaBancaria: StepCuentaBancaria) => {
+    set((state) => ({
+      stepCuentaBancaria: [...(state.stepCuentaBancaria ?? []), cuentaBancaria],
+    }));
+  },
+  removeCuentaBancaria: (id: number) => {
+    set((state) => ({
+      stepCuentaBancaria: [
+        ...(state.stepCuentaBancaria?.filter((item) => item.id !== id) ?? []),
+      ],
+    }));
+  },
+
 
   setStepContacto: (stepContacto: StepContacto) => {
     set({ stepContacto: stepContacto });

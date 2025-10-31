@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useCuentaBancariaStore } from "../store/CuentaBancaria";
+import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 type Cuenta = { id: number; valido: boolean };
 
 export const useCuentasBancarias = () => {
@@ -8,16 +9,38 @@ export const useCuentasBancarias = () => {
     (state) => state.setCuentasValidos
   );
 
+  const addCuentaBancaria = useProveedorContratoStore(
+    (state) => state.addCuentaBancaria
+  );
+  const stepCuentaBancaria = useProveedorContratoStore(
+    (state) => state.stepCuentaBancaria
+  );
+
+  const removeCuentaBancaria = useProveedorContratoStore(
+    (state) => state.removeCuentaBancaria
+  );
+
   const addCuenta = () => {
-    setItems([...items, { id: items.length + 1, valido: false }]);
+    //setItems([...items, { id: items.length + 1, valido: false }]);
+
+    addCuentaBancaria({
+      id: (stepCuentaBancaria?.length ?? 0) + 1,
+      valido: false,
+      banco: "",
+      monedaVenta: "",
+      clabe: "",
+      swift: "",
+      condicionesPago: "",
+      status: true,
+    });
   };
 
   const deleteCuenta = (id: number) => {
-    setItems(items.filter((item) => item.id !== id));
+    //setItems(items.filter((item) => item.id !== id));
+    removeCuentaBancaria(id);
   };
 
-  const isValidForm = (id: number, valid: boolean) => {
-    console.log("se disparo", id, valid);
+  const isValidForm = (id: number, valid: boolean) => {    
     setItems(
       items.map((item) => {
         if (item.id === id) {
@@ -48,6 +71,6 @@ export const useCuentasBancarias = () => {
     deleteCuenta,
     setItems,
     isValidForm,
-    setCuentasValidos
+    setCuentasValidos,
   };
 };

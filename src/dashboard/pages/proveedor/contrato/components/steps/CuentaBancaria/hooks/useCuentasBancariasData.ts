@@ -19,8 +19,26 @@ export const useCuentasBancariasData = ({
     (state) => state.getStepPerfil
   );
 
+  const getStepCuentaBancaria = useProveedorContratoStore(
+    (state) => state.getStepCuentaBancaria
+  );
+
   const [status, setStatus] = useState<boolean>(true);
   const [fileName, setFileName] = useState("");
+
+  const getInitialValues = () => {
+    const cuentaBancaria = getStepCuentaBancaria()?.find(
+      (item) => item.id === id
+    );
+    return {
+      banco: cuentaBancaria?.banco,
+      monedaVenta: cuentaBancaria?.monedaVenta,
+      clabe: cuentaBancaria?.clabe,
+      swift: cuentaBancaria?.swift,
+      condicionesPago: cuentaBancaria?.condicionesPago,
+      [idInput]: "",
+    };
+  };
 
   const {
     handleSubmit,
@@ -33,14 +51,7 @@ export const useCuentasBancariasData = ({
     setFieldTouched,
     validateForm,
   } = useFormik({
-    initialValues: {
-      banco: "",
-      monedaVenta: "",
-      clabe: "",
-      swift: "",
-      condicionesPago: "",
-      [idInput]: "",
-    },
+    initialValues: getInitialValues(),
     validationSchema: validationSchema(idInput),
     onSubmit: (values) => {
       console.log(values);
@@ -65,7 +76,7 @@ export const useCuentasBancariasData = ({
     });
   };
 
-  return {    
+  return {
     values,
     handleChange,
     handleBlur,
