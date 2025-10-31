@@ -27,19 +27,23 @@ export const useCuentasBancariasData = ({
   );
 
   const [status, setStatus] = useState<boolean>(true);
-  const [fileName, setFileName] = useState("");
+  const [fileName, setFileName] = useState(
+    getStepCuentaBancaria()?.find((item) => item.id === id)?.fileValue?.name
+  );
 
   const getInitialValues = () => {
     const cuentaBancaria = getStepCuentaBancaria()?.find(
       (item) => item.id === id
     );
+
     return {
       banco: cuentaBancaria?.banco,
       monedaVenta: cuentaBancaria?.monedaVenta,
       clabe: cuentaBancaria?.clabe,
       swift: cuentaBancaria?.swift,
       condicionesPago: cuentaBancaria?.condicionesPago,
-      fileValue: cuentaBancaria?.fileValue,
+      //fileValue: cuentaBancaria?.fileValue,
+      [idInput]: cuentaBancaria?.fileValue,
     };
   };
 
@@ -55,7 +59,7 @@ export const useCuentasBancariasData = ({
     validateForm,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationSchema(),
+    validationSchema: validationSchema(idInput),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -64,7 +68,8 @@ export const useCuentasBancariasData = ({
   const handleFileChange = (event: any) => {
     if (event.target.files.length > 0) {
       setFileName(event.target.files[0].name);
-      setFieldValue("fileValue", event.target.files[0]);
+      //setFieldValue("fileValue", event.target.files[0]);
+      setFieldValue(idInput, event.target.files[0]);
     }
   };
 
@@ -82,7 +87,11 @@ export const useCuentasBancariasData = ({
           swift: values.swift,
           condicionesPago: values.condicionesPago!,
           status: true,
-          fileValue: values.fileValue,
+          fileValue:
+            typeof values[idInput] === "object" &&
+            values[idInput] instanceof File
+              ? values[idInput]
+              : undefined,
         });
       } else {
         isValidForm(id, false);

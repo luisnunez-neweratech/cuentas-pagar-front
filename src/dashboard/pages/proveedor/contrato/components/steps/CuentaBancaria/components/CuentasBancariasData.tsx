@@ -40,8 +40,9 @@ export const CuentasBancariasData = ({
     errors,
     status,
     setStatus,
-    handleFileChange,    
+    handleFileChange,
     tipoEntidad,
+    fileName,
   } = useCuentasBancariasData({ idInput, isValidForm, id });
 
   return (
@@ -178,13 +179,13 @@ export const CuentasBancariasData = ({
               <>
                 <input
                   type="file"
-                  id="fileValue"
+                  id={idInput}
                   style={{ display: "none" }}
                   onChange={handleFileChange}
                   accept=".pdf"
                 />
 
-                <label htmlFor="fileValue">
+                <label htmlFor={idInput}>
                   <Button
                     color="primary"
                     component="span"
@@ -194,7 +195,7 @@ export const CuentasBancariasData = ({
                     <FileUploadIcon />
                   </Button>
                 </label>
-                {errors.fileValue && (
+                {errors[idInput] && (
                   <span style={{ color: "#d32f2f", fontSize: "12px" }}>
                     La caratula es requerida
                   </span>
@@ -204,9 +205,9 @@ export const CuentasBancariasData = ({
             </Grid>
 
             <Grid size={7} sx={{ marginTop: 2 }}>
-              {values.fileValue && (
+              {fileName && (
                 <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
-                  {`Nombre del Archivo: ${values.fileValue.name}`}
+                  {`Nombre del Archivo: ${fileName}`}
                 </p>
               )}
             </Grid>
