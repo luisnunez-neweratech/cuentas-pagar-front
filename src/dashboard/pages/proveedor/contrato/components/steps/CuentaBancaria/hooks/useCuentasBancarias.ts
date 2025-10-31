@@ -20,9 +20,7 @@ export const useCuentasBancarias = () => {
     (state) => state.removeCuentaBancaria
   );
 
-  const addCuenta = () => {
-    //setItems([...items, { id: items.length + 1, valido: false }]);
-
+  const addCuenta = () => {    
     addCuentaBancaria({
       id: (stepCuentaBancaria?.length ?? 0) + 1,
       valido: false,
@@ -36,8 +34,7 @@ export const useCuentasBancarias = () => {
     });
   };
 
-  const deleteCuenta = (id: number) => {
-    //setItems(items.filter((item) => item.id !== id));
+  const deleteCuenta = (id: number) => {    
     removeCuentaBancaria(id);
   };
 

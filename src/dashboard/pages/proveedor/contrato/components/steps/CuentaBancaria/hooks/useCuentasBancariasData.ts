@@ -1,6 +1,5 @@
-import { useFormik } from "formik";
-
 import { useState } from "react";
+import { useFormik } from "formik";
 import { validationSchema } from "../components/Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
@@ -42,7 +41,6 @@ export const useCuentasBancariasData = ({
       clabe: cuentaBancaria?.clabe,
       swift: cuentaBancaria?.swift,
       condicionesPago: cuentaBancaria?.condicionesPago,
-      //fileValue: cuentaBancaria?.fileValue,
       [idInput]: cuentaBancaria?.fileValue,
     };
   };
@@ -68,7 +66,6 @@ export const useCuentasBancariasData = ({
   const handleFileChange = (event: any) => {
     if (event.target.files.length > 0) {
       setFileName(event.target.files[0].name);
-      //setFieldValue("fileValue", event.target.files[0]);
       setFieldValue(idInput, event.target.files[0]);
     }
   };

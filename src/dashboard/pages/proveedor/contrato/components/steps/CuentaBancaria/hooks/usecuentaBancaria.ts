@@ -6,8 +6,7 @@ export const usecuentaBancaria = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const getCuentasValidos = useCuentaBancariaStore((state) => state.getCuentasValidos)
 
-  const onClickNext = () => {
-    console.log("colaboradores validos?", getCuentasValidos());
+  const onClickNext = () => {    
     if (getCuentasValidos()) {      
       handleNext();
     }

@@ -6,36 +6,19 @@ import { useCuentasBancarias } from "../hooks/useCuentasBancarias";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
 export const CuentasBancarias = () => {
-  const {
-    items,
-    addCuenta,
-    deleteCuenta,
-    setItems,
-    isValidForm,
-    setCuentasValidos,
-  } = useCuentasBancarias();
+  const { addCuenta, deleteCuenta, isValidForm, setCuentasValidos } =
+    useCuentasBancarias();
 
   const stepCuentaBancaria = useProveedorContratoStore(
     (state) => state.stepCuentaBancaria
   );
 
-  /* useEffect(() => {
-    setItems([{ id: 1, valido: false }]);
+  useEffect(() => {
     setCuentasValidos(false);
-  }, []); */
+  }, []);
 
   return (
     <>
-      {/* {items.map((item) => (
-        <CuentasBancariasData
-          key={item.id}
-          id={item.id}
-          deleteCuenta={deleteCuenta}
-          idInput={`caratulaBancaria-${item.id}`}
-          isValidForm={isValidForm}
-        />
-      ))} */}
-
       {(stepCuentaBancaria ?? []).map((item) => (
         <CuentasBancariasData
           key={item.id}
