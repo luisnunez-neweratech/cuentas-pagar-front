@@ -1,6 +1,7 @@
-import type { User } from '../../interfaces/user.interface';
-
 export interface AuthResponse {
-    token: string;
-    user: User
+  token: string;
+  mail: string;
+  nickName: string;
+  name: string;
+  colaboratorId: number;
 }
