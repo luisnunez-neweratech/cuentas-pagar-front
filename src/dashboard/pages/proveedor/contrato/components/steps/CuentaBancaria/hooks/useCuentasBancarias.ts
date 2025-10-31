@@ -32,6 +32,7 @@ export const useCuentasBancarias = () => {
       swift: "",
       condicionesPago: "",
       status: true,
+      fileValue: undefined,
     });
   };
 
@@ -40,7 +41,7 @@ export const useCuentasBancarias = () => {
     removeCuentaBancaria(id);
   };
 
-  const isValidForm = (id: number, valid: boolean) => {    
+  const isValidForm = (id: number, valid: boolean) => {
     setItems(
       items.map((item) => {
         if (item.id === id) {

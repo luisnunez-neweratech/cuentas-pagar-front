@@ -39,7 +39,7 @@ export const useCuentasBancariasData = ({
       clabe: cuentaBancaria?.clabe,
       swift: cuentaBancaria?.swift,
       condicionesPago: cuentaBancaria?.condicionesPago,
-      [idInput]: "",
+      fileValue: cuentaBancaria?.fileValue,
     };
   };
 
@@ -55,7 +55,7 @@ export const useCuentasBancariasData = ({
     validateForm,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationSchema(idInput),
+    validationSchema: validationSchema(),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -64,7 +64,7 @@ export const useCuentasBancariasData = ({
   const handleFileChange = (event: any) => {
     if (event.target.files.length > 0) {
       setFileName(event.target.files[0].name);
-      setFieldValue(idInput, event.target.files[0]);
+      setFieldValue("fileValue", event.target.files[0]);
     }
   };
 
@@ -82,6 +82,7 @@ export const useCuentasBancariasData = ({
           swift: values.swift,
           condicionesPago: values.condicionesPago!,
           status: true,
+          fileValue: values.fileValue,
         });
       } else {
         isValidForm(id, false);

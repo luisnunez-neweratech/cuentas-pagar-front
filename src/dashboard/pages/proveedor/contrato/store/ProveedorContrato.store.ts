@@ -40,6 +40,7 @@ const initialStepCuentBancaria = [
     swift: "",
     condicionesPago: "",
     status: true,
+    fileValue: undefined,
   },
 ];
 const initialStepContacto = {

@@ -7,4 +7,5 @@ export interface StepCuentaBancaria {
   swift?: string;
   condicionesPago: string;
   status: boolean;
+  fileValue?: File;
 }
