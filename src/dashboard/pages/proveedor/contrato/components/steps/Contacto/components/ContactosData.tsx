@@ -1,8 +1,5 @@
 import {
-  Button,
   FormControl,
-  FormControlLabel,
-  FormGroup,
   FormHelperText,
   Grid,
   IconButton,
@@ -10,40 +7,33 @@ import {
   MenuItem,
   Paper,
   Select,
-  Switch,
   TextField,
   Tooltip,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { useContactosData } from "../hooks/useContactosData";
 
 interface props {
   id: number;
-  deleteCuenta: (id: number) => void;
-  idInput: string;
+  deleteContacto: (id: number) => void;
+  isValidForm: (id: number, valid: boolean) => void;
 }
 
-export const ContactosData = ({ id, deleteCuenta, idInput }: props) => {
+export const ContactosData = ({ id, deleteContacto, isValidForm }: props) => {
   const {
-    handleSubmit,
+    onMouseLeaveComponent,
     values,
     handleChange,
     handleBlur,
     touched,
     errors,
-    status,
-    setStatus,
-    handleFileChange,
-    fileName,
-    tipoEntidad,
-  } = useContactosData();
+  } = useContactosData({ id, isValidForm });
 
   return (
     <Grid size={12}>
       <div
         onMouseLeave={async () => {
-          handleSubmit();
+          onMouseLeaveComponent();
         }}
       >
         <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
@@ -144,7 +134,7 @@ export const ContactosData = ({ id, deleteCuenta, idInput }: props) => {
                 <Tooltip title="Eliminar Cuenta">
                   <IconButton
                     sx={{ color: "red" }}
-                    onClick={() => deleteCuenta(id)}
+                    onClick={() => deleteContacto(id)}
                   >
                     <DeleteIcon
                       style={{

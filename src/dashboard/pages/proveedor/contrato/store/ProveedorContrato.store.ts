@@ -43,17 +43,17 @@ const initialStepCuentBancaria = [
     fileValue: undefined,
   },
 ];
-const initialStepContacto = {
-  contactos: [
-    {
-      tipoContacto: "",
-      contacto: "",
-      telefono: "",
-      email: "",
-      paginaWeb: "",
-    },
-  ],
-};
+const initialStepContacto = [
+  {
+    id: 1,
+    valido: false,
+    tipoContacto: "",
+    contacto: "",
+    telefono: "",
+    email: "",
+    paginaWeb: "",
+  },
+];
 
 export interface AuthState {
   skipped: Set<number>;
@@ -62,7 +62,7 @@ export interface AuthState {
   stepContrato?: StepContrato | null;
   stepDomicilio?: StepDomicilio | null;
   stepCuentaBancaria?: StepCuentaBancaria[] | null;
-  stepContacto?: StepContacto | null;
+  stepContacto?: StepContacto[] | null;
 
   isStepSkipped: (step: number) => boolean;
   handleNext: () => void;
@@ -87,8 +87,11 @@ export interface AuthState {
     cuentaBancaria: StepCuentaBancaria
   ) => void;
 
-  setStepContacto: (stepContacto: StepContacto) => void;
-  getStepContacto: () => StepContacto | null | undefined;
+  setStepContacto: (stepContacto: StepContacto[]) => void;
+  getStepContacto: () => StepContacto[] | null | undefined;
+  addContacto: (contacto: StepContacto) => void;
+  removeContacto: (id: number) => void;
+  updateContacto: (id: number, contacto: StepContacto) => void;
 }
 
 const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
@@ -173,11 +176,30 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
     }));
   },
 
-  setStepContacto: (stepContacto: StepContacto) => {
+  setStepContacto: (stepContacto: StepContacto[]) => {
     set({ stepContacto: stepContacto });
   },
   getStepContacto: () => {
     return get().stepContacto;
+  },
+  addContacto: (contacto: StepContacto) => {
+    set((state) => ({
+      stepContacto: [...(state.stepContacto ?? []), contacto],
+    }));
+  },
+  removeContacto: (id: number) => {
+    set((state) => ({
+      stepContacto: [
+        ...(state.stepContacto?.filter((item) => item.id !== id) ?? []),
+      ],
+    }));
+  },
+  updateContacto: (id: number, contacto: StepContacto) => {
+    set((state) => ({
+      stepContacto: (state.stepContacto ?? []).map((item) =>
+        item.id === id ? { ...contacto } : item
+      ),
+    }));
   },
 });
 

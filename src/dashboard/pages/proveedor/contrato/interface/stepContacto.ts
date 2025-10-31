@@ -1,5 +1,9 @@
-import type { Contacto } from "./contacto";
-
 export interface StepContacto {
-  contactos: Contacto[];
+  id: number;
+  valido: boolean;
+  tipoContacto: string;
+  contacto: string;
+  telefono: string;
+  email: string;
+  paginaWeb?: string;
 }

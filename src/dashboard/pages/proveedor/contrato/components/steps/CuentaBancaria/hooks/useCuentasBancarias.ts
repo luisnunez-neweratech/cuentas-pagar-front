@@ -63,11 +63,9 @@ export const useCuentasBancarias = () => {
     }
   };
 
-  return {
-    items,
+  return {    
     addCuenta,
-    deleteCuenta,
-    setItems,
+    deleteCuenta,    
     isValidForm,
     setCuentasValidos,
   };
