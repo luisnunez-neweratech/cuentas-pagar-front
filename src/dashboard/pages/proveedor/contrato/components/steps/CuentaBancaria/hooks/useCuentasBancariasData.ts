@@ -22,6 +22,9 @@ export const useCuentasBancariasData = ({
   const getStepCuentaBancaria = useProveedorContratoStore(
     (state) => state.getStepCuentaBancaria
   );
+  const updateCuentaBancaria = useProveedorContratoStore(
+    (state) => state.updateCuentaBancaria
+  );
 
   const [status, setStatus] = useState<boolean>(true);
   const [fileName, setFileName] = useState("");
@@ -70,6 +73,16 @@ export const useCuentasBancariasData = ({
     validateForm().then((errors) => {
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
+        updateCuentaBancaria(id, {
+          id: id,
+          valido: true,
+          banco: values.banco!,
+          monedaVenta: values.monedaVenta!,
+          clabe: values.clabe!,
+          swift: values.swift,
+          condicionesPago: values.condicionesPago!,
+          status: true,
+        });
       } else {
         isValidForm(id, false);
       }

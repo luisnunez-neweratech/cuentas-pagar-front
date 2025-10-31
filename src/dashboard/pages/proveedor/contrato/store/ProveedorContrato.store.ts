@@ -80,7 +80,11 @@ export interface AuthState {
   setStepCuentaBancaria: (stepCuentaBancaria: StepCuentaBancaria[]) => void;
   getStepCuentaBancaria: () => StepCuentaBancaria[] | null | undefined;
   addCuentaBancaria: (cuentaBancaria: StepCuentaBancaria) => void;
-  removeCuentaBancaria: (id: number) => void;  
+  removeCuentaBancaria: (id: number) => void;
+  updateCuentaBancaria: (
+    id: number,
+    cuentaBancaria: StepCuentaBancaria
+  ) => void;
 
   setStepContacto: (stepContacto: StepContacto) => void;
   getStepContacto: () => StepContacto | null | undefined;
@@ -160,7 +164,13 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
       ],
     }));
   },
-
+  updateCuentaBancaria: (id: number, cuentaBancaria: StepCuentaBancaria) => {
+    set((state) => ({
+      stepCuentaBancaria: (state.stepCuentaBancaria ?? []).map((item) =>
+        item.id === id ? { ...cuentaBancaria } : item
+      ),
+    }));
+  },
 
   setStepContacto: (stepContacto: StepContacto) => {
     set({ stepContacto: stepContacto });
