@@ -21,7 +21,19 @@ const storeApi: StateCreator<AuthState> = (set) => ({
 
   loginUser: async (email: string, password: string) => {
     try {
-      const { token, user } = await loginAction(email, password);
+      const { token, mail, nickName, name, colaboratorId } = await loginAction(
+        email,
+        password
+      );
+
+      //mapper
+      const user: User = {
+        id: colaboratorId,
+        email: mail,
+        fullName: name,
+        roles: ["Admin"], // TODO backend regrese los roles, por ahora todos son admin
+        nickName,
+      };
 
       set({ status: "authorized", token, user });
     } catch (error) {
