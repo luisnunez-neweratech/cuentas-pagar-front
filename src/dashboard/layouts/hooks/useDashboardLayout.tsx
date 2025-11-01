@@ -4,8 +4,9 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import { mainBackgroundColor } from "../../../lib/constants";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
-const menuOptions = ["Proveedores", "Facturas", "Reportes"];
+const menuOptions = ["Proveedores", "Facturas", "Reportes", "Catalogos"];
 
 export const useDashboardLayout = () => {
   const navigate = useNavigate();
@@ -49,6 +50,12 @@ export const useDashboardLayout = () => {
             style={{ color: optionSelected === 2 ? mainBackgroundColor : "" }}
           />
         );
+      case 3:
+        return (
+          <LibraryBooksIcon
+            style={{ color: optionSelected === 2 ? mainBackgroundColor : "" }}
+          />
+        );
     }
   };
 
@@ -65,6 +72,10 @@ export const useDashboardLayout = () => {
       case 2:
         navigate("/");
         setOptionSelected(2);
+        break;
+      case 3:
+        navigate("/catalogos");
+        setOptionSelected(3);
         break;
       default:
         navigate("/");

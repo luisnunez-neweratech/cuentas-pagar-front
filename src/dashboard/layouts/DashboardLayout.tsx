@@ -39,16 +39,6 @@ const DashboardLayout = () => {
     iconDrawer,
   } = useDashboardLayout();
 
-  //TODO status del token
-  /* const checkAuthStatus = useAuthStore( state => state.checkAuthStatus );
-
-  if ( authStatus === 'pending' ) {
-    checkAuthStatus();
-    return <>Loading...</>
-  } */
-
-  console.log("Auth status:", authStatus);
-
   if (authStatus !== "authorized") {
     return <Navigate to="/auth/login" replace />;
   }

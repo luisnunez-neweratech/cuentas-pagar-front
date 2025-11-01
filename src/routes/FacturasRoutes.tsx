@@ -7,6 +7,8 @@ import { LoginPage } from "../auth/pages/login/LoginPage";
 import { NewPasswordPage } from "../auth/pages/newPassword/NewPassword";
 import { RecoverPasswordPage } from "../auth/pages/recoverPassword/RecoverPassword";
 import { RecoverTokenPage } from "../auth/pages/recoverToken/RecoverToken";
+import { CatalogosPage } from "../dashboard/pages/catalogos/CatalogosPage";
+import { GirosPage } from "../dashboard/pages/catalogos/giros/GirosPage";
 
 const AuthLayout = lazy(() => import("../auth/layouts/AuthLayout"));
 const DashboardLayout = lazy(
@@ -21,14 +23,12 @@ export const FacturasRoutes = () => {
         <Route path="proveedor">
           <Route index element={<ProveedoresPage />} />
           <Route path=":id" element={<ProveedorOcasionalPage />} />
-          <Route
-            path="nuevo-contrato"
-            element={<ProveedorContratoPage />}
-          />
-          <Route
-            path="nuevo-ocasional"
-            element={<ProveedorOcasionalPage />}
-          />
+          <Route path="nuevo-contrato" element={<ProveedorContratoPage />} />
+          <Route path="nuevo-ocasional" element={<ProveedorOcasionalPage />} />
+        </Route>
+        <Route path="catalogos">
+          <Route index element={<CatalogosPage />} />
+          <Route path="giros" element={<GirosPage />} />
         </Route>
       </Route>
 
