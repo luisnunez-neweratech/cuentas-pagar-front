@@ -5,6 +5,7 @@ import type { StepDomicilio } from "../interface/stepDomicilio";
 import type { StepCuentaBancaria } from "../interface/stepCuentaBancaria";
 import type { StepContacto } from "../interface/stepContacto";
 import type { Colaboradores } from "../interface/colaboradores";
+import type { Documentos } from "../interface/Documentos";
 
 const initialStepContrato = {
   contractor: false,
@@ -20,6 +21,45 @@ const initialStepContrato = {
       status: true,
     },
   ],
+  documentos: {
+    tipo: "contrato", //propuesta
+    principal: {
+      archivo: null,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+    },
+    csf: {
+      archivo: null,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+    },
+    idRepLegal: {
+      archivo: null,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+    },
+    compDomicilio: {
+      archivo: null,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+    },
+    poderRepLegal: {
+      archivo: null,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+    },
+    anexo: {
+      archivo: null,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+    },
+  },
 };
 
 const initialStepDomicilio = {
@@ -81,6 +121,7 @@ export interface AuthState {
   addColaborador: (colaborador: Colaboradores) => void;
   removeColaborador: (id: number) => void;
   updateColaborador: (id: number, colaborador: Colaboradores) => void;
+  updateDocumentos: (documentos: Documentos) => void;
 
   setStepDomicilio: (stepDomicilio: StepDomicilio) => void;
   getStepDomicilio: () => StepDomicilio | null | undefined;
@@ -179,6 +220,14 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
         colaboradores: (state.stepContrato?.colaboradores ?? []).map((item) =>
           item.id === id ? { ...colaborador } : item
         ),
+      },
+    }));
+  },
+  updateDocumentos: (documentos: Documentos) => {
+    set((state) => ({
+      stepContrato: {
+        ...state.stepContrato!,
+        documentos: documentos,
       },
     }));
   },

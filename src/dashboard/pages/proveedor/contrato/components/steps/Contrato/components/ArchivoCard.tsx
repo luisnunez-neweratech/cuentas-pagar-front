@@ -1,11 +1,17 @@
 import { Card, CardContent, Divider, Grid, Typography } from "@mui/material";
 import { ArchivoElement } from "./ArchivoElement";
+import { useArchivoCard } from "../hooks/useArchivoCard";
+import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
 interface props {
   contrato: boolean;
 }
 
 export const ArchivoCard = ({ contrato }: props) => {
+  const { isValidForm, onMouseLeaveComponent } = useArchivoCard();
+
+  const stepContrato = useProveedorContratoStore((state) => state.stepContrato);
+
   return (
     <Card elevation={3}>
       <CardContent>
@@ -15,16 +21,24 @@ export const ArchivoCard = ({ contrato }: props) => {
               {contrato ? "Contrato" : "Propuesta"}
             </Typography>
           </Grid>
-
           <ArchivoElement
             title={contrato ? "*Contrato" : "*Propuesta"}
             multiple={false}
             idInput={contrato ? "fileContrato" : "filePropuesta"}
+            isValidForm={isValidForm}
+            tipoDocumento="principal"
           />
+
           <Grid size={12}>
             <Divider />
           </Grid>
-          <ArchivoElement title="*CSF" multiple={false} idInput="fileCSF" />
+          <ArchivoElement
+            title="*CSF"
+            multiple={false}
+            idInput="fileCSF"
+            isValidForm={isValidForm}
+            tipoDocumento="csf"
+          />
           <Grid size={12}>
             <Divider />
           </Grid>
@@ -32,6 +46,8 @@ export const ArchivoCard = ({ contrato }: props) => {
             title="*Id Rep. Legal"
             multiple={false}
             idInput="fileIdRepLegal"
+            isValidForm={isValidForm}
+            tipoDocumento="idRepLegal"
           />
           <Grid size={12}>
             <Divider />
@@ -40,6 +56,8 @@ export const ArchivoCard = ({ contrato }: props) => {
             title="*Comp. Domicilio"
             multiple={false}
             idInput="fileCompDomicilio"
+            isValidForm={isValidForm}
+            tipoDocumento="compDomicilio"
           />
           <Grid size={12}>
             <Divider />
@@ -48,6 +66,8 @@ export const ArchivoCard = ({ contrato }: props) => {
             title="Poder Rep. Legal"
             multiple={false}
             idInput="filePoderRepLegal"
+            isValidForm={isValidForm}
+            tipoDocumento="poderRepLegal"
           />
 
           {contrato && (
@@ -60,6 +80,8 @@ export const ArchivoCard = ({ contrato }: props) => {
                 indeterminado={false}
                 multiple={true}
                 idInput="fileAnexo"
+                isValidForm={isValidForm}
+                tipoDocumento="anexo"
               />
             </>
           )}
