@@ -17,6 +17,9 @@ export const useDashboardLayout = () => {
     if (location.pathname.includes("/proveedor")) {
       return 0;
     }
+     if (location.pathname.includes("/catalogos")) {
+      return 3;
+    }
     return -1;
   };
 
@@ -53,7 +56,7 @@ export const useDashboardLayout = () => {
       case 3:
         return (
           <LibraryBooksIcon
-            style={{ color: optionSelected === 2 ? mainBackgroundColor : "" }}
+            style={{ color: optionSelected === 3 ? mainBackgroundColor : "" }}
           />
         );
     }

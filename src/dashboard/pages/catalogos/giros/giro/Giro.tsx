@@ -1,6 +1,15 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, IconButton, TextField, Tooltip } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router";
+import { useGiro } from "./hooks/useGiro";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UpgradeIcon from "@mui/icons-material/Upgrade";
+import SaveIcon from "@mui/icons-material/Save";
 
 export const Giro = () => {
+  const navigate = useNavigate();
+  const { id } = useGiro();
+
   return (
     <form
       //
@@ -10,10 +19,22 @@ export const Giro = () => {
       noValidate
     >
       <Grid container>
-        <Grid size={3}>
-          <h1>Giro</h1>
+        <Grid size={1}>
+          <Tooltip title="Atras">
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={() => navigate("/catalogos/giros")}
+            >
+              <ArrowBackIcon style={{ width: 32, height: 32 }} />
+            </IconButton>
+          </Tooltip>
         </Grid>
-        <Grid size={9} />
+
+        <Grid size={3}>
+          <h1 style={{ marginTop: 0 }}>Giro</h1>
+        </Grid>
+        <Grid size={8} />
         <Grid size={3}>
           <TextField
             variant="outlined"
@@ -32,18 +53,48 @@ export const Giro = () => {
           />
         </Grid>
         <Grid size={9} />
-        <Grid size={1}>
-          <Button
-            //onClick={guardarProovedor}
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ marginTop: 4 }}
-          >
-            Guardar
-          </Button>
-        </Grid>
+        {id ? (
+          <>
+            <Grid size={2} sx={{ marginTop: 4 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                type="submit"
+              >
+                Modificar
+                <SaveIcon sx={{ marginLeft: 1 }} />
+              </Button>
+            </Grid>
+            <Grid size={1} />
+            <Grid size={2} sx={{ marginTop: 4 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                type="button"
+                //onClick={onClickEliminar}
+              >
+                Eliminar
+                <DeleteIcon sx={{ marginLeft: 1 }} />
+              </Button>
+            </Grid>
+          </>
+        ) : (
+          <Grid size={2}>
+            <Button
+              //onClick={guardarProovedor}
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ marginTop: 4 }}
+            >
+              Guardar
+              <SaveIcon sx={{ marginLeft: 1 }} />
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </form>
   );

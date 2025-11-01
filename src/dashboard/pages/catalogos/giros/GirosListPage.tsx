@@ -13,6 +13,7 @@ import {
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import { useNavigate } from "react-router";
+import { useGirosListPage } from "./hooks/useGirosListPage";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -29,8 +30,8 @@ const rows = [
 ];
 
 export const GirosListPage = () => {
-
   const navigate = useNavigate();
+  const { rowClick } = useGirosListPage();
 
   return (
     <Grid container>
@@ -38,7 +39,7 @@ export const GirosListPage = () => {
         <h1>Giros</h1>
       </Grid>
       <Grid size={8} />
-      <Grid size={1} sx={{marginTop:2}}>
+      <Grid size={1} sx={{ marginTop: 2 }}>
         <Tooltip title="Nuevo">
           <IconButton
             sx={{ color: mainBackgroundColor }}
@@ -72,7 +73,8 @@ export const GirosListPage = () => {
                     cursor: "pointer",
                   }}
                   onClick={(_e) => {
-                    //rowClick(row);
+                    console.log('here???')
+                    rowClick(row);
                   }}
                 >
                   <TableCell component="th" scope="row">
