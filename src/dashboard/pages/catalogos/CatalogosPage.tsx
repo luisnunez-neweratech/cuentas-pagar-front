@@ -27,6 +27,9 @@ export const CatalogosPage = () => {
             <CardActionArea
               onClick={() => navigate("/catalogos/giros")}
               sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
                 height: "100%",
                 "&[data-active]": {
                   backgroundColor: "action.selected",
@@ -36,12 +39,16 @@ export const CatalogosPage = () => {
                 },
               }}
             >
-              <CardContent sx={{ height: "100%" }}>
-                <Typography variant="h5" component="div">
+              <CardContent
+                sx={{
+                  height: "100%",
+                }}
+              >
+                <Typography align="center" variant="h5" component="div">
                   Giros
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  0
+                <Typography align="center" variant="body2" color="text.secondary">
+                  2
                 </Typography>
               </CardContent>
             </CardActionArea>

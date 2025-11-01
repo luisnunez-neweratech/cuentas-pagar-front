@@ -8,7 +8,8 @@ import { NewPasswordPage } from "../auth/pages/newPassword/NewPassword";
 import { RecoverPasswordPage } from "../auth/pages/recoverPassword/RecoverPassword";
 import { RecoverTokenPage } from "../auth/pages/recoverToken/RecoverToken";
 import { CatalogosPage } from "../dashboard/pages/catalogos/CatalogosPage";
-import { GirosPage } from "../dashboard/pages/catalogos/giros/GirosPage";
+import { GirosListPage } from "../dashboard/pages/catalogos/giros/GirosListPage";
+import { Giro } from "../dashboard/pages/catalogos/giros/giro/Giro";
 
 const AuthLayout = lazy(() => import("../auth/layouts/AuthLayout"));
 const DashboardLayout = lazy(
@@ -28,7 +29,11 @@ export const FacturasRoutes = () => {
         </Route>
         <Route path="catalogos">
           <Route index element={<CatalogosPage />} />
-          <Route path="giros" element={<GirosPage />} />
+          <Route path="giros">
+            <Route index element={<GirosListPage />} />
+            <Route path="nuevo" element={<Giro />} />
+            <Route path=":id" element={<Giro />} />
+          </Route>
         </Route>
       </Route>
 
