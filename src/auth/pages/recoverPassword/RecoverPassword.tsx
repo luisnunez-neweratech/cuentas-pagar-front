@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { useRecoverPassword } from "./hooks/useRecoverPassword";
 
 export const RecoverPasswordPage = () => {
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
+  const { handleSubmit, values, handleChange, handleBlur, touched, errors, isPending } =
     useRecoverPassword();
 
   return (
@@ -41,7 +41,7 @@ export const RecoverPasswordPage = () => {
             fullWidth
             variant="contained"
             color="primary"
-            disabled={!(values.email.length > 0)}
+            disabled={!(values.email.length > 0) || isPending}
           >
             Reset Password
           </Button>
