@@ -4,15 +4,11 @@ import { CircularLoading } from "../../components/common/CircularLoading";
 import { useAuthStore } from "../../stores/auth/auth.store";
 import logo from "../../assets/newera-logo.svg";
 import "./authStyle.css";
+import { useAuthLayoutStore } from "../store/authLayout.store";
 
 const AuthLayout = () => {
   const authStatus = useAuthStore((state) => state.status);
-  //const checkAuthStatus = useAuthStore( state => state.checkAuthStatus );
-
-  /* if ( authStatus === 'pending' ) {
-    checkAuthStatus();
-    return <>Loading...</>;
-  } */
+  const isLoading = useAuthLayoutStore((state) => state.isLoading);
 
   if (authStatus === "authorized") {
     return <Navigate to="/" />;
@@ -20,7 +16,7 @@ const AuthLayout = () => {
 
   return (
     <Grid container style={{ width: "100%", height: "100%" }}>
-      {/*loading && <CircularLoading />*/}
+      {isLoading && <CircularLoading />}
       <div className="loginBackground" />
       <Grid size={6}>
         <div className="imageContainer">

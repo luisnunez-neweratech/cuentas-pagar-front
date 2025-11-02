@@ -13,7 +13,7 @@ export const CircularLoading = () => {
         height: "100px",
       }}
     >
-      <CircularProgress />
+      <CircularProgress style={{ color: "#ffb65a" }} />
     </div>
   );
 };

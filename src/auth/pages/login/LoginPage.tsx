@@ -13,9 +13,7 @@ export const LoginPage = () => {
     touched,
     errors,
     isPending,
-  } = useLoginPage();
-
-  console.log("isPending", isPending);
+  } = useLoginPage();  
 
   return (
     <div className="signInContainer">
