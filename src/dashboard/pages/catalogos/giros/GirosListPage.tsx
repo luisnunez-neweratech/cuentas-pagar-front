@@ -72,8 +72,7 @@ export const GirosListPage = () => {
                     "&:last-child td, &:last-child th": { border: 0 },
                     cursor: "pointer",
                   }}
-                  onClick={(_e) => {
-                    console.log('here???')
+                  onClick={(_e) => {                    
                     rowClick(row);
                   }}
                 >

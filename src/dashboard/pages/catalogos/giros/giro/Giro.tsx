@@ -3,7 +3,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router";
 import { useGiro } from "./hooks/useGiro";
 import DeleteIcon from "@mui/icons-material/Delete";
-import UpgradeIcon from "@mui/icons-material/Upgrade";
 import SaveIcon from "@mui/icons-material/Save";
 
 export const Giro = () => {
@@ -42,7 +41,7 @@ export const Giro = () => {
             required
             fullWidth
             id="nombre"
-            label="nombre"
+            label="Giro"
             name="nombre"
             /*  value={values.email}
             onChange={handleChange}
