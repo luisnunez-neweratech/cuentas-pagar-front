@@ -112,6 +112,37 @@ export const useArchivoElement = ({
               ? values[idInput]
               : undefined,
         };
+        //TODO
+        // validar bien los archivos que si son requeridos, y las fechas cuando son requeridas
+        //boton siguiente en contratos, 
+        
+        console.log("aqui no enra?", {
+          tipo: getStepContrato()?.documentos.tipo!,
+          principal:
+            tipoDocumento === TipoDocumento.principal
+              ? newDocumento
+              : { ...getStepContrato()?.documentos.principal! },
+          csf:
+            tipoDocumento === TipoDocumento.csf
+              ? newDocumento
+              : { ...getStepContrato()?.documentos.csf! },
+          idRepLegal:
+            tipoDocumento === TipoDocumento.idRepLegal
+              ? newDocumento
+              : { ...getStepContrato()?.documentos.idRepLegal! },
+          compDomicilio:
+            tipoDocumento === TipoDocumento.compDomicilio
+              ? newDocumento
+              : { ...getStepContrato()?.documentos.compDomicilio! },
+          poderRepLegal:
+            tipoDocumento === TipoDocumento.poderRepLegal
+              ? newDocumento
+              : { ...getStepContrato()?.documentos.poderRepLegal! },
+          anexo:
+            tipoDocumento === TipoDocumento.anexo
+              ? newDocumento
+              : { ...getStepContrato()?.documentos.anexo! },
+        });
         updateDocumentos({
           tipo: getStepContrato()?.documentos.tipo!,
           principal:

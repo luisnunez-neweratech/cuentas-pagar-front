@@ -17,21 +17,9 @@ import { useGirosListPage } from "./hooks/useGirosListPage";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
-function createData(id: number, nombre: string) {
-  return {
-    id,
-    nombre,
-  };
-}
-
-const rows = [
-  createData(1, "ALIMENTOS"),
-  createData(2, "ARTICULOS DE REGALOS"),
-];
-
 export const GirosListPage = () => {
   const navigate = useNavigate();
-  const { rowClick } = useGirosListPage();
+  const { rowClick, giros } = useGirosListPage();
 
   return (
     <Grid container>
@@ -60,28 +48,29 @@ export const GirosListPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell style={cellHeaderStyle}>Id</TableCell>
-                <TableCell style={cellHeaderStyle}>Nombre</TableCell>
+                <TableCell style={cellHeaderStyle}>Descripcion</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => (
-                <TableRow
-                  hover
-                  key={index}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    cursor: "pointer",
-                  }}
-                  onClick={(_e) => {                    
-                    rowClick(row);
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell>{row.nombre}</TableCell>
-                </TableRow>
-              ))}
+              {giros &&
+                giros.map((giro) => (
+                  <TableRow
+                    hover
+                    key={giro.id}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      cursor: "pointer",
+                    }}
+                    onClick={(_e) => {
+                      rowClick(giro);
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {giro.id}
+                    </TableCell>
+                    <TableCell>{giro.descripcion}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

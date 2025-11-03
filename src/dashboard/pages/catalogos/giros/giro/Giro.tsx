@@ -7,7 +7,15 @@ import SaveIcon from "@mui/icons-material/Save";
 
 export const Giro = () => {
   const navigate = useNavigate();
-  const { id } = useGiro();
+  const {
+    id,
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+  } = useGiro();
 
   return (
     <form
@@ -16,6 +24,7 @@ export const Giro = () => {
         width: "100%",
       }}
       noValidate
+      onSubmit={handleSubmit}
     >
       <Grid container>
         <Grid size={1}>
@@ -43,11 +52,11 @@ export const Giro = () => {
             id="nombre"
             label="Giro"
             name="nombre"
-            /*  value={values.email}
+            value={values.nombre}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={touched.email && Boolean(errors.email)}
-            helperText={touched.email && errors.email} */
+            error={touched.nombre && Boolean(errors.nombre)}
+            helperText={touched.nombre && errors.nombre}
             autoFocus
           />
         </Grid>
@@ -82,7 +91,6 @@ export const Giro = () => {
         ) : (
           <Grid size={2}>
             <Button
-              //onClick={guardarProovedor}
               type="submit"
               fullWidth
               variant="contained"
