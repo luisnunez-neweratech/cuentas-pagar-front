@@ -2,7 +2,9 @@ import { useFormik } from "formik";
 import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepPerfil } from "../../../../interface/stepPerfil";
-import type { ActividadType } from "../../../../../../../../components/common/AutoComplete/interfaces/Actividad";
+import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
+import { TipoEntidad } from "../../../../../interfaces/TipoEntidad";
+import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 
 export const usePerfil = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -27,7 +29,6 @@ export const usePerfil = () => {
       };
     } */
     const stepPerfil = getStepPerfil();
-    console.log("stepPerfil", stepPerfil);
     return {
       tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
       tipoPersona: stepPerfil ? stepPerfil.tipoPersona : "",
@@ -52,11 +53,12 @@ export const usePerfil = () => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log("values", values);
+      const tipoEntidadKey = values.tipoEntidad as keyof typeof TipoEntidad;
+      const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
       const pasoPerfil: StepPerfil = {
         tipoProveedor: "contrato",
-        tipoEntidad: values.tipoEntidad,
-        tipoPersona: values.tipoPersona,
+        tipoEntidad: TipoEntidad[tipoEntidadKey],
+        tipoPersona: TipoPersona[tipoPersonaKey],
         razonSocial: values.razonSocial,
         alias: values.alias,
         rfc: values.rfc,
@@ -69,7 +71,7 @@ export const usePerfil = () => {
     },
   });
 
-  const onChangeAutocomplete = (newValues: ActividadType[]) => {
+  const onChangeAutocomplete = (newValues: Giro[]) => {
     setFieldValue("productos", newValues);
   };
 

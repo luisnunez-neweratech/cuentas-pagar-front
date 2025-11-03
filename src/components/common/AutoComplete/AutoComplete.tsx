@@ -1,26 +1,26 @@
-import type { ActividadType } from "./interfaces/Actividad";
 import { CustomAutocomplete } from "./CustomAutocomplete";
+import { useAutocomplete } from "./hooks/useAutocomplete";
+import type { Giro } from "../../../dashboard/pages/catalogos/giros/interfaces/Giro";
 
 interface Props {
-  onChange: (actividades: ActividadType[]) => void;
-  setValues?: ActividadType[];
+  onChange: (giro: Giro[]) => void;
+  setValues?: Giro[];
 }
 
 export const AutoCompleteComponent = ({ onChange, setValues = [] }: Props) => {
+  const { giros } = useAutocomplete();
+
   return (
-    <CustomAutocomplete<ActividadType>
+    <CustomAutocomplete<Giro>
       id="customized-autocomplete"
-      options={actividades}
-      getOptionLabel={(option) => option.title}
-      onChange={(_e, newvalue) => onChange(newvalue)}      
+      options={giros ? giros : []}
+      getOptionLabel={(option) => option.descripcion}
+      onChange={(_e, newvalue) => {
+        if (newvalue.length < 5) {
+          onChange(newvalue);
+        }
+      }}
       value={setValues}
     />
   );
 };
-
-const actividades = [
-  { title: "Actividad Economica 1", id: 1 },
-  { title: "Actividad Economica 2", id: 2 },
-  { title: "Actividad Economica 3", id: 3 },
-  { title: "Actividad Economica 4", id: 4 },
-];

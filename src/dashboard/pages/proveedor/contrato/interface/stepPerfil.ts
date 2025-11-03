@@ -1,4 +1,4 @@
-import type { ActividadType } from "../../../../../components/common/AutoComplete/interfaces/Actividad";
+import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
 import type { TipoEntidad } from "../../interfaces/TipoEntidad";
 import type { TipoPersona } from "../../interfaces/TipoPersona";
 
@@ -11,5 +11,5 @@ export interface StepPerfil {
   alias: string;
   email?: string;
   giroPrincipal?: string;
-  productos?: ActividadType[];
+  productos?: Giro[];
 }
