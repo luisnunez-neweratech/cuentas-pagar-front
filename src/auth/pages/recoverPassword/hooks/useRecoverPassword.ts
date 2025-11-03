@@ -14,13 +14,13 @@ export const useRecoverPassword = () => {
 
   const recoverPasswordMutation = useMutation({
     mutationFn: recoverPasswordAction,
-    onSuccess: () => {     
-      navigate("/auth/token");
+    onSuccess: (_data,variables) => {     
+      navigate(`/auth/token?email=${variables.email}`);
     },
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
+        toast.error(error.message);
         return;
       }
       toast.error("Error al enviar el correo con el token");

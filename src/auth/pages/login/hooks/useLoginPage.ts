@@ -33,7 +33,7 @@ export const useLoginPage = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
+        toast.error(error.message);
         return;
       }
       toast.error("Correo o contraseña incorrecta");

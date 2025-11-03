@@ -24,7 +24,7 @@ export const useGiro = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
+        toast.error(error.message);
         return;
       }
       toast.error("Error al agregar el giro");
@@ -41,7 +41,7 @@ export const useGiro = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
+        toast.error(error.message);
         return;
       }
       toast.error("Error al actualizar el giro");
@@ -58,7 +58,7 @@ export const useGiro = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message);
+        toast.error(error.message);
         return;
       }
       toast.error("Error al eliminar el giro");
