@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContactosData } from "../hooks/useContactosData";
+import { TipoContacto } from "../../../../../interfaces/TipoContacto";
 
 interface props {
   id: number;
@@ -53,8 +54,12 @@ export const ContactosData = ({ id, deleteContacto, isValidForm }: props) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <MenuItem value="venta">Venta</MenuItem>
-                  <MenuItem value="pago">Pago</MenuItem>
+                  <MenuItem value={TipoContacto.Venta}>
+                    {TipoContacto.Venta}
+                  </MenuItem>
+                  <MenuItem value={TipoContacto.Pago}>
+                    {TipoContacto.Pago}
+                  </MenuItem>
                 </Select>
                 <FormHelperText>
                   {touched.tipoContacto && errors.tipoContacto
@@ -111,7 +116,7 @@ export const ContactosData = ({ id, deleteContacto, isValidForm }: props) => {
             </Grid>
 
             <Grid size={4}>
-              {values.tipoContacto === "venta" && (
+              {values.tipoContacto === TipoContacto.Venta && (
                 <TextField
                   variant="outlined"
                   margin="normal"

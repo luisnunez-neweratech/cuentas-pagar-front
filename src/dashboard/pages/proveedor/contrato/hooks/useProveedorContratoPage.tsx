@@ -25,7 +25,7 @@ export const useProveedorContratoPage = () => {
   const getStepScreen = (index: number) => {
     switch (index) {
       case 0:
-        return <Contrato />;//return <Perfil />;
+        return <Perfil />;
       case 1:
         return <Contrato />;
       case 2:

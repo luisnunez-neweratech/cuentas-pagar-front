@@ -6,6 +6,7 @@ import type { StepCuentaBancaria } from "../interface/stepCuentaBancaria";
 import type { StepContacto } from "../interface/stepContacto";
 import type { Colaboradores } from "../interface/colaboradores";
 import type { Documentos } from "../interface/Documentos";
+import { TipoContacto } from "../../interfaces/TipoContacto";
 
 const initialStepContrato = {
   contractor: false,
@@ -91,7 +92,7 @@ const initialStepContacto = [
   {
     id: 1,
     valido: false,
-    tipoContacto: "",
+    tipoContacto: TipoContacto.Venta,
     contacto: "",
     telefono: "",
     email: "",

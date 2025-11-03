@@ -1,7 +1,9 @@
+import type { TipoContacto } from "../../interfaces/TipoContacto";
+
 export interface StepContacto {
   id: number;
   valido: boolean;
-  tipoContacto: string;
+  tipoContacto: TipoContacto;
   contacto: string;
   telefono: string;
   email: string;
