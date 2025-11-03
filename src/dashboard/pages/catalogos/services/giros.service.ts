@@ -12,6 +12,14 @@ export const getAllGiros = async (): Promise<Giro[]> => {
   return response;
 };
 
+export const getGiro = async (id: string): Promise<Giro> => {
+  const { data } = await cuentasApi.get(`/SupplierActivity/${id}`);
+  return {
+    id: data.id,
+    descripcion: data.description,
+  };
+};
+
 export const addGiro = async (descripcion: string): Promise<any> => {
   const response = await cuentasApi.post("/SupplierActivity/CreateActivity", {
     activity: descripcion,

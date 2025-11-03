@@ -2,21 +2,17 @@ import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { validationSchema } from "../Validations";
 import { toast } from "sonner";
-import { addGiro } from "../../../services/giros.service";
-import { useMutation } from "@tanstack/react-query";
+import { addGiro, getGiro } from "../../../services/giros.service";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 export const useGiro = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  //TODO crear store para mostrar la data
-  /*  const giro = useGiroStore(
-      (state) => state.giro
-    ); */
 
   const addGiroMutation = useMutation({
     mutationFn: addGiro,
-    onSuccess: () => {      
+    onSuccess: () => {
       toast.success("Giro agregado correctamente");
       navigate("/catalogos/giros/");
     },
@@ -31,12 +27,21 @@ export const useGiro = () => {
     },
   });
 
-  const initialFormValues = () => {
-    /* if (id) {
-      return {
-        nombre: giro!.nombre,
-      };
-    } */
+  const {
+    isLoading,
+    isError,
+    error,
+    data: giro,
+    isFetching,
+  } = useQuery({
+    queryKey: ["SupplierActivity", `${id}`],
+    queryFn: () => getGiro(id || ""),
+  });
+
+  const getData = () => {
+    if (giro) {
+      return { nombre: giro.descripcion };
+    }
     return {
       nombre: "",
     };
@@ -51,7 +56,8 @@ export const useGiro = () => {
     errors,
     setFieldValue,
   } = useFormik({
-    initialValues: initialFormValues(),
+    enableReinitialize: true,
+    initialValues: getData(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       console.log(values);
