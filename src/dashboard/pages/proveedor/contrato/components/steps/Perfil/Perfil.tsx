@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { AutoCompleteComponent } from "../../../../../../../components/common/AutoComplete/AutoComplete";
 import { usePerfil } from "./hooks/usePerfil";
+import { TipoEntidad } from "../../../../interfaces/TipoEntidad";
 
 export const Perfil = () => {
   const {
@@ -41,8 +42,8 @@ export const Perfil = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value="local">Local</MenuItem>
-              <MenuItem value="extranjero">Extranjero</MenuItem>
+              <MenuItem value="local">{TipoEntidad.Local}</MenuItem>
+              <MenuItem value="extranjero">{TipoEntidad.Extranjero}</MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoEntidad && errors.tipoEntidad
@@ -83,7 +84,7 @@ export const Perfil = () => {
             margin="normal"
             fullWidth
             id="rfc"
-            label={`${values.tipoEntidad === "local" ? "*" : ""}RFC`}
+            label={`${values.tipoEntidad === TipoEntidad.Local ? "*" : ""}RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
             value={values.rfc}

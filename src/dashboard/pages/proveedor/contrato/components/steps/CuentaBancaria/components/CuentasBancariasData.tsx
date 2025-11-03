@@ -17,6 +17,7 @@ import {
 import { useCuentasBancariasData } from "../hooks/useCuentasBancariasData";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import { TipoEntidad } from "../../../../../interfaces/TipoEntidad";
 
 interface props {
   id: number;
@@ -158,7 +159,7 @@ export const CuentasBancariasData = ({
               </FormControl>
             </Grid>
             <Grid size={4}>
-              {tipoEntidad === "extranjero" && (
+              {tipoEntidad === TipoEntidad.Extranjero && (
                 <TextField
                   variant="outlined"
                   margin="normal"

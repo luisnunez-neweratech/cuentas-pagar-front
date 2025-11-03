@@ -14,6 +14,7 @@ import { useProveedorOcasional } from "./hooks/useProveedorOcasional";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
+import { TipoEntidad } from "../interfaces/TipoEntidad";
 
 export const ProveedorOcasionalPage = () => {
   const {
@@ -25,7 +26,7 @@ export const ProveedorOcasionalPage = () => {
     errors,
     id,
     onClickEliminar,
-    onChangeAutocomplete
+    onChangeAutocomplete,
   } = useProveedorOcasional();
 
   return (
@@ -47,8 +48,8 @@ export const ProveedorOcasionalPage = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value="local">Local</MenuItem>
-              <MenuItem value="extranjero">Extranjero</MenuItem>
+              <MenuItem value="local">{TipoEntidad.Local}</MenuItem>
+              <MenuItem value="extranjero">{TipoEntidad.Extranjero}</MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoEntidad && errors.tipoEntidad
@@ -89,7 +90,7 @@ export const ProveedorOcasionalPage = () => {
             margin="normal"
             fullWidth
             id="rfc"
-            label={`${values.tipoEntidad === "local" ? "*" : ""}RFC`}
+            label={`${values.tipoEntidad === TipoEntidad.Local ? "*" : ""}RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
             value={values.rfc}
