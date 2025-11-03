@@ -41,3 +41,8 @@ export const updateGiro = async ({
   });
   return response;
 };
+
+export const deleteGiro = async (id: string): Promise<any> => {
+  const response = await cuentasApi.delete(`/SupplierActivity/${id}`);
+  return response;
+};

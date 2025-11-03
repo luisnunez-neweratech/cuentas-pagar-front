@@ -15,6 +15,7 @@ export const Giro = () => {
     handleBlur,
     touched,
     errors,
+    onClickEliminar
   } = useGiro();
 
   return (
@@ -81,7 +82,7 @@ export const Giro = () => {
                 color="primary"
                 fullWidth
                 type="button"
-                //onClick={onClickEliminar}
+                onClick={onClickEliminar}
               >
                 Eliminar
                 <DeleteIcon sx={{ marginLeft: 1 }} />

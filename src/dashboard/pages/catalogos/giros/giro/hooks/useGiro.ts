@@ -2,7 +2,12 @@ import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { validationSchema } from "../Validations";
 import { toast } from "sonner";
-import { addGiro, getGiro, updateGiro } from "../../../services/giros.service";
+import {
+  addGiro,
+  deleteGiro,
+  getGiro,
+  updateGiro,
+} from "../../../services/giros.service";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
@@ -44,6 +49,23 @@ export const useGiro = () => {
     },
   });
 
+  const deleteGiroMutation = useMutation({
+    mutationFn: deleteGiro,
+    onSuccess: () => {
+      toast.success("Giro eliminado correctamente");
+      navigate("/catalogos/giros/");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+        return;
+      }
+      toast.error("Error al eliminar el giro");
+      return;
+    },
+  });
+
   const {
     isLoading,
     isError,
@@ -77,8 +99,6 @@ export const useGiro = () => {
     initialValues: getData(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
-      //TODO enviar data al api
       if (id) {
         updateGiroMutation.mutate({ id, descripcion: values.nombre });
         return;
@@ -89,6 +109,10 @@ export const useGiro = () => {
     },
   });
 
+  const onClickEliminar = () => {
+    deleteGiroMutation.mutate(id!);
+  };
+
   return {
     id,
     handleSubmit,
@@ -98,5 +122,6 @@ export const useGiro = () => {
     touched,
     errors,
     setFieldValue,
+    onClickEliminar,
   };
 };
