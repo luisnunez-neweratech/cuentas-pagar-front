@@ -200,8 +200,7 @@ export const CuentasBancariasData = ({
                   <span style={{ color: "#d32f2f", fontSize: "12px" }}>
                     La caratula es requerida
                   </span>
-                )}
-                {console.log(errors)}
+                )}                
               </>
             </Grid>
 

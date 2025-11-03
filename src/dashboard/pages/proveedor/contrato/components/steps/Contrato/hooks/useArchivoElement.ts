@@ -3,14 +3,19 @@ import { useState } from "react";
 import { validationArchivoschema } from "../components/ArchivosValidation";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { Documento } from "../../../../interface/Documentos";
-import type { DocumentoType } from "../interfaces/DocumentoType";
+import { TipoDocumento } from "../../../../../interfaces/TipoDocumento";
 
 interface props {
   isValidForm: (valid: boolean) => void;
-  tipoDocumento: DocumentoType;
+  tipoDocumento: TipoDocumento;
+  idInput: string;
 }
 
-export const useArchivoElement = ({ isValidForm, tipoDocumento }: props) => {
+export const useArchivoElement = ({
+  isValidForm,
+  tipoDocumento,
+  idInput,
+}: props) => {
   const getStepContrato = useProveedorContratoStore(
     (state) => state.getStepContrato
   );
@@ -49,6 +54,7 @@ export const useArchivoElement = ({ isValidForm, tipoDocumento }: props) => {
       fechaInicio: documento.fechaInicio ?? "", // Or dayjs() for a default value
       fechaFin: documento.fechaFin ?? "", // Or dayjs() for a default value
       indeterminado: documento.indeterminado ?? true,
+      [idInput]: documento?.fileValue,
     };
   };
 
@@ -70,7 +76,7 @@ export const useArchivoElement = ({ isValidForm, tipoDocumento }: props) => {
     validateForm,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationArchivoschema,
+    validationSchema: validationArchivoschema(idInput),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -85,6 +91,7 @@ export const useArchivoElement = ({ isValidForm, tipoDocumento }: props) => {
       const fileNames = Array.from(files).map((file: any) => file.name);
       setNumArchivos(event.target.files.length);
       setFileName(fileNames.join(" "));
+      setFieldValue(idInput, event.target.files[0]);
     }
   };
 
@@ -99,31 +106,36 @@ export const useArchivoElement = ({ isValidForm, tipoDocumento }: props) => {
           fechaInicio: values.fechaInicio,
           fechaFin: values.fechaFin,
           indeterminado: checkIndeterminado,
+          fileValue:
+            typeof values[idInput] === "object" &&
+            values[idInput] instanceof File
+              ? values[idInput]
+              : undefined,
         };
         updateDocumentos({
           tipo: getStepContrato()?.documentos.tipo!,
           principal:
-            tipoDocumento === "principal"
+            tipoDocumento === TipoDocumento.principal
               ? newDocumento
               : { ...getStepContrato()?.documentos.principal! },
           csf:
-            tipoDocumento === "csf"
+            tipoDocumento === TipoDocumento.csf
               ? newDocumento
               : { ...getStepContrato()?.documentos.csf! },
           idRepLegal:
-            tipoDocumento === "idRepLegal"
+            tipoDocumento === TipoDocumento.idRepLegal
               ? newDocumento
               : { ...getStepContrato()?.documentos.idRepLegal! },
           compDomicilio:
-            tipoDocumento === "compDomicilio"
+            tipoDocumento === TipoDocumento.compDomicilio
               ? newDocumento
               : { ...getStepContrato()?.documentos.compDomicilio! },
           poderRepLegal:
-            tipoDocumento === "poderRepLegal"
+            tipoDocumento === TipoDocumento.poderRepLegal
               ? newDocumento
               : { ...getStepContrato()?.documentos.poderRepLegal! },
           anexo:
-            tipoDocumento === "anexo"
+            tipoDocumento === TipoDocumento.anexo
               ? newDocumento
               : { ...getStepContrato()?.documentos.anexo! },
         });
@@ -144,6 +156,6 @@ export const useArchivoElement = ({ isValidForm, tipoDocumento }: props) => {
     setCheckIndeterminado,
     fileName,
     numArchivos,
-    onMouseLeaveComponent
+    onMouseLeaveComponent,
   };
 };

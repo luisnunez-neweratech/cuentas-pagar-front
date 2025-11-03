@@ -5,7 +5,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useArchivoElement } from "../hooks/useArchivoElement";
-import type { DocumentoType } from "../interfaces/DocumentoType";
+import type { TipoDocumento } from "../../../../../interfaces/TipoDocumento";
 
 interface props {
   title: string;
@@ -13,7 +13,7 @@ interface props {
   multiple: boolean;
   idInput: string;
   isValidForm: (valid: boolean) => void;
-  tipoDocumento: DocumentoType;
+  tipoDocumento: TipoDocumento;
 }
 
 export const ArchivoElement = ({
@@ -36,7 +36,7 @@ export const ArchivoElement = ({
     fileName,
     numArchivos,
     onMouseLeaveComponent,
-  } = useArchivoElement({ isValidForm, tipoDocumento });
+  } = useArchivoElement({ isValidForm, tipoDocumento, idInput });
 
   return (
     <div
@@ -86,6 +86,11 @@ export const ArchivoElement = ({
                 <FileUploadIcon />
               </Button>
             </label>
+            {errors[idInput] && (
+              <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+                Archivo requerido
+              </p>
+            )}
           </>
         )}
       </div>

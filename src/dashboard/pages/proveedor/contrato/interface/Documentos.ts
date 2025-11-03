@@ -3,6 +3,7 @@ export interface Documento {
   fechaInicio: string;
   fechaFin?: string;
   indeterminado: boolean;
+  fileValue?: File;
 }
 
 export interface Documentos {
