@@ -11,6 +11,7 @@ import { useContrato } from "./hooks/useContrato";
 import { ColaboradorMoral } from "./components/ColaboradorMoral";
 import { ArchivoCard } from "./components/ArchivoCard";
 import { mainBackgroundColor } from "../../../../../../../lib/constants";
+import { TipoPersona } from "../../../../interfaces/TipoPersona";
 
 export const Contrato = () => {
   const {
@@ -47,7 +48,7 @@ export const Contrato = () => {
           />
         </Grid>
         {/* colaborador fisico */}
-        {checkContractor && getStepPerfil()?.tipoPersona === "fisica" && (
+        {checkContractor && getStepPerfil()?.tipoPersona === TipoPersona.Fisica && (
           <>
             <Grid size={3}>
               <TextField
@@ -67,7 +68,7 @@ export const Contrato = () => {
             <Grid size={9} />
           </>
         )}
-        {checkContractor && getStepPerfil()?.tipoPersona !== "fisica" && (
+        {checkContractor && getStepPerfil()?.tipoPersona !== TipoPersona.Fisica && (
           <ColaboradorMoral />
         )}
         {!checkContractor && <Grid size={10} />}

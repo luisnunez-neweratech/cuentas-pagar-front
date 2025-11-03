@@ -12,6 +12,7 @@ import {
 import { AutoCompleteComponent } from "../../../../../../../components/common/AutoComplete/AutoComplete";
 import { usePerfil } from "./hooks/usePerfil";
 import { TipoEntidad } from "../../../../interfaces/TipoEntidad";
+import { TipoPersona } from "../../../../interfaces/TipoPersona";
 
 export const Perfil = () => {
   const {
@@ -42,8 +43,10 @@ export const Perfil = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value="local">{TipoEntidad.Local}</MenuItem>
-              <MenuItem value="extranjero">{TipoEntidad.Extranjero}</MenuItem>
+              <MenuItem value={TipoEntidad.Local}>{TipoEntidad.Local}</MenuItem>
+              <MenuItem value={TipoEntidad.Extranjero}>
+                {TipoEntidad.Extranjero}
+              </MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoEntidad && errors.tipoEntidad
@@ -67,8 +70,10 @@ export const Perfil = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value="fisica">F&iacute;sica</MenuItem>
-              <MenuItem value="moral">Moral</MenuItem>
+              <MenuItem value={TipoPersona.Fisica}>
+                {TipoPersona.Fisica}
+              </MenuItem>
+              <MenuItem value={TipoPersona.Moral}>{TipoPersona.Moral}</MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoPersona && errors.tipoPersona

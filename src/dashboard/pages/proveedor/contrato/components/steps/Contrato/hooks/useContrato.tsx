@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { validationFisicoSchema } from "../Validations";
 import type { StepContrato } from "../../../../interface/stepContrato";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
+import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 
 export const useContrato = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -59,7 +60,7 @@ export const useContrato = () => {
   } = useFormik({
     initialValues: initialFormValues(),
     validationSchema:
-      getStepPerfil()?.tipoPersona === "fisica" ? validationFisicoSchema : null,
+      getStepPerfil()?.tipoPersona === TipoPersona.Fisica ? validationFisicoSchema : null,
     onSubmit: async (values) => {
       /*  const pasoPerfil: StepPerfil = {
             tipoProveedor: "contrato",
@@ -74,7 +75,7 @@ export const useContrato = () => {
           };
           setStepPerfil(pasoPerfil); */
       //validate files
-      if (getStepPerfil()?.tipoPersona === "fisica") {
+      if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica) {
         //type fisico
         const prevStepContrato = getStepContrato();
         const stepContrato: StepContrato = {

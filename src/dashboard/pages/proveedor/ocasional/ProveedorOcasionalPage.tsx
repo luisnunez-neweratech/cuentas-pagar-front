@@ -15,6 +15,7 @@ import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
 import { TipoEntidad } from "../interfaces/TipoEntidad";
+import { TipoPersona } from "../interfaces/TipoPersona";
 
 export const ProveedorOcasionalPage = () => {
   const {
@@ -48,8 +49,10 @@ export const ProveedorOcasionalPage = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value="local">{TipoEntidad.Local}</MenuItem>
-              <MenuItem value="extranjero">{TipoEntidad.Extranjero}</MenuItem>
+              <MenuItem value={TipoEntidad.Local}>{TipoEntidad.Local}</MenuItem>
+              <MenuItem value={TipoEntidad.Extranjero}>
+                {TipoEntidad.Extranjero}
+              </MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoEntidad && errors.tipoEntidad
@@ -73,8 +76,10 @@ export const ProveedorOcasionalPage = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value="fisica">F&iacute;sica</MenuItem>
-              <MenuItem value="moral">Moral</MenuItem>
+              <MenuItem value={TipoPersona.Fisica}>
+                {TipoPersona.Fisica}
+              </MenuItem>
+              <MenuItem value={TipoPersona.Moral}>{TipoPersona.Moral}</MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoPersona && errors.tipoPersona
