@@ -1,16 +1,14 @@
+import { useRef } from "react";
 import { Button, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { countries } from "../../../../../../../lib/constants";
 import { useDomicilio } from "./hooks/useDomicilio";
-import {
-  useJsApiLoader,
-  Autocomplete as AutocompleteGoogle,
-} from "@react-google-maps/api";
-import { useRef } from "react";
+import { Autocomplete as AutocompleteGoogle } from "@react-google-maps/api";
 
 export const Domicilio = () => {
+  const inputRef = useRef<any | null>(null);
   const {
     handleBack,
     handleSubmit,
@@ -20,53 +18,9 @@ export const Domicilio = () => {
     touched,
     errors,
     setFieldValue,
-  } = useDomicilio();
-  const inputRef = useRef<any | null>(null);
-
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-    libraries: ["places"],
-  });
-
-  const handleOnPlacesChanged = () => {
-    let address = inputRef.current.getPlace();
-    //setFieldValue("codigoPostal", "28019");
-    console.log("address", address);
-    if (address && address?.address_components.length > 0) {
-      const colonia = address?.address_components.filter(
-        (addressFound: any) => {
-          if (addressFound.types.includes("sublocality")) {
-            return addressFound;
-          }
-        }
-      );
-      if (colonia.length > 0) {
-        setFieldValue("colonia", colonia[0].long_name);
-      }
-
-      const ciudad = address?.address_components.filter((addressFound: any) => {
-        if (addressFound.types.includes("locality")) {
-          return addressFound;
-        }
-      });
-      if (ciudad.length > 0) {
-        setFieldValue("ciudad", ciudad[0].long_name);
-        setFieldValue("municipio", ciudad[0].long_name);
-      }
-
-      const estado = address?.address_components.filter(
-        (addressFound: any) => {
-          if (addressFound.types.includes("administrative_area_level_1")) {
-            return addressFound;
-          }
-        }
-      );
-      if (estado.length > 0) {
-        setFieldValue("estado", estado[0].long_name);
-      }
-    }
-  };
+    handleOnPlacesChanged,
+    isLoaded,
+  } = useDomicilio(inputRef);
 
   return (
     <form onSubmit={handleSubmit}>
