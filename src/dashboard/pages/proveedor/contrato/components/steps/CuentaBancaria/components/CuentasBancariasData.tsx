@@ -83,6 +83,7 @@ export const CuentasBancariasData = ({
                 onBlur={handleBlur}
                 error={touched.clabe && Boolean(errors.clabe)}
                 helperText={touched.clabe && errors.clabe}
+                type="number"
               />
             </Grid>
             <Grid size={3}>
@@ -197,10 +198,10 @@ export const CuentasBancariasData = ({
                   </Button>
                 </label>
                 {errors[idInput] && (
-                  <span style={{ color: "#d32f2f", fontSize: "12px" }}>
-                    La caratula es requerida
-                  </span>
-                )}                
+                  <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+                    Archivo requerido
+                  </p>
+                )}
               </>
             </Grid>
 
