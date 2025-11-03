@@ -1,4 +1,4 @@
-import type { ActividadType } from "../components/common/AutoComplete/interfaces/Actividad";
+import type { Giro } from "../dashboard/pages/catalogos/giros/interfaces/Giro";
 import type { TipoEntidad } from "../dashboard/pages/proveedor/interfaces/TipoEntidad";
 import type { TipoPersona } from "../dashboard/pages/proveedor/interfaces/TipoPersona";
 
@@ -11,5 +11,5 @@ export interface ProveedorOcasional {
   alias: string;
   email?: string;
   giroPrincipal?: string;
-  productos?: ActividadType[];
+  productos?: Giro[];
 }

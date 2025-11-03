@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import { validationSchema } from "../Validations";
 import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
-import type { ActividadType } from "../../../../../components/common/AutoComplete/interfaces/Actividad";
+import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
@@ -74,7 +74,7 @@ export const useProveedorOcasional = () => {
     navigate("/proveedor");
   };
 
-  const onChangeAutocomplete = (newValues: ActividadType[]) => {    
+  const onChangeAutocomplete = (newValues: Giro[]) => {    
     setFieldValue("productos", newValues);
   };
 

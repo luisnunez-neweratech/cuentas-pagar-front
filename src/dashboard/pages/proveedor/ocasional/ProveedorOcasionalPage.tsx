@@ -171,7 +171,10 @@ export const ProveedorOcasionalPage = () => {
         </Grid>
 
         <Grid size={4}>
-          <AutoCompleteComponent onChange={onChangeAutocomplete} />
+          <AutoCompleteComponent
+            onChange={onChangeAutocomplete}
+            setValues={values.productos}
+          />
         </Grid>
         <Grid size={4} />
         <Grid size={id ? 4 : 10} />
