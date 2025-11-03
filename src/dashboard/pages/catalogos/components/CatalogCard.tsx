@@ -10,10 +10,9 @@ import { useNavigate } from "react-router";
 interface props {
   titulo: string;
   navigateTo: string;
-  cantidad?: number;
 }
 
-export const CatalogCard = ({ titulo, navigateTo, cantidad = 0 }: props) => {
+export const CatalogCard = ({ titulo, navigateTo }: props) => {
   const navigate = useNavigate();
 
   return (
@@ -48,9 +47,6 @@ export const CatalogCard = ({ titulo, navigateTo, cantidad = 0 }: props) => {
           >
             <Typography align="center" variant="h5" component="div">
               {titulo}
-            </Typography>
-            <Typography align="center" variant="body2" color="text.secondary">
-              {cantidad}
             </Typography>
           </CardContent>
         </CardActionArea>

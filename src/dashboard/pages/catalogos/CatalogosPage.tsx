@@ -7,8 +7,7 @@ export const CatalogosPage = () => {
       <Grid size={3}>
         <CatalogCard
           titulo="Giros"
-          navigateTo="/catalogos/giros"
-          cantidad={2}
+          navigateTo="/catalogos/giros"          
         />
       </Grid>
     </Grid>
