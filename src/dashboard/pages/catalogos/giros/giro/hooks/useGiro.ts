@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { validationSchema } from "../Validations";
 import { toast } from "sonner";
-import { addGiro, getGiro } from "../../../services/giros.service";
+import { addGiro, getGiro, updateGiro } from "../../../services/giros.service";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
@@ -23,6 +23,23 @@ export const useGiro = () => {
         return;
       }
       toast.error("Error al agregar el giro");
+      return;
+    },
+  });
+
+  const updateGiroMutation = useMutation({
+    mutationFn: updateGiro,
+    onSuccess: () => {
+      toast.success("Giro actualizado correctamente");
+      navigate("/catalogos/giros/");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+        return;
+      }
+      toast.error("Error al actualizar el giro");
       return;
     },
   });
@@ -63,8 +80,8 @@ export const useGiro = () => {
       console.log(values);
       //TODO enviar data al api
       if (id) {
-        /* toast.info("Proveedor actualizado correctamente");
-        navigate("/proveedor"); */
+        updateGiroMutation.mutate({ id, descripcion: values.nombre });
+        return;
       } else {
         addGiroMutation.mutate(values.nombre);
         return;

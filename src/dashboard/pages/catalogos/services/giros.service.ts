@@ -26,3 +26,18 @@ export const addGiro = async (descripcion: string): Promise<any> => {
   });
   return response;
 };
+
+export interface updateProps {
+  id: string;
+  descripcion: string;
+}
+export const updateGiro = async ({
+  id,
+  descripcion,
+}: updateProps): Promise<any> => {
+  const response = await cuentasApi.put(`/SupplierActivity/${id}`, {
+    id: Number(id),
+    description: descripcion,
+  });
+  return response;
+};
