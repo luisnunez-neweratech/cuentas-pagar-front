@@ -6,7 +6,7 @@ import { useCuentasBancarias } from "../hooks/useCuentasBancarias";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
 export const CuentasBancarias = () => {
-  const { addCuenta, deleteCuenta, isValidForm, setCuentasValidos } =
+  const { addCuenta, deleteCuenta, isValidForm, setCuentasValidos, monedas } =
     useCuentasBancarias();
 
   const stepCuentaBancaria = useProveedorContratoStore(
@@ -26,6 +26,7 @@ export const CuentasBancarias = () => {
           deleteCuenta={deleteCuenta}
           idInput={`caratulaBancaria-${item.id}`}
           isValidForm={isValidForm}
+          monedas={monedas ?? []}
         />
       ))}
 

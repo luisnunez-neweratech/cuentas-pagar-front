@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useCuentaBancariaStore } from "../store/CuentaBancaria";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import { getAllMonedaVentas } from "../../../../../../catalogos/services/monedaVenta.service";
+import { useQuery } from "@tanstack/react-query";
 type Cuenta = { id: number; valido: boolean };
 
 export const useCuentasBancarias = () => {
@@ -19,6 +21,17 @@ export const useCuentasBancarias = () => {
   const removeCuentaBancaria = useProveedorContratoStore(
     (state) => state.removeCuentaBancaria
   );
+
+   const {
+    isLoading,
+    isError,
+    error,
+    data: monedas,
+    refetch,
+  } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "Moneda"],
+    queryFn: () => getAllMonedaVentas(),
+  });
 
   const addCuenta = () => {    
     addCuentaBancaria({
@@ -68,5 +81,6 @@ export const useCuentasBancarias = () => {
     deleteCuenta,    
     isValidForm,
     setCuentasValidos,
+    monedas
   };
 };

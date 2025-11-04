@@ -18,12 +18,14 @@ import { useCuentasBancariasData } from "../hooks/useCuentasBancariasData";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { TipoEntidad } from "../../../../../interfaces/TipoEntidad";
+import type { MonedaVenta } from "../../../../../../catalogos/monedaVenta/interface/MonedaVenta";
 
 interface props {
   id: number;
   deleteCuenta: (id: number) => void;
   idInput: string;
   isValidForm: (id: number, valid: boolean) => void;
+  monedas: MonedaVenta[];
 }
 
 export const CuentasBancariasData = ({
@@ -31,6 +33,7 @@ export const CuentasBancariasData = ({
   deleteCuenta,
   idInput,
   isValidForm,
+  monedas,
 }: props) => {
   const {
     onMouseLeaveComponent,
@@ -119,8 +122,9 @@ export const CuentasBancariasData = ({
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <MenuItem value="pesos">Pesos</MenuItem>
-                  <MenuItem value="dollar">Dollar</MenuItem>
+                  {monedas.map((moneda) => (
+                    <MenuItem value={moneda.id}>{moneda.descripcion}</MenuItem>
+                  ))}
                 </Select>
                 <FormHelperText>
                   {touched.monedaVenta && errors.monedaVenta
