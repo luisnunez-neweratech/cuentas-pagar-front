@@ -81,7 +81,7 @@ export const useProveedorOcasional = () => {
   };
 
   const { data: giros } = useQuery({
-    queryKey: ["SupplierActivity", "GetAll"],
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
     queryFn: () => getAllGiros(),
   });
 

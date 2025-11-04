@@ -31,7 +31,7 @@ export const usePerfil = () => {
       };
     } */
     const stepPerfil = getStepPerfil();
-    console.log('stepPerfil', stepPerfil)
+    console.log("stepPerfil", stepPerfil);
     return {
       tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
       tipoPersona: stepPerfil ? stepPerfil.tipoPersona : "",
@@ -79,7 +79,7 @@ export const usePerfil = () => {
   };
 
   const { data: giros } = useQuery({
-    queryKey: ["SupplierActivity", "GetAll"],
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
     queryFn: () => getAllGiros(),
   });
 

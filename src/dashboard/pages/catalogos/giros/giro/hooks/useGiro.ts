@@ -53,7 +53,7 @@ export const useGiro = () => {
     error,
     data: giro,
   } = useQuery({
-    queryKey: ["SupplierActivity", `${id}`],
+    queryKey: ["CatalogMaster", `${id}`],
     queryFn: () => getGiro(id || ""),
   });
 

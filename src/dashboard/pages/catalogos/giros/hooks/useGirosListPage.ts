@@ -21,7 +21,7 @@ export const useGirosListPage = () => {
     data: giros,
     refetch,
   } = useQuery({
-    queryKey: ["SupplierActivity", "GetAll"],
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
     queryFn: () => getAllGiros(),
   });
 

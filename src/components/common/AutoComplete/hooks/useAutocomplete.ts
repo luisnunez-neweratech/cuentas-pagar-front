@@ -9,11 +9,11 @@ export const useAutocomplete = () => {
     data: giros,
     isFetching,
   } = useQuery({
-    queryKey: ["SupplierActivity", "GetAll"],
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
     queryFn: () => getAllGiros(),
   });
 
   return {
-    giros
+    giros,
   };
 };

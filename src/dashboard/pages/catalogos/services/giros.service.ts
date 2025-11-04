@@ -2,27 +2,28 @@ import { cuentasApi } from "../../../../api/cuentasApi";
 import type { Giro } from "../giros/interfaces/Giro";
 
 export const getAllGiros = async (): Promise<Giro[]> => {
-  const { data } = await cuentasApi.get(`/SupplierActivity/GetAll`);
+  const { data } = await cuentasApi.get(`/CatalogMaster/GetAll/Giros`);
   const response: Giro[] = data.map((giro: any) => {
     return {
       id: giro.id,
-      descripcion: giro.description,
+      descripcion: giro.itemValue,
     };
   });
   return response;
 };
 
 export const getGiro = async (id: string): Promise<Giro> => {
-  const { data } = await cuentasApi.get(`/SupplierActivity/${id}`);
+  const { data } = await cuentasApi.get(`/CatalogMaster/${id}`);
   return {
     id: data.id,
-    descripcion: data.description,
+    descripcion: data.itemValue,
   };
 };
 
 export const addGiro = async (descripcion: string): Promise<any> => {
-  const response = await cuentasApi.post("/SupplierActivity/CreateActivity", {
-    activity: descripcion,
+  const response = await cuentasApi.post("/CatalogMaster/CreateItem", {
+    catalogName: "Giros",
+    item: descripcion,
   });
   return response;
 };
@@ -35,14 +36,14 @@ export const updateGiro = async ({
   id,
   descripcion,
 }: updateProps): Promise<any> => {
-  const response = await cuentasApi.put(`/SupplierActivity/${id}`, {
+  const response = await cuentasApi.put(`/CatalogMaster/UpdateItem`, {
     id: Number(id),
-    description: descripcion,
+    item: descripcion,
   });
   return response;
 };
 
 export const deleteGiro = async (id: string): Promise<any> => {
-  const response = await cuentasApi.delete(`/SupplierActivity/${id}`);
+  const response = await cuentasApi.delete(`/CatalogMaster/DeleteItem/${id}`);
   return response;
 };
