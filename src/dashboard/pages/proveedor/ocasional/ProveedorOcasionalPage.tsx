@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Button,
   FormControl,
   FormHelperText,
@@ -28,6 +29,8 @@ export const ProveedorOcasionalPage = () => {
     id,
     onClickEliminar,
     onChangeAutocomplete,
+    giros,
+    setFieldValue,
   } = useProveedorOcasional();
 
   return (
@@ -153,7 +156,30 @@ export const ProveedorOcasionalPage = () => {
           />
         </Grid>
 
-        <Grid size={4}>
+        <Grid size={4} sx={{marginTop:4}}>
+          <Autocomplete
+            freeSolo
+            options={giros.map((giro) => giro.descripcion)}
+            onChange={(_e, newvalue) => {
+              setFieldValue("giroPrincipal", newvalue);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                id="giroPrincipal"
+                name="giroPrincipal"
+                label="Giro Principal"
+                value={values.giroPrincipal}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
+                helperText={touched.giroPrincipal && errors.giroPrincipal}
+              />
+            )}
+          />
+        </Grid>
+
+        {/* <Grid size={4}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -168,7 +194,7 @@ export const ProveedorOcasionalPage = () => {
             error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
             helperText={touched.giroPrincipal && errors.giroPrincipal}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid size={4}>
           <AutoCompleteComponent

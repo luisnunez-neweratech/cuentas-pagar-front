@@ -2,9 +2,11 @@ import { useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 import { validationSchema } from "../Validations";
 import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
+import { getAllGiros } from "../../../catalogos/services/giros.service";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
@@ -74,15 +76,20 @@ export const useProveedorOcasional = () => {
     navigate("/proveedor");
   };
 
-  const onChangeAutocomplete = (newValues: Giro[]) => {    
+  const onChangeAutocomplete = (newValues: Giro[]) => {
     setFieldValue("productos", newValues);
   };
+
+  const { data: giros } = useQuery({
+    queryKey: ["SupplierActivity", "GetAll"],
+    queryFn: () => getAllGiros(),
+  });
 
   return {
     contractor,
     setContractor,
     inputRef,
-
+    setFieldValue,
     handleSubmit,
     values,
     handleChange,
@@ -93,5 +100,6 @@ export const useProveedorOcasional = () => {
     id,
     onClickEliminar,
     onChangeAutocomplete,
+    giros: giros ?? [],
   };
 };
