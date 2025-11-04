@@ -25,9 +25,12 @@ import { IconAvatar } from "./components/IconAvatar";
 import { mainBackgroundColor } from "../../lib/constants";
 import logo from "../../assets/newera-logo.svg";
 import { useAuthStore } from "../../stores/auth/auth.store";
+import { CircularLoading } from "../../components/common/CircularLoading";
+import { useDashboardLayoutStore } from "../store/dashboardLayout.store";
 
 const DashboardLayout = () => {
   const authStatus = useAuthStore((state) => state.status);
+  const isLoading = useDashboardLayoutStore((state) => state.isLoading);
   const theme = useTheme();
   const {
     open,
@@ -149,6 +152,7 @@ const DashboardLayout = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        {isLoading && <CircularLoading />}        
         <Outlet />
       </Box>
     </Box>
