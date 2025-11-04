@@ -12,6 +12,8 @@ import { GirosListPage } from "../dashboard/pages/catalogos/giros/GirosListPage"
 import { Giro } from "../dashboard/pages/catalogos/giros/giro/Giro";
 import { MonedaVentaListPage } from "../dashboard/pages/catalogos/monedaVenta/MonedaVentaListPage";
 import { Moneda } from "../dashboard/pages/catalogos/monedaVenta/moneda/Moneda";
+import { PlazoPagoListPage } from "../dashboard/pages/catalogos/plazoPago/PlazoPago";
+import { Plazo } from "../dashboard/pages/catalogos/plazoPago/plazo/Plazo";
 
 const AuthLayout = lazy(() => import("../auth/layouts/AuthLayout"));
 const DashboardLayout = lazy(
@@ -40,6 +42,11 @@ export const FacturasRoutes = () => {
             <Route index element={<MonedaVentaListPage />} />
             <Route path="nuevo" element={<Moneda />} />
             <Route path=":id" element={<Moneda />} />
+          </Route>
+          <Route path="plazo-pago">
+            <Route index element={<PlazoPagoListPage />} />
+            <Route path="nuevo" element={<Plazo />} />
+            <Route path=":id" element={<Plazo />} />
           </Route>
         </Route>
       </Route>

@@ -17,6 +17,13 @@ export const CatalogosPage = () => {
           navigateTo="/catalogos/moneda-venta"          
         />
       </Grid>
+      <Grid size={1} />
+      <Grid size={2}>
+        <CatalogCard
+          titulo="Condiciones de Pago"
+          navigateTo="/catalogos/plazo-pago"          
+        />
+      </Grid>
     </Grid>
   );
 };
