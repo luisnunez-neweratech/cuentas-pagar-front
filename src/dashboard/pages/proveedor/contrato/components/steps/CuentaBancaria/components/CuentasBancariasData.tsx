@@ -19,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { TipoEntidad } from "../../../../../interfaces/TipoEntidad";
 import type { MonedaVenta } from "../../../../../../catalogos/monedaVenta/interface/MonedaVenta";
+import type { PlazoPago } from "../../../../../../catalogos/plazoPago/interface/PlazoPago";
 
 interface props {
   id: number;
@@ -26,6 +27,7 @@ interface props {
   idInput: string;
   isValidForm: (id: number, valid: boolean) => void;
   monedas: MonedaVenta[];
+  plazoPagos: PlazoPago[];
 }
 
 export const CuentasBancariasData = ({
@@ -34,6 +36,7 @@ export const CuentasBancariasData = ({
   idInput,
   isValidForm,
   monedas,
+  plazoPagos,
 }: props) => {
   const {
     onMouseLeaveComponent,
@@ -153,8 +156,9 @@ export const CuentasBancariasData = ({
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <MenuItem value="15dias">15 dias</MenuItem>
-                  <MenuItem value="30dias">30 dias</MenuItem>
+                  {plazoPagos.map((plazo) => (
+                    <MenuItem value={plazo.id}>{plazo.descripcion}</MenuItem>
+                  ))}
                 </Select>
                 <FormHelperText>
                   {touched.condicionesPago && errors.condicionesPago

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCuentaBancariaStore } from "../store/CuentaBancaria";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { getAllMonedaVentas } from "../../../../../../catalogos/services/monedaVenta.service";
+import { getAllPlazoPagos } from "../../../../../../catalogos/services/plazoPago.service";
 import { useQuery } from "@tanstack/react-query";
 type Cuenta = { id: number; valido: boolean };
 
@@ -22,18 +23,29 @@ export const useCuentasBancarias = () => {
     (state) => state.removeCuentaBancaria
   );
 
-   const {
-    isLoading,
-    isError,
-    error,
+  const {
+    //isLoading,
+    //isError,
+    //error,
     data: monedas,
-    refetch,
+    //refetch,
   } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Moneda"],
     queryFn: () => getAllMonedaVentas(),
   });
 
-  const addCuenta = () => {    
+  const {
+    //isLoading,
+    //isError,
+    //error,
+    data: plazoPagos,
+    //refetch,
+  } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
+    queryFn: () => getAllPlazoPagos(),
+  });
+
+  const addCuenta = () => {
     addCuentaBancaria({
       id: (stepCuentaBancaria?.length ?? 0) + 1,
       valido: false,
@@ -47,7 +59,7 @@ export const useCuentasBancarias = () => {
     });
   };
 
-  const deleteCuenta = (id: number) => {    
+  const deleteCuenta = (id: number) => {
     removeCuentaBancaria(id);
   };
 
@@ -76,11 +88,12 @@ export const useCuentasBancarias = () => {
     }
   };
 
-  return {    
+  return {
     addCuenta,
-    deleteCuenta,    
+    deleteCuenta,
     isValidForm,
     setCuentasValidos,
-    monedas
+    monedas,
+    plazoPagos,
   };
 };
