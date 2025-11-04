@@ -4,7 +4,7 @@ import type { StepContrato } from "../interface/stepContrato";
 import type { StepDomicilio } from "../interface/stepDomicilio";
 import type { StepCuentaBancaria } from "../interface/stepCuentaBancaria";
 import type { StepContacto } from "../interface/stepContacto";
-import type { Colaboradores } from "../interface/colaboradores";
+import type { Colaboradores } from "../interface/Colaboradores";
 import type { Documentos } from "../interface/Documentos";
 import { TipoContacto } from "../../interfaces/TipoContacto";
 

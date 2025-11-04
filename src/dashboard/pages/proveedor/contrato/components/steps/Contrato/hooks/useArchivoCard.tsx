@@ -3,10 +3,6 @@ import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.s
 export const useArchivoCard = () => {
   const stepContrato = useProveedorContratoStore((state) => state.stepContrato);
 
-  const onMouseLeaveComponent = () => {
-
-  }
-
   const isValidForm = ( valid: boolean) => {
     /*  setItems(
       items.map((item) => {
@@ -34,7 +30,6 @@ export const useArchivoCard = () => {
   };
 
   return {
-    isValidForm,
-    onMouseLeaveComponent
+    isValidForm    
   };
 };

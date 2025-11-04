@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, Grid, Paper } from "@mui/material";
+import { Button, Checkbox, FormControlLabel } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -86,6 +86,7 @@ export const ArchivoElement = ({
                 <FileUploadIcon />
               </Button>
             </label>
+            {console.log("errors", errors, idInput)}
             {errors[idInput] && (
               <p style={{ color: "#d32f2f", fontSize: "12px" }}>
                 Archivo requerido
@@ -167,6 +168,10 @@ export const ArchivoElement = ({
               <Checkbox
                 defaultChecked
                 onChange={() => {
+                  setFieldValue("indeterminado", !checkIndeterminado);
+                  if (!checkIndeterminado === true) {
+                    setFieldValue("fechaFin", "");
+                  }
                   setCheckIndeterminado(!checkIndeterminado);
                 }}
               />

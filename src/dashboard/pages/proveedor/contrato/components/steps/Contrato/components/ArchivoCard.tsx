@@ -9,7 +9,7 @@ interface props {
 }
 
 export const ArchivoCard = ({ contrato }: props) => {
-  const { isValidForm, onMouseLeaveComponent } = useArchivoCard();
+  const { isValidForm } = useArchivoCard();
 
   const stepContrato = useProveedorContratoStore((state) => state.stepContrato);
 
@@ -30,7 +30,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             tipoDocumento={TipoDocumento.principal}
           />
 
-          <Grid size={12}>
+         {/*  <Grid size={12}>
             <Divider />
           </Grid>
           <ArchivoElement
@@ -69,8 +69,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             idInput="filePoderRepLegal"
             isValidForm={isValidForm}
             tipoDocumento={TipoDocumento.poderRepLegal}
-          />
-
+          />                
           {contrato && (
             <>
               <Grid size={12}>
@@ -85,7 +84,7 @@ export const ArchivoCard = ({ contrato }: props) => {
                 tipoDocumento={TipoDocumento.anexo}
               />
             </>
-          )}
+          )} */}
         </Grid>
       </CardContent>
     </Card>

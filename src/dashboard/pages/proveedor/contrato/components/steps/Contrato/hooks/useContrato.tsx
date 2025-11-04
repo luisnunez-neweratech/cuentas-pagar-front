@@ -41,11 +41,15 @@ export const useContrato = () => {
     } */
     const stepContrato = getStepContrato();
 
+    console.log('stepContrato', stepContrato)
+
     return {
       noColaborador: stepContrato?.noColaborador
         ? stepContrato?.noColaborador
         : " ",
       contractor: stepContrato?.contractor,
+      colaboradores: stepContrato?.colaboradores,
+      documentos: stepContrato?.documentos,
     };
   };
 
@@ -60,7 +64,9 @@ export const useContrato = () => {
   } = useFormik({
     initialValues: initialFormValues(),
     validationSchema:
-      getStepPerfil()?.tipoPersona === TipoPersona.Fisica ? validationFisicoSchema : null,
+      getStepPerfil()?.tipoPersona === TipoPersona.Fisica
+        ? validationFisicoSchema
+        : null,
     onSubmit: async (values) => {
       /*  const pasoPerfil: StepPerfil = {
             tipoProveedor: "contrato",
@@ -82,6 +88,7 @@ export const useContrato = () => {
           ...prevStepContrato,
           noColaborador: checkContractor ? values.noColaborador : "",
           contractor: checkContractor,
+          documentos: prevStepContrato?.documentos!,
         };
         setStepContrato(stepContrato);
         handleNext();
@@ -107,6 +114,8 @@ export const useContrato = () => {
                 status: true,
               },
             ],
+            //obtener documentos
+            documentos: prevStepContrato?.documentos!,
           };
           setStepContrato(newStepContrato);
           console.log("validar documentos");
@@ -120,6 +129,7 @@ export const useContrato = () => {
               noColaborador: "",
               contractor: checkContractor,
               colaboradores: stepContrato?.colaboradores,
+              documentos: prevStepContrato?.documentos!,
             };
             setStepContrato(newStepContrato);
             console.log("validar documentos");
