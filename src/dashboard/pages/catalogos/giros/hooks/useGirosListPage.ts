@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { getAllGiros } from "../../services/giros.service";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deleteGiro, getAllGiros } from "../../services/giros.service";
 import { useDashboardLayoutStore } from "../../../../store/dashboardLayout.store";
 
 export const useGirosListPage = () => {
@@ -19,6 +19,7 @@ export const useGirosListPage = () => {
     isError,
     error,
     data: giros,
+    refetch,
   } = useQuery({
     queryKey: ["SupplierActivity", "GetAll"],
     queryFn: () => getAllGiros(),
@@ -29,7 +30,6 @@ export const useGirosListPage = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    console.log("isError", isError);
     if (isError) {
       if (error instanceof AxiosError) {
         toast.error(error.message);
@@ -39,8 +39,34 @@ export const useGirosListPage = () => {
     }
   }, [isError]);
 
+  const deleteGiroMutation = useMutation({
+    mutationFn: deleteGiro,
+    onSuccess: () => {
+      toast.success("Giro eliminado correctamente");
+      refetch();
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al eliminar el giro");
+      return;
+    },
+  });
+
+  const onClickEliminar = (id: string) => {
+    deleteGiroMutation.mutate(id);
+  };
+
+  useEffect(() => {
+    setIsLoading(deleteGiroMutation.isPending);
+  }, [deleteGiroMutation.isPending]);
+
   return {
     rowClick,
     giros,
+    onClickEliminar,
   };
 };

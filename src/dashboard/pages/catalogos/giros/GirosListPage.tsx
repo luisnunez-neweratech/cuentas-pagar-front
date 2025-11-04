@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import {
   Grid,
   IconButton,
@@ -12,14 +13,15 @@ import {
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { mainBackgroundColor } from "../../../../lib/constants";
-import { useNavigate } from "react-router";
 import { useGirosListPage } from "./hooks/useGirosListPage";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
 export const GirosListPage = () => {
   const navigate = useNavigate();
-  const { rowClick, giros } = useGirosListPage();
+  const { rowClick, giros, onClickEliminar } = useGirosListPage();
 
   return (
     <Grid container>
@@ -49,6 +51,7 @@ export const GirosListPage = () => {
               <TableRow>
                 <TableCell style={cellHeaderStyle}>Id</TableCell>
                 <TableCell style={cellHeaderStyle}>Descripcion</TableCell>
+                <TableCell style={cellHeaderStyle} align="center">Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -69,6 +72,34 @@ export const GirosListPage = () => {
                       {giro.id}
                     </TableCell>
                     <TableCell>{giro.descripcion}</TableCell>
+                    <TableCell align="center">
+                      <Tooltip title="Modificar">
+                        <IconButton
+                          color="primary"
+                          edge="start"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            rowClick(giro);
+                          }}
+                          sx={{ marginRight: 3 }}
+                        >
+                          <ModeEditIcon style={{ width: 32, height: 32 }} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Eliminar">
+                        <IconButton
+                          color="error"
+                          edge="start"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onClickEliminar(giro.id.toString());
+                          }}
+                          sx={{ marginLeft: 3 }}
+                        >
+                          <DeleteIcon style={{ width: 32, height: 32 }} />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

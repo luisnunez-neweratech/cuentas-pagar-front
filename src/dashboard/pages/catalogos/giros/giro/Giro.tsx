@@ -2,7 +2,6 @@ import { Button, Grid, IconButton, TextField, Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router";
 import { useGiro } from "./hooks/useGiro";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 
 export const Giro = () => {
@@ -15,12 +14,10 @@ export const Giro = () => {
     handleBlur,
     touched,
     errors,
-    onClickEliminar
   } = useGiro();
 
   return (
-    <form
-      //
+    <form      
       style={{
         width: "100%",
       }}
@@ -71,23 +68,11 @@ export const Giro = () => {
                 fullWidth
                 type="submit"
               >
-                Modificar
+                Guardar
                 <SaveIcon sx={{ marginLeft: 1 }} />
               </Button>
             </Grid>
             <Grid size={1} />
-            <Grid size={2} sx={{ marginTop: 4 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                type="button"
-                onClick={onClickEliminar}
-              >
-                Eliminar
-                <DeleteIcon sx={{ marginLeft: 1 }} />
-              </Button>
-            </Grid>
           </>
         ) : (
           <Grid size={2}>
