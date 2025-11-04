@@ -1,10 +1,12 @@
 import { useFormik } from "formik";
+import { useQuery } from "@tanstack/react-query";
 import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepPerfil } from "../../../../interface/stepPerfil";
 import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
 import { TipoEntidad } from "../../../../../interfaces/TipoEntidad";
 import { TipoPersona } from "../../../../../interfaces/TipoPersona";
+import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 
 export const usePerfil = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -29,6 +31,7 @@ export const usePerfil = () => {
       };
     } */
     const stepPerfil = getStepPerfil();
+    console.log('stepPerfil', stepPerfil)
     return {
       tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
       tipoPersona: stepPerfil ? stepPerfil.tipoPersona : "",
@@ -75,6 +78,11 @@ export const usePerfil = () => {
     setFieldValue("productos", newValues);
   };
 
+  const { data: giros } = useQuery({
+    queryKey: ["SupplierActivity", "GetAll"],
+    queryFn: () => getAllGiros(),
+  });
+
   return {
     handleSubmit,
     values,
@@ -83,5 +91,7 @@ export const usePerfil = () => {
     touched,
     errors,
     onChangeAutocomplete,
+    giros: giros ?? [],
+    setFieldValue,
   };
 };

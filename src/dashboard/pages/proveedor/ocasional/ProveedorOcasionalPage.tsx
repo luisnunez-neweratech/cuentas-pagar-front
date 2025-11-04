@@ -163,6 +163,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={(_e, newvalue) => {
               setFieldValue("giroPrincipal", newvalue);
             }}
+            value={values.giroPrincipal}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -177,24 +178,7 @@ export const ProveedorOcasionalPage = () => {
               />
             )}
           />
-        </Grid>
-
-        {/* <Grid size={4}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="giroPrincipal"
-            label="Giro Principal"
-            name="giroPrincipal"
-            sx={{ marginTop: 4 }}
-            value={values.giroPrincipal}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
-            helperText={touched.giroPrincipal && errors.giroPrincipal}
-          />
-        </Grid> */}
+        </Grid>        
 
         <Grid size={4}>
           <AutoCompleteComponent
