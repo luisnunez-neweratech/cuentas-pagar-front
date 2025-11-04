@@ -10,6 +10,8 @@ import { RecoverTokenPage } from "../auth/pages/recoverToken/RecoverToken";
 import { CatalogosPage } from "../dashboard/pages/catalogos/CatalogosPage";
 import { GirosListPage } from "../dashboard/pages/catalogos/giros/GirosListPage";
 import { Giro } from "../dashboard/pages/catalogos/giros/giro/Giro";
+import { MonedaVentaListPage } from "../dashboard/pages/catalogos/monedaVenta/MonedaVentaListPage";
+import { Moneda } from "../dashboard/pages/catalogos/monedaVenta/moneda/Moneda";
 
 const AuthLayout = lazy(() => import("../auth/layouts/AuthLayout"));
 const DashboardLayout = lazy(
@@ -33,6 +35,11 @@ export const FacturasRoutes = () => {
             <Route index element={<GirosListPage />} />
             <Route path="nuevo" element={<Giro />} />
             <Route path=":id" element={<Giro />} />
+          </Route>
+          <Route path="moneda-venta">
+            <Route index element={<MonedaVentaListPage />} />
+            <Route path="nuevo" element={<Moneda />} />
+            <Route path=":id" element={<Moneda />} />
           </Route>
         </Route>
       </Route>

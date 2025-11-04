@@ -4,20 +4,24 @@ import { useNavigate, useParams } from "react-router";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { validationSchema } from "../Validations";
-import { addGiro, getGiro, updateGiro } from "../../../services/giros.service";
+import {
+  addMonedaVenta,
+  updateMonedaVenta,
+  getMonedaVenta,
+} from "../../../services/monedaVenta.service";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 
-export const useGiro = () => {
+export const useMoneda = () => {
   const { id } = useParams();
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const navigate = useNavigate();
 
   const addGiroMutation = useMutation({
-    mutationFn: addGiro,
+    mutationFn: addMonedaVenta,
     onSuccess: () => {
-      toast.success("Giro agregado correctamente");
-      navigate("/catalogos/giros/");
+      toast.success("Moneda de Venta agregado correctamente");
+      navigate("/catalogos/moneda-venta/");
     },
     onError: (error) => {
       console.log(error);
@@ -31,10 +35,10 @@ export const useGiro = () => {
   });
 
   const updateGiroMutation = useMutation({
-    mutationFn: updateGiro,
+    mutationFn: updateMonedaVenta,
     onSuccess: () => {
-      toast.success("Giro actualizado correctamente");
-      navigate("/catalogos/giros/");
+      toast.success("Moneda de Ventas actualizado correctamente");
+      navigate("/catalogos/moneda-venta/");
     },
     onError: (error) => {
       console.log(error);
@@ -54,7 +58,7 @@ export const useGiro = () => {
     data: giro,
   } = useQuery({
     queryKey: ["CatalogMaster", `${id}`],
-    queryFn: () => getGiro(id || ""),
+    queryFn: () => getMonedaVenta(id || ""),
   });
 
   const getData = () => {
@@ -99,7 +103,7 @@ export const useGiro = () => {
         toast.error(error.message);
         return;
       }
-      toast.error("Error al obtener el giro");
+      toast.error("Error al obtener la moneda de venta");
     }
   }, [isError]);
 

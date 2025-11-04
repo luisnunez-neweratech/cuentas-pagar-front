@@ -1,13 +1,19 @@
 import { Button, Grid, IconButton, TextField, Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router";
-import { useGiro } from "./hooks/useGiro";
+import { useMoneda } from "./hooks/useMoneda";
 import SaveIcon from "@mui/icons-material/Save";
 
-export const Giro = () => {
+export const Moneda = () => {
   const navigate = useNavigate();
-  const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
-    useGiro();
+  const {    
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+  } = useMoneda();
 
   return (
     <form
@@ -23,7 +29,7 @@ export const Giro = () => {
             <IconButton
               color="inherit"
               edge="start"
-              onClick={() => navigate("/catalogos/giros")}
+              onClick={() => navigate("/catalogos/moneda-venta")}
             >
               <ArrowBackIcon style={{ width: 32, height: 32 }} />
             </IconButton>
@@ -31,7 +37,7 @@ export const Giro = () => {
         </Grid>
 
         <Grid size={3}>
-          <h1 style={{ marginTop: 0 }}>Giro</h1>
+          <h1 style={{ marginTop: 0 }}>Moneda de Venta</h1>
         </Grid>
         <Grid size={8} />
         <Grid size={3}>
@@ -41,7 +47,7 @@ export const Giro = () => {
             required
             fullWidth
             id="nombre"
-            label="Giro"
+            label="Moneda de Venta"
             name="nombre"
             value={values.nombre}
             onChange={handleChange}
