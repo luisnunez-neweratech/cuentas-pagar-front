@@ -31,12 +31,12 @@ export const ArchivoElement = ({
     touched,
     errors,
     setFieldTouched,
-    checkIndeterminado,
-    setCheckIndeterminado,
     fileName,
     numArchivos,
     onMouseLeaveComponent,
   } = useArchivoElement({ isValidForm, tipoDocumento, idInput });
+
+  console.log('values', values.indeterminado)
 
   return (
     <div
@@ -122,7 +122,7 @@ export const ArchivoElement = ({
           />
         </LocalizationProvider>
       </div>
-      {!checkIndeterminado ? (
+      {!values.indeterminado ? (
         <div
           style={{
             marginTop: 1,
@@ -163,16 +163,16 @@ export const ArchivoElement = ({
             paddingRight: 16,
           }}
         >
+          
           <FormControlLabel
             control={
-              <Checkbox
-                defaultChecked
+              <Checkbox                
+                checked={values.indeterminado}
                 onChange={() => {
-                  setFieldValue("indeterminado", !checkIndeterminado);
-                  if (!checkIndeterminado === true) {
+                  setFieldValue("indeterminado", !values.indeterminado);
+                  if (!values.indeterminado === true) {
                     setFieldValue("fechaFin", "");
                   }
-                  setCheckIndeterminado(!checkIndeterminado);
                 }}
               />
             }

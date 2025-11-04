@@ -49,20 +49,20 @@ export const useArchivoElement = ({
         break;
     }
 
+
+    console.log('documento.indeterminado', documento.indeterminado)
+    
     return {
       file: documento.archivo ?? null,
       fechaInicio: documento.fechaInicio ?? "", // Or dayjs() for a default value
       fechaFin: documento.fechaFin ?? "", // Or dayjs() for a default value
-      indeterminado: documento.indeterminado ?? true,
+      indeterminado: documento.indeterminado,
       [idInput]: documento?.fileValue,
     };
   };
 
   const [fileName, setFileName] = useState("");
   const [numArchivos, setNumArchivos] = useState(0);
-  const [checkIndeterminado, setCheckIndeterminado] = useState<boolean>(
-    getInitialValues().indeterminado
-  );
 
   const {
     handleSubmit,
@@ -101,11 +101,12 @@ export const useArchivoElement = ({
       console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
         isValidForm(true);
+        console.log("checkIndeterminado", values.indeterminado);
         const newDocumento = {
           archivo: values.file,
           fechaInicio: values.fechaInicio,
           fechaFin: values.fechaFin,
-          indeterminado: checkIndeterminado,
+          indeterminado: values.indeterminado,
           fileValue:
             typeof values[idInput] === "object" &&
             values[idInput] instanceof File
@@ -114,35 +115,8 @@ export const useArchivoElement = ({
         };
         //TODO
         // validar bien los archivos que si son requeridos, y las fechas cuando son requeridas
-        //boton siguiente en contratos, 
-        
-        console.log("aqui no enra?", {
-          tipo: getStepContrato()?.documentos.tipo!,
-          principal:
-            tipoDocumento === TipoDocumento.principal
-              ? newDocumento
-              : { ...getStepContrato()?.documentos.principal! },
-          csf:
-            tipoDocumento === TipoDocumento.csf
-              ? newDocumento
-              : { ...getStepContrato()?.documentos.csf! },
-          idRepLegal:
-            tipoDocumento === TipoDocumento.idRepLegal
-              ? newDocumento
-              : { ...getStepContrato()?.documentos.idRepLegal! },
-          compDomicilio:
-            tipoDocumento === TipoDocumento.compDomicilio
-              ? newDocumento
-              : { ...getStepContrato()?.documentos.compDomicilio! },
-          poderRepLegal:
-            tipoDocumento === TipoDocumento.poderRepLegal
-              ? newDocumento
-              : { ...getStepContrato()?.documentos.poderRepLegal! },
-          anexo:
-            tipoDocumento === TipoDocumento.anexo
-              ? newDocumento
-              : { ...getStepContrato()?.documentos.anexo! },
-        });
+        //boton siguiente en contratos,
+
         updateDocumentos({
           tipo: getStepContrato()?.documentos.tipo!,
           principal:
@@ -183,8 +157,6 @@ export const useArchivoElement = ({
     touched,
     errors,
     setFieldTouched,
-    checkIndeterminado,
-    setCheckIndeterminado,
     fileName,
     numArchivos,
     onMouseLeaveComponent,
