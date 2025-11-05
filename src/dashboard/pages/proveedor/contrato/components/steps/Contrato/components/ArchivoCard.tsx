@@ -62,7 +62,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             tipoDocumento={TipoDocumento.poderRepLegal}
             optional={true}
           />
-          {/*             
+
           {contrato && (
             <>
               <Grid size={12}>
@@ -73,11 +73,11 @@ export const ArchivoCard = ({ contrato }: props) => {
                 indeterminado={false}
                 multiple={true}
                 idInput="fileAnexo"
-                isValidForm={isValidForm}
                 tipoDocumento={TipoDocumento.anexo}
+                optional={true}
               />
             </>
-          )} */}
+          )}
         </Grid>
       </CardContent>
     </Card>
