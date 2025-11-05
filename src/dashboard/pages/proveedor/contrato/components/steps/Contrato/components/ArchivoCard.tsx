@@ -52,7 +52,6 @@ export const ArchivoCard = ({ contrato }: props) => {
             idInput="fileCompDomicilio"
             tipoDocumento={TipoDocumento.compDomicilio}
           />
-          {/*
           <Grid size={12}>
             <Divider />
           </Grid>
@@ -60,9 +59,10 @@ export const ArchivoCard = ({ contrato }: props) => {
             title="Poder Rep. Legal"
             multiple={false}
             idInput="filePoderRepLegal"
-            isValidForm={isValidForm}
             tipoDocumento={TipoDocumento.poderRepLegal}
-          />                
+            optional={true}
+          />
+          {/*             
           {contrato && (
             <>
               <Grid size={12}>

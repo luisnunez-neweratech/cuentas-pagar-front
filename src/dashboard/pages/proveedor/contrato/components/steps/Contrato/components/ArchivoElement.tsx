@@ -13,6 +13,7 @@ interface props {
   multiple: boolean;
   idInput: string;
   tipoDocumento: TipoDocumento;
+  optional?: boolean;
 }
 
 export const ArchivoElement = ({
@@ -21,6 +22,7 @@ export const ArchivoElement = ({
   multiple,
   idInput,
   tipoDocumento,
+  optional=false
 }: props) => {
   const {
     handleFileChange,
@@ -32,7 +34,7 @@ export const ArchivoElement = ({
     fileName,
     numArchivos,
     onMouseLeaveComponent,
-  } = useArchivoElement({  tipoDocumento, idInput });  
+  } = useArchivoElement({  tipoDocumento, idInput, optional });  
 
   return (
     <div

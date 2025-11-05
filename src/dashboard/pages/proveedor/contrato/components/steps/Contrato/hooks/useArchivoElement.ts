@@ -9,9 +9,14 @@ import { useContratoStore } from "../store/Contrato.store";
 interface props {
   tipoDocumento: TipoDocumento;
   idInput: string;
+  optional?: boolean;
 }
 
-export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
+export const useArchivoElement = ({
+  tipoDocumento,
+  idInput,
+  optional,
+}: props) => {
   const getStepContrato = useProveedorContratoStore(
     (state) => state.getStepContrato
   );
@@ -68,6 +73,7 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
     };
   };
 
+  console.log("optional", optional);
   const {
     handleSubmit,
     values,
@@ -80,7 +86,7 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
     validateForm,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationArchivoschema(idInput),
+    validationSchema: optional ? null : validationArchivoschema(idInput),
     onSubmit: (values) => {
       console.log(values);
     },
