@@ -49,13 +49,13 @@ export const Domicilio = () => {
                   sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                   {...optionProps}
                 >
-                  <img
+                 {/*  <img
                     loading="lazy"
                     width="20"
                     srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
                     src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
                     alt=""
-                  />
+                  /> */}
                   {option.label}
                 </Box>
               );

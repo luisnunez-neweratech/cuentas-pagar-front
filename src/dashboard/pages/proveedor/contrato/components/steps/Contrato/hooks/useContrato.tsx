@@ -92,7 +92,9 @@ export const useContrato = () => {
           documentos: prevStepContrato?.documentos!,
         };
         setStepContrato(stepContrato);
-        handleNext();
+        if (getValidScreen()) {
+          handleNext();
+        }
       } else {
         //moral
         if (!checkContractor) {
@@ -120,7 +122,6 @@ export const useContrato = () => {
           };
           setStepContrato(newStepContrato);
           if (getValidScreen()) {
-            console.log("validar documentos");
             handleNext();
           }
         } else {
