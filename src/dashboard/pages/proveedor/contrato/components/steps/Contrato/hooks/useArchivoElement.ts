@@ -4,24 +4,22 @@ import { validationArchivoschema } from "../components/ArchivosValidation";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { Documento } from "../../../../interface/Documentos";
 import { TipoDocumento } from "../../../../../interfaces/TipoDocumento";
+import { useContratoStore } from "../store/Contrato.store";
 
 interface props {
-  isValidForm: (valid: boolean) => void;
   tipoDocumento: TipoDocumento;
   idInput: string;
 }
 
-export const useArchivoElement = ({
-  isValidForm,
-  tipoDocumento,
-  idInput,
-}: props) => {
+export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
   const getStepContrato = useProveedorContratoStore(
     (state) => state.getStepContrato
   );
   const updateDocumentos = useProveedorContratoStore(
     (state) => state.updateDocumentos
   );
+
+  const setValidScreen = useContratoStore((state) => state.setValidScreen);
 
   const getInitialValues = () => {
     let documento: Documento;
@@ -49,20 +47,13 @@ export const useArchivoElement = ({
         break;
     }
 
-
-    console.log('documento.indeterminado', documento.indeterminado)
-    
     return {
-      file: documento.archivo ?? null,
       fechaInicio: documento.fechaInicio ?? "", // Or dayjs() for a default value
       fechaFin: documento.fechaFin ?? "", // Or dayjs() for a default value
       indeterminado: documento.indeterminado,
       [idInput]: documento?.fileValue,
     };
   };
-
-  const [fileName, setFileName] = useState("");
-  const [numArchivos, setNumArchivos] = useState(0);
 
   const {
     handleSubmit,
@@ -82,6 +73,11 @@ export const useArchivoElement = ({
     },
   });
 
+  const [fileName, setFileName] = useState(
+    values[idInput] instanceof File ? values[idInput].name : null
+  );
+  const [numArchivos, setNumArchivos] = useState(0);
+
   const handleFileChange = (event: any) => {
     // envio del archivo al api
     /* const formData = new FormData();
@@ -100,10 +96,9 @@ export const useArchivoElement = ({
     validateForm().then((errors) => {
       console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
-        isValidForm(true);
+        setValidScreen(true);
         console.log("checkIndeterminado", values.indeterminado);
         const newDocumento = {
-          archivo: values.file,
           fechaInicio: values.fechaInicio,
           fechaFin: values.fechaFin,
           indeterminado: values.indeterminado,
@@ -145,7 +140,7 @@ export const useArchivoElement = ({
               : { ...getStepContrato()?.documentos.anexo! },
         });
       } else {
-        isValidForm(false);
+        setValidScreen(false);
       }
     });
   };

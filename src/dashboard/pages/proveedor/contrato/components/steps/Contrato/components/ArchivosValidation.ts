@@ -31,8 +31,7 @@ export const validationArchivoschema = (idInput: string) => {
       .test(
         "fileType",
         "Solo archivos con formato .pdf o .jpeg",
-        (value: any) => {
-          console.log(SUPPORTED_FORMATS.includes(value.type));
+        (value: any) => {          
           return value && SUPPORTED_FORMATS.includes(value.type);
         }
       ),

@@ -12,7 +12,6 @@ interface props {
   indeterminado?: boolean;
   multiple: boolean;
   idInput: string;
-  isValidForm: (valid: boolean) => void;
   tipoDocumento: TipoDocumento;
 }
 
@@ -21,7 +20,6 @@ export const ArchivoElement = ({
   indeterminado = true,
   multiple,
   idInput,
-  isValidForm,
   tipoDocumento,
 }: props) => {
   const {
@@ -34,7 +32,7 @@ export const ArchivoElement = ({
     fileName,
     numArchivos,
     onMouseLeaveComponent,
-  } = useArchivoElement({ isValidForm, tipoDocumento, idInput });
+  } = useArchivoElement({  tipoDocumento, idInput });
 
   console.log('values', values.indeterminado)
 

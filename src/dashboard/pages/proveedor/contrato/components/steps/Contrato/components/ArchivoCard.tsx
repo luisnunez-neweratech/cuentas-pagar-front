@@ -1,7 +1,5 @@
 import { Card, CardContent, Divider, Grid, Typography } from "@mui/material";
 import { ArchivoElement } from "./ArchivoElement";
-import { useArchivoCard } from "../hooks/useArchivoCard";
-import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { TipoDocumento } from "../../../../../interfaces/TipoDocumento";
 
 interface props {
@@ -9,9 +7,8 @@ interface props {
 }
 
 export const ArchivoCard = ({ contrato }: props) => {
-  const { isValidForm } = useArchivoCard();
-
-  const stepContrato = useProveedorContratoStore((state) => state.stepContrato);
+  
+  
 
   return (
     <Card elevation={3}>
@@ -25,8 +22,7 @@ export const ArchivoCard = ({ contrato }: props) => {
           <ArchivoElement
             title={contrato ? "*Contrato" : "*Propuesta"}
             multiple={false}
-            idInput={contrato ? "fileContrato" : "filePropuesta"}
-            isValidForm={isValidForm}
+            idInput={contrato ? "fileContrato" : "filePropuesta"}            
             tipoDocumento={TipoDocumento.principal}
           />
 

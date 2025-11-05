@@ -5,6 +5,7 @@ import { validationFisicoSchema } from "../Validations";
 import type { StepContrato } from "../../../../interface/stepContrato";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 import { TipoPersona } from "../../../../../interfaces/TipoPersona";
+import { useContratoStore } from "../store/Contrato.store";
 
 export const useContrato = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -24,6 +25,8 @@ export const useContrato = () => {
     (state) => state.getColaboradoresValidos
   );
 
+  const validScreen = useContratoStore((state) => state.validScreen);
+
   const [contrato, setContrato] = useState<boolean>(stepContrato?.contractor!);
   const [propuesta, setPropuesta] = useState<boolean>(false);
 
@@ -40,8 +43,6 @@ export const useContrato = () => {
       };
     } */
     const stepContrato = getStepContrato();
-
-    console.log('stepContrato', stepContrato)
 
     return {
       noColaborador: stepContrato?.noColaborador
@@ -118,8 +119,10 @@ export const useContrato = () => {
             documentos: prevStepContrato?.documentos!,
           };
           setStepContrato(newStepContrato);
-          console.log("validar documentos");
-          handleNext();
+          if (validScreen) {
+            console.log("validar documentos");
+            handleNext();
+          }
         } else {
           console.log("colaboradores validos?");
           if (getColaboradoresValidos()) {
@@ -132,8 +135,10 @@ export const useContrato = () => {
               documentos: prevStepContrato?.documentos!,
             };
             setStepContrato(newStepContrato);
-            console.log("validar documentos");
-            handleNext();
+            if (validScreen) {
+              console.log("validar documentos");
+              handleNext();
+            }
           }
         }
       }

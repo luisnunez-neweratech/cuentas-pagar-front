@@ -1,5 +1,4 @@
 export interface Documento {
-  archivo: File | null;
   fechaInicio: string;
   fechaFin?: string;
   indeterminado: boolean;
