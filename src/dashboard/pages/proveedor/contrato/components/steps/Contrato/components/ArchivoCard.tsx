@@ -32,7 +32,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             idInput="fileCSF"
             tipoDocumento={TipoDocumento.csf}
           />
-          {/*
+          
           <Grid size={12}>
             <Divider />
           </Grid>
@@ -40,9 +40,9 @@ export const ArchivoCard = ({ contrato }: props) => {
             title="*Id Rep. Legal"
             multiple={false}
             idInput="fileIdRepLegal"
-            isValidForm={isValidForm}
             tipoDocumento={TipoDocumento.idRepLegal}
           />
+          {/*
           <Grid size={12}>
             <Divider />
           </Grid>
