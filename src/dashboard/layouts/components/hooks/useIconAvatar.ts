@@ -3,6 +3,7 @@ import { useAuthStore } from "../../../../stores/auth/auth.store";
 
 export const useIconAvatar = () => {
   const logoutUser = useAuthStore((state) => state.logoutUser);
+  const user = useAuthStore((state) => state.user);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -18,5 +19,6 @@ export const useIconAvatar = () => {
     handleClick,
     handleClose,
     anchorEl,
+    userName: user?.fullName
   };
 };

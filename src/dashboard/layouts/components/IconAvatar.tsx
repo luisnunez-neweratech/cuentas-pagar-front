@@ -4,12 +4,12 @@ import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useIconAvatar } from "./hooks/useIconAvatar";
 
 export const IconAvatar = () => {
-  const { logoutUser, open, handleClick, handleClose, anchorEl } =
+  const { logoutUser, open, handleClick, handleClose, anchorEl, userName } =
     useIconAvatar();
 
   return (
     <Stack direction="row" spacing={2}>
-      <Tooltip title="Luis Nuñez">
+      <Tooltip title={userName}>
         <IconButton color="inherit" edge="start" onClick={handleClick}>
           <AccountCircleIcon style={{ width: 32, height: 32 }} />
         </IconButton>
