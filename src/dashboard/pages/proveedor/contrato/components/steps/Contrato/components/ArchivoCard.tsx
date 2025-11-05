@@ -7,9 +7,6 @@ interface props {
 }
 
 export const ArchivoCard = ({ contrato }: props) => {
-  
-  
-
   return (
     <Card elevation={3}>
       <CardContent>
@@ -22,20 +19,20 @@ export const ArchivoCard = ({ contrato }: props) => {
           <ArchivoElement
             title={contrato ? "*Contrato" : "*Propuesta"}
             multiple={false}
-            idInput={contrato ? "fileContrato" : "filePropuesta"}            
+            idInput={contrato ? "fileContrato" : "filePropuesta"}
             tipoDocumento={TipoDocumento.principal}
           />
-
-         {/*  <Grid size={12}>
+          {/*
+          <Grid size={12}>
             <Divider />
           </Grid>
           <ArchivoElement
             title="*CSF"
             multiple={false}
             idInput="fileCSF"
-            isValidForm={isValidForm}
             tipoDocumento={TipoDocumento.csf}
           />
+          
           <Grid size={12}>
             <Divider />
           </Grid>

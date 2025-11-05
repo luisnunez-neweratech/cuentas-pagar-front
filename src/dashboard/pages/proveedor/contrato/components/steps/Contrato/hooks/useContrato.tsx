@@ -25,7 +25,7 @@ export const useContrato = () => {
     (state) => state.getColaboradoresValidos
   );
 
-  const validScreen = useContratoStore((state) => state.validScreen);
+  const getValidScreen = useContratoStore((state) => state.getValidScreen);
 
   const [contrato, setContrato] = useState<boolean>(stepContrato?.contractor!);
   const [propuesta, setPropuesta] = useState<boolean>(false);
@@ -119,7 +119,7 @@ export const useContrato = () => {
             documentos: prevStepContrato?.documentos!,
           };
           setStepContrato(newStepContrato);
-          if (validScreen) {
+          if (getValidScreen()) {
             console.log("validar documentos");
             handleNext();
           }
@@ -135,7 +135,7 @@ export const useContrato = () => {
               documentos: prevStepContrato?.documentos!,
             };
             setStepContrato(newStepContrato);
-            if (validScreen) {
+            if (getValidScreen()) {
               console.log("validar documentos");
               handleNext();
             }

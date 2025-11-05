@@ -19,7 +19,9 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
     (state) => state.updateDocumentos
   );
 
-  const setValidScreen = useContratoStore((state) => state.setValidScreen);
+  const setValidArchivoPrincipal = useContratoStore(
+    (state) => state.setValidArchivoPrincipal
+  );
 
   const getInitialValues = () => {
     let documento: Documento;
@@ -96,7 +98,6 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
     validateForm().then((errors) => {
       console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
-        setValidScreen(true);
         console.log("checkIndeterminado", values.indeterminado);
         const newDocumento = {
           fechaInicio: values.fechaInicio,
@@ -108,10 +109,9 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
               ? values[idInput]
               : undefined,
         };
-        //TODO
-        // validar bien los archivos que si son requeridos, y las fechas cuando son requeridas
-        //boton siguiente en contratos,
-
+        if (tipoDocumento === TipoDocumento.principal) {
+          setValidArchivoPrincipal(true);
+        }
         updateDocumentos({
           tipo: getStepContrato()?.documentos.tipo!,
           principal:
@@ -140,7 +140,9 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
               : { ...getStepContrato()?.documentos.anexo! },
         });
       } else {
-        setValidScreen(false);
+        if (tipoDocumento === TipoDocumento.principal) {
+          setValidArchivoPrincipal(false);
+        }
       }
     });
   };

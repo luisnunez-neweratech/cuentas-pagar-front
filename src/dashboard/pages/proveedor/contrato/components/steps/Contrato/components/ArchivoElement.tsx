@@ -32,9 +32,7 @@ export const ArchivoElement = ({
     fileName,
     numArchivos,
     onMouseLeaveComponent,
-  } = useArchivoElement({  tipoDocumento, idInput });
-
-  console.log('values', values.indeterminado)
+  } = useArchivoElement({  tipoDocumento, idInput });  
 
   return (
     <div
