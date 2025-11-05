@@ -31,7 +31,7 @@ export const usePerfil = () => {
       };
     } */
     const stepPerfil = getStepPerfil();
-    console.log("stepPerfil", stepPerfil);
+
     return {
       tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
       tipoPersona: stepPerfil ? stepPerfil.tipoPersona : "",

@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import { useJsApiLoader } from "@react-google-maps/api";
 import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
-import { useJsApiLoader } from "@react-google-maps/api";
+import { countries } from "../../../../../../../../lib/constants";
 
 export const useDomicilio = (inputRef: any) => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -13,6 +15,7 @@ export const useDomicilio = (inputRef: any) => {
   const setStepDomicilio = useProveedorContratoStore(
     (state) => state.setStepDomicilio
   );
+  const [optionPais, setOptionPais] = useState<any>(null);
 
   const initialFormValues = () => {
     /* if (id) {
@@ -27,8 +30,8 @@ export const useDomicilio = (inputRef: any) => {
         productos: "", //TODO valores para los productos
       };
     } */
-
     const stepDomicilio = getStepDomicilio();
+
     return {
       pais: stepDomicilio?.pais,
       codigoPostal: stepDomicilio?.codigoPostal,
@@ -42,6 +45,12 @@ export const useDomicilio = (inputRef: any) => {
     };
   };
 
+  useEffect(() => {
+    setOptionPais(
+      countries.find((country) => country.label === getStepDomicilio()?.pais)
+    );
+  }, []);
+
   const {
     handleSubmit,
     values,
@@ -54,7 +63,6 @@ export const useDomicilio = (inputRef: any) => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log("values", values);
       const pasoDomicilio: StepDomicilio = {
         pais: values.pais ?? "",
         codigoPostal: values.codigoPostal ?? "",
@@ -79,7 +87,6 @@ export const useDomicilio = (inputRef: any) => {
 
   const handleOnPlacesChanged = () => {
     let address = inputRef.current.getPlace();
-    console.log("address", address);
     if (address && address?.address_components.length > 0) {
       const codigoPostal = address?.address_components.filter(
         (addressFound: any) => {
@@ -135,5 +142,7 @@ export const useDomicilio = (inputRef: any) => {
     setFieldValue,
     handleOnPlacesChanged,
     isLoaded,
+    optionPais,
+    setOptionPais,
   };
 };

@@ -1,4 +1,3 @@
-import { Perfil } from "../components/steps/Perfil/Perfil";
 import { Domicilio } from "../components/steps/Domicilio/Domicilio";
 import { CuentaBancaria } from "../components/steps/CuentaBancaria/CuentaBancaria";
 import { Contacto } from "../components/steps/Contacto/Contacto";
@@ -25,7 +24,7 @@ export const useProveedorContratoPage = () => {
   const getStepScreen = (index: number) => {
     switch (index) {
       case 0:
-        return <Contrato />;//return <Perfil />;
+        return <Domicilio />;//return <Perfil />;
       case 1:
         return <Contrato />;
       case 2:

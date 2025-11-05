@@ -1,11 +1,11 @@
 import { useRef } from "react";
+import { Autocomplete as AutocompleteGoogle } from "@react-google-maps/api";
 import { Button, Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { countries } from "../../../../../../../lib/constants";
 import { useDomicilio } from "./hooks/useDomicilio";
-import { Autocomplete as AutocompleteGoogle } from "@react-google-maps/api";
 
 export const Domicilio = () => {
   const inputRef = useRef<any | null>(null);
@@ -20,6 +20,8 @@ export const Domicilio = () => {
     setFieldValue,
     handleOnPlacesChanged,
     isLoaded,
+    optionPais,
+    setOptionPais,
   } = useDomicilio(inputRef);
 
   return (
@@ -32,7 +34,11 @@ export const Domicilio = () => {
             sx={{ marginTop: "16px" }}
             options={countries}
             autoHighlight
-            onChange={(_e, value) => setFieldValue("pais", value?.label)}
+            value={optionPais}
+            onChange={(_e, value) => {
+              setFieldValue("pais", value?.label);
+              setOptionPais(value);
+            }}
             getOptionLabel={(option) => option.label}
             renderOption={(props, option) => {
               const { key, ...optionProps } = props;
@@ -66,7 +72,6 @@ export const Domicilio = () => {
                     autoComplete: "new-password",
                   },
                 }}
-                value={values.pais}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.pais && Boolean(errors.pais)}
@@ -81,7 +86,9 @@ export const Domicilio = () => {
               onLoad={(ref) => (inputRef.current = ref)}
               onPlaceChanged={handleOnPlacesChanged}
               options={{
-                componentRestrictions: { country: "MX" },
+                componentRestrictions: {
+                  country: optionPais ? optionPais.code : "MX",
+                },
                 fields: ["address_components", "formatted_address"],
               }}
             >
@@ -102,21 +109,6 @@ export const Domicilio = () => {
             </AutocompleteGoogle>
           )}
         </Grid>
-        {/*  <Grid size={4}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="codigoPostal"
-            name="codigoPostal"
-            label="*C&oacute;digo Postal"
-            value={values.codigoPostal}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.codigoPostal && Boolean(errors.codigoPostal)}
-            helperText={touched.codigoPostal && errors.codigoPostal}
-          />
-        </Grid> */}
         <Grid size={4}>
           <TextField
             variant="outlined"

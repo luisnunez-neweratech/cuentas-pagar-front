@@ -72,8 +72,7 @@ export const useArchivoElement = ({
       [idInput]: documento?.fileValue,
     };
   };
-
-  console.log("optional", optional);
+  
   const {
     handleSubmit,
     values,
@@ -111,11 +110,9 @@ export const useArchivoElement = ({
   };
 
   const onMouseLeaveComponent = async () => {
-    handleSubmit(); // show the errors
-    validateForm().then((errors) => {
-      console.log("errros", errors);
+    handleSubmit(); 
+    validateForm().then((errors) => {      
       if (Object.keys(errors).length === 0) {
-        console.log("checkIndeterminado", values.indeterminado);
         const newDocumento = {
           fechaInicio: values.fechaInicio,
           fechaFin: values.fechaFin,
