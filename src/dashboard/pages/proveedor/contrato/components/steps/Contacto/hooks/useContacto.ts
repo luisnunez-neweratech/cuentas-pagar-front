@@ -22,7 +22,7 @@ export const useContacto = () => {
       toast.success("Proveedor creado correctamente");
       navigate("/proveedor");
       //}
-      handleReset();
+      //handleReset();
     }
     //TODO enviar data al api
   };

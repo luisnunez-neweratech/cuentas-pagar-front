@@ -4,11 +4,12 @@ import { Contacto } from "../components/steps/Contacto/Contacto";
 import { useNavigate } from "react-router";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
 import { Contrato } from "../components/steps/Contrato/Contrato";
+import { Perfil } from "../components/steps/Perfil/Perfil";
 
 const steps = [
   "Perfil",
-  "Contrato",
   "Domicilio Fiscal",
+  "Contrato",
   "Cuenta Bancaria",
   "Contactos",
 ];
@@ -24,11 +25,11 @@ export const useProveedorContratoPage = () => {
   const getStepScreen = (index: number) => {
     switch (index) {
       case 0:
-        return <Domicilio />;//return <Perfil />;
+        return <Perfil />;
       case 1:
-        return <Contrato />;
-      case 2:
         return <Domicilio />;
+      case 2:
+        return <Contrato />;
       case 3:
         return <CuentaBancaria />;
       case 4:

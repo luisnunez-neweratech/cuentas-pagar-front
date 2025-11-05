@@ -22,7 +22,7 @@ export const ArchivoElement = ({
   multiple,
   idInput,
   tipoDocumento,
-  optional=false
+  optional = false,
 }: props) => {
   const {
     handleFileChange,
@@ -34,7 +34,7 @@ export const ArchivoElement = ({
     fileName,
     numArchivos,
     onMouseLeaveComponent,
-  } = useArchivoElement({  tipoDocumento, idInput, optional });  
+  } = useArchivoElement({ tipoDocumento, idInput, optional });
 
   return (
     <div
@@ -84,7 +84,6 @@ export const ArchivoElement = ({
                 <FileUploadIcon />
               </Button>
             </label>
-            {console.log("errors", errors, idInput)}
             {errors[idInput] && (
               <p style={{ color: "#d32f2f", fontSize: "12px" }}>
                 Archivo requerido
@@ -161,10 +160,9 @@ export const ArchivoElement = ({
             paddingRight: 16,
           }}
         >
-          
           <FormControlLabel
             control={
-              <Checkbox                
+              <Checkbox
                 checked={values.indeterminado}
                 onChange={() => {
                   setFieldValue("indeterminado", !values.indeterminado);
