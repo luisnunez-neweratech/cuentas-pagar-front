@@ -107,10 +107,6 @@ export const useMoneda = () => {
     }
   }, [isError]);
 
-  useEffect(() => {
-    setIsLoading(updateGiroMutation.isPending);
-  }, [updateGiroMutation.isPending]);
-
   return {
     handleSubmit,
     values,

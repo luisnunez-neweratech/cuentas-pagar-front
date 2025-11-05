@@ -101,11 +101,7 @@ export const useGiro = () => {
       }
       toast.error("Error al obtener el giro");
     }
-  }, [isError]);
-
-  useEffect(() => {
-    setIsLoading(updateGiroMutation.isPending);
-  }, [updateGiroMutation.isPending]);
+  }, [isError]); 
 
   return {
     handleSubmit,

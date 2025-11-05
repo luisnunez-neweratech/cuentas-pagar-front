@@ -107,9 +107,6 @@ export const usePlazo = () => {
     }
   }, [isError]);
 
-  useEffect(() => {
-    setIsLoading(updatePlazoMutation.isPending);
-  }, [updatePlazoMutation.isPending]);
 
   return {
     handleSubmit,

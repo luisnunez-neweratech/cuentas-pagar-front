@@ -41,11 +41,16 @@ export const useGirosListPage = () => {
 
   const deleteGiroMutation = useMutation({
     mutationFn: deleteGiro,
+    onMutate: () => {
+      setIsLoading(true);
+    },
     onSuccess: () => {
+      setIsLoading(true);
       toast.success("Giro eliminado correctamente");
       refetch();
     },
     onError: (error) => {
+      setIsLoading(true);
       console.log(error);
       if (error instanceof AxiosError) {
         toast.error(error.message);
@@ -60,9 +65,7 @@ export const useGirosListPage = () => {
     deleteGiroMutation.mutate(id);
   };
 
-  useEffect(() => {
-    setIsLoading(deleteGiroMutation.isPending);
-  }, [deleteGiroMutation.isPending]);
+
 
   return {
     rowClick,

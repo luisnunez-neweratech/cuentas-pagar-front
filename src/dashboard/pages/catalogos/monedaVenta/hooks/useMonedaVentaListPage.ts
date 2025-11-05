@@ -63,9 +63,6 @@ export const useMonedaVentaListPage = () => {
     deleteGiroMutation.mutate(id);
   };
 
-  useEffect(() => {
-    setIsLoading(deleteGiroMutation.isPending);
-  }, [deleteGiroMutation.isPending]);
 
   return {
     rowClick,
