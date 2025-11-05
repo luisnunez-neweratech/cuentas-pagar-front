@@ -119,8 +119,7 @@ const StyledItem = styled(Item)<ItemProps>(({ theme }) => ({
   },
 }));
 
-const Listbox = styled("ul")(({ theme }) => ({
-  width: "300px",
+const Listbox = styled("ul")(({ theme }) => ({  
   margin: "2px 0 0",
   padding: 0,
   position: "absolute",
