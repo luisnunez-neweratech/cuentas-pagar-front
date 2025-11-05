@@ -30,6 +30,10 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
     (state) => state.setValidIdRepLegal
   );
 
+  const setValidCompDomicilio = useContratoStore(
+    (state) => state.setValidCompDomicilio
+  );
+
   const getInitialValues = () => {
     let documento: Documento;
     switch (tipoDocumento) {
@@ -125,6 +129,9 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
         if (tipoDocumento === TipoDocumento.idRepLegal) {
           setValidIdRepLegal(true);
         }
+        if (tipoDocumento === TipoDocumento.compDomicilio) {
+          setValidCompDomicilio(true);
+        }
 
         setValidArchivoCSF;
         updateDocumentos({
@@ -163,6 +170,9 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
         }
         if (tipoDocumento === TipoDocumento.idRepLegal) {
           setValidIdRepLegal(false);
+        }
+        if (tipoDocumento === TipoDocumento.compDomicilio) {
+          setValidCompDomicilio(false);
         }
       }
     });

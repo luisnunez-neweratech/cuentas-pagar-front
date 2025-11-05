@@ -175,10 +175,12 @@ export const useContrato = () => {
   };
 
   const onClickNext = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (!getValidScreen()) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   return {

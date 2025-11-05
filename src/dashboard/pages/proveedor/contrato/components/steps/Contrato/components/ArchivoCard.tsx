@@ -22,7 +22,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             idInput={contrato ? "fileContrato" : "filePropuesta"}
             tipoDocumento={TipoDocumento.principal}
           />
-          
+
           <Grid size={12}>
             <Divider />
           </Grid>
@@ -32,7 +32,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             idInput="fileCSF"
             tipoDocumento={TipoDocumento.csf}
           />
-          
+
           <Grid size={12}>
             <Divider />
           </Grid>
@@ -42,7 +42,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             idInput="fileIdRepLegal"
             tipoDocumento={TipoDocumento.idRepLegal}
           />
-          {/*
+
           <Grid size={12}>
             <Divider />
           </Grid>
@@ -50,9 +50,9 @@ export const ArchivoCard = ({ contrato }: props) => {
             title="*Comp. Domicilio"
             multiple={false}
             idInput="fileCompDomicilio"
-            isValidForm={isValidForm}
             tipoDocumento={TipoDocumento.compDomicilio}
           />
+          {/*
           <Grid size={12}>
             <Divider />
           </Grid>
