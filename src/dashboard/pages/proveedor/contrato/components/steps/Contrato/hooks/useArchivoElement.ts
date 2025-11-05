@@ -23,6 +23,10 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
     (state) => state.setValidArchivoPrincipal
   );
 
+  const setValidArchivoCSF = useContratoStore(
+    (state) => state.setValidArchivoCSF
+  );
+
   const getInitialValues = () => {
     let documento: Documento;
     switch (tipoDocumento) {
@@ -112,6 +116,10 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
         if (tipoDocumento === TipoDocumento.principal) {
           setValidArchivoPrincipal(true);
         }
+        if (tipoDocumento === TipoDocumento.csf) {
+          setValidArchivoCSF(true);
+        }
+        setValidArchivoCSF;
         updateDocumentos({
           tipo: getStepContrato()?.documentos.tipo!,
           principal:
@@ -142,6 +150,9 @@ export const useArchivoElement = ({ tipoDocumento, idInput }: props) => {
       } else {
         if (tipoDocumento === TipoDocumento.principal) {
           setValidArchivoPrincipal(false);
+        }
+        if (tipoDocumento === TipoDocumento.csf) {
+          setValidArchivoCSF(false);
         }
       }
     });
