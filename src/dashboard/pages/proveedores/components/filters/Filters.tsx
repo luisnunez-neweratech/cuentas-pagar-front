@@ -2,12 +2,15 @@ import { Grid, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useFilters } from "./hooks/useFilters";
 
 interface FiltersProps {
   showFilter: boolean;
 }
 
 export const Filters = ({ showFilter }: FiltersProps) => {
+  const { rfc, onChangeRfc } = useFilters();
+
   return (
     <>
       {showFilter && (
@@ -21,6 +24,8 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               label="RFC"
               name="rfc"
               autoFocus
+              value={rfc}
+              onChange={(e) => onChangeRfc(e.target.value)}
             />
           </Grid>
           <Grid size={1} />

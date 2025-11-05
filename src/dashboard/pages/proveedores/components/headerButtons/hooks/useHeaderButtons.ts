@@ -5,7 +5,10 @@ export const useHeaderButtons = () => {
     (state) => state.handleOpenModal
   );
 
+  const clearFiltros = useProveedoresPageStore((state) => state.clearFiltros)
+
   return {
     handleOpenModal,
+    clearFiltros
   };
 };

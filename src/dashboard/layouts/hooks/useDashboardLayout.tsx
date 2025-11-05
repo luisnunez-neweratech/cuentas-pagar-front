@@ -61,7 +61,8 @@ export const useDashboardLayout = () => {
         return (
           <Tooltip title="Catalogos">
             <LibraryBooksIcon
-              style={{ color: optionSelected === 3 ? mainBackgroundColor : "" }}
+              //style={{ color: optionSelected === 3 ? mainBackgroundColor : "" }}
+              style={{ color: optionSelected === 1 ? mainBackgroundColor : "" }}
             />
           </Tooltip>
         );
@@ -84,7 +85,8 @@ export const useDashboardLayout = () => {
         break; */
       case 1:
         navigate("/catalogos");
-        setOptionSelected(3);
+        //setOptionSelected(3);
+        setOptionSelected(1);
         break;
       default:
         navigate("/");

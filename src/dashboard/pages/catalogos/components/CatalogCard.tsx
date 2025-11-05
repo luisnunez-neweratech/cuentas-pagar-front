@@ -19,6 +19,7 @@ export const CatalogCard = ({ titulo, navigateTo }: props) => {
     <Box
       sx={{
         width: "100%",
+        minHeight: '100px',
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(min(200px, 100%), 1fr))",
         gap: 2,

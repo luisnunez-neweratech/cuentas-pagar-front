@@ -16,17 +16,16 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-
-  const { handleOpenModal } = useHeaderButtons();
+  const { handleOpenModal, clearFiltros } = useHeaderButtons();
 
   return (
     <>
       <Grid size={1}>
         <Tooltip title="Nuevo Proveedor">
           <IconButton
-            sx={{ color: mainBackgroundColor }}            
+            sx={{ color: mainBackgroundColor }}
             onClick={handleOpenModal}
-          >            
+          >
             <AddCircleIcon
               style={{
                 height: "36px",
@@ -40,7 +39,10 @@ export const HeaderButtons = ({
       <Grid size={1}>
         {showFilter && (
           <Tooltip title="Limpiar Filtros">
-            <IconButton sx={{ color: mainBackgroundColor }}>
+            <IconButton
+              sx={{ color: mainBackgroundColor }}
+              onClick={clearFiltros}
+            >
               <DeleteSweepIcon
                 style={{
                   height: "36px",
