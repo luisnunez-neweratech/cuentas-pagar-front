@@ -20,16 +20,27 @@ export const useFilters = () => {
     }
   }, [debouncedQuery]);
 
+
   const onChangeRfc = (rfc: string) => {
     setFiltrosProveedores({
       ...filtrosProveedores,
       rfc,
     });
-    setQuery(rfc);
+    setQuery('rfc:' + rfc);
+  };
+
+  const onChangeAlias = (alias: string) => {
+    setFiltrosProveedores({
+      ...filtrosProveedores,
+      alias,
+    });
+    setQuery('alias' + alias);
   };
 
   return {
     rfc: filtrosProveedores.rfc,
+    alias: filtrosProveedores.alias,
     onChangeRfc,
+    onChangeAlias,
   };
 };

@@ -9,7 +9,7 @@ interface FiltersProps {
 }
 
 export const Filters = ({ showFilter }: FiltersProps) => {
-  const { rfc, onChangeRfc } = useFilters();
+  const { rfc, onChangeRfc, alias, onChangeAlias } = useFilters();
 
   return (
     <>
@@ -37,6 +37,8 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               id="alias"
               label="Alias"
               name="alias"
+              value={alias}
+              onChange={(e) => onChangeAlias(e.target.value)}
             />
           </Grid>
           <Grid size={1} />
