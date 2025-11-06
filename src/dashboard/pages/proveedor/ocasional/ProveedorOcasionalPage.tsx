@@ -31,6 +31,7 @@ export const ProveedorOcasionalPage = () => {
     onChangeAutocomplete,
     giros,
     setFieldValue,
+    actualizarProveedor
   } = useProveedorOcasional();
 
   return (
@@ -195,7 +196,8 @@ export const ProveedorOcasionalPage = () => {
                 variant="contained"
                 sx={{ backgroundColor: mainBackgroundColor }}
                 fullWidth
-                type="submit"
+                type="button"
+                onClick={actualizarProveedor}
               >
                 Actualizar a Contrato
                 <UpgradeIcon sx={{ marginLeft: 1 }} />

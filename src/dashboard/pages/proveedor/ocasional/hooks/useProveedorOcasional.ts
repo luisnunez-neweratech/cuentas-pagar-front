@@ -7,6 +7,9 @@ import { validationSchema } from "../Validations";
 import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../catalogos/services/giros.service";
+import { useProveedorContratoStore } from "../../contrato/store/ProveedorContrato.store";
+import { TipoEntidad } from "../../interfaces/TipoEntidad";
+import { TipoPersona } from "../../interfaces/TipoPersona";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
@@ -15,6 +18,10 @@ export const useProveedorOcasional = () => {
   const { id } = useParams();
   const proveedorOcasional = useProveedorOcasionalStore(
     (state) => state.proveedorOcasional
+  );
+
+  const setStepPerfil = useProveedorContratoStore(
+    (state) => state.setStepPerfil
   );
 
   const initialFormValues = () => {
@@ -85,6 +92,23 @@ export const useProveedorOcasional = () => {
     queryFn: () => getAllGiros(),
   });
 
+  const actualizarProveedor = () => {
+    const tipoEntidadKey = values.tipoEntidad as keyof typeof TipoEntidad;
+    const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
+    setStepPerfil({
+      tipoProveedor: "contrato",
+      tipoEntidad: TipoEntidad[tipoEntidadKey],
+      tipoPersona: TipoPersona[tipoPersonaKey],
+      rfc: values.rfc,
+      razonSocial: values.razonSocial,
+      alias: values.alias,
+      email: values.email,
+      giroPrincipal: values.giroPrincipal,
+      productos: values.productos,
+    });
+    navigate("/proveedor/nuevo-contrato");    
+  };
+
   return {
     contractor,
     setContractor,
@@ -101,5 +125,6 @@ export const useProveedorOcasional = () => {
     onClickEliminar,
     onChangeAutocomplete,
     giros: giros ?? [],
+    actualizarProveedor,
   };
 };
