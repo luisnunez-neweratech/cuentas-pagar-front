@@ -4,9 +4,10 @@ import { TipoDocumento } from "../../../../../interfaces/TipoDocumento";
 
 interface props {
   contrato: boolean;
+  validateDocuments: number;
 }
 
-export const ArchivoCard = ({ contrato }: props) => {
+export const ArchivoCard = ({ contrato, validateDocuments }: props) => {
   return (
     <Card elevation={3}>
       <CardContent>
@@ -21,6 +22,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             multiple={false}
             idInput={contrato ? "fileContrato" : "filePropuesta"}
             tipoDocumento={TipoDocumento.principal}
+            validateDocuments={validateDocuments}
           />
 
           <Grid size={12}>
@@ -31,6 +33,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             multiple={false}
             idInput="fileCSF"
             tipoDocumento={TipoDocumento.csf}
+            validateDocuments={validateDocuments}
           />
 
           <Grid size={12}>
@@ -41,6 +44,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             multiple={false}
             idInput="fileIdRepLegal"
             tipoDocumento={TipoDocumento.idRepLegal}
+            validateDocuments={validateDocuments}
           />
 
           <Grid size={12}>
@@ -51,6 +55,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             multiple={false}
             idInput="fileCompDomicilio"
             tipoDocumento={TipoDocumento.compDomicilio}
+            validateDocuments={validateDocuments}
           />
           <Grid size={12}>
             <Divider />
@@ -61,6 +66,7 @@ export const ArchivoCard = ({ contrato }: props) => {
             idInput="filePoderRepLegal"
             tipoDocumento={TipoDocumento.poderRepLegal}
             optional={true}
+            validateDocuments={validateDocuments}
           />
 
           {contrato && (
@@ -75,6 +81,7 @@ export const ArchivoCard = ({ contrato }: props) => {
                 idInput="fileAnexo"
                 tipoDocumento={TipoDocumento.anexo}
                 optional={true}
+                validateDocuments={validateDocuments}
               />
             </>
           )}

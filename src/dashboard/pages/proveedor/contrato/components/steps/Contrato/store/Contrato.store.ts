@@ -38,7 +38,7 @@ export const useContratoStore = create<IContrato>()((set, get) => ({
     set({ validCompDomicilio: valido });
   },
   getValidScreen: () => {
-    return (
+    return (      
       get().validArchivoPrincipal &&
       get().validArchivoCSF &&
       get().validIdRepLegal &&

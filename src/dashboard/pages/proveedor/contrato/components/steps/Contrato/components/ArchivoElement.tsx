@@ -14,6 +14,7 @@ interface props {
   idInput: string;
   tipoDocumento: TipoDocumento;
   optional?: boolean;
+  validateDocuments: number;
 }
 
 export const ArchivoElement = ({
@@ -23,6 +24,7 @@ export const ArchivoElement = ({
   idInput,
   tipoDocumento,
   optional = false,
+  validateDocuments,
 }: props) => {
   const {
     handleFileChange,
@@ -33,15 +35,19 @@ export const ArchivoElement = ({
     setFieldTouched,
     fileName,
     numArchivos,
-    onMouseLeaveComponent,
-  } = useArchivoElement({ tipoDocumento, idInput, optional });
+  } = useArchivoElement({
+    tipoDocumento,
+    idInput,
+    optional,
+    validateDocuments,
+  });
 
   return (
     <div
       style={{ width: "100%", display: "flex", flexWrap: "wrap" }}
-      onMouseLeave={async () => {
-        onMouseLeaveComponent();
-      }}
+      /*  onMouseLeave={async () => {
+        validateArchivoElement();
+      }} */
     >
       <div style={{ width: "25%", paddingRight: 16 }}>
         {multiple === true ? (

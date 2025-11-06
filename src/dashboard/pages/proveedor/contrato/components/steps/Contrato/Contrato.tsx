@@ -27,6 +27,7 @@ export const Contrato = () => {
     errors,
     checkContractor,
     onChangeContractor,
+    validateDocuments,
     onClickNext,
   } = useContrato();
 
@@ -48,29 +49,31 @@ export const Contrato = () => {
           />
         </Grid>
         {/* colaborador fisico */}
-        {checkContractor && getStepPerfil()?.tipoPersona === TipoPersona.Fisica && (
-          <>
-            <Grid size={3}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="noColaborador"
-                label="*Num. Colaborador"
-                name="noColaborador"
-                value={values.noColaborador}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.noColaborador && Boolean(errors.noColaborador)}
-                helperText={touched.noColaborador && errors.noColaborador}
-              />
-            </Grid>
-            <Grid size={9} />
-          </>
-        )}
-        {checkContractor && getStepPerfil()?.tipoPersona !== TipoPersona.Fisica && (
-          <ColaboradorMoral />
-        )}
+        {checkContractor &&
+          getStepPerfil()?.tipoPersona === TipoPersona.Fisica && (
+            <>
+              <Grid size={3}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="noColaborador"
+                  label="*Num. Colaborador"
+                  name="noColaborador"
+                  value={values.noColaborador}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.noColaborador && Boolean(errors.noColaborador)}
+                  helperText={touched.noColaborador && errors.noColaborador}
+                />
+              </Grid>
+              <Grid size={9} />
+            </>
+          )}
+        {checkContractor &&
+          getStepPerfil()?.tipoPersona !== TipoPersona.Fisica && (
+            <ColaboradorMoral />
+          )}
         {!checkContractor && <Grid size={10} />}
         <Grid size={12} sx={{ marginTop: 1 }}>
           <Typography variant="h5" component="div">
@@ -113,7 +116,10 @@ export const Contrato = () => {
         </Grid>
 
         <Grid size={12}>
-          <ArchivoCard contrato={tipoArchivos === 0} />
+          <ArchivoCard
+            contrato={tipoArchivos === 0}
+            validateDocuments={validateDocuments}
+          />
         </Grid>
 
         <Grid size={12}>
@@ -122,7 +128,7 @@ export const Contrato = () => {
               Atras
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={onClickNext} type="submit">
+            <Button type="submit" onClick={onClickNext}>
               Siguiente
             </Button>
           </Box>

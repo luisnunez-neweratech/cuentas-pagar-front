@@ -35,6 +35,8 @@ export const useContrato = () => {
     getStepContrato()?.contractor ?? false
   );
 
+  const [validateDocuments, doValidateDocuments] = useState<number>(0);
+
   const initialFormValues = () => {
     /* if (id) {
       return {
@@ -82,6 +84,7 @@ export const useContrato = () => {
           };
           setStepPerfil(pasoPerfil); */
       //validate files
+      doValidateDocuments(validateDocuments + 1);
       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica) {
         //type fisico
         const prevStepContrato = getStepContrato();
@@ -98,9 +101,7 @@ export const useContrato = () => {
       } else {
         //moral
         if (!checkContractor) {
-          console.log(
-            "no se valida colaboradres y se limpia los colaboradores"
-          );
+          // no se valida colaboradores y es limpia la propiedad
           const prevStepContrato = getStepContrato();
           const newStepContrato: StepContrato = {
             ...prevStepContrato,
@@ -125,7 +126,6 @@ export const useContrato = () => {
             handleNext();
           }
         } else {
-          console.log("colaboradores validos?");
           if (getColaboradoresValidos()) {
             const prevStepContrato = getStepContrato();
             const newStepContrato: StepContrato = {
@@ -137,7 +137,6 @@ export const useContrato = () => {
             };
             setStepContrato(newStepContrato);
             if (getValidScreen()) {
-              console.log("validar documentos");
               handleNext();
             }
           }
@@ -200,6 +199,7 @@ export const useContrato = () => {
     checkContractor,
     setCheckContractor,
     onChangeContractor,
+    validateDocuments,
     onClickNext,
   };
 };

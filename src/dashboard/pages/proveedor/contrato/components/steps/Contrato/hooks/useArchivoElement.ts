@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validationArchivoschema } from "../components/ArchivosValidation";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { Documento } from "../../../../interface/Documentos";
@@ -10,13 +10,19 @@ interface props {
   tipoDocumento: TipoDocumento;
   idInput: string;
   optional?: boolean;
+  validateDocuments: number;
 }
 
 export const useArchivoElement = ({
   tipoDocumento,
   idInput,
   optional,
+  validateDocuments,
 }: props) => {
+  useEffect(() => {
+    validateArchivoElement(); //children function of interest
+  }, [validateDocuments]);
+
   const getStepContrato = useProveedorContratoStore(
     (state) => state.getStepContrato
   );
@@ -72,12 +78,10 @@ export const useArchivoElement = ({
       [idInput]: documento?.fileValue,
     };
   };
-  
+
   const {
     handleSubmit,
     values,
-    handleChange,
-    handleBlur,
     touched,
     errors,
     setFieldValue,
@@ -109,9 +113,13 @@ export const useArchivoElement = ({
     }
   };
 
-  const onMouseLeaveComponent = async () => {
-    handleSubmit(); 
-    validateForm().then((errors) => {      
+  useEffect(() => {
+    validateArchivoElement();
+  }, [errors]);
+
+  const validateArchivoElement = async () => {
+    handleSubmit();
+    validateForm().then((errors) => {
       if (Object.keys(errors).length === 0) {
         const newDocumento = {
           fechaInicio: values.fechaInicio,
@@ -190,6 +198,6 @@ export const useArchivoElement = ({
     setFieldTouched,
     fileName,
     numArchivos,
-    onMouseLeaveComponent,
+    validateArchivoElement,
   };
 };
