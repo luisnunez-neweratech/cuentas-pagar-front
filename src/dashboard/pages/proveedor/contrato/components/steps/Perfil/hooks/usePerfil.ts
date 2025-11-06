@@ -7,6 +7,7 @@ import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
 import { TipoEntidad } from "../../../../../interfaces/TipoEntidad";
 import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
+import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
 
 export const usePerfil = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -59,7 +60,7 @@ export const usePerfil = () => {
       const tipoEntidadKey = values.tipoEntidad as keyof typeof TipoEntidad;
       const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
       const pasoPerfil: StepPerfil = {
-        tipoProveedor: "contrato",
+        tipoProveedor: TipoProveedor.Contrato,
         tipoEntidad: TipoEntidad[tipoEntidadKey],
         tipoPersona: TipoPersona[tipoPersonaKey],
         razonSocial: values.razonSocial,

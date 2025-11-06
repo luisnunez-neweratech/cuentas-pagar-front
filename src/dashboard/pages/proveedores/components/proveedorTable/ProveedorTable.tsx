@@ -13,6 +13,7 @@ import {
 import TaskIcon from "@mui/icons-material/Task";
 import { TablePaginationActions } from "./components/TablePaginationActions";
 import { useProveedorTable } from "./hooks/useProveedorTable";
+import { TipoProveedor } from "../../../proveedor/interfaces/TipoProveedor";
 
 function createData(
   id: string,
@@ -47,7 +48,7 @@ function createData(
 const rows = [
   createData(
     "1",
-    "ocasional",
+    TipoProveedor.Ocasional,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -61,7 +62,7 @@ const rows = [
   ),
   createData(
     "2",
-    "ocasional",
+    TipoProveedor.Ocasional,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -75,7 +76,7 @@ const rows = [
   ),
   createData(
     "3",
-    "ocasional",
+    TipoProveedor.Ocasional,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -89,7 +90,7 @@ const rows = [
   ),
   createData(
     "4",
-    "ocasional",
+    TipoProveedor.Ocasional,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -183,7 +184,7 @@ export const ProveedorTable = () => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TablePagination              
+            <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
               count={rows.length}
@@ -199,7 +200,7 @@ export const ProveedorTable = () => {
               }}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}              
+              ActionsComponent={TablePaginationActions}
             />
           </TableRow>
         </TableFooter>

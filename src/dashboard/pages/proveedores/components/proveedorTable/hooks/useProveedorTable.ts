@@ -3,6 +3,7 @@ import { useProveedorOcasionalStore } from "../../../../proveedor/ocasional/stor
 import type { ProveedorOcasional } from "../../../../../../interfaces/proveedor-ocasional.interface";
 import { TipoEntidad } from "../../../../proveedor/interfaces/TipoEntidad";
 import { TipoPersona } from "../../../../proveedor/interfaces/TipoPersona";
+import { TipoProveedor } from "../../../../proveedor/interfaces/TipoProveedor";
 
 export const useProveedorTable = () => {
   const navigate = useNavigate();
@@ -10,8 +11,8 @@ export const useProveedorTable = () => {
     (state) => state.setProveedorOcasional
   );
 
-  const rowClick = (row: any) => {
-    if (row.tipoProveedor === "ocasional") {
+  const rowClick = (row: any) => {    
+    if (row.tipoProveedor === TipoProveedor.Ocasional) {
       const proveedorOcasional: ProveedorOcasional = {
         tipoProveedor: row.tipoProveedor,
         tipoEntidad: TipoEntidad.Local,

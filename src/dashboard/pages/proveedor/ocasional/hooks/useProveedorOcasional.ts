@@ -10,6 +10,7 @@ import { getAllGiros } from "../../../catalogos/services/giros.service";
 import { useProveedorContratoStore } from "../../contrato/store/ProveedorContrato.store";
 import { TipoEntidad } from "../../interfaces/TipoEntidad";
 import { TipoPersona } from "../../interfaces/TipoPersona";
+import { TipoProveedor } from "../../interfaces/TipoProveedor";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
@@ -96,7 +97,7 @@ export const useProveedorOcasional = () => {
     const tipoEntidadKey = values.tipoEntidad as keyof typeof TipoEntidad;
     const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
     setStepPerfil({
-      tipoProveedor: "contrato",
+      tipoProveedor: TipoProveedor.Contrato,
       tipoEntidad: TipoEntidad[tipoEntidadKey],
       tipoPersona: TipoPersona[tipoPersonaKey],
       rfc: values.rfc,
@@ -106,7 +107,7 @@ export const useProveedorOcasional = () => {
       giroPrincipal: values.giroPrincipal,
       productos: values.productos,
     });
-    navigate("/proveedor/nuevo-contrato");    
+    navigate("/proveedor/nuevo-contrato");
   };
 
   return {
