@@ -79,31 +79,65 @@ export const useProveedorOcasional = () => {
     },
   });
 
+  const upgradeProvedorMutation = useMutation({
+    mutationFn: updateProveedorOcasional,
+    onSuccess: () => {
+      toast.success("Proveedor actualizado correctamente");
+      setStepPerfil({
+        tipoProveedor: TipoProveedor.Contrato.value,
+        tipoEntidad: +values.tipoEntidad,
+        tipoPersona: +values.tipoPersona,
+        rfc: values.rfc,
+        razonSocial: values.razonSocial,
+        alias: values.alias,
+        email: values.email,
+        giroPrincipal: values.giroPrincipal,
+        productos: values.productos,
+      });
+      navigate(`/proveedor/contrato/${id}`);
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el proveedor");
+      return;
+    },
+  });
+
   const {
     isLoading,
     isError: isErrorGet,
     error: errorGet,
     data: proveedorOcasional,
   } = useQuery({
-    queryKey: ["Supplier", `${id}`],
+    queryKey: ["Supplier", `${id}`, "Details"],
     queryFn: () => getProveedorOcasional(id || ""),
   });
 
   const initialFormValues = () => {
     if (proveedorOcasional) {
+      if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
+        navigate(`/proveedor/contrato/${id}`);
+      }
       console.log("proveedorOcasional", proveedorOcasional);
-      const giroPrincipal = giros?.find(
-        (giro) => giro.id === proveedorOcasional.giroPrincipal
+      const giroPrincipal = proveedorOcasional.giroPrincipal
+        ? giros?.find((giro) => giro.id === proveedorOcasional.giroPrincipal)
+        : null;
+      const productos = giros?.filter((obj) =>
+        proveedorOcasional.productos.includes(obj.id)
       );
       return {
         tipoEntidad: proveedorOcasional.tipoEntidad,
         tipoPersona: proveedorOcasional.tipoPersona,
         rfc: proveedorOcasional.rfc,
         razonSocial: proveedorOcasional.razonSocial,
-        alias: proveedorOcasional.alias,
+        alias: proveedorOcasional.alias ?? "",
         email: proveedorOcasional.email,
         giroPrincipal: giroPrincipal?.descripcion ?? "",
-        productos: [], // TODO falta el dato del api
+        productos: productos,
       };
     }
     return {
@@ -136,9 +170,7 @@ export const useProveedorOcasional = () => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       if (id) {
-        console.log("actualizar values", values);
         const giroPrincipal = giros?.find(
           (giro) => giro.descripcion === values.giroPrincipal
         );
@@ -189,18 +221,24 @@ export const useProveedorOcasional = () => {
   };
 
   const actualizarProveedor = () => {
-    setStepPerfil({
-      tipoProveedor: TipoProveedor.Contrato.value,
-      tipoEntidad: +values.tipoEntidad,
-      tipoPersona: +values.tipoPersona,
-      rfc: values.rfc,
-      razonSocial: values.razonSocial,
-      alias: values.alias,
-      email: values.email,
-      giroPrincipal: values.giroPrincipal,
-      productos: values.productos,
-    });
-    navigate("/proveedor/nuevo-contrato");
+    if (id) {
+      const giroPrincipal = giros?.find(
+        (giro) => giro.descripcion === values.giroPrincipal
+      );
+      upgradeProvedorMutation.mutate({
+        id: +id,
+        supplierTypeId: TipoProveedor.Contrato.value,
+        originId: +values.tipoEntidad,
+        legalPersonTypeId: +values.tipoPersona,
+        legalName: values.razonSocial.trim(),
+        tradeName: values.alias.trim(),
+        rfc: values.rfc.toUpperCase().trim(),
+        email: values.email.trim(),
+        supplierActivityId: giroPrincipal?.id ?? null,
+        productServiceIds:
+          values.productos?.map((producto: any) => producto.id) ?? [],
+      });
+    }
   };
 
   useEffect(() => {
@@ -213,7 +251,7 @@ export const useProveedorOcasional = () => {
         toast.error(errorGet.message);
         return;
       }
-      toast.error("Error al obtener el giro");
+      toast.error("Error al obtener el proveedor");
     }
   }, [isErrorGet]);
 

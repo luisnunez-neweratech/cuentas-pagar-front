@@ -60,11 +60,9 @@ export const ProveedorOcasionalPage = () => {
                 {TipoEntidad.Extranjero.label}
               </MenuItem>
             </Select>
-            {/*  <FormHelperText>              
-              {touched.tipoEntidad && errors.tipoEntidad
-                ? errors.tipoEntidad
-                : ""}
-            </FormHelperText> */}
+            <FormHelperText>
+              {touched.tipoEntidad && errors.tipoEntidad?.toString()}
+            </FormHelperText>
           </FormControl>
         </Grid>
         <Grid size={4}>
@@ -89,11 +87,9 @@ export const ProveedorOcasionalPage = () => {
                 {TipoPersona.Moral.label}
               </MenuItem>
             </Select>
-            {/* <FormHelperText>
-              {touched.tipoPersona && errors.tipoPersona
-                ? errors.tipoPersona
-                : ""}
-            </FormHelperText> */}
+            <FormHelperText>
+              {touched.tipoPersona && errors.tipoPersona?.toString()}
+            </FormHelperText>
           </FormControl>
         </Grid>
 
@@ -112,7 +108,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.rfc && Boolean(errors.rfc)}
-            //helperText={touched.rfc && errors.rfc}
+            helperText={touched.rfc && errors.rfc?.toString()}
           />
         </Grid>
 
@@ -128,7 +124,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.razonSocial && Boolean(errors.razonSocial)}
-            //helperText={touched.razonSocial && errors.razonSocial}
+            helperText={touched.razonSocial && errors.razonSocial?.toString()}
           />
         </Grid>
 
@@ -144,7 +140,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.alias && Boolean(errors.alias)}
-            //helperText={touched.alias && errors.alias}
+            helperText={touched.alias && errors.alias?.toString()}
           />
         </Grid>
 
@@ -181,7 +177,7 @@ export const ProveedorOcasionalPage = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
-                //helperText={touched.giroPrincipal && errors.giroPrincipal}
+                helperText={touched.giroPrincipal && errors.giroPrincipal}
               />
             )}
           />

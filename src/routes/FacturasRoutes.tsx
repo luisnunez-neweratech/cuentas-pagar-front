@@ -28,6 +28,7 @@ export const FacturasRoutes = () => {
         <Route path="proveedor">
           <Route index element={<ProveedoresPage />} />
           <Route path=":id" element={<ProveedorOcasionalPage />} />
+          <Route path="contrato/:id" element={<ProveedorContratoPage />} />
           <Route path="nuevo-contrato" element={<ProveedorContratoPage />} />
           <Route path="nuevo-ocasional" element={<ProveedorOcasionalPage />} />
         </Route>
