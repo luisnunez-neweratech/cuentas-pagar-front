@@ -53,9 +53,9 @@ export const ProveedorOcasionalPage = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value={TipoEntidad.Local}>{TipoEntidad.Local}</MenuItem>
-              <MenuItem value={TipoEntidad.Extranjero}>
-                {TipoEntidad.Extranjero}
+              <MenuItem value={TipoEntidad.Local.value}>{TipoEntidad.Local.label}</MenuItem>
+              <MenuItem value={TipoEntidad.Extranjero.value}>
+                {TipoEntidad.Extranjero.label}
               </MenuItem>
             </Select>
             <FormHelperText>
@@ -99,7 +99,7 @@ export const ProveedorOcasionalPage = () => {
             margin="normal"
             fullWidth
             id="rfc"
-            label={`${values.tipoEntidad === TipoEntidad.Local ? "*" : ""}RFC`}
+            label={`${values.tipoEntidad === TipoEntidad.Local.value ? "*" : ""}RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
             value={values.rfc}

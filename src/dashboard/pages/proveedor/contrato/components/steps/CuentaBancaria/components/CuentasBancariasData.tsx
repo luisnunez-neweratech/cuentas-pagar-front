@@ -168,7 +168,7 @@ export const CuentasBancariasData = ({
               </FormControl>
             </Grid>
             <Grid size={4}>
-              {tipoEntidad === TipoEntidad.Extranjero && (
+              {tipoEntidad === TipoEntidad.Extranjero.value && (
                 <TextField
                   variant="outlined"
                   margin="normal"

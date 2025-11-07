@@ -15,7 +15,7 @@ export const useProveedorTable = () => {
     if (row.tipoProveedor === TipoProveedor.Ocasional.value) {
       const proveedorOcasional: ProveedorOcasional = {
         tipoProveedor: row.tipoProveedor,
-        tipoEntidad: TipoEntidad.Local,
+        tipoEntidad: TipoEntidad.Local.value,
         tipoPersona: TipoPersona.Fisica,
         razonSocial: row.razonSocial,
         alias: "alias 1",

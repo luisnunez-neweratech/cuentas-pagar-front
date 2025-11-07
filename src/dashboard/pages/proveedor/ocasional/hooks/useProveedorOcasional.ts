@@ -8,7 +8,6 @@ import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../catalogos/services/giros.service";
 import { useProveedorContratoStore } from "../../contrato/store/ProveedorContrato.store";
-import { TipoEntidad } from "../../interfaces/TipoEntidad";
 import { TipoPersona } from "../../interfaces/TipoPersona";
 import { TipoProveedor } from "../../interfaces/TipoProveedor";
 
@@ -93,12 +92,11 @@ export const useProveedorOcasional = () => {
     queryFn: () => getAllGiros(),
   });
 
-  const actualizarProveedor = () => {
-    const tipoEntidadKey = values.tipoEntidad as keyof typeof TipoEntidad;
+  const actualizarProveedor = () => {    
     const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
     setStepPerfil({
       tipoProveedor: TipoProveedor.Contrato.value,
-      tipoEntidad: TipoEntidad[tipoEntidadKey],
+      tipoEntidad: +values.tipoEntidad,
       tipoPersona: TipoPersona[tipoPersonaKey],
       rfc: values.rfc,
       razonSocial: values.razonSocial,

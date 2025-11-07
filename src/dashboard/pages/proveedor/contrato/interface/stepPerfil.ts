@@ -1,10 +1,9 @@
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
-import type { TipoEntidad } from "../../interfaces/TipoEntidad";
 import type { TipoPersona } from "../../interfaces/TipoPersona";
 
 export interface StepPerfil {
   tipoProveedor: number;
-  tipoEntidad: TipoEntidad;
+  tipoEntidad: number;
   tipoPersona: TipoPersona;
   rfc?: string;
   razonSocial: string;
