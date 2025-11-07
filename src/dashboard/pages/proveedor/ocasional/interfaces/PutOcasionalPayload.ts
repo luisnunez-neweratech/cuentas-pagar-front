@@ -1,4 +1,5 @@
-export interface PostOcasionalPayload {  
+export interface PutOcasionalPayload {
+  id: number;
   supplierTypeId: number;
   originId: number;
   legalPersonTypeId: number;
