@@ -2,13 +2,15 @@ import { useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { validationSchema } from "../Validations";
 import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../catalogos/services/giros.service";
 import { useProveedorContratoStore } from "../../contrato/store/ProveedorContrato.store";
 import { TipoProveedor } from "../../interfaces/TipoProveedor";
+import { addProveedorOcasional } from "../services/proveedor.contrato.service";
+import { AxiosError } from "axios";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
@@ -22,6 +24,23 @@ export const useProveedorOcasional = () => {
   const setStepPerfil = useProveedorContratoStore(
     (state) => state.setStepPerfil
   );
+
+  const createMutation = useMutation({
+    mutationFn: addProveedorOcasional,
+    onSuccess: () => {
+      toast.success("Proveedor creado correctamente");
+      navigate("/proveedor");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al agregar el proveedor");
+      return;
+    },
+  });
 
   const initialFormValues = () => {
     if (id) {
@@ -66,8 +85,20 @@ export const useProveedorOcasional = () => {
         toast.info("Proveedor actualizado correctamente");
         navigate("/proveedor");
       } else {
-        toast.success("Proveedor creado correctamente");
-        navigate("/proveedor");
+        console.log('values', values)
+        const giroPrincipal = giros?.find(giro => giro.descripcion === values.giroPrincipal);
+        createMutation.mutate({
+          supplierTypeId: TipoProveedor.Ocasional.value,
+          originId: +values.tipoEntidad,
+          legalPersonTypeId: +values.tipoPersona,
+          legalName: values.razonSocial.trim(),
+          tradeName: values.alias.trim(),
+          rfc: values.rfc.toUpperCase().trim(),
+          email: values.email.trim(),
+          supplierActivityId: giroPrincipal?.id ?? null,
+          productServiceIds:
+            values.productos?.map((producto) => producto.id) ?? [],
+        });
       }
     },
   });

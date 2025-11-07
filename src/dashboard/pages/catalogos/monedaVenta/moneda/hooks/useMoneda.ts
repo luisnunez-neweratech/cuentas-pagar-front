@@ -17,7 +17,7 @@ export const useMoneda = () => {
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const navigate = useNavigate();
 
-  const addGiroMutation = useMutation({
+  const addMonedaMutation = useMutation({
     mutationFn: addMonedaVenta,
     onSuccess: () => {
       toast.success("Moneda de Venta agregado correctamente");
@@ -34,7 +34,7 @@ export const useMoneda = () => {
     },
   });
 
-  const updateGiroMutation = useMutation({
+  const updateMonedaMutation = useMutation({
     mutationFn: updateMonedaVenta,
     onSuccess: () => {
       toast.success("Moneda de Ventas actualizado correctamente");
@@ -84,10 +84,10 @@ export const useMoneda = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       if (id) {
-        updateGiroMutation.mutate({ id, descripcion: values.nombre });
+        updateMonedaMutation.mutate({ id, descripcion: values.nombre });
         return;
       } else {
-        addGiroMutation.mutate(values.nombre);
+        addMonedaMutation.mutate(values.nombre);
         return;
       }
     },

@@ -31,7 +31,7 @@ export const ProveedorOcasionalPage = () => {
     onChangeAutocomplete,
     giros,
     setFieldValue,
-    actualizarProveedor
+    actualizarProveedor,
   } = useProveedorOcasional();
 
   return (
@@ -53,7 +53,9 @@ export const ProveedorOcasionalPage = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value={TipoEntidad.Local.value}>{TipoEntidad.Local.label}</MenuItem>
+              <MenuItem value={TipoEntidad.Local.value}>
+                {TipoEntidad.Local.label}
+              </MenuItem>
               <MenuItem value={TipoEntidad.Extranjero.value}>
                 {TipoEntidad.Extranjero.label}
               </MenuItem>
@@ -83,7 +85,9 @@ export const ProveedorOcasionalPage = () => {
               <MenuItem value={TipoPersona.Fisica.value}>
                 {TipoPersona.Fisica.label}
               </MenuItem>
-              <MenuItem value={TipoPersona.Moral.value}>{TipoPersona.Moral.label}</MenuItem>
+              <MenuItem value={TipoPersona.Moral.value}>
+                {TipoPersona.Moral.label}
+              </MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoPersona && errors.tipoPersona
@@ -99,7 +103,9 @@ export const ProveedorOcasionalPage = () => {
             margin="normal"
             fullWidth
             id="rfc"
-            label={`${values.tipoEntidad === TipoEntidad.Local.value ? "*" : ""}RFC`}
+            label={`${
+              values.tipoEntidad === TipoEntidad.Local.value ? "*" : ""
+            }RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
             value={values.rfc}
@@ -157,13 +163,13 @@ export const ProveedorOcasionalPage = () => {
           />
         </Grid>
 
-        <Grid size={4} sx={{marginTop:4}}>
+        <Grid size={4} sx={{ marginTop: 4 }}>
           <Autocomplete
             freeSolo
             options={giros.map((giro) => giro.descripcion)}
-            onChange={(_e, newvalue) => {
-              setFieldValue("giroPrincipal", newvalue);
-            }}
+            onChange={(_e, newvalue) =>
+              setFieldValue("giroPrincipal", newvalue)
+            }
             value={values.giroPrincipal}
             renderInput={(params) => (
               <TextField
@@ -179,7 +185,7 @@ export const ProveedorOcasionalPage = () => {
               />
             )}
           />
-        </Grid>        
+        </Grid>
 
         <Grid size={4}>
           <AutoCompleteComponent

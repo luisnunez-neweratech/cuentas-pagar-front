@@ -87,6 +87,7 @@ export const useDomicilio = (inputRef: any) => {
 
   const handleOnPlacesChanged = () => {
     let address = inputRef.current.getPlace();
+    console.log("address", address);
     if (address && address?.address_components.length > 0) {
       const codigoPostal = address?.address_components.filter(
         (addressFound: any) => {

@@ -12,9 +12,9 @@ export const NuevoProvedor = () => {
     <Backdrop
       sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
       open={openModal}
-      onClick={handleClose}
+      onClick={handleClose}      
     >
-      <Box
+      <Box      
         sx={{
           display: "flex",
           flexWrap: "wrap",
@@ -27,14 +27,14 @@ export const NuevoProvedor = () => {
       >
         <Paper
           sx={{ paddingTop: 4, paddingLeft: 1, paddingRight: 1 }}
-          elevation={3}
+          elevation={3}          
         >
           <Button
             fullWidth
             variant="contained"
             color="primary"
             sx={{ backgroundColor: mainBackgroundColor }}
-            onClick={onClickOcasional}
+            onClick={onClickOcasional}            
           >
             Ocasional <ReceiptLongIcon sx={{ marginLeft: 1 }} />
           </Button>

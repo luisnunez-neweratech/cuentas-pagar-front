@@ -43,19 +43,7 @@ export const Domicilio = () => {
             renderOption={(props, option) => {
               const { key, ...optionProps } = props;
               return (
-                <Box
-                  key={key}
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...optionProps}
-                >
-                 {/*  <img
-                    loading="lazy"
-                    width="20"
-                    srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                    src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                    alt=""
-                  /> */}
+                <Box key={key} component="li" {...optionProps}>
                   {option.label}
                 </Box>
               );
@@ -73,6 +61,7 @@ export const Domicilio = () => {
                   },
                 }}
                 onChange={handleChange}
+                value={values.pais}
                 onBlur={handleBlur}
                 error={touched.pais && Boolean(errors.pais)}
                 helperText={touched.pais && errors.pais}
