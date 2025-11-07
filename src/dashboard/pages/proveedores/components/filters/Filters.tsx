@@ -23,7 +23,6 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               id="rfc"
               label="RFC"
               name="rfc"
-              autoFocus
               value={rfc}
               onChange={(e) => onChangeRfc(e.target.value)}
             />

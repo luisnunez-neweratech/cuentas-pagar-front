@@ -67,7 +67,7 @@ export const useContrato = () => {
   } = useFormik({
     initialValues: initialFormValues(),
     validationSchema:
-      getStepPerfil()?.tipoPersona === TipoPersona.Fisica
+      getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value
         ? validationFisicoSchema
         : null,
     onSubmit: async (values) => {
@@ -85,7 +85,7 @@ export const useContrato = () => {
           setStepPerfil(pasoPerfil); */
       //validate files
       doValidateDocuments(validateDocuments + 1);
-      if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica) {
+      if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
         //type fisico
         const prevStepContrato = getStepContrato();
         const stepContrato: StepContrato = {

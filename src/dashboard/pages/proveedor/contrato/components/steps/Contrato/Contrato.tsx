@@ -50,7 +50,7 @@ export const Contrato = () => {
         </Grid>
         {/* colaborador fisico */}
         {checkContractor &&
-          getStepPerfil()?.tipoPersona === TipoPersona.Fisica && (
+          getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value && (
             <>
               <Grid size={3}>
                 <TextField
@@ -71,7 +71,7 @@ export const Contrato = () => {
             </>
           )}
         {checkContractor &&
-          getStepPerfil()?.tipoPersona !== TipoPersona.Fisica && (
+          getStepPerfil()?.tipoPersona !== TipoPersona.Fisica.value && (
             <ColaboradorMoral />
           )}
         {!checkContractor && <Grid size={10} />}

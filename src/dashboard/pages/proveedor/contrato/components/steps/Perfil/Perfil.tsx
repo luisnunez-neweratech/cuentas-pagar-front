@@ -73,10 +73,10 @@ export const Perfil = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value={TipoPersona.Fisica}>
-                {TipoPersona.Fisica}
+              <MenuItem value={TipoPersona.Fisica.value}>
+                {TipoPersona.Fisica.label}
               </MenuItem>
-              <MenuItem value={TipoPersona.Moral}>{TipoPersona.Moral}</MenuItem>
+              <MenuItem value={TipoPersona.Moral.value}>{TipoPersona.Moral.label}</MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoPersona && errors.tipoPersona

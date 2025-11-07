@@ -4,7 +4,6 @@ import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepPerfil } from "../../../../interface/stepPerfil";
 import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
-import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
 
@@ -55,12 +54,11 @@ export const usePerfil = () => {
   } = useFormik({
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
-    onSubmit: async (values) => {      
-      const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
+    onSubmit: async (values) => {
       const pasoPerfil: StepPerfil = {
         tipoProveedor: TipoProveedor.Contrato.value,
         tipoEntidad: +values.tipoEntidad,
-        tipoPersona: TipoPersona[tipoPersonaKey],
+        tipoPersona: +values.tipoPersona,
         razonSocial: values.razonSocial,
         alias: values.alias,
         rfc: values.rfc,
