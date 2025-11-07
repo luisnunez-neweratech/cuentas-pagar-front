@@ -3,7 +3,7 @@ import type { TipoEntidad } from "../dashboard/pages/proveedor/interfaces/TipoEn
 import type { TipoPersona } from "../dashboard/pages/proveedor/interfaces/TipoPersona";
 
 export interface ProveedorOcasional {
-  tipoProveedor: string;
+  tipoProveedor: number;
   tipoEntidad: TipoEntidad;
   tipoPersona: TipoPersona;
   rfc?: string;

@@ -60,7 +60,7 @@ export const usePerfil = () => {
       const tipoEntidadKey = values.tipoEntidad as keyof typeof TipoEntidad;
       const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
       const pasoPerfil: StepPerfil = {
-        tipoProveedor: TipoProveedor.Contrato,
+        tipoProveedor: TipoProveedor.Contrato.value,
         tipoEntidad: TipoEntidad[tipoEntidadKey],
         tipoPersona: TipoPersona[tipoPersonaKey],
         razonSocial: values.razonSocial,

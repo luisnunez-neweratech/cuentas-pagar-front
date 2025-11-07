@@ -3,7 +3,7 @@ import type { TipoEntidad } from "../../interfaces/TipoEntidad";
 import type { TipoPersona } from "../../interfaces/TipoPersona";
 
 export interface StepPerfil {
-  tipoProveedor: string;
+  tipoProveedor: number;
   tipoEntidad: TipoEntidad;
   tipoPersona: TipoPersona;
   rfc?: string;

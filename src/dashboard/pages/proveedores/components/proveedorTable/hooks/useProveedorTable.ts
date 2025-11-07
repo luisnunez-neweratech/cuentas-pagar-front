@@ -12,7 +12,7 @@ export const useProveedorTable = () => {
   );
 
   const rowClick = (row: any) => {    
-    if (row.tipoProveedor === TipoProveedor.Ocasional) {
+    if (row.tipoProveedor === TipoProveedor.Ocasional.value) {
       const proveedorOcasional: ProveedorOcasional = {
         tipoProveedor: row.tipoProveedor,
         tipoEntidad: TipoEntidad.Local,

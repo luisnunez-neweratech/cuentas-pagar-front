@@ -17,7 +17,7 @@ import { TipoProveedor } from "../../../proveedor/interfaces/TipoProveedor";
 
 function createData(
   id: string,
-  tipoProveedor: string,
+  tipoProveedor: number,
   rfc: string,
   alias: string,
   razonSocial: string,
@@ -48,7 +48,7 @@ function createData(
 const rows = [
   createData(
     "1",
-    TipoProveedor.Ocasional,
+    TipoProveedor.Ocasional.value,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -62,7 +62,7 @@ const rows = [
   ),
   createData(
     "2",
-    TipoProveedor.Ocasional,
+    TipoProveedor.Ocasional.value,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -76,7 +76,7 @@ const rows = [
   ),
   createData(
     "3",
-    TipoProveedor.Ocasional,
+    TipoProveedor.Ocasional.value,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",
@@ -90,7 +90,7 @@ const rows = [
   ),
   createData(
     "4",
-    TipoProveedor.Ocasional,
+    TipoProveedor.Ocasional.value,
     "NUDL910103CR9",
     "Luis Fernando",
     "Luis Fernando",

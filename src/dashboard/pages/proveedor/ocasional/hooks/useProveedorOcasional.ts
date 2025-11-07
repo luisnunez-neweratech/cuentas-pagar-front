@@ -97,7 +97,7 @@ export const useProveedorOcasional = () => {
     const tipoEntidadKey = values.tipoEntidad as keyof typeof TipoEntidad;
     const tipoPersonaKey = values.tipoPersona as keyof typeof TipoPersona;
     setStepPerfil({
-      tipoProveedor: TipoProveedor.Contrato,
+      tipoProveedor: TipoProveedor.Contrato.value,
       tipoEntidad: TipoEntidad[tipoEntidadKey],
       tipoPersona: TipoPersona[tipoPersonaKey],
       rfc: values.rfc,
