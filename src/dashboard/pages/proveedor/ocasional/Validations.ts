@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { TipoEntidad } from "../interfaces/TipoEntidad";
 
 export const validationSchema = yup.object().shape({
   tipoEntidad: yup.string().required("Tipo Entidad es requerido"),
@@ -7,10 +8,10 @@ export const validationSchema = yup.object().shape({
   alias: yup.string().required("Alias es requerido"),
   rfc: yup
     .string()
-    .max(13,'13 caracteres máximo')
+    .max(13, "13 caracteres máximo")
     .ensure()
     .when("tipoEntidad", {
-      is: "local",
+      is: TipoEntidad.Local.value.toString(),
       then: (schema) => schema.required("RFC es requerido"),
     }),
   email: yup.string().email("Email no es válido"),
