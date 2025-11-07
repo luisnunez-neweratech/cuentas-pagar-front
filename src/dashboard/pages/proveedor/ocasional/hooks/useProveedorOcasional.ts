@@ -29,6 +29,11 @@ export const useProveedorOcasional = () => {
   );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
+  const handleDisableButtons = (state: boolean) => {
+    setDisableButtons(state);
+    setIsLoading(state);
+  };
+
   const deleteMutation = useMutation({
     mutationFn: deleteProveedorOcasional,
     onSuccess: () => {
@@ -45,8 +50,7 @@ export const useProveedorOcasional = () => {
       return;
     },
     onSettled: () => {
-      setDisableButtons(false);
-      setIsLoading(false);
+      handleDisableButtons(false);
     },
   });
 
@@ -66,8 +70,7 @@ export const useProveedorOcasional = () => {
       return;
     },
     onSettled: () => {
-      setDisableButtons(false);
-      setIsLoading(false);
+      handleDisableButtons(false);
     },
   });
 
@@ -86,8 +89,7 @@ export const useProveedorOcasional = () => {
       return;
     },
     onSettled: () => {
-      setDisableButtons(false);
-      setIsLoading(false);
+      handleDisableButtons(false);
     },
   });
 
@@ -118,8 +120,7 @@ export const useProveedorOcasional = () => {
       return;
     },
     onSettled: () => {
-      setDisableButtons(false);
-      setIsLoading(false);
+      handleDisableButtons(false);
     },
   });
 
@@ -186,8 +187,7 @@ export const useProveedorOcasional = () => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      setDisableButtons(true);
-      setIsLoading(true);
+      handleDisableButtons(true);
       if (id) {
         const giroPrincipal = giros?.find(
           (giro) => giro.descripcion === values.giroPrincipal
@@ -230,8 +230,7 @@ export const useProveedorOcasional = () => {
   };
 
   const onClickEliminar = () => {
-    setDisableButtons(true);
-    setIsLoading(true);
+    handleDisableButtons(true);
     deleteMutation.mutate(id!);
   };
 
@@ -241,8 +240,7 @@ export const useProveedorOcasional = () => {
 
   const actualizarProveedor = () => {
     if (id) {
-      setDisableButtons(true);
-      setIsLoading(true);
+      handleDisableButtons(true);
       const giroPrincipal = giros?.find(
         (giro) => giro.descripcion === values.giroPrincipal
       );
