@@ -60,11 +60,11 @@ export const ProveedorOcasionalPage = () => {
                 {TipoEntidad.Extranjero.label}
               </MenuItem>
             </Select>
-            <FormHelperText>
+            {/*  <FormHelperText>              
               {touched.tipoEntidad && errors.tipoEntidad
                 ? errors.tipoEntidad
                 : ""}
-            </FormHelperText>
+            </FormHelperText> */}
           </FormControl>
         </Grid>
         <Grid size={4}>
@@ -89,11 +89,11 @@ export const ProveedorOcasionalPage = () => {
                 {TipoPersona.Moral.label}
               </MenuItem>
             </Select>
-            <FormHelperText>
+            {/* <FormHelperText>
               {touched.tipoPersona && errors.tipoPersona
                 ? errors.tipoPersona
                 : ""}
-            </FormHelperText>
+            </FormHelperText> */}
           </FormControl>
         </Grid>
 
@@ -112,7 +112,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.rfc && Boolean(errors.rfc)}
-            helperText={touched.rfc && errors.rfc}
+            //helperText={touched.rfc && errors.rfc}
           />
         </Grid>
 
@@ -128,7 +128,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.razonSocial && Boolean(errors.razonSocial)}
-            helperText={touched.razonSocial && errors.razonSocial}
+            //helperText={touched.razonSocial && errors.razonSocial}
           />
         </Grid>
 
@@ -144,7 +144,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.alias && Boolean(errors.alias)}
-            helperText={touched.alias && errors.alias}
+            //helperText={touched.alias && errors.alias}
           />
         </Grid>
 
@@ -181,7 +181,7 @@ export const ProveedorOcasionalPage = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
-                helperText={touched.giroPrincipal && errors.giroPrincipal}
+                //helperText={touched.giroPrincipal && errors.giroPrincipal}
               />
             )}
           />

@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { validationSchema } from "../Validations";
-import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../catalogos/services/giros.service";
 import { useProveedorContratoStore } from "../../contrato/store/ProveedorContrato.store";
@@ -14,20 +13,20 @@ import {
   addProveedorOcasional,
   updateProveedorOcasional,
   deleteProveedorOcasional,
+  getProveedorOcasional,
 } from "../services/proveedor.contrato.service";
+import { useDashboardLayoutStore } from "../../../../store/dashboardLayout.store";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { id } = useParams();
-  const proveedorOcasional = useProveedorOcasionalStore(
-    (state) => state.proveedorOcasional
-  );
 
   const setStepPerfil = useProveedorContratoStore(
     (state) => state.setStepPerfil
   );
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const deleteMutation = useMutation({
     mutationFn: deleteProveedorOcasional,
@@ -80,17 +79,31 @@ export const useProveedorOcasional = () => {
     },
   });
 
+  const {
+    isLoading,
+    isError: isErrorGet,
+    error: errorGet,
+    data: proveedorOcasional,
+  } = useQuery({
+    queryKey: ["Supplier", `${id}`],
+    queryFn: () => getProveedorOcasional(id || ""),
+  });
+
   const initialFormValues = () => {
-    if (id) {
+    if (proveedorOcasional) {
+      console.log("proveedorOcasional", proveedorOcasional);
+      const giroPrincipal = giros?.find(
+        (giro) => giro.id === proveedorOcasional.giroPrincipal
+      );
       return {
-        tipoEntidad: proveedorOcasional!.tipoEntidad,
-        tipoPersona: proveedorOcasional!.tipoPersona,
-        rfc: proveedorOcasional?.rfc ?? "",
-        razonSocial: proveedorOcasional!.razonSocial,
-        alias: proveedorOcasional!.alias,
-        email: proveedorOcasional?.email ?? "",
-        giroPrincipal: proveedorOcasional?.giroPrincipal ?? "",
-        productos: proveedorOcasional?.productos,
+        tipoEntidad: proveedorOcasional.tipoEntidad,
+        tipoPersona: proveedorOcasional.tipoPersona,
+        rfc: proveedorOcasional.rfc,
+        razonSocial: proveedorOcasional.razonSocial,
+        alias: proveedorOcasional.alias,
+        email: proveedorOcasional.email,
+        giroPrincipal: giroPrincipal?.descripcion ?? "",
+        productos: [], // TODO falta el dato del api
       };
     }
     return {
@@ -105,6 +118,11 @@ export const useProveedorOcasional = () => {
     };
   };
 
+  const { data: giros } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
+    queryFn: () => getAllGiros(),
+  });
+
   const {
     handleSubmit,
     values,
@@ -114,6 +132,7 @@ export const useProveedorOcasional = () => {
     errors,
     setFieldValue,
   } = useFormik({
+    enableReinitialize: true,
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -134,7 +153,7 @@ export const useProveedorOcasional = () => {
           email: values.email.trim(),
           supplierActivityId: giroPrincipal?.id ?? null,
           productServiceIds:
-            values.productos?.map((producto) => producto.id) ?? [],
+            values.productos?.map((producto: any) => producto.id) ?? [],
         });
       } else {
         console.log("agregar values", values);
@@ -151,7 +170,7 @@ export const useProveedorOcasional = () => {
           email: values.email.trim(),
           supplierActivityId: giroPrincipal?.id ?? null,
           productServiceIds:
-            values.productos?.map((producto) => producto.id) ?? [],
+            values.productos?.map((producto: any) => producto.id) ?? [],
         });
       }
     },
@@ -169,11 +188,6 @@ export const useProveedorOcasional = () => {
     setFieldValue("productos", newValues);
   };
 
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
-
   const actualizarProveedor = () => {
     setStepPerfil({
       tipoProveedor: TipoProveedor.Contrato.value,
@@ -188,6 +202,20 @@ export const useProveedorOcasional = () => {
     });
     navigate("/proveedor/nuevo-contrato");
   };
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isErrorGet) {
+      if (errorGet instanceof AxiosError) {
+        toast.error(errorGet.message);
+        return;
+      }
+      toast.error("Error al obtener el giro");
+    }
+  }, [isErrorGet]);
 
   return {
     contractor,

@@ -23,7 +23,6 @@ export const updateProveedorOcasional = async (
   return response;
 };
 
-
 export const deleteProveedorOcasional = async (
   id:string
 ): Promise<any> => {
@@ -31,4 +30,20 @@ export const deleteProveedorOcasional = async (
     `/Supplier/${id}`
   );
   return response;
+};
+
+export const getProveedorOcasional = async (id: string): Promise<any> => {
+  const { data } = await cuentasApi.get(`/Supplier/${id}`);
+  return {
+    id: data.id,
+  TipoProveedor: data.supplierTypeId,
+  tipoEntidad : data.originId,
+  tipoPersona: data.legalPersonTypeId,
+  razonSocial: data.legalName,
+  alias: data.tradeName,
+  rfc: data.rfc,
+  email: data.email,
+  giroPrincipal: data.supplierActivityId,    
+  // TODO falta productos y actividades
+  };
 };
