@@ -19,6 +19,7 @@ import { useDashboardLayoutStore } from "../../../../store/dashboardLayout.store
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
+  const [disableButtons, setDisableButtons] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -43,6 +44,10 @@ export const useProveedorOcasional = () => {
       toast.error("Error al eliminar el proveedor");
       return;
     },
+    onSettled: () => {
+      setDisableButtons(false);
+      setIsLoading(false);
+    },
   });
 
   const createMutation = useMutation({
@@ -60,13 +65,16 @@ export const useProveedorOcasional = () => {
       toast.error("Error al agregar el proveedor");
       return;
     },
+    onSettled: () => {
+      setDisableButtons(false);
+      setIsLoading(false);
+    },
   });
 
   const updateMutation = useMutation({
     mutationFn: updateProveedorOcasional,
     onSuccess: () => {
       toast.success("Proveedor actualizado correctamente");
-      navigate("/proveedor");
     },
     onError: (error) => {
       console.log(error);
@@ -76,6 +84,10 @@ export const useProveedorOcasional = () => {
       }
       toast.error("Error al actualizar el proveedor");
       return;
+    },
+    onSettled: () => {
+      setDisableButtons(false);
+      setIsLoading(false);
     },
   });
 
@@ -105,6 +117,10 @@ export const useProveedorOcasional = () => {
       toast.error("Error al actualizar el proveedor");
       return;
     },
+    onSettled: () => {
+      setDisableButtons(false);
+      setIsLoading(false);
+    },
   });
 
   const {
@@ -115,6 +131,7 @@ export const useProveedorOcasional = () => {
   } = useQuery({
     queryKey: ["Supplier", `${id}`, "Details"],
     queryFn: () => getProveedorOcasional(id || ""),
+    enabled: !!id,
   });
 
   const initialFormValues = () => {
@@ -122,7 +139,6 @@ export const useProveedorOcasional = () => {
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
       }
-      console.log("proveedorOcasional", proveedorOcasional);
       const giroPrincipal = proveedorOcasional.giroPrincipal
         ? giros?.find((giro) => giro.id === proveedorOcasional.giroPrincipal)
         : null;
@@ -170,6 +186,8 @@ export const useProveedorOcasional = () => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setDisableButtons(true);
+      setIsLoading(true);
       if (id) {
         const giroPrincipal = giros?.find(
           (giro) => giro.descripcion === values.giroPrincipal
@@ -188,7 +206,6 @@ export const useProveedorOcasional = () => {
             values.productos?.map((producto: any) => producto.id) ?? [],
         });
       } else {
-        console.log("agregar values", values);
         const giroPrincipal = giros?.find(
           (giro) => giro.descripcion === values.giroPrincipal
         );
@@ -213,6 +230,8 @@ export const useProveedorOcasional = () => {
   };
 
   const onClickEliminar = () => {
+    setDisableButtons(true);
+    setIsLoading(true);
     deleteMutation.mutate(id!);
   };
 
@@ -222,6 +241,8 @@ export const useProveedorOcasional = () => {
 
   const actualizarProveedor = () => {
     if (id) {
+      setDisableButtons(true);
+      setIsLoading(true);
       const giroPrincipal = giros?.find(
         (giro) => giro.descripcion === values.giroPrincipal
       );
@@ -248,7 +269,7 @@ export const useProveedorOcasional = () => {
   useEffect(() => {
     if (isErrorGet) {
       if (errorGet instanceof AxiosError) {
-        toast.error(errorGet.message);
+        toast.error(errorGet.response?.data ?? errorGet.message);
         return;
       }
       toast.error("Error al obtener el proveedor");
@@ -272,5 +293,6 @@ export const useProveedorOcasional = () => {
     onChangeAutocomplete,
     giros: giros ?? [],
     actualizarProveedor,
+    disableButtons,
   };
 };

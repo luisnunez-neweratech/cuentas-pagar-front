@@ -32,6 +32,7 @@ export const ProveedorOcasionalPage = () => {
     giros,
     setFieldValue,
     actualizarProveedor,
+    disableButtons
   } = useProveedorOcasional();
 
   return (
@@ -200,6 +201,7 @@ export const ProveedorOcasionalPage = () => {
                 fullWidth
                 type="button"
                 onClick={actualizarProveedor}
+                disabled={disableButtons}
               >
                 Actualizar a Contrato
                 <UpgradeIcon sx={{ marginLeft: 1 }} />
@@ -211,6 +213,7 @@ export const ProveedorOcasionalPage = () => {
                 sx={{ backgroundColor: mainBackgroundColor }}
                 fullWidth
                 type="submit"
+                disabled={disableButtons}
               >
                 Modificar
                 <SaveIcon sx={{ marginLeft: 1 }} />
@@ -223,6 +226,7 @@ export const ProveedorOcasionalPage = () => {
                 fullWidth
                 type="button"
                 onClick={onClickEliminar}
+                disabled={disableButtons}
               >
                 Eliminar
                 <DeleteIcon sx={{ marginLeft: 1 }} />
@@ -236,6 +240,7 @@ export const ProveedorOcasionalPage = () => {
               sx={{ backgroundColor: mainBackgroundColor }}
               fullWidth
               type="submit"
+              disabled={disableButtons}
             >
               Guardar
               <SaveIcon sx={{ marginLeft: 1 }} />
