@@ -14,11 +14,21 @@ export const addProveedorOcasional = async (
 export const updateProveedorOcasional = async (
   putOcasionalPayload: PutOcasionalPayload
 ): Promise<any> => {
-  const response = await cuentasApi.post(
-    `/Supplier/Create/${putOcasionalPayload.id}`,
+  const response = await cuentasApi.put(
+    `/Supplier/Update/${putOcasionalPayload.id}`,
     {
       ...putOcasionalPayload,
     }
+  );
+  return response;
+};
+
+
+export const deleteProveedorOcasional = async (
+  id:string
+): Promise<any> => {
+  const response = await cuentasApi.delete(
+    `/Supplier/${id}`
   );
   return response;
 };

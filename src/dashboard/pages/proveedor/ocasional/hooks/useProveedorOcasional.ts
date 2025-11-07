@@ -13,6 +13,7 @@ import { TipoProveedor } from "../../interfaces/TipoProveedor";
 import {
   addProveedorOcasional,
   updateProveedorOcasional,
+  deleteProveedorOcasional,
 } from "../services/proveedor.contrato.service";
 
 export const useProveedorOcasional = () => {
@@ -27,6 +28,23 @@ export const useProveedorOcasional = () => {
   const setStepPerfil = useProveedorContratoStore(
     (state) => state.setStepPerfil
   );
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteProveedorOcasional,
+    onSuccess: () => {
+      toast.success("Proveedor eliminado correctamente");
+      navigate("/proveedor");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al eliminar el proveedor");
+      return;
+    },
+  });
 
   const createMutation = useMutation({
     mutationFn: addProveedorOcasional,
@@ -144,9 +162,7 @@ export const useProveedorOcasional = () => {
   };
 
   const onClickEliminar = () => {
-    //TODO enviar data al api
-    toast.info("Proveedor eliminado correctamente");
-    navigate("/proveedor");
+    deleteMutation.mutate(id!);
   };
 
   const onChangeAutocomplete = (newValues: Giro[]) => {
