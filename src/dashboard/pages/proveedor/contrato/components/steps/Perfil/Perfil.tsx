@@ -26,6 +26,7 @@ export const Perfil = () => {
     onChangeAutocomplete,
     giros,
     setFieldValue,
+    disableButtons,
   } = usePerfil();
 
   return (
@@ -46,7 +47,9 @@ export const Perfil = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             >
-              <MenuItem value={TipoEntidad.Local.value}>{TipoEntidad.Local.label}</MenuItem>
+              <MenuItem value={TipoEntidad.Local.value}>
+                {TipoEntidad.Local.label}
+              </MenuItem>
               <MenuItem value={TipoEntidad.Extranjero.value}>
                 {TipoEntidad.Extranjero.label}
               </MenuItem>
@@ -76,7 +79,9 @@ export const Perfil = () => {
               <MenuItem value={TipoPersona.Fisica.value}>
                 {TipoPersona.Fisica.label}
               </MenuItem>
-              <MenuItem value={TipoPersona.Moral.value}>{TipoPersona.Moral.label}</MenuItem>
+              <MenuItem value={TipoPersona.Moral.value}>
+                {TipoPersona.Moral.label}
+              </MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoPersona && errors.tipoPersona
@@ -92,7 +97,9 @@ export const Perfil = () => {
             margin="normal"
             fullWidth
             id="rfc"
-            label={`${values.tipoEntidad === TipoEntidad.Local.value ? "*" : ""}RFC`}
+            label={`${
+              values.tipoEntidad === TipoEntidad.Local.value ? "*" : ""
+            }RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
             value={values.rfc}
@@ -184,7 +191,9 @@ export const Perfil = () => {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
 
-            <Button type="submit">Siguiente</Button>
+            <Button type="submit" disabled={disableButtons}>
+              Siguiente
+            </Button>
           </Box>
         </Grid>
       </Grid>

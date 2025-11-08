@@ -101,6 +101,7 @@ const initialStepContacto = [
 ];
 
 export interface AuthState {
+  id: number | null;
   skipped: Set<number>;
   activeStep: number;
   stepPerfil?: StepPerfil | null;
@@ -113,6 +114,7 @@ export interface AuthState {
   handleNext: () => void;
   handleBack: () => void;
   handleReset: () => void;
+  setProveedorId: (id: number) => void;
 
   setStepPerfil: (stepPerfil: StepPerfil) => void;
   getStepPerfil: () => StepPerfil | null | undefined;
@@ -144,6 +146,7 @@ export interface AuthState {
 }
 
 const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
+  id: null,
   skipped: new Set<number>(),
   activeStep: 0,
   stepPerfil: null,
@@ -177,6 +180,9 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
       stepCuentaBancaria: initialStepCuentBancaria,
       stepContacto: initialStepContacto,
     });
+  },
+  setProveedorId: (id: number) => {
+    set({ id: id });
   },
   setStepPerfil: (stepPerfil: StepPerfil) => {
     set({ stepPerfil: stepPerfil });
