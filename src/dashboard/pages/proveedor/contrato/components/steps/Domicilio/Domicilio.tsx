@@ -22,6 +22,7 @@ export const Domicilio = () => {
     isLoaded,
     optionPais,
     setOptionPais,
+    disableButtons
   } = useDomicilio(inputRef);
 
   return (
@@ -204,7 +205,7 @@ export const Domicilio = () => {
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
 
-            <Button type="submit">Siguiente</Button>
+            <Button type="submit" disabled={disableButtons}>Siguiente</Button>
           </Box>
         </Grid>
       </Grid>

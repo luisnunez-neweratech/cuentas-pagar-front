@@ -134,23 +134,7 @@ export const usePerfil = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      if (proveedorContratoState.id) {
-        /* const giroPrincipal = giros?.find(
-          (giro) => giro.descripcion === values.giroPrincipal
-        );
-        updateMutation.mutate({
-          id: +id,
-          supplierTypeId: TipoProveedor.Ocasional.value,
-          originId: +values.tipoEntidad,
-          legalPersonTypeId: +values.tipoPersona,
-          legalName: values.razonSocial.trim(),
-          tradeName: values.alias.trim(),
-          rfc: values.rfc.toUpperCase().trim(),
-          email: values.email.trim(),
-          supplierActivityId: giroPrincipal?.id ?? null,
-          productServiceIds:
-            values.productos?.map((producto: any) => producto.id) ?? [],
-        }); */
+      if (proveedorContratoState.id) {       
         const giroPrincipal = giros?.find(
           (giro) => giro.descripcion === values.giroPrincipal
         );

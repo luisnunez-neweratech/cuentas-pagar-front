@@ -1,6 +1,6 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
 import { type PostPerfilPayload } from "../interfaces/PostPerfilPayload";
-import { type PutPerfilPayload } from "../interfaces/PutPerfilPayload";
+import { type PutContratoPayload } from "../interfaces/PutContratoPayload";
 
 export const addProveedorContrato = async (
   postPerfilPayload: PostPerfilPayload
@@ -12,12 +12,12 @@ export const addProveedorContrato = async (
 };
 
 export const updateProveedorContrato = async (
-  putPerfilPayload: PutPerfilPayload
+  putContratoPayload: PutContratoPayload
 ): Promise<any> => {
   const response = await cuentasApi.put(
-    `/Supplier/Update/${putPerfilPayload.id}`,
+    `/Supplier/Update/${putContratoPayload.id}`,
     {
-      ...putPerfilPayload,
+      ...putContratoPayload,
     }
   );
   return response;

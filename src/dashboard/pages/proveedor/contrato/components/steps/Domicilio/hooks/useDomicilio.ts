@@ -5,6 +5,12 @@ import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { countries } from "../../../../../../../../lib/constants";
+import { updateProveedorContrato } from "../../../../services/proveedor.contrato.service";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
+import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
 
 export const useDomicilio = (inputRef: any) => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -15,7 +21,52 @@ export const useDomicilio = (inputRef: any) => {
   const setStepDomicilio = useProveedorContratoStore(
     (state) => state.setStepDomicilio
   );
+  const stateContrato = useProveedorContratoStore((state) => state);
   const [optionPais, setOptionPais] = useState<any>(null);
+  const [disableButtons, setDisableButtons] = useState(false);
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+
+  const toNextStep = () => {
+    toast.success("Información Actualizada");
+    const pasoDomicilio: StepDomicilio = {
+      pais: values.pais ?? "",
+      codigoPostal: values.codigoPostal ?? "",
+      estado: values.estado ?? "",
+      municipio: values.municipio ?? "",
+      ciudad: values.ciudad ?? "",
+      colonia: values.colonia ?? "",
+      calle: values.calle ?? "",
+      numInterior: values.numInterior,
+      numExterior: values.numExterior,
+    };
+    setStepDomicilio(pasoDomicilio);
+    handleNext();
+  };
+
+  const handleDisableButtons = (state: boolean) => {
+    setDisableButtons(state);
+    setIsLoading(state);
+  };
+
+  const updateMutation = useMutation({
+    mutationFn: updateProveedorContrato,
+    onSuccess: () => {
+      toast.success("Informacion Actualizada");
+      toNextStep();
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el proveedor");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
 
   const initialFormValues = () => {
     /* if (id) {
@@ -63,19 +114,36 @@ export const useDomicilio = (inputRef: any) => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const pasoDomicilio: StepDomicilio = {
-        pais: values.pais ?? "",
-        codigoPostal: values.codigoPostal ?? "",
-        estado: values.estado ?? "",
-        municipio: values.municipio ?? "",
-        ciudad: values.ciudad ?? "",
-        colonia: values.colonia ?? "",
-        calle: values.calle ?? "",
-        numInterior: values.numInterior,
-        numExterior: values.numExterior,
-      };
-      setStepDomicilio(pasoDomicilio);
-      handleNext();
+      handleDisableButtons(true);
+      console.log("stateContrato.stepPerfil", stateContrato.stepPerfil);
+      updateMutation.mutate({
+        id: stateContrato.id!,
+        //perfil
+        supplierTypeId: TipoProveedor.Contrato.value,
+        originId: stateContrato.stepPerfil?.tipoEntidad!,
+        legalPersonTypeId: stateContrato.stepPerfil?.tipoPersona!,
+        legalName: stateContrato.stepPerfil?.razonSocial!,
+        tradeName: stateContrato.stepPerfil?.alias!,
+        rfc: stateContrato.stepPerfil?.rfc!,
+        email: stateContrato.stepPerfil?.email!,
+        supplierActivityId: stateContrato.stepPerfil?.giroPrincipal
+          ? +stateContrato.stepPerfil?.giroPrincipal
+          : null,
+        productServiceIds:
+          stateContrato.stepPerfil?.productos?.map(
+            (producto: any) => producto.id
+          ) ?? [],
+        //domicilio
+        country: values.pais ?? "",
+        postalCode: values.codigoPostal?.toString() ?? "",
+        state: values.estado ?? "",
+        municipality: values.municipio ?? "",
+        city: values.ciudad ?? "",
+        neighborhood: values.colonia ?? "",
+        street: values.calle ?? "",
+        interiorNumber: values.numInterior,
+        exteriorNumber: values.numExterior,
+      });
     },
   });
 
@@ -145,5 +213,6 @@ export const useDomicilio = (inputRef: any) => {
     isLoaded,
     optionPais,
     setOptionPais,
+    disableButtons,
   };
 };
