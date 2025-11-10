@@ -1,4 +1,4 @@
 export interface PostDocumentoProveedor {
   documentType: number;
-  file: File;
+  file: any;
 }

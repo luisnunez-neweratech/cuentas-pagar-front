@@ -11,7 +11,11 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
-import { addProveedorContrato } from "../../../../services/contrato.service";
+import {
+  addProveedorContrato,
+  addDocumentoProveedor,
+} from "../../../../services/contrato.service";
+import { TipoDocumentoProveedor } from "../../../../interfaces/TipoDocumentoProveedor";
 
 export const useContrato = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -33,8 +37,7 @@ export const useContrato = () => {
 
   const getValidScreen = useContratoStore((state) => state.getValidScreen);
 
-   const stateContrato = useProveedorContratoStore(
-    (state) => state  );
+  const stateContrato = useProveedorContratoStore((state) => state);
 
   const [contrato, setContrato] = useState<boolean>(stepContrato?.contractor!);
   const [propuesta, setPropuesta] = useState<boolean>(false);
@@ -54,14 +57,70 @@ export const useContrato = () => {
   };
 
   const toNextStep = () => {
-    toast.success("Información Actualizada");    
-    // add documentos endpoint
+    toast.success("Información Actualizada");
     handleNext();
   };
+
+  const createDocumentoMutation = useMutation({
+    mutationFn: addDocumentoProveedor,
+    onSuccess: (data) => {},
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el documento" );
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
 
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
     onSuccess: (data) => {
+      //agregar documento csf
+      createDocumentoMutation.mutate({
+        postDocumentoProveedor: {
+          documentType: TipoDocumentoProveedor.CSF,
+          file: stepContrato?.documentos.csf.fileValue!,
+        },
+        supplierId: stateContrato.id?.toString()!,
+      });
+
+      //agregar documento IdRepLegal
+      createDocumentoMutation.mutate({
+        postDocumentoProveedor: {
+          documentType: TipoDocumentoProveedor.IdRepLegal,
+          file: stepContrato?.documentos.idRepLegal.fileValue!,
+        },
+        supplierId: stateContrato.id?.toString()!,
+      });
+
+      //agregar documento CompDom
+      createDocumentoMutation.mutate({
+        postDocumentoProveedor: {
+          documentType: TipoDocumentoProveedor.CompDom,
+          file: stepContrato?.documentos.compDomicilio.fileValue!,
+        },
+        supplierId: stateContrato.id?.toString()!,
+      });
+
+      //agregar documento PoderRep
+      if (stepContrato?.documentos.poderRepLegal.fileValue) {
+        createDocumentoMutation.mutate({
+          postDocumentoProveedor: {
+            documentType: TipoDocumentoProveedor.PoderRep,
+            file: stepContrato?.documentos.poderRepLegal.fileValue!,
+          },
+          supplierId: stateContrato.id?.toString()!,
+        });
+      }
+
+      // revisar si es moral y tiene colaboradores para guardarlo
+
       toNextStep();
     },
     onError: (error) => {
@@ -153,7 +212,7 @@ export const useContrato = () => {
               neCollaboratorNumber: stepContrato?.noColaborador ?? null,
             },
             supplierId: stateContrato.id?.toString()!,
-          });          
+          });
         }
       } else {
         //moral
@@ -180,7 +239,24 @@ export const useContrato = () => {
           };
           setStepContrato(newStepContrato);
           if (getValidScreen()) {
-            handleNext();
+            // moral sin colaboradores
+            createMutation.mutate({
+            postContratoPayload: {
+              startDate: new Date(
+                newStepContrato.documentos.principal.fechaInicio
+              ),
+              endDate: newStepContrato.documentos.principal.fechaFin
+                ? new Date(newStepContrato.documentos.principal.fechaFin)
+                : null,
+              indefiniteEnd: newStepContrato.documentos.principal.indeterminado,
+              isNEContractor: newStepContrato?.noColaborador?.length
+                ? true
+                : false,
+              nePersonType: TipoPersona.Moral.label,
+              neCollaboratorNumber: newStepContrato?.noColaborador ?? null,
+            },
+            supplierId: stateContrato.id?.toString()!,
+          });            
           }
         } else {
           if (getColaboradoresValidos()) {

@@ -26,8 +26,22 @@ export const addDocumentoProveedor = async ({
   supplierId,
   postDocumentoProveedor,
 }: addProveedorDocumentoProps): Promise<any> => {
-  const { data } = await cuentasApi.post(`/SupplierProfileDocument/${supplierId}/Upload`, {
-    ...postDocumentoProveedor,
-  });
+  const formData = new FormData();
+  formData.append("file", postDocumentoProveedor.file);
+  formData.append(
+    "documentType",
+    postDocumentoProveedor.documentType.toString()
+  );
+
+  //TODO cmabiar nombre endpoint cuando se actulice
+  const { data } = await cuentasApi.post(
+    `/SupplierProfileDocument/${supplierId}/Upload`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
   return data;
 };
