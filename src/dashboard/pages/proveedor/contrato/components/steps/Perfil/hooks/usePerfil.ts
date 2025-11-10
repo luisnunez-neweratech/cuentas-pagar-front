@@ -194,6 +194,17 @@ export const usePerfil = () => {
           supplierActivityId: giroPrincipal?.id ?? null,
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
+
+          // si tiene domicilio actulizarlo
+          country: proveedorContrato.pais ?? "",
+          postalCode: proveedorContrato.codigoPostal ?? "",
+          state: proveedorContrato.estado ?? "",
+          municipality: proveedorContrato.municipio ?? "",
+          city: proveedorContrato.ciudad ?? "",
+          neighborhood: proveedorContrato.colonia ?? "",
+          street: proveedorContrato.calle ?? "",
+          interiorNumber: proveedorContrato.numInterior,
+          exteriorNumber: proveedorContrato.numExterior,
         });
       } else {
         const giroPrincipal = giros?.find(
