@@ -92,7 +92,7 @@ const initialStepContacto = [
   {
     id: 1,
     valido: false,
-    tipoContacto: TipoContacto.Venta,
+    tipoContacto: TipoContacto.Venta.value,
     contacto: "",
     telefono: "",
     email: "",

@@ -15,7 +15,7 @@ import {
   addProveedorContrato,
   addDocumentoProveedor,
   addColaboradoresProveedor,
-} from "../../../../services/contrato.service";
+} from "../../../../services/proveedor.perfil.service";
 import { TipoDocumentoProveedor } from "../../../../interfaces/TipoDocumentoProveedor";
 
 export const useContrato = () => {

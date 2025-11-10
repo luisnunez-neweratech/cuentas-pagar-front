@@ -54,11 +54,11 @@ export const ContactosData = ({ id, deleteContacto, isValidForm }: props) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <MenuItem value={TipoContacto.Venta}>
-                    {TipoContacto.Venta}
+                  <MenuItem value={TipoContacto.Venta.value}>
+                    {TipoContacto.Venta.label}
                   </MenuItem>
-                  <MenuItem value={TipoContacto.Pago}>
-                    {TipoContacto.Pago}
+                  <MenuItem value={TipoContacto.Pago.value}>
+                    {TipoContacto.Pago.label}
                   </MenuItem>
                 </Select>
                 <FormHelperText>
@@ -116,7 +116,7 @@ export const ContactosData = ({ id, deleteContacto, isValidForm }: props) => {
             </Grid>
 
             <Grid size={4}>
-              {values.tipoContacto === TipoContacto.Venta && (
+              {values.tipoContacto === TipoContacto.Venta.value && (
                 <TextField
                   variant="outlined"
                   margin="normal"
