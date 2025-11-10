@@ -83,11 +83,11 @@ export const ColaboradorData = ({
                   control={
                     <Switch
                       defaultChecked
-                      value={status}
-                      onChange={() => setFieldValue("status", !status)}
+                      value={values.status}
+                      onChange={() => setFieldValue("status", !values.status)}
                     />
                   }
-                  label={status ? "Activo" : "Inactivo"}
+                  label={values.status ? "Activo" : "Inactivo"}
                 />
               </FormGroup>
             </Grid>

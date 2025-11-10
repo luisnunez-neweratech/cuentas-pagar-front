@@ -1,4 +1,5 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
+import type { PostColaboradorPayload } from "../interfaces/PostColaborador.Payload";
 import type { PostContratoPayload } from "../interfaces/PostContratoPayload";
 import type { PostDocumentoProveedor } from "../interfaces/PostDocumentoProveedor.Payload";
 
@@ -45,3 +46,19 @@ export const addDocumentoProveedor = async ({
   );
   return data;
 };
+
+interface addColaboradoresProveedorProps {
+  contractId: string;
+  postColaboradorPayload: PostColaboradorPayload;
+}
+
+export const addColaboradoresProveedor = async ({
+  contractId,
+  postColaboradorPayload,
+}: addColaboradoresProveedorProps): Promise<any> => {
+  const { data } = await cuentasApi.post(`/ContractCollaborator/Contract/${contractId}`, {
+    ...postColaboradorPayload,
+  });
+  return data;
+};
+

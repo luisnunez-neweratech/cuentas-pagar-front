@@ -14,6 +14,7 @@ import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLay
 import {
   addProveedorContrato,
   addDocumentoProveedor,
+  addColaboradoresProveedor,
 } from "../../../../services/contrato.service";
 import { TipoDocumentoProveedor } from "../../../../interfaces/TipoDocumentoProveedor";
 
@@ -61,6 +62,23 @@ export const useContrato = () => {
     handleNext();
   };
 
+  const createColaboradorMutation = useMutation({
+    mutationFn: addColaboradoresProveedor,
+    onSuccess: (data) => {},
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el colaborador");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
+
   const createDocumentoMutation = useMutation({
     mutationFn: addDocumentoProveedor,
     onSuccess: (data) => {},
@@ -70,7 +88,7 @@ export const useContrato = () => {
         toast.error(error.message);
         return;
       }
-      toast.error("Error al actualizar el documento" );
+      toast.error("Error al actualizar el documento");
       return;
     },
     onSettled: () => {
@@ -120,6 +138,24 @@ export const useContrato = () => {
       }
 
       // revisar si es moral y tiene colaboradores para guardarlo
+      if (
+        checkContractor &&
+        getStepPerfil()?.tipoPersona === TipoPersona.Moral.value
+      ) {
+        //addColaboradoresProveedor
+        stepContrato?.colaboradores?.map((colaborador) => {
+          createColaboradorMutation.mutate({
+            contractId: data.id,
+            postColaboradorPayload: {
+              collaboratorNumber: colaborador.noColaborador,
+              name: colaborador.nombre,
+              startDate: new Date(colaborador.fechaInicio),
+              tentativeEndDate: new Date(colaborador.fechaFin),
+              status: colaborador.status ? "Active" : "Inactive",
+            },
+          });
+        });
+      }
 
       toNextStep();
     },
@@ -241,22 +277,23 @@ export const useContrato = () => {
           if (getValidScreen()) {
             // moral sin colaboradores
             createMutation.mutate({
-            postContratoPayload: {
-              startDate: new Date(
-                newStepContrato.documentos.principal.fechaInicio
-              ),
-              endDate: newStepContrato.documentos.principal.fechaFin
-                ? new Date(newStepContrato.documentos.principal.fechaFin)
-                : null,
-              indefiniteEnd: newStepContrato.documentos.principal.indeterminado,
-              isNEContractor: newStepContrato?.noColaborador?.length
-                ? true
-                : false,
-              nePersonType: TipoPersona.Moral.label,
-              neCollaboratorNumber: newStepContrato?.noColaborador ?? null,
-            },
-            supplierId: stateContrato.id?.toString()!,
-          });            
+              postContratoPayload: {
+                startDate: new Date(
+                  newStepContrato.documentos.principal.fechaInicio
+                ),
+                endDate: newStepContrato.documentos.principal.fechaFin
+                  ? new Date(newStepContrato.documentos.principal.fechaFin)
+                  : null,
+                indefiniteEnd:
+                  newStepContrato.documentos.principal.indeterminado,
+                isNEContractor: newStepContrato?.noColaborador?.length
+                  ? true
+                  : false,
+                nePersonType: TipoPersona.Moral.label,
+                neCollaboratorNumber: newStepContrato?.noColaborador ?? null,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
           }
         } else {
           if (getColaboradoresValidos()) {
@@ -270,7 +307,23 @@ export const useContrato = () => {
             };
             setStepContrato(newStepContrato);
             if (getValidScreen()) {
-              handleNext();
+              // moral con colaboradores
+              createMutation.mutate({
+                postContratoPayload: {
+                  startDate: new Date(
+                    newStepContrato.documentos.principal.fechaInicio
+                  ),
+                  endDate: newStepContrato.documentos.principal.fechaFin
+                    ? new Date(newStepContrato.documentos.principal.fechaFin)
+                    : null,
+                  indefiniteEnd:
+                    newStepContrato.documentos.principal.indeterminado,
+                  isNEContractor: checkContractor, // TODO revisar con helio este dato
+                  nePersonType: TipoPersona.Moral.label,
+                  neCollaboratorNumber: newStepContrato?.noColaborador ?? null,
+                },
+                supplierId: stateContrato.id?.toString()!,
+              });
             }
           }
         }
