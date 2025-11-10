@@ -2,7 +2,7 @@ import { cuentasApi } from "../../../../../api/cuentasApi";
 import { type PostPerfilPayload } from "../interfaces/PostPerfilPayload";
 import { type PutContratoPayload } from "../interfaces/PutContratoPayload";
 
-export const addProveedorContrato = async (
+export const addProveedorContratoPerfil = async (
   postPerfilPayload: PostPerfilPayload
 ): Promise<any> => {
   const { data } = await cuentasApi.post("/Supplier/Create", {
@@ -11,7 +11,7 @@ export const addProveedorContrato = async (
   return data;
 };
 
-export const updateProveedorContrato = async (
+export const updateProveedorContratoPerfil = async (
   putContratoPayload: PutContratoPayload
 ): Promise<any> => {
   const response = await cuentasApi.put(

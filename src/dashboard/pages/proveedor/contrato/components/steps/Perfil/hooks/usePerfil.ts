@@ -10,8 +10,8 @@ import { useState } from "react";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { useParams } from "react-router";
 import {
-  addProveedorContrato,
-  updateProveedorContrato,
+  addProveedorContratoPerfil,
+  updateProveedorContratoPerfil,
 } from "../../../../services/proveedor.contrato.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -56,7 +56,7 @@ export const usePerfil = () => {
   };
 
   const createMutation = useMutation({
-    mutationFn: addProveedorContrato,
+    mutationFn: addProveedorContratoPerfil,
     onSuccess: (data) => {
       toNextStep(data.id);
     },
@@ -75,7 +75,7 @@ export const usePerfil = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: updateProveedorContrato,
+    mutationFn: updateProveedorContratoPerfil,
     onSuccess: () => {
       toast.success("Informacion Actualizada");
       toNextStep(proveedorContratoState.id!);

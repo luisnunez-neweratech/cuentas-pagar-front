@@ -6,6 +6,12 @@ import type { StepContrato } from "../../../../interface/stepContrato";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 import { useContratoStore } from "../store/Contrato.store";
+import { useMutation } from "@tanstack/react-query";
+
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
+import { addProveedorContrato } from "../../../../services/contrato.service";
 
 export const useContrato = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -27,6 +33,9 @@ export const useContrato = () => {
 
   const getValidScreen = useContratoStore((state) => state.getValidScreen);
 
+   const stateContrato = useProveedorContratoStore(
+    (state) => state  );
+
   const [contrato, setContrato] = useState<boolean>(stepContrato?.contractor!);
   const [propuesta, setPropuesta] = useState<boolean>(false);
 
@@ -36,6 +45,38 @@ export const useContrato = () => {
   );
 
   const [validateDocuments, doValidateDocuments] = useState<number>(0);
+  const [disableButtons, setDisableButtons] = useState(false);
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+
+  const handleDisableButtons = (state: boolean) => {
+    setDisableButtons(state);
+    setIsLoading(state);
+  };
+
+  const toNextStep = () => {
+    toast.success("Información Actualizada");    
+    // add documentos endpoint
+    handleNext();
+  };
+
+  const createMutation = useMutation({
+    mutationFn: addProveedorContrato,
+    onSuccess: (data) => {
+      toNextStep();
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el proveedor");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
 
   const initialFormValues = () => {
     /* if (id) {
@@ -96,7 +137,23 @@ export const useContrato = () => {
         };
         setStepContrato(stepContrato);
         if (getValidScreen()) {
-          handleNext();
+          createMutation.mutate({
+            postContratoPayload: {
+              startDate: new Date(
+                stepContrato.documentos.principal.fechaInicio
+              ),
+              endDate: stepContrato.documentos.principal.fechaFin
+                ? new Date(stepContrato.documentos.principal.fechaFin)
+                : null,
+              indefiniteEnd: stepContrato.documentos.principal.indeterminado,
+              isNEContractor: stepContrato?.noColaborador?.length
+                ? true
+                : false,
+              nePersonType: TipoPersona.Fisica.label,
+              neCollaboratorNumber: stepContrato?.noColaborador ?? null,
+            },
+            supplierId: stateContrato.id?.toString()!,
+          });          
         }
       } else {
         //moral
@@ -201,5 +258,6 @@ export const useContrato = () => {
     onChangeContractor,
     validateDocuments,
     onClickNext,
+    disableButtons,
   };
 };

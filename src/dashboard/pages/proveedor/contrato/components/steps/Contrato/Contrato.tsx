@@ -29,6 +29,7 @@ export const Contrato = () => {
     onChangeContractor,
     validateDocuments,
     onClickNext,
+    disableButtons,
   } = useContrato();
 
   return (
@@ -128,7 +129,11 @@ export const Contrato = () => {
               Atras
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button type="submit" onClick={onClickNext}>
+            <Button
+              type="submit"
+              onClick={onClickNext}
+              disabled={disableButtons}
+            >
               Siguiente
             </Button>
           </Box>

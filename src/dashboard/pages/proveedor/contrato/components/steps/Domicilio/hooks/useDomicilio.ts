@@ -5,7 +5,7 @@ import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { countries } from "../../../../../../../../lib/constants";
-import { updateProveedorContrato } from "../../../../services/proveedor.contrato.service";
+import { updateProveedorContratoPerfil } from "../../../../services/proveedor.contrato.service";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -49,7 +49,7 @@ export const useDomicilio = (inputRef: any) => {
   };
 
   const updateMutation = useMutation({
-    mutationFn: updateProveedorContrato,
+    mutationFn: updateProveedorContratoPerfil,
     onSuccess: () => {
       toast.success("Informacion Actualizada");
       toNextStep();
