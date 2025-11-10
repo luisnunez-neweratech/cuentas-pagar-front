@@ -22,7 +22,7 @@ export const Domicilio = () => {
     isLoaded,
     optionPais,
     setOptionPais,
-    disableButtons
+    disableButtons,
   } = useDomicilio(inputRef);
 
   return (
@@ -200,12 +200,18 @@ export const Domicilio = () => {
         </Grid>
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+            <Button
+              variant="outlined"              
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
               Atras
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
 
-            <Button type="submit" disabled={disableButtons}>Siguiente</Button>
+            <Button variant="outlined" type="submit" disabled={disableButtons}>
+              Siguiente
+            </Button>
           </Box>
         </Grid>
       </Grid>

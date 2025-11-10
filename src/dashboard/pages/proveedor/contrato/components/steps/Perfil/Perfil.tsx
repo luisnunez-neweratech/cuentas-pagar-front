@@ -191,7 +191,7 @@ export const Perfil = () => {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
 
-            <Button type="submit" disabled={disableButtons}>
+            <Button type="submit" variant="outlined" disabled={disableButtons}>
               Siguiente
             </Button>
           </Box>

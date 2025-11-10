@@ -64,6 +64,7 @@ export const ArchivoElement = ({
               <Button
                 color="primary"
                 component="span"
+                variant="outlined"
                 style={{ marginTop: 14 }}
               >
                 {title}
@@ -85,6 +86,7 @@ export const ArchivoElement = ({
                 color="primary"
                 component="span"
                 style={{ marginTop: 14 }}
+                variant="outlined"
               >
                 {title}
                 <FileUploadIcon />

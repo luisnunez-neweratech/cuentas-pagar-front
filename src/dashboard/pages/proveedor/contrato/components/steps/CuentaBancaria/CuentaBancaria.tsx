@@ -10,11 +10,13 @@ export const CuentaBancaria = () => {
       <CuentasBancarias />
       <Grid size={12}>
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-          <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+          <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
             Atras
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
-          <Button onClick={onClickNext}>Siguiente</Button>
+          <Button variant="outlined" onClick={onClickNext}>
+            Siguiente
+          </Button>
         </Box>
       </Grid>
     </Grid>

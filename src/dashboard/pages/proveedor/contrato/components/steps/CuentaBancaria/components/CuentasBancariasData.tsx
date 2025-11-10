@@ -197,7 +197,7 @@ export const CuentasBancariasData = ({
 
                 <label htmlFor={idInput}>
                   <Button
-                    color="primary"
+                    variant="outlined"
                     component="span"
                     style={{ marginTop: 14 }}
                   >

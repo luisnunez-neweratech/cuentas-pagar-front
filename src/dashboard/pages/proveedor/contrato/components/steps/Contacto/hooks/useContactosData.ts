@@ -18,12 +18,20 @@ export const useContactosData = ({ id, isValidForm }: props) => {
   const getInitialValues = () => {
     const contacto = getStepContacto()?.find((item) => item.id === id);
 
+    let webPage = "";
+    if (contacto?.paginaWeb) {
+      webPage = contacto?.paginaWeb;
+      if (!webPage.includes("http")) {
+        webPage = `http://${contacto?.paginaWeb}`;
+      }
+    }
+
     return {
       tipoContacto: contacto?.tipoContacto,
       contacto: contacto?.contacto,
       telefono: contacto?.telefono,
       email: contacto?.email,
-      paginaWeb: contacto?.paginaWeb,
+      paginaWeb: webPage,
     };
   };
 
@@ -44,10 +52,9 @@ export const useContactosData = ({ id, isValidForm }: props) => {
   });
 
   const onMouseLeaveComponent = async () => {
-
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
-      console.log('errros', errors)
+      console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
         updateContacto(id, {
