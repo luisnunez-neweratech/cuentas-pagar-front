@@ -114,24 +114,21 @@ export const usePerfil = () => {
 
   const initialFormValues = () => {
     if (proveedorContrato) {
-      // id del url setearlo en el estado para que actulize en las llamadas
       console.log("proveedorContrato", proveedorContrato);
 
       if (proveedorContrato.tipoProveedor === TipoProveedor.Ocasional.value) {
         navigate(`/proveedor/${id}`);
       }
 
+      setProveedorId(+id!);
+
       const giroPrincipal = proveedorContrato.giroPrincipal
         ? giros?.find((giro) => giro.id === proveedorContrato.giroPrincipal)
         : null;
 
-      console.log("giroPrincipal", giroPrincipal);
-
       const productos = giros?.filter((obj) =>
         proveedorContrato.productos.includes(obj.id)
       );
-
-      console.log("productos", productos);
 
       return {
         tipoEntidad: proveedorContrato.tipoEntidad,
@@ -143,17 +140,6 @@ export const usePerfil = () => {
         giroPrincipal: giroPrincipal?.descripcion ?? "",
         productos: productos,
       };
-
-      /* return {
-        tipoEntidad: proveedorOcasional!.tipoEntidad,
-        tipoPersona: proveedorOcasional!.tipoPersona,
-        rfc: proveedorOcasional?.rfc ?? "",
-        razonSocial: proveedorOcasional!.razonSocial,
-        alias: proveedorOcasional!.alias,
-        email: proveedorOcasional?.email ?? "",
-        giroPrincipal: proveedorOcasional?.giroPrincipal ?? "",
-        productos: proveedorOcasional?.productos, //TODO valores para los productos
-      }; */
     }
     const stepPerfil = getStepPerfil();
 
