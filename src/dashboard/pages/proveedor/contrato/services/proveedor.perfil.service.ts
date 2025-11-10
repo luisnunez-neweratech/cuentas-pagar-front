@@ -1,7 +1,7 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
-import type { PostColaboradorPayload } from "../interfaces/PostColaborador.Payload";
-import type { PostContratoPayload } from "../interfaces/PostContratoPayload";
-import type { PostDocumentoProveedor } from "../interfaces/PostDocumentoProveedor.Payload";
+import type { PostColaboradorPayload } from "./interfaces/PostColaborador.Payload";
+import type { PostContratoPayload } from "./interfaces/PostContratoPayload";
+import type { PostDocumentoProveedor } from "./interfaces/PostDocumentoProveedor.Payload";
 
 interface addProveedorContratoProps {
   supplierId: string;

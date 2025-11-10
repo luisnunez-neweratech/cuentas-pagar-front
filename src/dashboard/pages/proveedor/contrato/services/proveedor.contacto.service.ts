@@ -1,5 +1,5 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
-import type { PostContactoPayload } from "../interfaces/PostContacto.Payload";
+import type { PostContactoPayload } from "./interfaces/PostContacto.Payload";
 
 export const addProveedorContacto = async (
   postContratoPayload: PostContactoPayload

@@ -16,7 +16,7 @@ import {
   addDocumentoProveedor,
   addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
-import { TipoDocumentoProveedor } from "../../../../interfaces/TipoDocumentoProveedor";
+import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 
 export const useContrato = () => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);

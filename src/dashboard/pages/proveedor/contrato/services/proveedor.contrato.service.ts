@@ -1,6 +1,6 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
-import { type PostPerfilPayload } from "../interfaces/PostPerfilPayload";
-import { type PutContratoPayload } from "../interfaces/PutContratoPayload";
+import { type PostPerfilPayload } from "./interfaces/PostPerfilPayload";
+import { type PutContratoPayload } from "./interfaces/PutContratoPayload";
 
 export const addProveedorContratoPerfil = async (
   postPerfilPayload: PostPerfilPayload
