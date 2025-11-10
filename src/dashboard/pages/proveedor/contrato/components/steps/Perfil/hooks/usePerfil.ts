@@ -16,6 +16,7 @@ import {
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { getProveedorContrato } from "../../../../services/proveedor.perfil.service";
+import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 
 export const usePerfil = () => {
   const { id } = useParams(); // para consulta
@@ -38,6 +39,9 @@ export const usePerfil = () => {
   };
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const navigate = useNavigate();
+  const setStepDomicilio = useProveedorContratoStore(
+    (state) => state.setStepDomicilio
+  );
 
   const toNextStep = (proveedorId: number) => {
     toast.success("Información Actualizada");
@@ -120,8 +124,6 @@ export const usePerfil = () => {
         navigate(`/proveedor/${id}`);
       }
 
-      setProveedorId(+id!);
-
       const giroPrincipal = proveedorContrato.giroPrincipal
         ? giros?.find((giro) => giro.id === proveedorContrato.giroPrincipal)
         : null;
@@ -169,12 +171,19 @@ export const usePerfil = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      if (proveedorContratoState.id) {
+      if (proveedorContrato && proveedorContrato.id) {
+        // cargar datos a la memoria
+        setProveedorId(+id!);
+        const pasoDomicilio: StepDomicilio = {
+          ...proveedorContrato,
+        };
+        setStepDomicilio(pasoDomicilio);
+
         const giroPrincipal = giros?.find(
           (giro) => giro.descripcion === values.giroPrincipal
         );
         updateMutation.mutate({
-          id: proveedorContratoState.id!,
+          id: proveedorContrato.id,
           supplierTypeId: TipoProveedor.Contrato.value,
           originId: +values.tipoEntidad,
           legalPersonTypeId: +values.tipoPersona,

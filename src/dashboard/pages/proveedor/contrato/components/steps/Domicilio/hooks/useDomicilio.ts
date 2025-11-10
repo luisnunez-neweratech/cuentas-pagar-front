@@ -69,7 +69,7 @@ export const useDomicilio = (inputRef: any) => {
   });
 
   const initialFormValues = () => {
-    /* if (id) {
+    /*  if (stateContrato.id) {
       return {
         tipoEntidad: proveedorOcasional!.tipoEntidad,
         tipoPersona: proveedorOcasional!.tipoPersona,
@@ -80,8 +80,10 @@ export const useDomicilio = (inputRef: any) => {
         giroPrincipal: proveedorOcasional?.giroPrincipal ?? "",
         productos: "", //TODO valores para los productos
       };
-    } */
+    }  */
     const stepDomicilio = getStepDomicilio();
+
+    console.log("stepDomicilio", stepDomicilio);
 
     return {
       pais: stepDomicilio?.pais,

@@ -79,5 +79,15 @@ export const getProveedorContrato = async (id: string): Promise<any> => {
     email: data.email,
     giroPrincipal: data.supplierActivity ? data.supplierActivity.id : null,
     productos: data.productServices.map((producto: any) => producto.id),
+
+    pais: data.country,
+    codigoPostal: data.postalCode,
+    estado: data.state,
+    municipio: data.municipality,
+    ciudad: data.city,
+    colonia: data.neighborhood,
+    calle: data.street,
+    numInterior: data.interiorNumber,
+    numExterior: data.exteriorNumber,
   };
 };
