@@ -55,9 +55,7 @@ export const Perfil = () => {
               </MenuItem>
             </Select>
             <FormHelperText>
-              {touched.tipoEntidad && errors.tipoEntidad
-                ? errors.tipoEntidad
-                : ""}
+              {touched.tipoEntidad && errors.tipoEntidad?.toString()}
             </FormHelperText>
           </FormControl>
         </Grid>
@@ -84,9 +82,7 @@ export const Perfil = () => {
               </MenuItem>
             </Select>
             <FormHelperText>
-              {touched.tipoPersona && errors.tipoPersona
-                ? errors.tipoPersona
-                : ""}
+              {touched.tipoPersona && errors.tipoPersona?.toString()}
             </FormHelperText>
           </FormControl>
         </Grid>
@@ -106,7 +102,7 @@ export const Perfil = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.rfc && Boolean(errors.rfc)}
-            helperText={touched.rfc && errors.rfc}
+            helperText={touched.rfc && errors.rfc?.toString()}
           />
         </Grid>
 
@@ -122,7 +118,7 @@ export const Perfil = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.razonSocial && Boolean(errors.razonSocial)}
-            helperText={touched.razonSocial && errors.razonSocial}
+            helperText={touched.razonSocial && errors.razonSocial?.toString()}
           />
         </Grid>
 
@@ -138,7 +134,7 @@ export const Perfil = () => {
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.alias && Boolean(errors.alias)}
-            helperText={touched.alias && errors.alias}
+            helperText={touched.alias && errors.alias?.toString()}
           />
         </Grid>
 

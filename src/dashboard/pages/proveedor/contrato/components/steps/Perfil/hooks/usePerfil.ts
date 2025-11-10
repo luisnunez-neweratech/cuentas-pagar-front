@@ -6,15 +6,16 @@ import type { StepPerfil } from "../../../../interface/stepPerfil";
 import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   addProveedorContratoPerfil,
   updateProveedorContratoPerfil,
 } from "../../../../services/proveedor.contrato.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { getProveedorContrato } from "../../../../services/proveedor.perfil.service";
 
 export const usePerfil = () => {
   const { id } = useParams(); // para consulta
@@ -36,6 +37,7 @@ export const usePerfil = () => {
     setIsLoading(state);
   };
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const navigate = useNavigate();
 
   const toNextStep = (proveedorId: number) => {
     toast.success("Información Actualizada");
@@ -94,9 +96,55 @@ export const usePerfil = () => {
     },
   });
 
+  const {
+    isLoading,
+    isError: isErrorGet,
+    error: errorGet,
+    data: proveedorContrato,
+  } = useQuery({
+    queryKey: ["Supplier", `${id}`, "Details"],
+    queryFn: () => getProveedorContrato(id || ""),
+    enabled: !!id,
+  });
+
+  const { data: giros } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
+    queryFn: () => getAllGiros(),
+  });
+
   const initialFormValues = () => {
-    /* if (id) { // id del url setearlo en el estado para que actulize en las llamadas
+    if (proveedorContrato) {
+      // id del url setearlo en el estado para que actulize en las llamadas
+      console.log("proveedorContrato", proveedorContrato);
+
+      if (proveedorContrato.tipoProveedor === TipoProveedor.Ocasional.value) {
+        navigate(`/proveedor/${id}`);
+      }
+
+      const giroPrincipal = proveedorContrato.giroPrincipal
+        ? giros?.find((giro) => giro.id === proveedorContrato.giroPrincipal)
+        : null;
+
+      console.log("giroPrincipal", giroPrincipal);
+
+      const productos = giros?.filter((obj) =>
+        proveedorContrato.productos.includes(obj.id)
+      );
+
+      console.log("productos", productos);
+
       return {
+        tipoEntidad: proveedorContrato.tipoEntidad,
+        tipoPersona: proveedorContrato.tipoPersona,
+        rfc: proveedorContrato.rfc,
+        razonSocial: proveedorContrato.razonSocial,
+        alias: proveedorContrato.alias ?? "",
+        email: proveedorContrato.email,
+        giroPrincipal: giroPrincipal?.descripcion ?? "",
+        productos: productos,
+      };
+
+      /* return {
         tipoEntidad: proveedorOcasional!.tipoEntidad,
         tipoPersona: proveedorOcasional!.tipoPersona,
         rfc: proveedorOcasional?.rfc ?? "",
@@ -105,8 +153,8 @@ export const usePerfil = () => {
         email: proveedorOcasional?.email ?? "",
         giroPrincipal: proveedorOcasional?.giroPrincipal ?? "",
         productos: proveedorOcasional?.productos, //TODO valores para los productos
-      };
-    } */
+      }; */
+    }
     const stepPerfil = getStepPerfil();
 
     return {
@@ -130,11 +178,12 @@ export const usePerfil = () => {
     errors,
     setFieldValue,
   } = useFormik({
+    enableReinitialize: true,
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      if (proveedorContratoState.id) {       
+      if (proveedorContratoState.id) {
         const giroPrincipal = giros?.find(
           (giro) => giro.descripcion === values.giroPrincipal
         );
@@ -175,10 +224,19 @@ export const usePerfil = () => {
     setFieldValue("productos", newValues);
   };
 
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isErrorGet) {
+      if (errorGet instanceof AxiosError) {
+        toast.error(errorGet.response?.data ?? errorGet.message);
+        return;
+      }
+      toast.error("Error al obtener el proveedor");
+    }
+  }, [isErrorGet]);
 
   return {
     handleSubmit,

@@ -34,7 +34,6 @@ export const addDocumentoProveedor = async ({
     postDocumentoProveedor.documentType.toString()
   );
 
-  //TODO cmabiar nombre endpoint cuando se actulice
   const { data } = await cuentasApi.post(
     `/SupplierProfileDocument/${supplierId}/Upload`,
     formData,
@@ -56,9 +55,29 @@ export const addColaboradoresProveedor = async ({
   contractId,
   postColaboradorPayload,
 }: addColaboradoresProveedorProps): Promise<any> => {
-  const { data } = await cuentasApi.post(`/ContractCollaborator/Contract/${contractId}`, {
-    ...postColaboradorPayload,
-  });
+  const { data } = await cuentasApi.post(
+    `/ContractCollaborator/Contract/${contractId}`,
+    {
+      ...postColaboradorPayload,
+    }
+  );
   return data;
 };
 
+export const getProveedorContrato = async (id: string): Promise<any> => {
+  const { data } = await cuentasApi.get(`/Supplier/${id}/Details`);
+  console.log("data", data);
+
+  return {
+    id: data.id,
+    tipoProveedor: data.supplierTypeId,
+    tipoEntidad: data.originId,
+    tipoPersona: data.legalPersonTypeId,
+    razonSocial: data.legalName,
+    alias: data.tradeName,
+    rfc: data.rfc,
+    email: data.email,
+    giroPrincipal: data.supplierActivity ? data.supplierActivity.id : null,
+    productos: data.productServices.map((producto: any) => producto.id),
+  };
+};
