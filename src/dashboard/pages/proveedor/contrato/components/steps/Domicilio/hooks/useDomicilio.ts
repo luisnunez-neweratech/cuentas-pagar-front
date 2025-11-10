@@ -69,18 +69,6 @@ export const useDomicilio = (inputRef: any) => {
   });
 
   const initialFormValues = () => {
-    /*  if (stateContrato.id) {
-      return {
-        tipoEntidad: proveedorOcasional!.tipoEntidad,
-        tipoPersona: proveedorOcasional!.tipoPersona,
-        rfc: proveedorOcasional?.rfc ?? "",
-        razonSocial: proveedorOcasional!.razonSocial,
-        alias: proveedorOcasional!.alias,
-        email: proveedorOcasional?.email ?? "",
-        giroPrincipal: proveedorOcasional?.giroPrincipal ?? "",
-        productos: "", //TODO valores para los productos
-      };
-    }  */
     const stepDomicilio = getStepDomicilio();
 
     console.log("stepDomicilio", stepDomicilio);
@@ -117,7 +105,6 @@ export const useDomicilio = (inputRef: any) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      console.log("stateContrato.stepPerfil", stateContrato.stepPerfil);
       updateMutation.mutate({
         id: stateContrato.id!,
         //perfil
