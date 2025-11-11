@@ -1,16 +1,19 @@
-import { useNavigate } from "react-router";
-import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
-import { toast } from "sonner";
-import { useContactosStore } from "../store/Contacto";
-import { useMutation } from "@tanstack/react-query";
-import { addProveedorContacto } from "../../../../services/proveedor.contacto.service";
-import { AxiosError } from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import { useContactosStore } from "../store/Contacto";
+import {
+  addProveedorContacto,
+  updateProveedorContacto,
+  
+} from "../../../../services/proveedor.contacto.service";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 
-export const useContacto = () => {
+export const useContacto = () => {  
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
-  const handleReset = useProveedorContratoStore((state) => state.handleReset);
   const getContactosValidos = useContactosStore(
     (state) => state.getContactosValidos
   );
@@ -20,28 +23,27 @@ export const useContacto = () => {
 
   const navigate = useNavigate();
 
-  const toNextStep = (proveedorId: number) => {
-    /*  const pasoPerfil: StepPerfil = {
-        tipoProveedor: TipoProveedor.Contrato.value,
-        tipoEntidad: +values.tipoEntidad,
-        tipoPersona: +values.tipoPersona,
-        razonSocial: values.razonSocial,
-        alias: values.alias,
-        rfc: values.rfc,
-        email: values.email,
-        giroPrincipal: values.giroPrincipal,
-        productos: values.productos,
-      };
-      setStepPerfil(pasoPerfil);
-      setProveedorId(proveedorId); */
-    toast.success("Proveedor creado correctamente");
-    navigate("/proveedor");
-  };
-
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
     setIsLoading(state);
   };
+  
+  const updateMutation = useMutation({
+    mutationFn: updateProveedorContacto,
+    onSuccess: (data) => {},
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el contacto");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
 
   const createMutation = useMutation({
     mutationFn: addProveedorContacto,
@@ -52,7 +54,7 @@ export const useContacto = () => {
         toast.error(error.message);
         return;
       }
-      toast.error("Error al actualizar el proveedor");
+      toast.error("Error al actualizar el contacto");
       return;
     },
     onSettled: () => {
@@ -62,28 +64,34 @@ export const useContacto = () => {
 
   const guardarProovedor = () => {
     if (getContactosValidos()) {
-      /* if (id) {
-          toast.info("Proveedor actualizado correctamente");
-          navigate("/proveedor");
-        } else { */
-
       stateProveedor.stepContacto?.map((contacto) => {
-        createMutation.mutate({
-          id: 0, // en create se manda 0
-          supplierId: stateProveedor.id!,
-          contactType: contacto.tipoContacto,
-          name: contacto.contacto,
-          phone: contacto.telefono,
-          email: contacto.email,
-          website: contacto.paginaWeb,
-          isActive: contacto.valido,
-        });
+        if (contacto.newElement) {
+          createMutation.mutate({
+            id: 0, // en create id 0
+            supplierId: stateProveedor.id!,
+            contactType: contacto.tipoContacto,
+            name: contacto.contacto,
+            phone: contacto.telefono,
+            email: contacto.email,
+            website: contacto.paginaWeb,
+            isActive: true,
+          });
+        } else {
+          updateMutation.mutate({
+            id: contacto.id,
+            supplierId: stateProveedor.id!,
+            contactType: contacto.tipoContacto,
+            name: contacto.contacto,
+            phone: contacto.telefono,
+            email: contacto.email,
+            website: contacto.paginaWeb,
+            isActive: true,
+          });
+        }
       });
 
-      toast.success("Proveedor creado correctamente");
+      toast.success("Proveedor guardado correctamente");
       navigate("/proveedor");
-      //}
-      //handleReset();
     }
   };
 

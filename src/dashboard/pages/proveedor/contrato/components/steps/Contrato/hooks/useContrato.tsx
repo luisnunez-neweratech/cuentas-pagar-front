@@ -206,19 +206,7 @@ export const useContrato = () => {
       getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value
         ? validationFisicoSchema
         : null,
-    onSubmit: async (values) => {
-      /*  const pasoPerfil: StepPerfil = {
-            tipoProveedor: "contrato",
-            tipoEntidad: values.tipoEntidad,
-            tipoPersona: values.tipoPersona,
-            razonSocial: values.razonSocial,
-            alias: values.alias,
-            rfc: values.rfc,
-            email: values.email,
-            giroPrincipal: values.giroPrincipal,
-            productos: [],
-          };
-          setStepPerfil(pasoPerfil); */
+    onSubmit: async (values) => {      
       //validate files
       doValidateDocuments(validateDocuments + 1);
       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {

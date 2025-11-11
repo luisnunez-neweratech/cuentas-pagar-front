@@ -6,4 +6,5 @@ export interface StepContacto {
   telefono: string;
   email: string;
   paginaWeb?: string;
+  newElement?: boolean;
 }

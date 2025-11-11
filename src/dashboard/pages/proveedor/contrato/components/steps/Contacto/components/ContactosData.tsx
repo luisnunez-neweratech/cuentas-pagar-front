@@ -18,9 +18,10 @@ interface props {
   id: number;
   deleteContacto: (id: number) => void;
   isValidForm: (id: number, valid: boolean) => void;
+  index: number;
 }
 
-export const ContactosData = ({ id, deleteContacto, isValidForm }: props) => {
+export const ContactosData = ({ id, deleteContacto, isValidForm, index }: props) => {
   const {
     onMouseLeaveComponent,
     values,
@@ -134,7 +135,7 @@ export const ContactosData = ({ id, deleteContacto, isValidForm }: props) => {
             </Grid>
 
             <Grid size={1} />
-            {id > 1 && (
+            {index > 0 && (
               <Grid size={1}>
                 <Tooltip title="Eliminar Cuenta">
                   <IconButton

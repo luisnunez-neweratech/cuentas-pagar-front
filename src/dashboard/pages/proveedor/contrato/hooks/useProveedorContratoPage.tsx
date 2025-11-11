@@ -29,9 +29,9 @@ export const useProveedorContratoPage = () => {
       case 1:
         return <Domicilio />;
       case 2:
-        return <Contrato />;
+        return <Contacto />;//return <Contrato />;
       case 3:
-        return <Contacto />;//return <CuentaBancaria />;
+        return <CuentaBancaria />;
       case 4:
         return <Contacto />;
     }

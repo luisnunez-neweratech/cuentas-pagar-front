@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useContactosStore } from "../store/Contacto";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import { deleteProveedorContacto } from '../../../../services/proveedor.contacto.service';
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
+
 
 type Contacto = { id: number; valido: boolean };
 
@@ -15,21 +21,47 @@ export const useContactos = () => {
   const removeContacto = useProveedorContratoStore(
     (state) => state.removeContacto
   );
+  
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+
+  const handleDisableButtons = (state: boolean) => {    
+    setIsLoading(state);
+  };
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteProveedorContacto,
+    onSuccess: (data,variables) => {
+      removeContacto(+variables);
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al eliminar el contacto");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
 
   const clickAddContacto = () => {
     addContacto({
       id: (stepContacto?.length ?? 0) + 1,
       valido: false,
-      tipoContacto: "",
+      tipoContacto: 0,
       contacto: "",
       telefono: "",
       email: "",
       paginaWeb: "",
+      newElement: true,
     });
   };
 
   const deleteContacto = (id: number) => {
-    removeContacto(id);
+    deleteMutation.mutate(id.toString())    
   };
 
   const isValidForm = (id: number, valid: boolean) => {
@@ -61,6 +93,6 @@ export const useContactos = () => {
     clickAddContacto,
     deleteContacto,
     setContactosValidos,
-    isValidForm,
+    isValidForm,    
   };
 };

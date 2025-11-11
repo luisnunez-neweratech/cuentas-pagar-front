@@ -17,12 +17,13 @@ export const Contactos = () => {
 
   return (
     <>
-      {(stepContacto ?? []).map((item) => (
+      {(stepContacto ?? []).map((item, index) => (
         <ContactosData
           key={item.id}
           id={item.id}
           deleteContacto={deleteContacto}
           isValidForm={isValidForm}
+          index={index}
         />
       ))}
       <Grid size={11} />

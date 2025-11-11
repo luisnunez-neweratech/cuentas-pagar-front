@@ -335,6 +335,7 @@ export const usePerfil = () => {
               telefono: contacto.phone,
               email: contacto.email,
               paginaWeb: contacto.website ?? "",
+              newElement: false,
             };
           });
         } else {

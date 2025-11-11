@@ -9,3 +9,20 @@ export const addProveedorContacto = async (
   });
   return data;
 };
+
+export const updateProveedorContacto = async (
+  putContactoPayload: PostContactoPayload
+): Promise<any> => {
+  const response = await cuentasApi.put(
+    `/Contact/${putContactoPayload.id}`,
+    {
+      ...putContactoPayload,
+    }
+  );
+  return response;
+};
+
+export const deleteProveedorContacto = async (id: string): Promise<any> => {
+  const response = await cuentasApi.delete(`/Contact/${id}`);
+  return response;
+};
