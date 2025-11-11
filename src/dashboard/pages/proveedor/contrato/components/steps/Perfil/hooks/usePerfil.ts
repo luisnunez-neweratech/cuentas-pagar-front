@@ -20,6 +20,7 @@ import {
 import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
+import { TipoContacto } from "../../../../../interfaces/TipoContacto";
 
 export const usePerfil = () => {
   const { id } = useParams();
@@ -41,6 +42,9 @@ export const usePerfil = () => {
   );
   const setStepContrato = useProveedorContratoStore(
     (state) => state.setStepContrato
+  );
+  const setStepContacto = useProveedorContratoStore(
+    (state) => state.setStepContacto
   );
 
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
@@ -236,7 +240,6 @@ export const usePerfil = () => {
         }*/
 
         // contrato es array, porque es historico
-
         let colaboradoresData = [];
         if (proveedorColaboradores.length > 0) {
           colaboradoresData = proveedorColaboradores.map((colaborador: any) => {
@@ -303,6 +306,42 @@ export const usePerfil = () => {
             },*/
           },
         });
+
+        // set step contacto
+        /*
+[
+  {
+    id: 1,
+    valido: false,
+    tipoContacto: TipoContacto.Venta.value,
+    contacto: "",
+    telefono: "",
+    email: "",
+    paginaWeb: "",
+  },
+];
+        */
+        let contactosData = [];
+        if (proveedorPerfil.contactos.length > 0) {
+          contactosData = proveedorPerfil.contactos.map((contacto: any) => {
+            return {
+              id: contacto.id,
+              valido: true,
+              tipoContacto:
+                contacto.contactType === "Pago"
+                  ? TipoContacto.Pago.value
+                  : TipoContacto.Venta.value,
+              contacto: contacto.name,
+              telefono: contacto.phone,
+              email: contacto.email,
+              paginaWeb: contacto.website ?? "",
+            };
+          });
+        } else {
+          contactosData = [...proveedorContratoState.stepContacto!];
+        }
+
+        setStepContacto(contactosData);
 
         updateMutation.mutate({
           id: proveedorPerfil.id,

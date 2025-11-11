@@ -228,7 +228,7 @@ export const ProveedorOcasionalPage = () => {
                 onClick={onClickEliminar}
                 disabled={disableButtons}
               >
-                Eliminar
+                Dar de baja
                 <DeleteIcon sx={{ marginLeft: 1 }} />
               </Button>
             </Grid>

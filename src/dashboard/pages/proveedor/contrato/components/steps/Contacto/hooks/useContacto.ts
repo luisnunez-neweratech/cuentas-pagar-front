@@ -74,7 +74,7 @@ export const useContacto = () => {
           contactType: contacto.tipoContacto,
           name: contacto.contacto,
           phone: contacto.telefono,
-          email: contacto.paginaWeb,
+          email: contacto.email,
           website: contacto.paginaWeb,
           isActive: contacto.valido,
         });

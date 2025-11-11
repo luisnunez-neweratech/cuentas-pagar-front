@@ -92,5 +92,8 @@ export const getProveedorPerfil = async (id: string): Promise<any> => {
 
     // contratos
     contratos: data.contracts,
+
+    //contactos
+    contactos: data.contacts,
   };
 };
