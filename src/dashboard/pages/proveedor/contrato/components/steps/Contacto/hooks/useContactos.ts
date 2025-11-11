@@ -5,7 +5,6 @@ import { deleteProveedorContacto } from '../../../../services/proveedor.contacto
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 
 
 type Contacto = { id: number; valido: boolean };
@@ -21,12 +20,6 @@ export const useContactos = () => {
   const removeContacto = useProveedorContratoStore(
     (state) => state.removeContacto
   );
-  
-  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
-
-  const handleDisableButtons = (state: boolean) => {    
-    setIsLoading(state);
-  };
 
   const deleteMutation = useMutation({
     mutationFn: deleteProveedorContacto,
@@ -41,9 +34,6 @@ export const useContactos = () => {
       }
       toast.error("Error al eliminar el contacto");
       return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
     },
   });
 

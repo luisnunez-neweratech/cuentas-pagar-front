@@ -56,12 +56,7 @@ export const getColaboradoresContrato = async (contratoId: string): Promise<any>
   return data; 
 };
 
-
-/*
-export const deleteProveedorOcasional = async (id: string): Promise<any> => {
-  const response = await cuentasApi.delete(`/Supplier/${id}`);
+export const deleteColaboradoresContrato = async (id: string): Promise<any> => {
+  const response = await cuentasApi.delete(`/ContractCollaborator/${id}`);
   return response;
 };
-
-
- */

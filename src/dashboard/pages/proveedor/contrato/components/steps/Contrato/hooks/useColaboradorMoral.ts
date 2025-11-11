@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import { deleteColaboradoresContrato } from "../../../../services/proveedor.contrato.service";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 type Colaborador = { id: number; valido: boolean };
 
 export const usecolaboradorMoral = () => {
@@ -17,6 +21,22 @@ export const usecolaboradorMoral = () => {
     (state) => state.removeColaborador
   );
 
+  const deleteMutation = useMutation({
+    mutationFn: deleteColaboradoresContrato,
+    onSuccess: (data, variables) => {
+      removeColaborador(+variables);
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al eliminar el colaborador");
+      return;
+    },
+  });
+
   const clickAddColaborador = () => {
     addColaborador({
       id: (stepContrato?.colaboradores?.length ?? 0) + 1,
@@ -25,12 +45,13 @@ export const usecolaboradorMoral = () => {
       nombre: "",
       fechaInicio: "",
       fechaFin: "",
-      status: true
+      status: true,
+      newElement: true,
     });
   };
 
   const deleteColaborador = (id: number) => {
-    removeColaborador(id);
+    deleteMutation.mutate(id.toString());
   };
 
   const isValidForm = (id: number, valid: boolean) => {
@@ -64,6 +85,6 @@ export const usecolaboradorMoral = () => {
     deleteColaborador,
     isValidForm,
     setColaboradoresValidos,
-    stepContrato
+    stepContrato,
   };
 };

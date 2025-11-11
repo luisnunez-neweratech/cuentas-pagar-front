@@ -21,6 +21,7 @@ const initialStepContrato = {
       fechaFin: "",
       fechaInicio: "",
       status: true,
+      newElement: true,
     },
   ],
   documentos: {

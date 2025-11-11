@@ -6,4 +6,5 @@ export interface Colaboradores {
     fechaInicio: string;
     fechaFin: string;
     status: boolean;
+    newElement?: boolean,
 }

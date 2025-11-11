@@ -251,6 +251,7 @@ export const usePerfil = () => {
               fechaInicio: colaborador.startDate.toString(),
               fechaFin: colaborador.tentativeEndDate.toString(),
               status: colaborador.status === "Active" ? true : false,
+              newElement: false,
             };
           });
         } else {
