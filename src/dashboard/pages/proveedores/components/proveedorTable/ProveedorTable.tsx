@@ -13,101 +13,11 @@ import {
 import TaskIcon from "@mui/icons-material/Task";
 import { TablePaginationActions } from "./components/TablePaginationActions";
 import { useProveedorTable } from "./hooks/useProveedorTable";
-import { TipoProveedor } from "../../../proveedor/interfaces/TipoProveedor";
-
-function createData(
-  id: string,
-  tipoProveedor: number,
-  rfc: string,
-  alias: string,
-  razonSocial: string,
-  fechaAlta: string,
-  fechaInicioContrato: string,
-  fechaFinContrato: string,
-  cfs: boolean,
-  identificacionRepLegal: boolean,
-  comprobanteDomicilio: boolean,
-  poderRepresentanteLegal: boolean
-) {
-  return {
-    id,
-    tipoProveedor,
-    rfc,
-    alias,
-    razonSocial,
-    fechaAlta,
-    fechaInicioContrato,
-    fechaFinContrato,
-    cfs,
-    identificacionRepLegal,
-    comprobanteDomicilio,
-    poderRepresentanteLegal,
-  };
-}
-
-const rows = [
-  createData(
-    "1",
-    TipoProveedor.Ocasional.value,
-    "NUDL910103CR9",
-    "Luis Fernando",
-    "Luis Fernando",
-    "21/10/2025",
-    "22/10/2025",
-    "01/01/2026",
-    true,
-    true,
-    true,
-    true
-  ),
-  createData(
-    "2",
-    TipoProveedor.Ocasional.value,
-    "NUDL910103CR9",
-    "Luis Fernando",
-    "Luis Fernando",
-    "21/10/2025",
-    "22/10/2025",
-    "01/01/2026",
-    false,
-    true,
-    true,
-    true
-  ),
-  createData(
-    "3",
-    TipoProveedor.Ocasional.value,
-    "NUDL910103CR9",
-    "Luis Fernando",
-    "Luis Fernando",
-    "21/10/2025",
-    "22/10/2025",
-    "01/01/2026",
-    true,
-    true,
-    false,
-    true
-  ),
-  createData(
-    "4",
-    TipoProveedor.Ocasional.value,
-    "NUDL910103CR9",
-    "Luis Fernando",
-    "Luis Fernando",
-    "21/10/2025",
-    "22/10/2025",
-    "01/01/2026",
-    true,
-    false,
-    true,
-    false
-  ),
-];
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
 export const ProveedorTable = () => {
-  const { rowClick } = useProveedorTable();
+  const { rowClick, proveedores } = useProveedorTable();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -124,6 +34,8 @@ export const ProveedorTable = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  console.log("proveedores", proveedores);
 
   return (
     <TableContainer component={Paper}>
@@ -149,45 +61,48 @@ export const ProveedorTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <TableRow
-              hover
-              key={index}
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-                cursor: "pointer",
-              }}
-              onClick={(_e) => {
-                rowClick(row);
-              }}
-            >
-              <TableCell component="th" scope="row">
-                {row.rfc}
-              </TableCell>
-              <TableCell>{row.alias}</TableCell>
-              <TableCell>{row.razonSocial}</TableCell>
-              <TableCell>{row.fechaAlta}</TableCell>
-              <TableCell>{row.fechaInicioContrato}</TableCell>
-              <TableCell>{row.fechaFinContrato}</TableCell>
-              <TableCell align="center">{row.cfs && <TaskIcon />}</TableCell>
-              <TableCell align="center">
-                {row.identificacionRepLegal && <TaskIcon />}
-              </TableCell>
-              <TableCell align="center">
-                {row.comprobanteDomicilio && <TaskIcon />}
-              </TableCell>
-              <TableCell align="center">
-                {row.poderRepresentanteLegal && <TaskIcon />}
-              </TableCell>
-            </TableRow>
-          ))}
+          {proveedores &&
+            proveedores.map((proveedor: any) => (
+              <TableRow
+                hover
+                key={proveedor.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  cursor: "pointer",
+                }}
+                onClick={(_e) => {
+                  rowClick(proveedor);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {proveedor.rfc}
+                </TableCell>
+                <TableCell>{proveedor.alias}</TableCell>
+                <TableCell>{proveedor.razonSocial}</TableCell>
+                <TableCell>{proveedor.fechaAlta}</TableCell>
+                <TableCell>{proveedor.fechaInicioContrato}</TableCell>
+                <TableCell>{proveedor.fechaFinContrato}</TableCell>
+                <TableCell align="center">
+                  {proveedor.indicadorCSF && <TaskIcon />}
+                </TableCell>
+                <TableCell align="center">
+                  {proveedor.indicadorIdRepLegal && <TaskIcon />}
+                </TableCell>
+                <TableCell align="center">
+                  {proveedor.indicadorCompDom && <TaskIcon />}
+                </TableCell>
+                <TableCell align="center">
+                  {proveedor.indicadorPoderRep && <TaskIcon />}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={proveedores ? proveedores.length : 0}
               rowsPerPage={rowsPerPage}
               page={page}
               slotProps={{

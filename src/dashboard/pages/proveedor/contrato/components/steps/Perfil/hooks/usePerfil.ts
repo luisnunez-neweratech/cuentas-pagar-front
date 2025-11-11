@@ -136,6 +136,7 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
+  console.log("proveedorPerfil", proveedorPerfil);
   // cargar colaboradores
   const {
     /* isError: isErrorGet,
@@ -145,9 +146,18 @@ export const usePerfil = () => {
     queryKey: [
       "ContractCollaborator",
       "Contract",
-      `${proveedorPerfil?.contratos[0].id}`,
+      `${
+        proveedorPerfil?.contratos.length > 0
+          ? proveedorPerfil?.contratos[0].id
+          : 0
+      }`,
     ],
-    queryFn: () => getColaboradoresContrato(proveedorPerfil?.contratos[0].id),
+    queryFn: () =>
+      getColaboradoresContrato(
+        proveedorPerfil?.contratos.length > 0
+          ? proveedorPerfil?.contratos[0].id
+          : 0
+      ),
     enabled: !!id && !!proveedorPerfil?.contratos,
   });
 
@@ -260,53 +270,55 @@ export const usePerfil = () => {
           ];
         }
 
-        setStepContrato({
-          id: proveedorPerfil.contratos[0].id,
-          contractor: proveedorPerfil.contratos[0].isNEContractor,
-          noColaborador: proveedorPerfil.contratos[0].neCollaboratorNumber,
-          colaboradores: colaboradoresData,
-          documentos: {
-            ...proveedorContratoState.stepContrato?.documentos!,
-            //tipo: "contrato", //propuesta
-            principal: {
-              fileValue: undefined,
-              fechaInicio: proveedorPerfil.contratos[0].startDate,
-              fechaFin: proveedorPerfil.contratos[0].endDate,
-              indeterminado: proveedorPerfil.contratos[0].indefiniteEnd,
+        if (proveedorPerfil.contratos.length > 0) {
+          setStepContrato({
+            id: proveedorPerfil.contratos[0].id,
+            contractor: proveedorPerfil.contratos[0].isNEContractor,
+            noColaborador: proveedorPerfil.contratos[0].neCollaboratorNumber,
+            colaboradores: colaboradoresData,
+            documentos: {
+              ...proveedorContratoState.stepContrato?.documentos!,
+              //tipo: "contrato", //propuesta
+              principal: {
+                fileValue: undefined,
+                fechaInicio: proveedorPerfil.contratos[0].startDate,
+                fechaFin: proveedorPerfil.contratos[0].endDate,
+                indeterminado: proveedorPerfil.contratos[0].indefiniteEnd,
+              },
+              //proveedorDocumentos
+              /* csf: {
+                fileValue: null,
+                fechaInicio: "",
+                fechaFin: "",
+                indeterminado: true,
+              },
+              idRepLegal: {
+                fileValue: null,
+                fechaInicio: "",
+                fechaFin: "",
+                indeterminado: true,
+              },
+              compDomicilio: {
+                fileValue: null,
+                fechaInicio: "",
+                fechaFin: "",
+                indeterminado: true,
+              },
+              poderRepLegal: {
+                fileValue: null,
+                fechaInicio: "",
+                fechaFin: "",
+                indeterminado: true,
+              },
+              anexo: {
+                fileValue: null,
+                fechaInicio: "",
+                fechaFin: "",
+                indeterminado: true,
+              },*/
             },
-            //proveedorDocumentos
-            /* csf: {
-              fileValue: null,
-              fechaInicio: "",
-              fechaFin: "",
-              indeterminado: true,
-            },
-            idRepLegal: {
-              fileValue: null,
-              fechaInicio: "",
-              fechaFin: "",
-              indeterminado: true,
-            },
-            compDomicilio: {
-              fileValue: null,
-              fechaInicio: "",
-              fechaFin: "",
-              indeterminado: true,
-            },
-            poderRepLegal: {
-              fileValue: null,
-              fechaInicio: "",
-              fechaFin: "",
-              indeterminado: true,
-            },
-            anexo: {
-              fileValue: null,
-              fechaInicio: "",
-              fechaFin: "",
-              indeterminado: true,
-            },*/
-          },
-        });
+          });
+        }
 
         // set step contacto
         /*
