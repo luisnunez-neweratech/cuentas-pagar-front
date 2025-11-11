@@ -1,4 +1,5 @@
 import { cuentasApi } from "../../../../api/cuentasApi";
+import { converDateFormat } from "../../../../lib/dates";
 import { TipoProveedor } from "../../proveedor/interfaces/TipoProveedor";
 
 interface getProveedoresProps {
@@ -21,9 +22,9 @@ export const getProveedores = async ({
       rfc: proveedor.rfc,
       alias: proveedor.tradeName,
       razonSocial: proveedor.legalName,
-      fechaAlta: "",
-      fechaInicioContrato: "",
-      fechaFinContrato: "",
+      fechaAlta: converDateFormat(proveedor.createdAt),
+      fechaInicioContrato: converDateFormat(proveedor.contractStartDate),
+      fechaFinContrato: converDateFormat(proveedor.contractEndDate),
       indicadorCSF:
         proveedor.indicadorCSF.toUpperCase() === "SI" ? true : false,
       indicadorIdRepLegal:
@@ -43,6 +44,6 @@ export const getProveedores = async ({
     pageNumber: data.pageNumber,
     pageSize: data.pageSize,
     totalCount: data.totalCount,
-    items: dataMapped
+    items: dataMapped,
   };
 };
