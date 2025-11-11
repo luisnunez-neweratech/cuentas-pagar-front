@@ -17,6 +17,9 @@ export const usecuentaBancaria = () => {
     (state) => state.getCuentasValidos
   );
   const stateProveedor = useProveedorContratoStore((state) => state);
+  const getStepCuentaBancaria = useProveedorContratoStore(
+    (state) => state.getStepCuentaBancaria
+  );
 
   const [disableButtons, setDisableButtons] = useState(false);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
@@ -46,7 +49,7 @@ export const usecuentaBancaria = () => {
   const createMutation = useMutation({
     mutationFn: addProveedorCuenta,
     onSuccess: (data, variables) => {
-      console.log('here???', data)
+      console.log("here???", data);
       createCaratulaMutation.mutate({
         id: data.id,
         caratulaFile: variables.caratulaFile,
@@ -68,23 +71,23 @@ export const usecuentaBancaria = () => {
 
   const onClickNext = () => {
     if (getCuentasValidos()) {
-      console.log('stateProveedor.stepCuentaBancaria', stateProveedor.stepCuentaBancaria)
-       stateProveedor.stepCuentaBancaria?.map((cuenta) => {
-        console.log('cuenta', cuenta)
+      console.log("stateProveedor.stepCuentaBancaria", getStepCuentaBancaria());
+      getStepCuentaBancaria()?.map((cuenta) => {
+        console.log("cuenta", cuenta);
         if (cuenta.newElement) {
           createMutation.mutate({
             postCuentaPayload: {
               accountType: stateProveedor.stepPerfil?.tipoEntidad!,
               bankName: cuenta.banco,
               saleCurrencyId: +cuenta.monedaVenta,
-              clabe: cuenta.clabe,
+              clabe: cuenta.clabe.toString(),
               swiftCode: cuenta.swift ?? "",
               paymentTermsId: +cuenta.condicionesPago,
             },
             supplierId: stateProveedor.id!.toString(),
             caratulaFile: cuenta.fileValue,
           });
-        }  /*else {
+        } /*else {
            updateMutation.mutate({
             id: contacto.id,
             supplierId: stateProveedor.id!,
@@ -96,9 +99,9 @@ export const usecuentaBancaria = () => {
             isActive: true,
           }); 
         }*/
-       });
+      });
       //toast.success("Cuenta bancaria guardada correctamente");
-      //handleNext(); 
+      //handleNext();
     }
   };
 

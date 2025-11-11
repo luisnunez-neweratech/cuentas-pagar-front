@@ -42,6 +42,7 @@ export const useCuentasBancariasData = ({
       swift: cuentaBancaria?.swift,
       condicionesPago: cuentaBancaria?.condicionesPago,
       [idInput]: cuentaBancaria?.fileValue,
+      newElement: cuentaBancaria?.newElement,
     };
   };
 
@@ -75,8 +76,9 @@ export const useCuentasBancariasData = ({
     validateForm().then((errors) => {
       console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
-        isValidForm(id, true);        
+        isValidForm(id, true);
         updateCuentaBancaria(id, {
+          newElement: values.newElement,
           id: id,
           valido: true,
           banco: values.banco!,
