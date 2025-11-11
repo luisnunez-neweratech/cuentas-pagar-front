@@ -1,25 +1,30 @@
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import { useNavigate, useParams } from "react-router";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepPerfil } from "../../../../interface/stepPerfil";
 import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
-import { useEffect, useState } from "react";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
-import { useNavigate, useParams } from "react-router";
 import {
   addProveedorContratoPerfil,
   updateProveedorContratoPerfil,
+  getProveedorDocumentos,
+  getColaboradoresContrato,
 } from "../../../../services/proveedor.contrato.service";
-import { toast } from "sonner";
-import { AxiosError } from "axios";
-import { getProveedorContrato } from "../../../../services/proveedor.perfil.service";
+import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
+import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 
 export const usePerfil = () => {
-  const { id } = useParams(); // para consulta
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const setStepPerfil = useProveedorContratoStore(
     (state) => state.setStepPerfil
@@ -31,17 +36,21 @@ export const usePerfil = () => {
     (state) => state.getStepPerfil
   );
   const proveedorContratoState = useProveedorContratoStore((state) => state);
+  const setStepDomicilio = useProveedorContratoStore(
+    (state) => state.setStepDomicilio
+  );
+  const setStepContrato = useProveedorContratoStore(
+    (state) => state.setStepContrato
+  );
+
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+
   const [disableButtons, setDisableButtons] = useState(false);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
     setIsLoading(state);
   };
-  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
-  const navigate = useNavigate();
-  const setStepDomicilio = useProveedorContratoStore(
-    (state) => state.setStepDomicilio
-  );
 
   const toNextStep = (proveedorId: number) => {
     toast.success("Información Actualizada");
@@ -100,15 +109,42 @@ export const usePerfil = () => {
     },
   });
 
+  //cargar datos de perfil, domicilio, contrato
   const {
     isLoading,
     isError: isErrorGet,
     error: errorGet,
-    data: proveedorContrato,
+    data: proveedorPerfil,
   } = useQuery({
     queryKey: ["Supplier", `${id}`, "Details"],
-    queryFn: () => getProveedorContrato(id || ""),
+    queryFn: () => getProveedorPerfil(id || ""),
     enabled: !!id,
+  });
+
+  // cargar documentos
+  const {
+    /* isError: isErrorGet,
+    error: errorGet, */
+    data: proveedorDocumentos,
+  } = useQuery({
+    queryKey: ["SupplierProfileDocument", `${id}`],
+    queryFn: () => getProveedorDocumentos(id || ""),
+    enabled: !!id,
+  });
+
+  // cargar colaboradores
+  const {
+    /* isError: isErrorGet,
+    error: errorGet, */
+    data: proveedorColaboradores,
+  } = useQuery({
+    queryKey: [
+      "ContractCollaborator",
+      "Contract",
+      `${proveedorPerfil?.contratos[0].id}`,
+    ],
+    queryFn: () => getColaboradoresContrato(proveedorPerfil?.contratos[0].id),
+    enabled: !!id && !!proveedorPerfil?.contratos,
   });
 
   const { data: giros } = useQuery({
@@ -117,28 +153,26 @@ export const usePerfil = () => {
   });
 
   const initialFormValues = () => {
-    if (proveedorContrato) {
-      console.log("proveedorContrato", proveedorContrato);
-
-      if (proveedorContrato.tipoProveedor === TipoProveedor.Ocasional.value) {
+    if (proveedorPerfil) {
+      if (proveedorPerfil.tipoProveedor === TipoProveedor.Ocasional.value) {
         navigate(`/proveedor/${id}`);
       }
 
-      const giroPrincipal = proveedorContrato.giroPrincipal
-        ? giros?.find((giro) => giro.id === proveedorContrato.giroPrincipal)
+      const giroPrincipal = proveedorPerfil.giroPrincipal
+        ? giros?.find((giro) => giro.id === proveedorPerfil.giroPrincipal)
         : null;
 
       const productos = giros?.filter((obj) =>
-        proveedorContrato.productos.includes(obj.id)
+        proveedorPerfil.productos.includes(obj.id)
       );
 
       return {
-        tipoEntidad: proveedorContrato.tipoEntidad,
-        tipoPersona: proveedorContrato.tipoPersona,
-        rfc: proveedorContrato.rfc,
-        razonSocial: proveedorContrato.razonSocial,
-        alias: proveedorContrato.alias ?? "",
-        email: proveedorContrato.email,
+        tipoEntidad: proveedorPerfil.tipoEntidad,
+        tipoPersona: proveedorPerfil.tipoPersona,
+        rfc: proveedorPerfil.rfc,
+        razonSocial: proveedorPerfil.razonSocial,
+        alias: proveedorPerfil.alias ?? "",
+        email: proveedorPerfil.email,
         giroPrincipal: giroPrincipal?.descripcion ?? "",
         productos: productos,
       };
@@ -171,19 +205,107 @@ export const usePerfil = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      if (proveedorContrato && proveedorContrato.id) {
-        // cargar datos a la memoria
+      const giroPrincipal = giros?.find(
+        (giro) => giro.descripcion === values.giroPrincipal
+      );
+      if (proveedorPerfil && proveedorPerfil.id) {
+        // cargar datos a zustand
+        //domicilio step
         setProveedorId(+id!);
         const pasoDomicilio: StepDomicilio = {
-          ...proveedorContrato,
+          ...proveedorPerfil,
         };
         setStepDomicilio(pasoDomicilio);
 
-        const giroPrincipal = giros?.find(
-          (giro) => giro.descripcion === values.giroPrincipal
+        // contrato step
+
+        console.log("proveedorDocumentos", proveedorDocumentos);
+
+        /* const csfDocument = proveedorDocumentos.filter(
+          (documento: any) =>
+            documento.documentType === TipoDocumentoProveedor.CSF
         );
+        let dataCsf = null;
+        if (csfDocument) {
+          dataCsf = {
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true,
+          };
+        }*/
+
+        // contrato es array, porque es historico
+
+        let colaboradoresData = [];
+        if (proveedorColaboradores.length > 0) {
+          colaboradoresData = proveedorColaboradores.map((colaborador: any) => {
+            return {
+              id: colaborador.id,
+              valido: true,
+              noColaborador: colaborador.collaboratorNumber,
+              nombre: colaborador.name,
+              fechaInicio: colaborador.startDate.toString(),
+              fechaFin: colaborador.tentativeEndDate.toString(),
+              status: colaborador.status === "Active" ? true : false,
+            };
+          });
+        } else {
+          colaboradoresData = [
+            ...proveedorContratoState.stepContrato?.colaboradores!,
+          ];
+        }
+
+        setStepContrato({
+          id: proveedorPerfil.contratos[0].id,
+          contractor: proveedorPerfil.contratos[0].isNEContractor,
+          noColaborador: proveedorPerfil.contratos[0].neCollaboratorNumber,
+          colaboradores: colaboradoresData,
+          documentos: {
+            ...proveedorContratoState.stepContrato?.documentos!,
+            //tipo: "contrato", //propuesta
+            principal: {
+              fileValue: undefined,
+              fechaInicio: proveedorPerfil.contratos[0].startDate,
+              fechaFin: proveedorPerfil.contratos[0].endDate,
+              indeterminado: proveedorPerfil.contratos[0].indefiniteEnd,
+            },
+            //proveedorDocumentos
+            /* csf: {
+              fileValue: null,
+              fechaInicio: "",
+              fechaFin: "",
+              indeterminado: true,
+            },
+            idRepLegal: {
+              fileValue: null,
+              fechaInicio: "",
+              fechaFin: "",
+              indeterminado: true,
+            },
+            compDomicilio: {
+              fileValue: null,
+              fechaInicio: "",
+              fechaFin: "",
+              indeterminado: true,
+            },
+            poderRepLegal: {
+              fileValue: null,
+              fechaInicio: "",
+              fechaFin: "",
+              indeterminado: true,
+            },
+            anexo: {
+              fileValue: null,
+              fechaInicio: "",
+              fechaFin: "",
+              indeterminado: true,
+            },*/
+          },
+        });
+
         updateMutation.mutate({
-          id: proveedorContrato.id,
+          id: proveedorPerfil.id,
           supplierTypeId: TipoProveedor.Contrato.value,
           originId: +values.tipoEntidad,
           legalPersonTypeId: +values.tipoPersona,
@@ -196,20 +318,17 @@ export const usePerfil = () => {
             values.productos?.map((producto: any) => producto.id) ?? [],
 
           // si tiene domicilio actulizarlo
-          country: proveedorContrato.pais ?? "",
-          postalCode: proveedorContrato.codigoPostal ?? "",
-          state: proveedorContrato.estado ?? "",
-          municipality: proveedorContrato.municipio ?? "",
-          city: proveedorContrato.ciudad ?? "",
-          neighborhood: proveedorContrato.colonia ?? "",
-          street: proveedorContrato.calle ?? "",
-          interiorNumber: proveedorContrato.numInterior,
-          exteriorNumber: proveedorContrato.numExterior,
+          country: proveedorPerfil.pais ?? "",
+          postalCode: proveedorPerfil.codigoPostal ?? "",
+          state: proveedorPerfil.estado ?? "",
+          municipality: proveedorPerfil.municipio ?? "",
+          city: proveedorPerfil.ciudad ?? "",
+          neighborhood: proveedorPerfil.colonia ?? "",
+          street: proveedorPerfil.calle ?? "",
+          interiorNumber: proveedorPerfil.numInterior,
+          exteriorNumber: proveedorPerfil.numExterior,
         });
       } else {
-        const giroPrincipal = giros?.find(
-          (giro) => giro.descripcion === values.giroPrincipal
-        );
         createMutation.mutate({
           supplierTypeId: TipoProveedor.Contrato.value,
           originId: +values.tipoEntidad,

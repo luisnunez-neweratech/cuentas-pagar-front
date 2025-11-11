@@ -64,7 +64,7 @@ export const addColaboradoresProveedor = async ({
   return data;
 };
 
-export const getProveedorContrato = async (id: string): Promise<any> => {
+export const getProveedorPerfil = async (id: string): Promise<any> => {
   const { data } = await cuentasApi.get(`/Supplier/${id}/Details`);
   console.log("data", data);
 
@@ -89,5 +89,8 @@ export const getProveedorContrato = async (id: string): Promise<any> => {
     calle: data.street,
     numInterior: data.interiorNumber,
     numExterior: data.exteriorNumber,
+
+    // contratos
+    contratos: data.contracts,
   };
 };

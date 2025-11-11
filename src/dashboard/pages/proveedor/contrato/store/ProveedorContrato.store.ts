@@ -9,6 +9,7 @@ import type { Documentos } from "../interface/Documentos";
 import { TipoContacto } from "../../interfaces/TipoContacto";
 
 const initialStepContrato = {
+  id: null,
   contractor: false,
   noColaborador: "",
   colaboradores: [
