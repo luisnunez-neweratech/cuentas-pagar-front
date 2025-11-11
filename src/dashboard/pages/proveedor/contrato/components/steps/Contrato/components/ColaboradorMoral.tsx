@@ -20,12 +20,13 @@ export const ColaboradorMoral = () => {
 
   return (
     <>
-      {(stepContrato?.colaboradores ?? []).map((item) => (
+      {(stepContrato?.colaboradores ?? []).map((item, index) => (
         <ColaboradorData
           key={item.id}
           id={item.id}
           deleteColaborador={deleteColaborador}
           isValidForm={isValidForm}
+          index={index}
         />
       ))}
       <Grid size={11} />

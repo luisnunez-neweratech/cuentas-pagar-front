@@ -19,12 +19,14 @@ interface props {
   id: number;
   deleteColaborador: (id: number) => void;
   isValidForm: (id: number, valid: boolean) => void;
+  index: number;
 }
 
 export const ColaboradorData = ({
   id,
   deleteColaborador,
   isValidForm,
+  index
 }: props) => {
   const {
     values,
@@ -83,6 +85,7 @@ export const ColaboradorData = ({
                   control={
                     <Switch
                       defaultChecked
+                      checked={values.status}
                       value={values.status}
                       onChange={() => setFieldValue("status", !values.status)}
                     />
@@ -134,7 +137,7 @@ export const ColaboradorData = ({
               </LocalizationProvider>
             </Grid>
             <Grid size={3} />
-            {id > 1 && (
+            {index > 0 && (
               <Grid size={1}>
                 <Tooltip title="Eliminar Colaborador">
                   <IconButton
