@@ -28,6 +28,7 @@ interface props {
   isValidForm: (id: number, valid: boolean) => void;
   monedas: MonedaVenta[];
   plazoPagos: PlazoPago[];
+  index: number;
 }
 
 export const CuentasBancariasData = ({
@@ -37,6 +38,7 @@ export const CuentasBancariasData = ({
   isValidForm,
   monedas,
   plazoPagos,
+  index,
 }: props) => {
   const {
     onMouseLeaveComponent,
@@ -221,7 +223,7 @@ export const CuentasBancariasData = ({
               )}
             </Grid>
             <Grid size={1} />
-            {id > 1 && (
+            {index > 0 && (
               <Grid size={1}>
                 <Tooltip title="Eliminar Cuenta">
                   <IconButton

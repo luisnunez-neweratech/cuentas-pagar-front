@@ -58,3 +58,8 @@ export const updateProveedorCuenta = async ({
   });
   return response;
 };
+
+export const deleteProveedorCuenta = async (id: string): Promise<any> => {
+  const response = await cuentasApi.delete(`/BankDetail/${id}`);
+  return response;
+};

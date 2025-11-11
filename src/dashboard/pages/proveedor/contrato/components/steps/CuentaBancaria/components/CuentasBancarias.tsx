@@ -25,7 +25,7 @@ export const CuentasBancarias = () => {
 
   return (
     <>
-      {(stepCuentaBancaria ?? []).map((item) => (
+      {(stepCuentaBancaria ?? []).map((item, index) => (
         <CuentasBancariasData
           key={item.id}
           id={item.id}
@@ -34,6 +34,7 @@ export const CuentasBancarias = () => {
           isValidForm={isValidForm}
           monedas={monedas ?? []}
           plazoPagos={plazoPagos ?? []}
+          index={index}
         />
       ))}
 

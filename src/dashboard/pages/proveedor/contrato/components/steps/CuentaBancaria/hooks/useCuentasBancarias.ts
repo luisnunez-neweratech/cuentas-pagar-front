@@ -3,7 +3,10 @@ import { useCuentaBancariaStore } from "../store/CuentaBancaria";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { getAllMonedaVentas } from "../../../../../../catalogos/services/monedaVenta.service";
 import { getAllPlazoPagos } from "../../../../../../catalogos/services/plazoPago.service";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deleteProveedorCuenta } from "../../../../services/proveedor.cuentaBancaria.service";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
 type Cuenta = { id: number; valido: boolean };
 
 export const useCuentasBancarias = () => {
@@ -60,8 +63,24 @@ export const useCuentasBancarias = () => {
     });
   };
 
+  const deleteMutation = useMutation({
+    mutationFn: deleteProveedorCuenta,
+    onSuccess: (data, variables) => {
+      removeCuentaBancaria(+variables);
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al eliminar la cuenta");
+      return;
+    },
+  });
+
   const deleteCuenta = (id: number) => {
-    removeCuentaBancaria(id);
+    deleteMutation.mutate(id.toString());
   };
 
   const isValidForm = (id: number, valid: boolean) => {
