@@ -88,6 +88,7 @@ const initialStepCuentBancaria = [
     condicionesPago: "",
     status: true,
     fileValue: undefined,
+    newElement: true,
   },
 ];
 const initialStepContacto = [
@@ -268,9 +269,9 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   },
   updateCuentaBancaria: (id: number, cuentaBancaria: StepCuentaBancaria) => {
     set((state) => ({
-      stepCuentaBancaria: (state.stepCuentaBancaria ?? []).map((item) =>
-        item.id === id ? { ...cuentaBancaria } : item
-      ),
+      stepCuentaBancaria: (state.stepCuentaBancaria ?? []).map((item) => {
+        return item.id === id ? { ...cuentaBancaria } : item;
+      }),
     }));
   },
 

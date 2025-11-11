@@ -73,8 +73,9 @@ export const useCuentasBancariasData = ({
   const onMouseLeaveComponent = async () => {
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
+      console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
-        isValidForm(id, true);
+        isValidForm(id, true);        
         updateCuentaBancaria(id, {
           id: id,
           valido: true,

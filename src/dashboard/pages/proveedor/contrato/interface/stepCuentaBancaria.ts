@@ -8,4 +8,5 @@ export interface StepCuentaBancaria {
   condicionesPago: string;
   status: boolean;
   fileValue?: File;
+  newElement?: boolean;
 }

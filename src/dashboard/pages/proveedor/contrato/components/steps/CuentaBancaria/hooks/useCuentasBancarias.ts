@@ -56,6 +56,7 @@ export const useCuentasBancarias = () => {
       condicionesPago: "",
       status: true,
       fileValue: undefined,
+      newElement: true,
     });
   };
 
