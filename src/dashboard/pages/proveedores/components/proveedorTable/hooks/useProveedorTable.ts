@@ -1,12 +1,8 @@
 import { useNavigate } from "react-router";
-import { useProveedorOcasionalStore } from "../../../../proveedor/ocasional/store/ProveedorOcasional.store";
-import type { ProveedorOcasional } from "../../../../../../interfaces/proveedor-ocasional.interface";
-import { TipoEntidad } from "../../../../proveedor/interfaces/TipoEntidad";
-import { TipoPersona } from "../../../../proveedor/interfaces/TipoPersona";
 import { TipoProveedor } from "../../../../proveedor/interfaces/TipoProveedor";
 import { getProveedores } from "../../../services/Proveedores.service";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -14,6 +10,24 @@ import { toast } from "sonner";
 export const useProveedorTable = () => {
   const navigate = useNavigate();
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [proveedoresData, setProveedoresData] = useState([]);
+  const [totalRows, setTotalRows] = useState(0);
+
+  const handleChangePage = (
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const {
     isLoading,
@@ -21,8 +35,8 @@ export const useProveedorTable = () => {
     error: errorGet,
     data: proveedores,
   } = useQuery({
-    queryKey: ["Supplier", "GetAll"],
-    queryFn: () => getProveedores(),
+    queryKey: ["Supplier", "GetPagedAsync", page, rowsPerPage],
+    queryFn: () => getProveedores({ page: page + 1, rowsPerPage }),
   });
 
   const rowClick = (row: any) => {
@@ -33,7 +47,6 @@ export const useProveedorTable = () => {
   };
 
   useEffect(() => {
-    console.log('loading?')
     setIsLoading(isLoading);
   }, [isLoading]);
 
@@ -47,8 +60,21 @@ export const useProveedorTable = () => {
     }
   }, [isErrorGet]);
 
+  useEffect(() => {
+    if (proveedores) {
+      setProveedoresData(proveedores.items);
+      setTotalRows(proveedores.totalCount);
+    }
+  }, [proveedores]);
+
   return {
     rowClick,
     proveedores,
+    page,
+    rowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    proveedoresData,
+    totalRows,
   };
 };

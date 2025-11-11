@@ -1,11 +1,21 @@
 import { cuentasApi } from "../../../../api/cuentasApi";
 import { TipoProveedor } from "../../proveedor/interfaces/TipoProveedor";
 
-export const getProveedores = async (): Promise<any> => {
-  const { data } = await cuentasApi.get(`/Supplier/GetAll`);
+interface getProveedoresProps {
+  page: number;
+  rowsPerPage: number;
+}
+
+export const getProveedores = async ({
+  page,
+  rowsPerPage,
+}: getProveedoresProps): Promise<any> => {
+  const { data } = await cuentasApi.get(
+    `/Supplier/GetPagedAsync/${page}/${rowsPerPage}`
+  );
   console.log("data", data);
 
-  const dataMapped = data.map((proveedor: any) => {
+  const dataMapped = data.items.map((proveedor: any) => {
     return {
       id: proveedor.id,
       rfc: proveedor.rfc,
@@ -29,5 +39,10 @@ export const getProveedores = async (): Promise<any> => {
     };
   });
 
-  return dataMapped;
+  return {
+    pageNumber: data.pageNumber,
+    pageSize: data.pageSize,
+    totalCount: data.totalCount,
+    items: dataMapped
+  };
 };

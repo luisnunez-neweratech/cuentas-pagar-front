@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Paper,
   Table,
@@ -17,25 +16,15 @@ import { useProveedorTable } from "./hooks/useProveedorTable";
 const cellHeaderStyle = { fontWeight: "bold" };
 
 export const ProveedorTable = () => {
-  const { rowClick, proveedores } = useProveedorTable();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleChangePage = (
-    _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  console.log("proveedores", proveedores);
+  const {
+    rowClick,
+    proveedoresData,
+    page,
+    rowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    totalRows,
+  } = useProveedorTable();
 
   return (
     <TableContainer component={Paper}>
@@ -61,8 +50,8 @@ export const ProveedorTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {proveedores &&
-            proveedores.map((proveedor: any) => (
+          {proveedoresData &&
+            proveedoresData.map((proveedor: any) => (
               <TableRow
                 hover
                 key={proveedor.id}
@@ -100,9 +89,9 @@ export const ProveedorTable = () => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+              rowsPerPageOptions={[5, 10, 25]}
               colSpan={3}
-              count={proveedores ? proveedores.length : 0}
+              count={totalRows}
               rowsPerPage={rowsPerPage}
               page={page}
               slotProps={{
