@@ -4,6 +4,7 @@ import { useCuentaBancariaStore } from "../store/CuentaBancaria";
 import {
   addProveedorCuenta,
   addProveedorCaratula,
+  updateProveedorCuenta,
 } from "../../../../services/proveedor.cuentaBancaria.service";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -49,11 +50,33 @@ export const usecuentaBancaria = () => {
   const createMutation = useMutation({
     mutationFn: addProveedorCuenta,
     onSuccess: (data, variables) => {
-      console.log("here???", data);
       createCaratulaMutation.mutate({
         id: data.id,
         caratulaFile: variables.caratulaFile,
       });
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el contacto");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: updateProveedorCuenta,
+    onSuccess: (data, variables) => {
+      //TODO update caratula
+      /* createCaratulaMutation.mutate({
+        id: data.id,
+        caratulaFile: variables.caratulaFile,
+      }); */
     },
     onError: (error) => {
       console.log(error);
@@ -87,21 +110,22 @@ export const usecuentaBancaria = () => {
             supplierId: stateProveedor.id!.toString(),
             caratulaFile: cuenta.fileValue,
           });
-        } /*else {
-           updateMutation.mutate({
-            id: contacto.id,
-            supplierId: stateProveedor.id!,
-            contactType: contacto.tipoContacto,
-            name: contacto.contacto,
-            phone: contacto.telefono,
-            email: contacto.email,
-            website: contacto.paginaWeb,
-            isActive: true,
-          }); 
-        }*/
+        } else {
+          updateMutation.mutate({
+            putCuentaPayload: {
+              accountType: stateProveedor.stepPerfil?.tipoEntidad!,
+              bankName: cuenta.banco,
+              saleCurrencyId: +cuenta.monedaVenta,
+              clabe: cuenta.clabe.toString(),
+              swiftCode: cuenta.swift ?? "",
+              paymentTermsId: +cuenta.condicionesPago,
+            },
+            id: cuenta.id.toString(),
+          });
+        }
       });
-      //toast.success("Cuenta bancaria guardada correctamente");
-      //handleNext();
+      toast.success("Cuenta bancaria guardada correctamente");
+      handleNext();
     }
   };
 

@@ -44,3 +44,17 @@ export const addProveedorCaratula = async ({
   );
   return data;
 };
+
+interface updateProveedorCuentaProps {
+  id: string;
+  putCuentaPayload: PostCuentaPayload;
+}
+export const updateProveedorCuenta = async ({
+  id,
+  putCuentaPayload,
+}: updateProveedorCuentaProps): Promise<any> => {
+  const response = await cuentasApi.put(`/BankDetail/${id}/Update`, {
+    ...putCuentaPayload,
+  });
+  return response;
+};

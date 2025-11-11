@@ -387,7 +387,7 @@ export const usePerfil = () => {
               condicionesPago: cuenta.paymentTermsId,
               status: cuenta.isActive,
               downloadUrl: cuenta.downloadUrl,
-              newElement: true,
+              newElement: false,
             };
           });
         } else {
