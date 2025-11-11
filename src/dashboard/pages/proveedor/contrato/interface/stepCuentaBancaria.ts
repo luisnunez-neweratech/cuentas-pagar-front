@@ -9,4 +9,5 @@ export interface StepCuentaBancaria {
   status: boolean;
   fileValue?: File;
   newElement?: boolean;
+  downloadUrl?:string | null;
 }

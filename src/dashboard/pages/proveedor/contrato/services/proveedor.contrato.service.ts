@@ -60,3 +60,12 @@ export const deleteColaboradoresContrato = async (id: string): Promise<any> => {
   const response = await cuentasApi.delete(`/ContractCollaborator/${id}`);
   return response;
 };
+
+export const getProveedorCuentas = async (id: string): Promise<any> => {
+  const { data } = await cuentasApi.get(`/BankDetail/Supplier/${id}`);
+  console.log("data", data);
+
+  // array con CSF, IdRepLegal, CompDom, PoderRep
+  return data; 
+};
+

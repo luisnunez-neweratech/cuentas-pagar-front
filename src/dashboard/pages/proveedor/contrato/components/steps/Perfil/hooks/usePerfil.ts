@@ -16,6 +16,7 @@ import {
   updateProveedorContratoPerfil,
   getProveedorDocumentos,
   getColaboradoresContrato,
+  getProveedorCuentas,
 } from "../../../../services/proveedor.contrato.service";
 import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
@@ -45,6 +46,9 @@ export const usePerfil = () => {
   );
   const setStepContacto = useProveedorContratoStore(
     (state) => state.setStepContacto
+  );
+  const setStepCuentaBancaria = useProveedorContratoStore(
+    (state) => state.setStepCuentaBancaria
   );
 
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
@@ -136,7 +140,6 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
-  console.log("proveedorPerfil", proveedorPerfil);
   // cargar colaboradores
   const {
     /* isError: isErrorGet,
@@ -160,6 +163,19 @@ export const usePerfil = () => {
       ),
     enabled: !!id && !!proveedorPerfil?.contratos,
   });
+
+  // cargar cuentas bancarias
+  const {
+    /* isError: isErrorGet,
+    error: errorGet, */
+    data: proveedorCuentasBancarias,
+  } = useQuery({
+    queryKey: ["BankDetail", "Supplier", `${id}`],
+    queryFn: () => getProveedorCuentas(id!),
+    enabled: !!id,
+  });
+
+  console.log("proveedorCuentasBancarias", proveedorCuentasBancarias);
 
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
@@ -356,6 +372,28 @@ export const usePerfil = () => {
         }
 
         setStepContacto(contactosData);
+
+        //cuentas bancarias
+        let cuentasData = [];
+        if (proveedorCuentasBancarias && proveedorCuentasBancarias.length > 0) {
+          cuentasData = proveedorCuentasBancarias.map((cuenta: any) => {
+            return {
+              id: cuenta.id,
+              valido: true,
+              banco: cuenta.bankName,
+              monedaVenta: cuenta.saleCurrencyId,
+              clabe: cuenta.clabe,
+              swift: cuenta.swiftCode,
+              condicionesPago: cuenta.paymentTermsId,
+              status: cuenta.isActive,
+              downloadUrl: cuenta.downloadUrl,
+              newElement: true,
+            };
+          });
+        } else {
+          cuentasData = [...proveedorContratoState.stepCuentaBancaria!];
+        }
+        setStepCuentaBancaria(cuentasData);
 
         updateMutation.mutate({
           id: proveedorPerfil.id,
