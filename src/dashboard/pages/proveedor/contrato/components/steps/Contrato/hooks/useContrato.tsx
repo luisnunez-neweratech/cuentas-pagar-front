@@ -98,7 +98,7 @@ export const useContrato = () => {
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
     onSuccess: (_data) => {
-      toNextStep();
+      //toNextStep();
     },
     onError: (error) => {
       console.log(error);

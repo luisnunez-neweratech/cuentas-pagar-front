@@ -100,7 +100,6 @@ export const usePerfil = () => {
   const updateMutation = useMutation({
     mutationFn: updateProveedorContratoPerfil,
     onSuccess: () => {
-      toast.success("Informacion Actualizada");
       toNextStep(proveedorContratoState.id!);
     },
     onError: (error) => {

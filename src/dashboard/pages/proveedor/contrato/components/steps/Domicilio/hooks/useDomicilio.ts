@@ -50,8 +50,7 @@ export const useDomicilio = (inputRef: any) => {
 
   const updateMutation = useMutation({
     mutationFn: updateProveedorContratoPerfil,
-    onSuccess: () => {
-      toast.success("Informacion Actualizada");
+    onSuccess: () => {      
       toNextStep();
     },
     onError: (error) => {
