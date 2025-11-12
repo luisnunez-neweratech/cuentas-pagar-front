@@ -68,7 +68,7 @@ export const useCuentasBancariasData = ({
     initialValues: getInitialValues(),
     validationSchema: validationSchema(idInput, downloadUrl),
     onSubmit: (values) => {
-      console.log(values);
+      console.log('y estos?',values);
     },
   });
 
@@ -83,12 +83,17 @@ export const useCuentasBancariasData = ({
     validateCuentaElement();
   }, [errors]);
 
+  useEffect(() => {
+    validateCuentaElement();
+  }, [values.status]);
+
   const validateCuentaElement = async () => {
+    console.log('entra al validate?')
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
-      console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
+        console.log('estos values2', values)
         updateCuentaBancaria(id, {
           downloadUrl: downloadUrl,
           newElement: values.newElement,

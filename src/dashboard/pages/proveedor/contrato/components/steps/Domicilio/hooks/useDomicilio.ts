@@ -50,7 +50,7 @@ export const useDomicilio = (inputRef: any) => {
 
   const updateMutation = useMutation({
     mutationFn: updateProveedorContratoPerfil,
-    onSuccess: () => {      
+    onSuccess: () => {
       toNextStep();
     },
     onError: (error) => {
@@ -69,8 +69,6 @@ export const useDomicilio = (inputRef: any) => {
 
   const initialFormValues = () => {
     const stepDomicilio = getStepDomicilio();
-
-    console.log("stepDomicilio", stepDomicilio);
 
     return {
       pais: stepDomicilio?.pais,

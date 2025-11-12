@@ -246,8 +246,6 @@ export const usePerfil = () => {
 
         // contrato step
 
-        console.log("proveedorDocumentos", proveedorDocumentos);
-
         const csfDocument = proveedorDocumentos.find(
           (documento: any) =>
             documento.documentType === TipoDocumentoProveedor.CSF
@@ -364,7 +362,6 @@ export const usePerfil = () => {
             ...proveedorContratoState.stepContrato?.colaboradores!,
           ];
         }
-        console.log("proveedorPerfil", proveedorPerfil);
         if (proveedorPerfil.contratos.length > 0) {
           setStepContrato({
             id: proveedorPerfil.contratos[0].id,

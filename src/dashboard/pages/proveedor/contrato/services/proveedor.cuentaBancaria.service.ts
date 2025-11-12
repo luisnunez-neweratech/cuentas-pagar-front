@@ -1,5 +1,6 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
 import type { PostCuentaPayload } from "./interfaces/Postcuenta.Payload";
+import type { PutCuentaPayload } from "./interfaces/PutCuentaPayload.Payload";
 
 interface addProveedorCuentaProps {
   postCuentaPayload: PostCuentaPayload;
@@ -46,7 +47,7 @@ export const addProveedorCaratula = async ({
 
 interface updateProveedorCuentaProps {
   id: string;
-  putCuentaPayload: PostCuentaPayload;
+  putCuentaPayload: PutCuentaPayload;
 }
 export const updateProveedorCuenta = async ({
   id,

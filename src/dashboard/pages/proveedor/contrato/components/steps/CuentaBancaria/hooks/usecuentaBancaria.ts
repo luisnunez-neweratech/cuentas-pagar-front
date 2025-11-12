@@ -95,7 +95,7 @@ export const usecuentaBancaria = () => {
   const onClickNext = () => {
     doValidateCuentas(validateCuentas + 1);
     if (getCuentasValidos()) {
-      getStepCuentaBancaria()?.map((cuenta) => {
+      getStepCuentaBancaria()?.map((cuenta) => {        
         if (cuenta.newElement) {
           createMutation.mutate({
             postCuentaPayload: {
@@ -118,6 +118,7 @@ export const usecuentaBancaria = () => {
               clabe: cuenta.clabe.toString(),
               swiftCode: cuenta.swift ?? "",
               paymentTermsId: +cuenta.condicionesPago,
+              isActive: cuenta.status,
             },
             id: cuenta.id.toString(),
           });
