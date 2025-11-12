@@ -45,12 +45,12 @@ export const useGirosListPage = () => {
       setIsLoading(true);
     },
     onSuccess: () => {
-      setIsLoading(true);
+      setIsLoading(false);
       toast.success("Giro eliminado correctamente");
       refetch();
     },
     onError: (error) => {
-      setIsLoading(true);
+      setIsLoading(false);
       console.log(error);
       if (error instanceof AxiosError) {
         toast.error(error.message);
@@ -64,8 +64,6 @@ export const useGirosListPage = () => {
   const onClickEliminar = (id: string) => {
     deleteGiroMutation.mutate(id);
   };
-
-
 
   return {
     rowClick,
