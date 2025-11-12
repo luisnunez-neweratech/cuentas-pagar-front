@@ -32,7 +32,6 @@ export const usecuentaBancaria = () => {
 
   const createCaratulaMutation = useMutation({
     mutationFn: addProveedorCaratula,
-    onSuccess: (data) => {},
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
@@ -71,7 +70,7 @@ export const usecuentaBancaria = () => {
 
   const updateMutation = useMutation({
     mutationFn: updateProveedorCuenta,
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, _variables) => {
       //TODO update caratula
       /* createCaratulaMutation.mutate({
         id: data.id,
@@ -93,8 +92,8 @@ export const usecuentaBancaria = () => {
   });
 
   const onClickNext = () => {
-    if (getCuentasValidos()) {      
-      getStepCuentaBancaria()?.map((cuenta) => {        
+    if (getCuentasValidos()) {
+      getStepCuentaBancaria()?.map((cuenta) => {
         if (cuenta.newElement) {
           createMutation.mutate({
             postCuentaPayload: {

@@ -1,6 +1,5 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
 import type { PostCuentaPayload } from "./interfaces/Postcuenta.Payload";
-import type { PostDocumentoProveedor } from "./interfaces/PostDocumentoProveedor.Payload";
 
 interface addProveedorCuentaProps {
   postCuentaPayload: PostCuentaPayload;

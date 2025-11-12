@@ -23,7 +23,7 @@ export const usecolaboradorMoral = () => {
 
   const deleteMutation = useMutation({
     mutationFn: deleteColaboradoresContrato,
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       removeColaborador(+variables);
     },
     onError: (error) => {

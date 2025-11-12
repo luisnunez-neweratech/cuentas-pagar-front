@@ -65,7 +65,7 @@ export const useCuentasBancarias = () => {
 
   const deleteMutation = useMutation({
     mutationFn: deleteProveedorCuenta,
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       removeCuentaBancaria(+variables);
     },
     onError: (error) => {

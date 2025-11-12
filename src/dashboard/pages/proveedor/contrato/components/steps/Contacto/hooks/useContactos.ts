@@ -23,7 +23,7 @@ export const useContactos = () => {
 
   const deleteMutation = useMutation({
     mutationFn: deleteProveedorContacto,
-    onSuccess: (data,variables) => {
+    onSuccess: (_data,variables) => {
       removeContacto(+variables);
     },
     onError: (error) => {

@@ -14,7 +14,7 @@ import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLay
 import {
   addProveedorContrato,
   addDocumentoProveedor,
-  addColaboradoresProveedor,
+  //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
 import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 
@@ -62,9 +62,9 @@ export const useContrato = () => {
     handleNext();
   };
 
-  const createColaboradorMutation = useMutation({
+  //TODO para la edicion de datos contrato moral
+  /* const createColaboradorMutation = useMutation({
     mutationFn: addColaboradoresProveedor,
-    onSuccess: (data) => {},
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
@@ -77,11 +77,10 @@ export const useContrato = () => {
     onSettled: () => {
       handleDisableButtons(false);
     },
-  });
+  }); */
 
   const createDocumentoMutation = useMutation({
     mutationFn: addDocumentoProveedor,
-    onSuccess: (data) => {},
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
@@ -115,6 +114,8 @@ export const useContrato = () => {
     },
   });
 
+  //TODO para la edicion de datos contrato moral
+  /*
   const createMutationMoral = useMutation({
     mutationFn: addProveedorContrato,
     onSuccess: (data) => {
@@ -152,6 +153,7 @@ export const useContrato = () => {
       handleDisableButtons(false);
     },
   });
+  */
 
   const initialFormValues = () => {
     /* if (id) {

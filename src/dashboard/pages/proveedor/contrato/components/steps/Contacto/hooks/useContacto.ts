@@ -8,11 +8,10 @@ import { useContactosStore } from "../store/Contacto";
 import {
   addProveedorContacto,
   updateProveedorContacto,
-  
 } from "../../../../services/proveedor.contacto.service";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 
-export const useContacto = () => {  
+export const useContacto = () => {
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getContactosValidos = useContactosStore(
     (state) => state.getContactosValidos
@@ -27,10 +26,9 @@ export const useContacto = () => {
     setDisableButtons(state);
     setIsLoading(state);
   };
-  
+
   const updateMutation = useMutation({
     mutationFn: updateProveedorContacto,
-    onSuccess: (data) => {},
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
@@ -47,7 +45,6 @@ export const useContacto = () => {
 
   const createMutation = useMutation({
     mutationFn: addProveedorContacto,
-    onSuccess: (data) => {},
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {

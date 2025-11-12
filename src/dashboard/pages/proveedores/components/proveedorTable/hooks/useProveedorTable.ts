@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { TipoProveedor } from "../../../../proveedor/interfaces/TipoProveedor";
-import { getProveedores } from "../../../services/Proveedores.service";
+import { getProveedores } from "../../../services/proveedores.service";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";

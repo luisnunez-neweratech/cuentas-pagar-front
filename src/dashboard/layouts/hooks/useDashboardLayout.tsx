@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import GroupsIcon from "@mui/icons-material/Groups";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import AssessmentIcon from "@mui/icons-material/Assessment";
 import { mainBackgroundColor } from "../../../lib/constants";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { Tooltip } from "@mui/material";
