@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
+import { useProveedorContratoStore } from "../../../../proveedor/contrato/store/ProveedorContrato.store";
 
 export const useProveedorTable = () => {
   const navigate = useNavigate();
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const handleReset = useProveedorContratoStore((state) => state.handleReset);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [proveedoresData, setProveedoresData] = useState([]);
@@ -40,6 +42,7 @@ export const useProveedorTable = () => {
   });
 
   const rowClick = (row: any) => {
+    handleReset();
     if (row.tipoProveedor === TipoProveedor.Ocasional.value) {
       navigate(row.id);
     }
