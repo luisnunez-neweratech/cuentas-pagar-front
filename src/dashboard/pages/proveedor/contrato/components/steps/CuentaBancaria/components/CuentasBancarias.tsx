@@ -5,7 +5,13 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useCuentasBancarias } from "../hooks/useCuentasBancarias";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
-export const CuentasBancarias = () => {
+interface CuentasBancariasProps {
+  validateCuentas: number;
+}
+
+export const CuentasBancarias = ({
+  validateCuentas,
+}: CuentasBancariasProps) => {
   const {
     addCuenta,
     deleteCuenta,
@@ -35,7 +41,8 @@ export const CuentasBancarias = () => {
           monedas={monedas ?? []}
           plazoPagos={plazoPagos ?? []}
           index={index}
-          downloadUrl={item.downloadUrl}
+          downloadUrl={item.downloadUrl}  
+          validateCuentas={validateCuentas}        
         />
       ))}
 

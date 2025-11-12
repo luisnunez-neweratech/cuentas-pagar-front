@@ -12,6 +12,7 @@ import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLay
 import { useState } from "react";
 
 export const usecuentaBancaria = () => {
+  const [validateCuentas, doValidateCuentas] = useState<number>(0);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const getCuentasValidos = useCuentaBancariaStore(
@@ -92,6 +93,7 @@ export const usecuentaBancaria = () => {
   });
 
   const onClickNext = () => {
+    doValidateCuentas(validateCuentas + 1);
     if (getCuentasValidos()) {
       getStepCuentaBancaria()?.map((cuenta) => {
         if (cuenta.newElement) {
@@ -130,5 +132,6 @@ export const usecuentaBancaria = () => {
     handleBack,
     onClickNext,
     disableButtons,
+    validateCuentas,
   };
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { validationSchema } from "../components/Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
@@ -8,14 +8,19 @@ interface props {
   idInput: string;
   isValidForm: (id: number, valid: boolean) => void;
   downloadUrl?: string | null;
+  validateCuentas: number;
 }
 
 export const useCuentasBancariasData = ({
   id,
   idInput,
   isValidForm,
-  downloadUrl
-}: props) => {  
+  downloadUrl,
+  validateCuentas,
+}: props) => {
+  useEffect(() => {
+    validateCuentaElement(); //children function of interest
+  }, [validateCuentas]);
 
   const getStepPerfil = useProveedorContratoStore(
     (state) => state.getStepPerfil
@@ -27,7 +32,7 @@ export const useCuentasBancariasData = ({
   const updateCuentaBancaria = useProveedorContratoStore(
     (state) => state.updateCuentaBancaria
   );
-  
+
   const [fileName, setFileName] = useState(
     getStepCuentaBancaria()?.find((item) => item.id === id)?.fileValue?.name
   );
@@ -74,7 +79,11 @@ export const useCuentasBancariasData = ({
     }
   };
 
-  const onMouseLeaveComponent = async () => {
+  useEffect(() => {
+    validateCuentaElement();
+  }, [errors]);
+
+  const validateCuentaElement = async () => {
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
       console.log("errros", errors);
@@ -110,10 +119,9 @@ export const useCuentasBancariasData = ({
     touched,
     errors,
     setFieldValue,
-    setFieldTouched,        
+    setFieldTouched,
     handleFileChange,
     fileName,
     tipoEntidad: getStepPerfil()?.tipoEntidad,
-    onMouseLeaveComponent,
   };
 };

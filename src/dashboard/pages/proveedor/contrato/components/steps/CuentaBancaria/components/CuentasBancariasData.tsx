@@ -31,6 +31,7 @@ interface props {
   plazoPagos: PlazoPago[];
   index: number;
   downloadUrl?: string | null;
+  validateCuentas: number;
 }
 
 export const CuentasBancariasData = ({
@@ -42,9 +43,9 @@ export const CuentasBancariasData = ({
   plazoPagos,
   index,
   downloadUrl,
+  validateCuentas,
 }: props) => {
   const {
-    onMouseLeaveComponent,
     values,
     handleChange,
     handleBlur,
@@ -54,15 +55,17 @@ export const CuentasBancariasData = ({
     tipoEntidad,
     fileName,
     setFieldValue,
-  } = useCuentasBancariasData({ idInput, isValidForm, id, downloadUrl });
+  } = useCuentasBancariasData({
+    idInput,
+    isValidForm,
+    id,
+    downloadUrl,
+    validateCuentas,
+  });
 
   return (
     <Grid size={12}>
-      <div
-        onMouseLeave={async () => {
-          onMouseLeaveComponent();
-        }}
-      >
+      <div>
         <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
           <Grid container spacing={2}>
             <Grid size={4}>
