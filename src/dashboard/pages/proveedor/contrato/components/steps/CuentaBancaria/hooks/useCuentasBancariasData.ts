@@ -7,13 +7,16 @@ interface props {
   id: number;
   idInput: string;
   isValidForm: (id: number, valid: boolean) => void;
+  downloadUrl?: string | null;
 }
 
 export const useCuentasBancariasData = ({
   id,
   idInput,
   isValidForm,
-}: props) => {
+  downloadUrl
+}: props) => {  
+
   const getStepPerfil = useProveedorContratoStore(
     (state) => state.getStepPerfil
   );
@@ -24,8 +27,7 @@ export const useCuentasBancariasData = ({
   const updateCuentaBancaria = useProveedorContratoStore(
     (state) => state.updateCuentaBancaria
   );
-
-  const [status, setStatus] = useState<boolean>(true);
+  
   const [fileName, setFileName] = useState(
     getStepCuentaBancaria()?.find((item) => item.id === id)?.fileValue?.name
   );
@@ -40,6 +42,7 @@ export const useCuentasBancariasData = ({
       monedaVenta: cuentaBancaria?.monedaVenta,
       clabe: cuentaBancaria?.clabe,
       swift: cuentaBancaria?.swift,
+      status: cuentaBancaria?.status,
       condicionesPago: cuentaBancaria?.condicionesPago,
       [idInput]: cuentaBancaria?.fileValue,
       newElement: cuentaBancaria?.newElement,
@@ -58,7 +61,7 @@ export const useCuentasBancariasData = ({
     validateForm,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationSchema(idInput),
+    validationSchema: validationSchema(idInput, downloadUrl),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -78,6 +81,7 @@ export const useCuentasBancariasData = ({
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
         updateCuentaBancaria(id, {
+          downloadUrl: downloadUrl,
           newElement: values.newElement,
           id: id,
           valido: true,
@@ -86,7 +90,7 @@ export const useCuentasBancariasData = ({
           clabe: values.clabe!,
           swift: values.swift,
           condicionesPago: values.condicionesPago!,
-          status: true,
+          status: values.status!,
           fileValue:
             typeof values[idInput] === "object" &&
             values[idInput] instanceof File
@@ -106,9 +110,7 @@ export const useCuentasBancariasData = ({
     touched,
     errors,
     setFieldValue,
-    setFieldTouched,
-    status,
-    setStatus,
+    setFieldTouched,        
     handleFileChange,
     fileName,
     tipoEntidad: getStepPerfil()?.tipoEntidad,

@@ -7,6 +7,7 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Link,
   MenuItem,
   Paper,
   Select,
@@ -29,6 +30,7 @@ interface props {
   monedas: MonedaVenta[];
   plazoPagos: PlazoPago[];
   index: number;
+  downloadUrl?: string | null;
 }
 
 export const CuentasBancariasData = ({
@@ -39,6 +41,7 @@ export const CuentasBancariasData = ({
   monedas,
   plazoPagos,
   index,
+  downloadUrl,
 }: props) => {
   const {
     onMouseLeaveComponent,
@@ -47,12 +50,13 @@ export const CuentasBancariasData = ({
     handleBlur,
     touched,
     errors,
-    status,
-    setStatus,
     handleFileChange,
     tipoEntidad,
     fileName,
-  } = useCuentasBancariasData({ idInput, isValidForm, id });
+    setFieldValue,
+  } = useCuentasBancariasData({ idInput, isValidForm, id, downloadUrl });
+
+  console.log("downloadUrl", downloadUrl);
 
   return (
     <Grid size={12}>
@@ -100,12 +104,13 @@ export const CuentasBancariasData = ({
                   control={
                     <Switch
                       defaultChecked
-                      value={status}
-                      onChange={() => setStatus(!status)}
-                      disabled={true} // solo admin lo cambia
+                      checked={values.status}
+                      value={values.status}
+                      onChange={() => setFieldValue("status", !values.status)}
+                      //disabled={true} // solo admin lo cambia
                     />
                   }
-                  label={status ? "Activo" : "Inactivo"}
+                  label={values.status ? "Activo" : "Inactivo"}
                 />
               </FormGroup>
             </Grid>
@@ -188,38 +193,45 @@ export const CuentasBancariasData = ({
               )}
             </Grid>
             <Grid size={3}>
-              <>
-                <input
-                  type="file"
-                  id={idInput}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                  accept=".pdf"
-                />
+              {!downloadUrl && (
+                <>
+                  <input
+                    type="file"
+                    id={idInput}
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                    accept=".pdf"
+                  />
 
-                <label htmlFor={idInput}>
-                  <Button
-                    variant="outlined"
-                    component="span"
-                    style={{ marginTop: 14 }}
-                  >
-                    *Caratula Bancaria
-                    <FileUploadIcon />
-                  </Button>
-                </label>
-                {errors[idInput] && (
-                  <p style={{ color: "#d32f2f", fontSize: "12px" }}>
-                    Archivo requerido
-                  </p>
-                )}
-              </>
+                  <label htmlFor={idInput}>
+                    <Button
+                      variant="outlined"
+                      component="span"
+                      style={{ marginTop: 14 }}
+                    >
+                      *Caratula Bancaria
+                      <FileUploadIcon />
+                    </Button>
+                  </label>
+                  {errors[idInput] && (
+                    <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+                      Archivo requerido
+                    </p>
+                  )}
+                </>
+              )}
             </Grid>
 
-            <Grid size={7} sx={{ marginTop: 2 }}>
+            <Grid size={5} sx={{ marginTop: 2 }}>
               {fileName && (
                 <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
                   {`Nombre del Archivo: ${fileName}`}
                 </p>
+              )}
+            </Grid>
+            <Grid size={2} sx={{ marginTop: 2 }}>
+              {downloadUrl && (
+                <Link href={downloadUrl}>Descargar Caratula</Link>
               )}
             </Grid>
             <Grid size={1} />

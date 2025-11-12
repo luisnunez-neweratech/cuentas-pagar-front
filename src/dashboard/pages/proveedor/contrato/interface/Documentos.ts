@@ -3,6 +3,7 @@ export interface Documento {
   fechaFin?: string;
   indeterminado: boolean;
   fileValue?: File;
+  addToContrato?: boolean;
 }
 
 export interface Documentos {

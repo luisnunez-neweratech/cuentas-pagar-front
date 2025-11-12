@@ -15,6 +15,7 @@ interface props {
   tipoDocumento: TipoDocumento;
   optional?: boolean;
   validateDocuments: number;
+  addToContrato?: boolean;
 }
 
 export const ArchivoElement = ({
@@ -25,6 +26,7 @@ export const ArchivoElement = ({
   tipoDocumento,
   optional = false,
   validateDocuments,
+  addToContrato,
 }: props) => {
   const {
     handleFileChange,
@@ -181,6 +183,29 @@ export const ArchivoElement = ({
               />
             }
             label="Indeterminado"
+            style={{ marginTop: 8 }}
+          />
+        </div>
+      )}
+      {addToContrato && (
+        <div
+          style={{
+            marginTop: 1,
+            width: "25%",
+            paddingLeft: 16,
+            paddingRight: 16,
+          }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={values.addToContrato}
+                onChange={() => {
+                  setFieldValue("addToContrato", !values.addToContrato);
+                }}
+              />
+            }
+            label="Anexar a contrato"
             style={{ marginTop: 8 }}
           />
         </div>

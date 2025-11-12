@@ -76,6 +76,7 @@ export const useArchivoElement = ({
       fechaFin: documento.fechaFin ?? "", // Or dayjs() for a default value
       indeterminado: documento.indeterminado,
       [idInput]: documento?.fileValue,
+      addToContrato: documento.addToContrato,
     };
   };
 

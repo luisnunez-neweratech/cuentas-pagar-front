@@ -93,10 +93,8 @@ export const usecuentaBancaria = () => {
   });
 
   const onClickNext = () => {
-    if (getCuentasValidos()) {
-      console.log("stateProveedor.stepCuentaBancaria", getStepCuentaBancaria());
-      getStepCuentaBancaria()?.map((cuenta) => {
-        console.log("cuenta", cuenta);
+    if (getCuentasValidos()) {      
+      getStepCuentaBancaria()?.map((cuenta) => {        
         if (cuenta.newElement) {
           createMutation.mutate({
             postCuentaPayload: {

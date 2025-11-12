@@ -35,6 +35,7 @@ export const CuentasBancarias = () => {
           monedas={monedas ?? []}
           plazoPagos={plazoPagos ?? []}
           index={index}
+          downloadUrl={item.downloadUrl}
         />
       ))}
 
