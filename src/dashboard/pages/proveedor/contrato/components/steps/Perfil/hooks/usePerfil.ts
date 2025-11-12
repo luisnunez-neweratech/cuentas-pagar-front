@@ -140,6 +140,8 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
+
+  console.log('proveedorPerfil', proveedorPerfil)
   // cargar colaboradores
   const {
     /* isError: isErrorGet,
