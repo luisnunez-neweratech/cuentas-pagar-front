@@ -140,8 +140,6 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
-
-  console.log('proveedorPerfil', proveedorPerfil)
   // cargar colaboradores
   const {
     /* isError: isErrorGet,
@@ -152,14 +150,14 @@ export const usePerfil = () => {
       "ContractCollaborator",
       "Contract",
       `${
-        proveedorPerfil?.contratos.length > 0
+        proveedorPerfil?.contratos && proveedorPerfil?.contratos.length > 0
           ? proveedorPerfil?.contratos[0].id
           : 0
       }`,
     ],
     queryFn: () =>
       getColaboradoresContrato(
-        proveedorPerfil?.contratos.length > 0
+        proveedorPerfil?.contratos && proveedorPerfil?.contratos.length > 0
           ? proveedorPerfil?.contratos[0].id
           : 0
       ),
@@ -367,7 +365,7 @@ export const usePerfil = () => {
             ...proveedorContratoState.stepContrato?.colaboradores!,
           ];
         }
-        console.log('proveedorPerfil', proveedorPerfil)
+        console.log("proveedorPerfil", proveedorPerfil);
         if (proveedorPerfil.contratos.length > 0) {
           setStepContrato({
             id: proveedorPerfil.contratos[0].id,
