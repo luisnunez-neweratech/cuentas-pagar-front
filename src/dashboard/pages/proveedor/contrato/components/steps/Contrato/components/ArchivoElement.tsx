@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, Link } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -6,6 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useArchivoElement } from "../hooks/useArchivoElement";
 import type { TipoDocumento } from "../../../../../interfaces/TipoDocumento";
+import DownloadIcon from "@mui/icons-material/Download";
 
 interface props {
   title: string;
@@ -43,6 +44,8 @@ export const ArchivoElement = ({
     optional,
     validateDocuments,
   });
+
+  
 
   return (
     <div
@@ -212,18 +215,44 @@ export const ArchivoElement = ({
       )}
       <div
         style={{
-          marginTop: 1,
-          width: "100%",
+          marginTop: 8,
+          width: "50%",
           paddingLeft: 16,
           paddingRight: 16,
         }}
       >
+        {/* nombre de cuando carga el archivo */}
         {fileName && (
           <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
             {numArchivos === 1
               ? `Nombre del Archivo: ${fileName}`
               : `Nombre de los Archivos: ${fileName}`}
           </p>
+        )}
+        {/* nombre de archivo de la bd*/}
+        {values.fileName && (
+          <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
+            {`Nombre del Archivo: ${values.fileName}`}
+          </p>
+        )}
+      </div>
+      <div
+        style={{
+          marginTop: 1,
+          width: "50%",
+          paddingLeft: 16,
+          paddingRight: 16,
+          display: "flex",
+          flexWrap: "nowrap",
+          alignContent: "center",
+          justifyContent: "flex-end",
+        }}
+      >
+        {values.downloadUrl && (
+          <>
+            <Link href={values.downloadUrl}>Descargar Archivo</Link>
+            <DownloadIcon color="primary" />
+          </>
         )}
       </div>
     </div>

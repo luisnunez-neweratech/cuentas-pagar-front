@@ -71,12 +71,16 @@ export const useArchivoElement = ({
         break;
     }
 
+    console.log("documento", documento);
     return {
+      id: documento.id,
       fechaInicio: documento.fechaInicio ?? "", // Or dayjs() for a default value
       fechaFin: documento.fechaFin ?? "", // Or dayjs() for a default value
       indeterminado: documento.indeterminado,
       [idInput]: documento?.fileValue,
       addToContrato: documento.addToContrato,
+      downloadUrl: documento.downloadUrl,
+      fileName: documento.fileName,
     };
   };
 

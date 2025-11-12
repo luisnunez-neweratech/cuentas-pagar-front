@@ -175,8 +175,6 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
-  console.log("proveedorCuentasBancarias", proveedorCuentasBancarias);
-
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
     queryFn: () => getAllGiros(),
@@ -251,19 +249,101 @@ export const usePerfil = () => {
 
         console.log("proveedorDocumentos", proveedorDocumentos);
 
-        /* const csfDocument = proveedorDocumentos.filter(
+        const csfDocument = proveedorDocumentos.find(
           (documento: any) =>
             documento.documentType === TipoDocumentoProveedor.CSF
         );
         let dataCsf = null;
         if (csfDocument) {
           dataCsf = {
+            id: csfDocument.id,
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true, //TODO falta el dato de BD
+            downloadUrl: csfDocument.downloadUrl,
+            fileName: csfDocument.fileName,
+          };
+        } else {
+          dataCsf = {
             fileValue: null,
             fechaInicio: "",
             fechaFin: "",
             indeterminado: true,
           };
-        }*/
+        }
+
+        const idRepLegalDocument = proveedorDocumentos.find(
+          (documento: any) =>
+            documento.documentType === TipoDocumentoProveedor.IdRepLegal
+        );
+        let dataidRepLegal = null;
+        if (idRepLegalDocument) {
+          dataidRepLegal = {
+            id: idRepLegalDocument.id,
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true, //TODO falta el dato de BD
+            downloadUrl: idRepLegalDocument.downloadUrl,
+            fileName: idRepLegalDocument.fileName,
+          };
+        } else {
+          dataidRepLegal = {
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true,
+          };
+        }
+
+        const comDomDocument = proveedorDocumentos.find(
+          (documento: any) =>
+            documento.documentType === TipoDocumentoProveedor.CompDom
+        );
+        let dataComDom = null;
+        if (comDomDocument) {
+          dataComDom = {
+            id: comDomDocument.id,
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true, //TODO falta el dato de BD
+            downloadUrl: comDomDocument.downloadUrl,
+            fileName: comDomDocument.fileName,
+          };
+        } else {
+          dataComDom = {
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true,
+          };
+        }
+
+        const poderRepDocument = proveedorDocumentos.find(
+          (documento: any) =>
+            documento.documentType === TipoDocumentoProveedor.PoderRep
+        );
+        let dataPoderRep = null;
+        if (poderRepDocument) {
+          dataPoderRep = {
+            id: poderRepDocument.id,
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true, //TODO falta el dato de BD
+            downloadUrl: poderRepDocument.downloadUrl,
+            fileName: poderRepDocument.fileName,
+          };
+        } else {
+          dataPoderRep = {
+            fileValue: null,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true,
+          };
+        }
 
         // contrato es array, porque es historico
         let colaboradoresData = [];
@@ -302,30 +382,11 @@ export const usePerfil = () => {
                 indeterminado: proveedorPerfil.contratos[0].indefiniteEnd,
               },
               //proveedorDocumentos
-              /* csf: {
-                fileValue: null,
-                fechaInicio: "",
-                fechaFin: "",
-                indeterminado: true,
-              },
-              idRepLegal: {
-                fileValue: null,
-                fechaInicio: "",
-                fechaFin: "",
-                indeterminado: true,
-              },
-              compDomicilio: {
-                fileValue: null,
-                fechaInicio: "",
-                fechaFin: "",
-                indeterminado: true,
-              },
-              poderRepLegal: {
-                fileValue: null,
-                fechaInicio: "",
-                fechaFin: "",
-                indeterminado: true,
-              },
+              csf: dataCsf,
+              idRepLegal: dataidRepLegal,
+              compDomicilio: dataComDom,
+              poderRepLegal: dataPoderRep,
+              /*
               anexo: {
                 fileValue: null,
                 fechaInicio: "",
@@ -337,19 +398,6 @@ export const usePerfil = () => {
         }
 
         // set step contacto
-        /*
-[
-  {
-    id: 1,
-    valido: false,
-    tipoContacto: TipoContacto.Venta.value,
-    contacto: "",
-    telefono: "",
-    email: "",
-    paginaWeb: "",
-  },
-];
-        */
         let contactosData = [];
         if (proveedorPerfil.contactos.length > 0) {
           contactosData = proveedorPerfil.contactos.map((contacto: any) => {

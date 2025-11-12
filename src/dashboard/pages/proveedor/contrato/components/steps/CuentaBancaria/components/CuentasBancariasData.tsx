@@ -56,8 +56,6 @@ export const CuentasBancariasData = ({
     setFieldValue,
   } = useCuentasBancariasData({ idInput, isValidForm, id, downloadUrl });
 
-  console.log("downloadUrl", downloadUrl);
-
   return (
     <Grid size={12}>
       <div
