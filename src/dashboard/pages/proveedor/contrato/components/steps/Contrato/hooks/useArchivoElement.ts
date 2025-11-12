@@ -70,8 +70,7 @@ export const useArchivoElement = ({
         documento = getStepContrato()?.documentos.principal!;
         break;
     }
-
-    console.log("documento", documento);
+    
     return {
       id: documento.id,
       fechaInicio: documento.fechaInicio ?? "", // Or dayjs() for a default value
@@ -127,6 +126,7 @@ export const useArchivoElement = ({
     validateForm().then((errors) => {
       if (Object.keys(errors).length === 0) {
         const newDocumento = {
+          id: values.id,
           fechaInicio: values.fechaInicio,
           fechaFin: values.fechaFin,
           indeterminado: values.indeterminado,
@@ -135,6 +135,9 @@ export const useArchivoElement = ({
             values[idInput] instanceof File
               ? values[idInput]
               : undefined,
+          addToContrato: values.addToContrato,
+          downloadUrl: values.downloadUrl,
+          fileName: values.fileName,
         };
         if (tipoDocumento === TipoDocumento.principal) {
           setValidArchivoPrincipal(true);
@@ -147,9 +150,8 @@ export const useArchivoElement = ({
         }
         if (tipoDocumento === TipoDocumento.compDomicilio) {
           setValidCompDomicilio(true);
-        }
-
-        setValidArchivoCSF;
+        }        
+        //setValidArchivoCSF;
         updateDocumentos({
           tipo: getStepContrato()?.documentos.tipo!,
           principal:

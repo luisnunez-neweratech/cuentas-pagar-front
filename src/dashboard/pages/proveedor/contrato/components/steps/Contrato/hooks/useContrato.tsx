@@ -98,46 +98,26 @@ export const useContrato = () => {
 
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
-    onSuccess: (data) => {
-      //agregar documento csf
-      createDocumentoMutation.mutate({
-        postDocumentoProveedor: {
-          documentType: TipoDocumentoProveedor.CSF,
-          file: stepContrato?.documentos.csf.fileValue!,
-        },
-        supplierId: stateContrato.id?.toString()!,
-      });
-
-      //agregar documento IdRepLegal
-      createDocumentoMutation.mutate({
-        postDocumentoProveedor: {
-          documentType: TipoDocumentoProveedor.IdRepLegal,
-          file: stepContrato?.documentos.idRepLegal.fileValue!,
-        },
-        supplierId: stateContrato.id?.toString()!,
-      });
-
-      //agregar documento CompDom
-      createDocumentoMutation.mutate({
-        postDocumentoProveedor: {
-          documentType: TipoDocumentoProveedor.CompDom,
-          file: stepContrato?.documentos.compDomicilio.fileValue!,
-        },
-        supplierId: stateContrato.id?.toString()!,
-      });
-
-      //agregar documento PoderRep
-      if (stepContrato?.documentos.poderRepLegal.fileValue) {
-        createDocumentoMutation.mutate({
-          postDocumentoProveedor: {
-            documentType: TipoDocumentoProveedor.PoderRep,
-            file: stepContrato?.documentos.poderRepLegal.fileValue!,
-          },
-          supplierId: stateContrato.id?.toString()!,
-        });
+    onSuccess: (_data) => {
+      toNextStep();
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
       }
+      toast.error("Error al actualizar el proveedor");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
 
-      // revisar si es moral y tiene colaboradores para guardarlo
+  const createMutationMoral = useMutation({
+    mutationFn: addProveedorContrato,
+    onSuccess: (data) => {
       if (
         checkContractor &&
         getStepPerfil()?.tipoPersona === TipoPersona.Moral.value
@@ -206,7 +186,7 @@ export const useContrato = () => {
       getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value
         ? validationFisicoSchema
         : null,
-    onSubmit: async (values) => {      
+    onSubmit: async (values) => {
       //validate files
       doValidateDocuments(validateDocuments + 1);
       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
@@ -220,23 +200,96 @@ export const useContrato = () => {
         };
         setStepContrato(stepContrato);
         if (getValidScreen()) {
-          createMutation.mutate({
-            postContratoPayload: {
-              startDate: new Date(
-                stepContrato.documentos.principal.fechaInicio
-              ),
-              endDate: stepContrato.documentos.principal.fechaFin
-                ? new Date(stepContrato.documentos.principal.fechaFin)
-                : null,
-              indefiniteEnd: stepContrato.documentos.principal.indeterminado,
-              isNEContractor: stepContrato?.noColaborador?.length
-                ? true
-                : false,
-              nePersonType: TipoPersona.Fisica.label,
-              neCollaboratorNumber: stepContrato?.noColaborador ?? null,
-            },
-            supplierId: stateContrato.id?.toString()!,
-          });
+          console.log("stepContrato", stepContrato);
+          if (!stepContrato.documentos.principal.id) {
+            // crear documento principal
+            createMutation.mutate({
+              postContratoPayload: {
+                startDate: new Date(
+                  stepContrato.documentos.principal.fechaInicio
+                ),
+                endDate: stepContrato.documentos.principal.fechaFin
+                  ? new Date(stepContrato.documentos.principal.fechaFin)
+                  : null,
+                indefiniteEnd: stepContrato.documentos.principal.indeterminado,
+                isNEContractor: stepContrato?.noColaborador?.length
+                  ? true
+                  : false,
+                nePersonType: TipoPersona.Fisica.label,
+                neCollaboratorNumber: stepContrato?.noColaborador ?? null,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+          } else {
+            console.log("h1");
+            // actualizar documento principal con post
+          }
+
+          //agregar documento csf
+          if (!stepContrato?.documentos.csf.id) {
+            createDocumentoMutation.mutate({
+              postDocumentoProveedor: {
+                documentType: TipoDocumentoProveedor.CSF,
+                file: stepContrato?.documentos.csf.fileValue!,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+          } else {
+            // actualizar con post
+            console.log("h2");
+          }
+
+          //agregar documento IdRepLegal
+          if (!stepContrato?.documentos.idRepLegal.id) {
+            createDocumentoMutation.mutate({
+              postDocumentoProveedor: {
+                documentType: TipoDocumentoProveedor.IdRepLegal,
+                file: stepContrato?.documentos.idRepLegal.fileValue!,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+          } else {
+            // actualizar con post
+            console.log("h3");
+          }
+
+          if (!stepContrato?.documentos.compDomicilio.id) {
+            //agregar documento CompDom
+            createDocumentoMutation.mutate({
+              postDocumentoProveedor: {
+                documentType: TipoDocumentoProveedor.CompDom,
+                file: stepContrato?.documentos.compDomicilio.fileValue!,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+          } else {
+            // actualizar con post
+            console.log("h4");
+          }
+
+          //agregar documento PoderRep
+          if (
+            stepContrato?.documentos.poderRepLegal.fileValue &&
+            !stepContrato?.documentos.poderRepLegal.id
+          ) {
+            createDocumentoMutation.mutate({
+              postDocumentoProveedor: {
+                documentType: TipoDocumentoProveedor.PoderRep,
+                file: stepContrato?.documentos.poderRepLegal.fileValue!,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+          } else if (
+            stepContrato?.documentos.poderRepLegal.fileValue &&
+            stepContrato?.documentos.poderRepLegal.id
+          ) {
+            // actualizar con post
+            //TODO despues de validar todos ir la siguiente paso
+            toNextStep();
+          } else {
+            //TODO despues de validar todos ir la siguiente paso
+            toNextStep();
+          }
         }
       } else {
         //moral
@@ -282,6 +335,44 @@ export const useContrato = () => {
               },
               supplierId: stateContrato.id?.toString()!,
             });
+
+            //agregar documento csf
+            createDocumentoMutation.mutate({
+              postDocumentoProveedor: {
+                documentType: TipoDocumentoProveedor.CSF,
+                file: stepContrato?.documentos.csf.fileValue!,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+
+            //agregar documento IdRepLegal
+            createDocumentoMutation.mutate({
+              postDocumentoProveedor: {
+                documentType: TipoDocumentoProveedor.IdRepLegal,
+                file: stepContrato?.documentos.idRepLegal.fileValue!,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+
+            //agregar documento CompDom
+            createDocumentoMutation.mutate({
+              postDocumentoProveedor: {
+                documentType: TipoDocumentoProveedor.CompDom,
+                file: stepContrato?.documentos.compDomicilio.fileValue!,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+
+            //agregar documento PoderRep
+            if (stepContrato?.documentos.poderRepLegal.fileValue) {
+              createDocumentoMutation.mutate({
+                postDocumentoProveedor: {
+                  documentType: TipoDocumentoProveedor.PoderRep,
+                  file: stepContrato?.documentos.poderRepLegal.fileValue!,
+                },
+                supplierId: stateContrato.id?.toString()!,
+              });
+            }
           }
         } else {
           if (getColaboradoresValidos()) {
@@ -312,6 +403,44 @@ export const useContrato = () => {
                 },
                 supplierId: stateContrato.id?.toString()!,
               });
+
+              //agregar documento csf
+              createDocumentoMutation.mutate({
+                postDocumentoProveedor: {
+                  documentType: TipoDocumentoProveedor.CSF,
+                  file: stepContrato?.documentos.csf.fileValue!,
+                },
+                supplierId: stateContrato.id?.toString()!,
+              });
+
+              //agregar documento IdRepLegal
+              createDocumentoMutation.mutate({
+                postDocumentoProveedor: {
+                  documentType: TipoDocumentoProveedor.IdRepLegal,
+                  file: stepContrato?.documentos.idRepLegal.fileValue!,
+                },
+                supplierId: stateContrato.id?.toString()!,
+              });
+
+              //agregar documento CompDom
+              createDocumentoMutation.mutate({
+                postDocumentoProveedor: {
+                  documentType: TipoDocumentoProveedor.CompDom,
+                  file: stepContrato?.documentos.compDomicilio.fileValue!,
+                },
+                supplierId: stateContrato.id?.toString()!,
+              });
+
+              //agregar documento PoderRep
+              if (stepContrato?.documentos.poderRepLegal.fileValue) {
+                createDocumentoMutation.mutate({
+                  postDocumentoProveedor: {
+                    documentType: TipoDocumentoProveedor.PoderRep,
+                    file: stepContrato?.documentos.poderRepLegal.fileValue!,
+                  },
+                  supplierId: stateContrato.id?.toString()!,
+                });
+              }
             }
           }
         }

@@ -216,8 +216,7 @@ export const ArchivoElement = ({
       <div
         style={{
           marginTop: 8,
-          width: "50%",
-          paddingLeft: 16,
+          width: "50%",          
           paddingRight: 16,
         }}
       >

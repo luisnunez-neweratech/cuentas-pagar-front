@@ -365,7 +365,7 @@ export const usePerfil = () => {
             ...proveedorContratoState.stepContrato?.colaboradores!,
           ];
         }
-
+        console.log('proveedorPerfil', proveedorPerfil)
         if (proveedorPerfil.contratos.length > 0) {
           setStepContrato({
             id: proveedorPerfil.contratos[0].id,
@@ -376,10 +376,13 @@ export const usePerfil = () => {
               ...proveedorContratoState.stepContrato?.documentos!,
               //tipo: "contrato", //propuesta
               principal: {
+                id: proveedorPerfil.contratos[0].id,
                 fileValue: undefined,
                 fechaInicio: proveedorPerfil.contratos[0].startDate,
                 fechaFin: proveedorPerfil.contratos[0].endDate,
                 indeterminado: proveedorPerfil.contratos[0].indefiniteEnd,
+                /* downloadUrl: poderRepDocument.downloadUrl,
+                fileName: poderRepDocument.fileName, */
               },
               //proveedorDocumentos
               csf: dataCsf,
