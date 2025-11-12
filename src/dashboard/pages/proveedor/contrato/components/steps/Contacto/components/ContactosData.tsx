@@ -19,25 +19,22 @@ interface props {
   deleteContacto: (id: number) => void;
   isValidForm: (id: number, valid: boolean) => void;
   index: number;
+  validateContactos: number;
 }
 
-export const ContactosData = ({ id, deleteContacto, isValidForm, index }: props) => {
-  const {
-    onMouseLeaveComponent,
-    values,
-    handleChange,
-    handleBlur,
-    touched,
-    errors,
-  } = useContactosData({ id, isValidForm });
+export const ContactosData = ({
+  id,
+  deleteContacto,
+  isValidForm,
+  index,
+  validateContactos,
+}: props) => {
+  const { values, handleChange, handleBlur, touched, errors } =
+    useContactosData({ id, isValidForm, validateContactos });
 
   return (
     <Grid size={12}>
-      <div
-        onMouseLeave={async () => {
-          onMouseLeaveComponent();
-        }}
-      >
+      <div>
         <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
           <Grid container spacing={2}>
             <Grid size={4} sx={{ marginTop: 2 }}>

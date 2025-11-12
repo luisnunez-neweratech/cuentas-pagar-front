@@ -5,7 +5,11 @@ import { useContactos } from "../hooks/useContactos";
 import { ContactosData } from "./ContactosData";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
-export const Contactos = () => {
+interface ContactosProps {
+  validateContactos: number;
+}
+
+export const Contactos = ({ validateContactos }: ContactosProps) => {
   const { clickAddContacto, deleteContacto, setContactosValidos, isValidForm } =
     useContactos();
 
@@ -24,6 +28,7 @@ export const Contactos = () => {
           deleteContacto={deleteContacto}
           isValidForm={isValidForm}
           index={index}
+          validateContactos={validateContactos}
         />
       ))}
       <Grid size={11} />

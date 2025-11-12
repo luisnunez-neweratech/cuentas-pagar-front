@@ -12,6 +12,7 @@ import {
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 
 export const useContacto = () => {
+  const [validateContactos, doValidateContactos] = useState<number>(0);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getContactosValidos = useContactosStore(
     (state) => state.getContactosValidos
@@ -60,8 +61,10 @@ export const useContacto = () => {
   });
 
   const guardarProovedor = () => {
+    doValidateContactos(validateContactos + 1);
     if (getContactosValidos()) {
       stateProveedor.stepContacto?.map((contacto) => {
+        console.log("contacto", contacto);
         if (contacto.newElement) {
           createMutation.mutate({
             id: 0, // en create id 0
@@ -96,5 +99,6 @@ export const useContacto = () => {
     handleBack,
     guardarProovedor,
     disableButtons,
+    validateContactos,
   };
 };

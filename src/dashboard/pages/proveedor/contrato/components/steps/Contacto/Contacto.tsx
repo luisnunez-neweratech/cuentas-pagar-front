@@ -3,11 +3,11 @@ import { useContacto } from "./hooks/useContacto";
 import { Contactos } from "./components/Contactos";
 
 export const Contacto = () => {
-  const { handleBack, guardarProovedor } = useContacto();
+  const { handleBack, guardarProovedor, validateContactos } = useContacto();
 
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
-      <Contactos />
+      <Contactos validateContactos={validateContactos} />
       <Grid size={12}>
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>

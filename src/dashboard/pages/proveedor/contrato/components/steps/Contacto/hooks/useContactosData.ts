@@ -1,13 +1,22 @@
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { useFormik } from "formik";
 import { validationSchema } from "../components/Validations";
+import { useEffect } from "react";
 
 interface props {
   id: number;
   isValidForm: (id: number, valid: boolean) => void;
+  validateContactos: number;
 }
 
-export const useContactosData = ({ id, isValidForm }: props) => {
+export const useContactosData = ({
+  id,
+  isValidForm,
+  validateContactos,
+}: props) => {
+  useEffect(() => {
+    validateContactoElement(); //children function of interest
+  }, [validateContactos]);
   const getStepContacto = useProveedorContratoStore(
     (state) => state.getStepContacto
   );
@@ -18,20 +27,13 @@ export const useContactosData = ({ id, isValidForm }: props) => {
   const getInitialValues = () => {
     const contacto = getStepContacto()?.find((item) => item.id === id);
 
-    let webPage = "";
-    if (contacto?.paginaWeb) {
-      webPage = contacto?.paginaWeb;
-      if (!webPage.includes("http")) {
-        webPage = `http://${contacto?.paginaWeb}`;
-      }
-    }
-
     return {
       tipoContacto: contacto?.tipoContacto,
       contacto: contacto?.contacto,
       telefono: contacto?.telefono,
       email: contacto?.email,
-      paginaWeb: webPage,
+      paginaWeb: contacto?.paginaWeb,
+      newElement: contacto?.newElement,
     };
   };
 
@@ -51,7 +53,11 @@ export const useContactosData = ({ id, isValidForm }: props) => {
     },
   });
 
-  const onMouseLeaveComponent = async () => {
+  useEffect(() => {
+    validateContactoElement();
+  }, [errors]);
+
+  const validateContactoElement = async () => {
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
       console.log("errros", errors);
@@ -65,6 +71,7 @@ export const useContactosData = ({ id, isValidForm }: props) => {
           telefono: values.telefono!,
           email: values.email!,
           paginaWeb: values.paginaWeb,
+          newElement: values.newElement,
         });
       } else {
         isValidForm(id, false);
@@ -78,6 +85,5 @@ export const useContactosData = ({ id, isValidForm }: props) => {
     handleBlur,
     touched,
     errors,
-    onMouseLeaveComponent,
   };
 };
