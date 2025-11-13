@@ -95,14 +95,6 @@ export const ProveedorTable = () => {
               rowsPerPage={rowsPerPage}
               page={page}
               labelRowsPerPage="Filas por página:"
-              slotProps={{
-                select: {
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                },
-              }}
               labelDisplayedRows={({ from, to, count }) =>
                 `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
               }
