@@ -18,6 +18,7 @@ export const getProveedores = async ({
 
   const dataMapped = data.items.map((proveedor: any) => {
     return {
+      providerCode: proveedor.providerCode,
       id: proveedor.id,
       rfc: proveedor.rfc,
       alias: proveedor.tradeName,

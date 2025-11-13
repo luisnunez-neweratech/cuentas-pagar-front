@@ -31,6 +31,7 @@ export const ProveedorTable = () => {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell style={cellHeaderStyle}>ID</TableCell>
             <TableCell style={cellHeaderStyle}>RFC</TableCell>
             <TableCell style={cellHeaderStyle}>Alias</TableCell>
             <TableCell style={cellHeaderStyle}>Razón Social</TableCell>
@@ -63,6 +64,9 @@ export const ProveedorTable = () => {
                   rowClick(proveedor);
                 }}
               >
+                <TableCell component="th" scope="row">
+                  {proveedor.providerCode}
+                </TableCell>
                 <TableCell component="th" scope="row">
                   {proveedor.rfc}
                 </TableCell>
