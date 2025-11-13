@@ -5,8 +5,8 @@ import { mainBackgroundColor } from "../../../lib/constants";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { Tooltip } from "@mui/material";
 
-//const menuOptions = ["Proveedores", "Facturas", "Reportes", "Catalogos"];
-const menuOptions = ["Proveedores", "Catalogos"];
+//const menuOptions = ["Proveedores", "Facturas", "Reportes", "Catálogos"];
+const menuOptions = ["Proveedores", "Catálogos"];
 
 export const useDashboardLayout = () => {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ export const useDashboardLayout = () => {
         ); */
       case 1:
         return (
-          <Tooltip title="Catalogos">
+          <Tooltip title="Catálogos">
             <LibraryBooksIcon
               //style={{ color: optionSelected === 3 ? mainBackgroundColor : "" }}
               style={{ color: optionSelected === 1 ? mainBackgroundColor : "" }}

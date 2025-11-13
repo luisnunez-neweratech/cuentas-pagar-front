@@ -210,7 +210,7 @@ export const CuentasBancariasData = ({
                       component="span"
                       style={{ marginTop: 14 }}
                     >
-                      *Caratula Bancaria
+                      *Carátula Bancaria
                       <FileUploadIcon />
                     </Button>
                   </label>
@@ -232,7 +232,7 @@ export const CuentasBancariasData = ({
             </Grid>
             <Grid size={2} sx={{ marginTop: 2 }}>
               {downloadUrl && (
-                <Link href={downloadUrl}>Descargar Caratula</Link>
+                <Link href={downloadUrl}>Descargar Carátula</Link>
               )}
             </Grid>
             <Grid size={1} />

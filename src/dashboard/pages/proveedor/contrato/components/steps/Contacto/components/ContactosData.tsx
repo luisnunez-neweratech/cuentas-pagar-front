@@ -87,7 +87,7 @@ export const ContactosData = ({
                 margin="normal"
                 fullWidth
                 id="telefono"
-                label="*Telefono"
+                label="*Teléfono"
                 name="telefono"
                 value={values.telefono}
                 onChange={handleChange}

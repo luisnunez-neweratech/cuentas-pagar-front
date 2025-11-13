@@ -50,7 +50,7 @@ export const MonedaVentaListPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell style={cellHeaderStyle}>Id</TableCell>
-                <TableCell style={cellHeaderStyle}>Descripcion</TableCell>
+                <TableCell style={cellHeaderStyle}>Descripción</TableCell>
                 <TableCell style={cellHeaderStyle} align="center">
                   Acciones
                 </TableCell>
