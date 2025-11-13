@@ -28,7 +28,7 @@ export const ProveedorTable = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell style={cellHeaderStyle}>RFC</TableCell>
@@ -90,7 +90,7 @@ export const ProveedorTable = () => {
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
-              colSpan={3}
+              colSpan={12}
               count={totalRows}
               rowsPerPage={rowsPerPage}
               page={page}
