@@ -5,16 +5,48 @@ import { TipoProveedor } from "../../proveedor/interfaces/TipoProveedor";
 interface getProveedoresProps {
   page: number;
   rowsPerPage: number;
+  rfc?: string;
+  alias?: string;
+  razonSocial?: string;
+  fechaalta?: string | null;
+  contratoFechaInicio?: string | null;
+  contratoFechaFin?: string | null;
 }
 
 export const getProveedores = async ({
   page,
   rowsPerPage,
+  rfc,
+  alias,
+  razonSocial,
+  fechaalta,
+  contratoFechaInicio,
+  contratoFechaFin,
 }: getProveedoresProps): Promise<any> => {
+  let paramsToSend: any = {};
+  if (rfc && rfc.length > 0) {
+    paramsToSend.rfc = rfc;
+  }
+  if (alias && alias.length > 0) {
+    paramsToSend.alias = alias;
+  }
+  if (razonSocial && razonSocial.length > 0) {
+    paramsToSend.razonSocial = razonSocial;
+  }
+  if (fechaalta && fechaalta.length > 0) {
+    paramsToSend.fechaalta = fechaalta;
+  }
+  if (contratoFechaInicio && contratoFechaInicio.length > 0) {
+    paramsToSend.contratoFechaInicio = contratoFechaInicio;
+  }
+  if (contratoFechaFin && contratoFechaFin.length > 0) {
+    paramsToSend.contratoFechaFin = contratoFechaFin;
+  }
+
   const { data } = await cuentasApi.get(
-    `/Supplier/GetPagedAsync/${page}/${rowsPerPage}`
+    `/Supplier/GetPagedAsync/${page}/${rowsPerPage}`,
+    { params: { ...paramsToSend } }
   );
-  console.log("data", data);
 
   const dataMapped = data.items.map((proveedor: any) => {
     return {

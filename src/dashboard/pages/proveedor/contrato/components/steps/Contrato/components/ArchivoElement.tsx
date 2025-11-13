@@ -45,15 +45,8 @@ export const ArchivoElement = ({
     validateDocuments,
   });
 
-  
-
   return (
-    <div
-      style={{ width: "100%", display: "flex", flexWrap: "wrap" }}
-      /*  onMouseLeave={async () => {
-        validateArchivoElement();
-      }} */
-    >
+    <div style={{ width: "100%", display: "flex", flexWrap: "wrap" }}>
       <div style={{ width: "25%", paddingRight: 16 }}>
         {multiple === true ? (
           <>
@@ -216,7 +209,7 @@ export const ArchivoElement = ({
       <div
         style={{
           marginTop: 8,
-          width: "50%",          
+          width: "50%",
           paddingRight: 16,
         }}
       >

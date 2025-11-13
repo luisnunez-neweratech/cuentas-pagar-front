@@ -3,13 +3,28 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useFilters } from "./hooks/useFilters";
+import dayjs from "dayjs";
+import { convertDateToFilterFormat } from "../../../../../lib/dates";
 
 interface FiltersProps {
   showFilter: boolean;
 }
 
 export const Filters = ({ showFilter }: FiltersProps) => {
-  const { rfc, onChangeRfc, alias, onChangeAlias } = useFilters();
+  const {
+    rfc,
+    onChangeRfc,
+    alias,
+    onChangeAlias,
+    razonSocial,
+    onChangeRazonSocial,
+    fechaAlta,
+    onChangeFechaAlta,
+    onChangeFechaInicioContrato,
+    fechaInicioContrato,
+    fechaFinContrato,
+    onChangeFechaFinContrato,
+  } = useFilters();
 
   return (
     <>
@@ -49,6 +64,8 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               id="razonSocial"
               label="Razon Social"
               name="razonSocial"
+              value={razonSocial}
+              onChange={(e) => onChangeRazonSocial(e.target.value)}
             />
           </Grid>
 
@@ -56,18 +73,16 @@ export const Filters = ({ showFilter }: FiltersProps) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 sx={{ width: "100%" }}
-                label="Fecha Alta"
-                //value={values.fechaInicio}
-                /* onChange={(newValue) =>
-                    setFieldValue("fechaInicio", newValue)
-                  } */
+                value={fechaAlta ? dayjs(fechaAlta) : null}
+                onChange={(newValue) =>
+                  onChangeFechaAlta(
+                    convertDateToFilterFormat(newValue?.toDate())
+                  )
+                }
                 format="DD-MM-YYYY"
                 slotProps={{
                   textField: {
                     name: "fechaAlta",
-                    /* error: touched.fechaInicio && Boolean(errors.fechaInicio),
-                      helperText: touched.fechaInicio && errors.fechaInicio,
-                      onBlur: () => setFieldTouched("fechaInicio", true),*/
                   },
                   field: { clearable: true },
                 }}
@@ -80,17 +95,16 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               <DatePicker
                 sx={{ width: "100%" }}
                 label="Fecha Inicio Contrato"
-                //value={values.fechaInicio}
-                /* onChange={(newValue) =>
-                    setFieldValue("fechaInicio", newValue)
-                  } */
+                value={fechaInicioContrato ? dayjs(fechaInicioContrato) : null}
+                onChange={(newValue) =>
+                  onChangeFechaInicioContrato(
+                    convertDateToFilterFormat(newValue?.toDate())
+                  )
+                }
                 format="DD-MM-YYYY"
                 slotProps={{
                   textField: {
                     name: "fechaInicioContrato",
-                    /* error: touched.fechaInicio && Boolean(errors.fechaInicio),
-                      helperText: touched.fechaInicio && errors.fechaInicio,
-                      onBlur: () => setFieldTouched("fechaInicio", true),*/
                   },
                   field: { clearable: true },
                 }}
@@ -103,17 +117,16 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               <DatePicker
                 sx={{ width: "100%" }}
                 label="Fecha Fin Contrato"
-                //value={values.fechaInicio}
-                /* onChange={(newValue) =>
-                    setFieldValue("fechaInicio", newValue)
-                  } */
+                value={fechaFinContrato ? dayjs(fechaFinContrato) : null}
+                onChange={(newValue) =>
+                  onChangeFechaFinContrato(
+                    convertDateToFilterFormat(newValue?.toDate())
+                  )
+                }
                 format="DD-MM-YYYY"
                 slotProps={{
                   textField: {
                     name: "fechaFinContrato",
-                    /* error: touched.fechaInicio && Boolean(errors.fechaInicio),
-                      helperText: touched.fechaInicio && errors.fechaInicio,
-                      onBlur: () => setFieldTouched("fechaInicio", true),*/
                   },
                   field: { clearable: true },
                 }}
