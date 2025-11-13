@@ -103,6 +103,9 @@ export const ProveedorTable = () => {
                   native: true,
                 },
               }}
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
+              }
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
