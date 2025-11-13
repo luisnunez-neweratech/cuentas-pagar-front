@@ -94,6 +94,7 @@ export const ProveedorTable = () => {
               count={totalRows}
               rowsPerPage={rowsPerPage}
               page={page}
+              labelRowsPerPage="Filas por página:"
               slotProps={{
                 select: {
                   inputProps: {
