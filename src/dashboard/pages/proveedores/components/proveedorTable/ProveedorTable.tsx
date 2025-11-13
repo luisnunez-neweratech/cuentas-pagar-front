@@ -33,13 +33,13 @@ export const ProveedorTable = () => {
           <TableRow>
             <TableCell style={cellHeaderStyle}>RFC</TableCell>
             <TableCell style={cellHeaderStyle}>Alias</TableCell>
-            <TableCell style={cellHeaderStyle}>Razon Social</TableCell>
+            <TableCell style={cellHeaderStyle}>Razón Social</TableCell>
             <TableCell style={cellHeaderStyle}>Fecha Alta</TableCell>
             <TableCell style={cellHeaderStyle}>Fecha Inicio Contrato</TableCell>
             <TableCell style={cellHeaderStyle}>Fecha Fin Contrato</TableCell>
             <TableCell style={cellHeaderStyle}>CSF</TableCell>
             <TableCell style={cellHeaderStyle}>
-              Identificacion Rep Legal
+              Identificación Rep Legal
             </TableCell>
             <TableCell style={cellHeaderStyle}>
               Comprobante de Domicilio
