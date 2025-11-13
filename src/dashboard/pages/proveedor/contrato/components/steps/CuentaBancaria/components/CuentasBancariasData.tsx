@@ -55,6 +55,7 @@ export const CuentasBancariasData = ({
     tipoEntidad,
     fileName,
     setFieldValue,
+    currentPath,
   } = useCuentasBancariasData({
     idInput,
     isValidForm,
@@ -109,6 +110,7 @@ export const CuentasBancariasData = ({
                       value={values.status}
                       onChange={() => setFieldValue("status", !values.status)}
                       //disabled={true} // solo admin lo cambia
+                      disabled={currentPath.includes("nuevo-contrato")}
                     />
                   }
                   label={values.status ? "Activo" : "Inactivo"}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import { useLocation } from "react-router";
 import { validationSchema } from "../components/Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
@@ -18,6 +19,10 @@ export const useCuentasBancariasData = ({
   downloadUrl,
   validateCuentas,
 }: props) => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+
   useEffect(() => {
     validateCuentaElement(); //children function of interest
   }, [validateCuentas]);
@@ -68,7 +73,7 @@ export const useCuentasBancariasData = ({
     initialValues: getInitialValues(),
     validationSchema: validationSchema(idInput, downloadUrl),
     onSubmit: (values) => {
-      console.log('y estos?',values);
+      console.log("y estos?", values);
     },
   });
 
@@ -88,12 +93,12 @@ export const useCuentasBancariasData = ({
   }, [values.status]);
 
   const validateCuentaElement = async () => {
-    console.log('entra al validate?')
+    console.log("entra al validate?");
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
-        console.log('estos values2', values)
+        console.log("estos values2", values);
         updateCuentaBancaria(id, {
           downloadUrl: downloadUrl,
           newElement: values.newElement,
@@ -128,5 +133,6 @@ export const useCuentasBancariasData = ({
     handleFileChange,
     fileName,
     tipoEntidad: getStepPerfil()?.tipoEntidad,
+    currentPath,
   };
 };
