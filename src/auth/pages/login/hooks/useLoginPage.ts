@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { AxiosError } from "axios";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { validationSchema } from "../Validations";
 import { useAuthStore } from "../../../../stores/auth/auth.store";
@@ -11,7 +10,6 @@ import type { User } from "../../../../interfaces/user.interface";
 import { useAuthLayoutStore } from "../../../store/authLayout.store";
 
 export const useLoginPage = () => {
-  const navigate = useNavigate();
   const loginUser = useAuthStore((state) => state.loginUser);
   const setIsLoading = useAuthLayoutStore((state) => state.setIsLoading);
 
@@ -28,7 +26,6 @@ export const useLoginPage = () => {
         nickName,
       };
       loginUser(token, user);
-      navigate("/");
     },
     onError: (error) => {
       console.log(error);

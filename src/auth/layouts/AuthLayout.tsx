@@ -11,7 +11,7 @@ const AuthLayout = () => {
   const isLoading = useAuthLayoutStore((state) => state.isLoading);
 
   if (authStatus === "authorized") {
-    return <Navigate to="/" />;
+    return <Navigate to="/proveedor" />;
   }
 
   return (
