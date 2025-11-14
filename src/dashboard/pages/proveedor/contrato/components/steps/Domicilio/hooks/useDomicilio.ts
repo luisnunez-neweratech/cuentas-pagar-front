@@ -6,11 +6,12 @@ import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.s
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { countries } from "../../../../../../../../lib/constants";
 import { updateProveedorContratoPerfil } from "../../../../services/proveedor.contrato.service";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
+import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 
 export const useDomicilio = (inputRef: any) => {
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -89,6 +90,11 @@ export const useDomicilio = (inputRef: any) => {
     );
   }, []);
 
+  const { data: giros } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
+    queryFn: () => getAllGiros(),
+  });
+
   const {
     handleSubmit,
     values,
@@ -102,6 +108,9 @@ export const useDomicilio = (inputRef: any) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
+      const giroPrincipal = giros?.find(
+        (giro) => giro.descripcion === stateContrato.stepPerfil?.giroPrincipal
+      );
       updateMutation.mutate({
         id: stateContrato.id!,
         //perfil
@@ -112,9 +121,7 @@ export const useDomicilio = (inputRef: any) => {
         tradeName: stateContrato.stepPerfil?.alias!,
         rfc: stateContrato.stepPerfil?.rfc!,
         email: stateContrato.stepPerfil?.email!,
-        supplierActivityId: stateContrato.stepPerfil?.giroPrincipal
-          ? +stateContrato.stepPerfil?.giroPrincipal
-          : null,
+        supplierActivityId: giroPrincipal?.id ?? null,
         productServiceIds:
           stateContrato.stepPerfil?.productos?.map(
             (producto: any) => producto.id
