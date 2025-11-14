@@ -1,17 +1,15 @@
-import axios from 'axios'
+import axios from "axios";
 
 const cuentasApi = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-})
+  baseURL: import.meta.env.VITE_API_URL,
+});
 
 cuentasApi.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token')
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-    }
-    //config.headers['Content-Type'] = "multipart/form-data";
-    
-    return config
-})
+  if (localStorage["auth-storage"]) {
+    const auth = JSON.parse(localStorage["auth-storage"]);
+    config.headers.Authorization = `Bearer ${auth.state.token}`;
+  }
+  return config;
+});
 
-export { cuentasApi }
+export { cuentasApi };
