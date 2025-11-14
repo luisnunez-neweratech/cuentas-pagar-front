@@ -7,6 +7,5 @@ export interface PutOcasionalPayload {
   tradeName: string;
   rfc: string;
   email: string;
-  supplierActivityId: number | null;
   productServiceIds: number[];
 }

@@ -98,7 +98,7 @@ export const Perfil = () => {
             }RFC`}
             name="rfc"
             sx={{ marginTop: 0 }}
-            value={values.rfc}
+            value={values.rfc.toUpperCase()}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.rfc && Boolean(errors.rfc)}

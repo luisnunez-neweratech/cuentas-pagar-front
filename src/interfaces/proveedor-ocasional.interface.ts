@@ -8,6 +8,5 @@ export interface ProveedorOcasional {
   razonSocial: string;
   alias: string;
   email?: string;
-  giroPrincipal?: string;
   productos?: Giro[];
 }

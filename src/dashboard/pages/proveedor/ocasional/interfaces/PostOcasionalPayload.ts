@@ -6,6 +6,5 @@ export interface PostOcasionalPayload {
   tradeName: string;
   rfc: string;
   email: string;
-  supplierActivityId: number | null;
   productServiceIds: number[];
 }

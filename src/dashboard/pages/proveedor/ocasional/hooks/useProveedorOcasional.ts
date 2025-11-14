@@ -105,7 +105,6 @@ export const useProveedorOcasional = () => {
         razonSocial: values.razonSocial,
         alias: values.alias,
         email: values.email,
-        giroPrincipal: values.giroPrincipal,
         productos: values.productos,
       });
       navigate(`/proveedor/contrato/${id}`);
@@ -140,9 +139,6 @@ export const useProveedorOcasional = () => {
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
       }
-      const giroPrincipal = proveedorOcasional.giroPrincipal
-        ? giros?.find((giro) => giro.id === proveedorOcasional.giroPrincipal)
-        : null;
       const productos = giros?.filter((obj) =>
         proveedorOcasional.productos.includes(obj.id)
       );
@@ -153,7 +149,6 @@ export const useProveedorOcasional = () => {
         razonSocial: proveedorOcasional.razonSocial,
         alias: proveedorOcasional.alias ?? "",
         email: proveedorOcasional.email,
-        giroPrincipal: giroPrincipal?.descripcion ?? "",
         productos: productos,
       };
     }
@@ -164,7 +159,6 @@ export const useProveedorOcasional = () => {
       razonSocial: "",
       alias: "",
       email: "",
-      giroPrincipal: "",
       productos: [],
     };
   };
@@ -189,9 +183,6 @@ export const useProveedorOcasional = () => {
     onSubmit: async (values) => {
       handleDisableButtons(true);
       if (id) {
-        const giroPrincipal = giros?.find(
-          (giro) => giro.descripcion === values.giroPrincipal
-        );
         updateMutation.mutate({
           id: +id,
           supplierTypeId: TipoProveedor.Ocasional.value,
@@ -201,14 +192,10 @@ export const useProveedorOcasional = () => {
           tradeName: values.alias.trim(),
           rfc: values.rfc.toUpperCase().trim(),
           email: values.email.trim(),
-          supplierActivityId: giroPrincipal?.id ?? null,
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
         });
       } else {
-        const giroPrincipal = giros?.find(
-          (giro) => giro.descripcion === values.giroPrincipal
-        );
         createMutation.mutate({
           supplierTypeId: TipoProveedor.Ocasional.value,
           originId: +values.tipoEntidad,
@@ -217,7 +204,6 @@ export const useProveedorOcasional = () => {
           tradeName: values.alias.trim(),
           rfc: values.rfc.toUpperCase().trim(),
           email: values.email.trim(),
-          supplierActivityId: giroPrincipal?.id ?? null,
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
         });
@@ -241,9 +227,6 @@ export const useProveedorOcasional = () => {
   const actualizarProveedor = () => {
     if (id) {
       handleDisableButtons(true);
-      const giroPrincipal = giros?.find(
-        (giro) => giro.descripcion === values.giroPrincipal
-      );
       upgradeProvedorMutation.mutate({
         id: +id,
         supplierTypeId: TipoProveedor.Contrato.value,
@@ -253,7 +236,6 @@ export const useProveedorOcasional = () => {
         tradeName: values.alias.trim(),
         rfc: values.rfc.toUpperCase().trim(),
         email: values.email.trim(),
-        supplierActivityId: giroPrincipal?.id ?? null,
         productServiceIds:
           values.productos?.map((producto: any) => producto.id) ?? [],
       });
