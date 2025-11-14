@@ -57,10 +57,13 @@ export const useContactosData = ({
     validateContactoElement();
   }, [errors]);
 
+  useEffect(() => {
+    validateContactoElement();
+  }, [values.paginaWeb]);
+
   const validateContactoElement = async () => {
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
-      console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
         updateContacto(id, {
