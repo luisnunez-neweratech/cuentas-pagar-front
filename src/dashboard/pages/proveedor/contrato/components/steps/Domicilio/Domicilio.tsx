@@ -179,10 +179,10 @@ export const Domicilio = () => {
             variant="outlined"
             margin="normal"
             fullWidth
-            id="numInterior"
-            label="# Interior"
-            name="numInterior"
-            value={values.numInterior}
+            id="numExterior"
+            label="# Exterior"
+            name="numExterior"
+            value={values.numExterior}
             onChange={handleChange}
           />
         </Grid>
@@ -191,20 +191,16 @@ export const Domicilio = () => {
             variant="outlined"
             margin="normal"
             fullWidth
-            id="numExterior"
-            label="# Exterior"
-            name="numExterior"
-            value={values.numExterior}
+            id="numInterior"
+            label="# Interior"
+            name="numInterior"
+            value={values.numInterior}
             onChange={handleChange}
           />
         </Grid>
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              variant="outlined"              
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
+            <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
               Atras
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
