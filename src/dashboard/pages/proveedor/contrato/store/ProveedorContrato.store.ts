@@ -100,6 +100,7 @@ const initialStepContacto = [
     telefono: "",
     email: "",
     paginaWeb: "",
+    newElement: true,
   },
 ];
 
