@@ -72,7 +72,6 @@ export const usecuentaBancaria = () => {
   const updateMutation = useMutation({
     mutationFn: updateProveedorCuenta,
     onSuccess: (data, variables) => {
-      //TODO update caratula
       createCaratulaMutation.mutate({
         id: data.id,
         caratulaFile: variables.caratulaFile,
@@ -95,7 +94,7 @@ export const usecuentaBancaria = () => {
   const onClickNext = () => {
     doValidateCuentas(validateCuentas + 1);
     if (getCuentasValidos()) {
-      getStepCuentaBancaria()?.map((cuenta) => {        
+      getStepCuentaBancaria()?.map((cuenta) => {
         if (cuenta.newElement) {
           createMutation.mutate({
             postCuentaPayload: {
