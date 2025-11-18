@@ -25,12 +25,12 @@ export const updateProveedorContratoPerfil = async (
 
 export const getProveedorContrato = async (id: string): Promise<any> => {
   const { data } = await cuentasApi.get(`/Contract/Supplier/${id}`);
-  
+
   //TODO es un array , contemplar que es historico de contratos
   console.log("data", data);
 
   return {
-    id: data[0].id,    
+    id: data[0].id,
     fechaInicio: data[0].startDate,
     fechaFin: data[0].endDate,
     indeterminado: data[0].indefiniteEnd,
@@ -44,16 +44,18 @@ export const getProveedorDocumentos = async (id: string): Promise<any> => {
   console.log("data", data);
 
   // array con CSF, IdRepLegal, CompDom, PoderRep
-  return data; 
+  return data;
 };
 
-
-export const getColaboradoresContrato = async (contratoId: string): Promise<any> => {
-  const { data } = await cuentasApi.get(`/ContractCollaborator/Contract/${contratoId}`);
-  console.log("data contratos", data);
+export const getColaboradoresContrato = async (
+  contratoId: string
+): Promise<any> => {
+  const { data } = await cuentasApi.get(
+    `/ContractCollaborator/Contract/${contratoId}`
+  );
 
   // array con colaboradores
-  return data; 
+  return data;
 };
 
 export const deleteColaboradoresContrato = async (id: string): Promise<any> => {
@@ -63,9 +65,7 @@ export const deleteColaboradoresContrato = async (id: string): Promise<any> => {
 
 export const getProveedorCuentas = async (id: string): Promise<any> => {
   const { data } = await cuentasApi.get(`/BankDetail/Supplier/${id}`);
-  console.log("data", data);
 
   // array con CSF, IdRepLegal, CompDom, PoderRep
-  return data; 
+  return data;
 };
-
