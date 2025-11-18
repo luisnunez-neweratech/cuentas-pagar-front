@@ -47,11 +47,13 @@ export const addProveedorCaratula = async ({
 
 interface updateProveedorCuentaProps {
   id: string;
+  caratulaFile?: any;
   putCuentaPayload: PutCuentaPayload;
 }
 export const updateProveedorCuenta = async ({
   id,
   putCuentaPayload,
+  caratulaFile: _caratulaFile
 }: updateProveedorCuentaProps): Promise<any> => {
   const response = await cuentasApi.put(`/BankDetail/${id}/Update`, {
     ...putCuentaPayload,

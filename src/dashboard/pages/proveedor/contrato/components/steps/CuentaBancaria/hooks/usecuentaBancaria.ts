@@ -71,12 +71,12 @@ export const usecuentaBancaria = () => {
 
   const updateMutation = useMutation({
     mutationFn: updateProveedorCuenta,
-    onSuccess: (_data, _variables) => {
+    onSuccess: (data, variables) => {
       //TODO update caratula
-      /* createCaratulaMutation.mutate({
+      createCaratulaMutation.mutate({
         id: data.id,
         caratulaFile: variables.caratulaFile,
-      }); */
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -121,6 +121,7 @@ export const usecuentaBancaria = () => {
               isActive: cuenta.status,
             },
             id: cuenta.id.toString(),
+            caratulaFile: cuenta.fileValue,
           });
         }
       });
