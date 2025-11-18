@@ -27,6 +27,8 @@ import logo from "../../assets/newera-logo.svg";
 import { useAuthStore } from "../../stores/auth/auth.store";
 import { CircularLoading } from "../../components/common/CircularLoading";
 import { useDashboardLayoutStore } from "../store/dashboardLayout.store";
+import appInfo from "../../../package.json";
+import { grey } from "@mui/material/colors";
 
 const DashboardLayout = () => {
   const authStatus = useAuthStore((state) => state.status);
@@ -152,8 +154,20 @@ const DashboardLayout = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        {isLoading && <CircularLoading />}        
+        {isLoading && <CircularLoading />}
         <Outlet />
+        <div
+          style={{
+            display: "table",
+            textAlign: "center",
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: 50,
+            color: 'grey'
+          }}
+        >
+          v {appInfo.version}
+        </div>
       </Box>
     </Box>
   );
