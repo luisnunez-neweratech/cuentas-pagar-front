@@ -17,8 +17,10 @@ import {
   //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
 import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
+import { useParams } from 'react-router';
 
 export const useContrato = () => {
+  const { id: idParams } = useParams();
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getStepPerfil = useProveedorContratoStore(
@@ -507,6 +509,6 @@ export const useContrato = () => {
     validateDocuments,
     onClickNext,
     disableButtons,
-    id: stateContrato.id
+    id: idParams
   };
 };

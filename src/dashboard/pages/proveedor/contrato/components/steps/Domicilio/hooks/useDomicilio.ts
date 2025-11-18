@@ -12,8 +12,10 @@ import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
+import { useParams } from "react-router";
 
 export const useDomicilio = (inputRef: any) => {
+  const { id: idParams } = useParams();
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getStepDomicilio = useProveedorContratoStore(
@@ -108,9 +110,6 @@ export const useDomicilio = (inputRef: any) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      const giroPrincipal = giros?.find(
-        (giro) => giro.descripcion === stateContrato.stepPerfil?.giroPrincipal
-      );
       updateMutation.mutate({
         id: stateContrato.id!,
         //perfil
@@ -121,7 +120,7 @@ export const useDomicilio = (inputRef: any) => {
         tradeName: stateContrato.stepPerfil?.alias!,
         rfc: stateContrato.stepPerfil?.rfc!,
         email: stateContrato.stepPerfil?.email!,
-        supplierActivityId: giroPrincipal?.id ?? null,
+        supplierActivity: stateContrato.stepPerfil?.giroPrincipal!,
         productServiceIds:
           stateContrato.stepPerfil?.productos?.map(
             (producto: any) => producto.id
@@ -147,7 +146,7 @@ export const useDomicilio = (inputRef: any) => {
   });
 
   const handleOnPlacesChanged = () => {
-    let address = inputRef.current.getPlace();    
+    let address = inputRef.current.getPlace();
     if (address && address?.address_components.length > 0) {
       const codigoPostal = address?.address_components.filter(
         (addressFound: any) => {
@@ -206,6 +205,6 @@ export const useDomicilio = (inputRef: any) => {
     optionPais,
     setOptionPais,
     disableButtons,
-    id: stateContrato.id
+    id: idParams,
   };
 };

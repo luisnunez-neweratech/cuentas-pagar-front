@@ -16,7 +16,7 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-  const { handleOpenModal, clearFiltros } = useHeaderButtons();
+  const { handleOpenModal, clearFiltros, downloadFile } = useHeaderButtons();
 
   return (
     <>
@@ -79,7 +79,10 @@ export const HeaderButtons = ({
       </Grid>
       <Grid size={1}>
         <Tooltip title="Descargar lista de proveedores">
-          <IconButton sx={{ color: mainBackgroundColor }}>
+          <IconButton
+            sx={{ color: mainBackgroundColor }}
+            onClick={downloadFile}
+          >
             <FileDownloadIcon
               style={{
                 height: "36px",

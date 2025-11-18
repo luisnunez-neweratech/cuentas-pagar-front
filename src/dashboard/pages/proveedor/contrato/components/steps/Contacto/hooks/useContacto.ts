@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from 'react-router';
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import {
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 
 export const useContacto = () => {
+  const { id: idParams } = useParams();
   const [validateContactos, doValidateContactos] = useState<number>(0);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getContactosValidos = useContactosStore(
@@ -100,6 +101,6 @@ export const useContacto = () => {
     guardarProovedor,
     disableButtons,
     validateContactos,
-    id: stateProveedor.id
+    id: idParams
   };
 };

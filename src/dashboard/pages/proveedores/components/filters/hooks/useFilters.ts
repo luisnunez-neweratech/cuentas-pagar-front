@@ -15,9 +15,7 @@ export const useFilters = () => {
 
   const debouncedQuery = useDebounce(query, 500);
   useEffect(() => {
-    if (debouncedQuery) {
-      //TODO call api
-      console.log("start searching ", filtrosProveedores);
+    if (debouncedQuery) {      
       setCallApi();
     }
   }, [debouncedQuery]);

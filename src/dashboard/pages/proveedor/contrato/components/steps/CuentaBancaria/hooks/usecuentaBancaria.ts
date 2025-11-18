@@ -10,8 +10,10 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { useState } from "react";
+import { useParams } from 'react-router';
 
 export const usecuentaBancaria = () => {
+  const { id: idParams } = useParams();
   const [validateCuentas, doValidateCuentas] = useState<number>(0);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
@@ -134,6 +136,6 @@ export const usecuentaBancaria = () => {
     onClickNext,
     disableButtons,
     validateCuentas,
-    id: stateProveedor.id
+    id: idParams
   };
 };
