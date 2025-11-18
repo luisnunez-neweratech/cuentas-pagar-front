@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Box,
   Button,
   FormControl,
@@ -24,8 +23,6 @@ export const Perfil = () => {
     touched,
     errors,
     onChangeAutocomplete,
-    giros,
-    setFieldValue,
     disableButtons,
   } = usePerfil();
 
@@ -153,27 +150,18 @@ export const Perfil = () => {
           />
         </Grid>
 
-        <Grid size={4} sx={{ marginTop: 4 }}>
-          <Autocomplete
-            freeSolo
-            options={giros.map((giro) => giro.descripcion)}
-            onChange={(_e, newvalue) => {
-              setFieldValue("giroPrincipal", newvalue);
-            }}
+        <Grid size={4} sx={{ marginTop: 2 }}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="giroPrincipal"
+            label="Giro Principal"
+            name="giroPrincipal"
+            type="giroPrincipal"
             value={values.giroPrincipal}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                id="giroPrincipal"
-                name="giroPrincipal"
-                label="Giro Principal"
-                value={values.giroPrincipal}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.giroPrincipal && Boolean(errors.giroPrincipal)}
-                helperText={touched.giroPrincipal && errors.giroPrincipal}
-              />
-            )}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </Grid>
         <Grid size={4}>

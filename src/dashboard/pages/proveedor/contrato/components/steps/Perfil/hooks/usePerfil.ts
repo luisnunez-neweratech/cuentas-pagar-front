@@ -70,7 +70,7 @@ export const usePerfil = () => {
       alias: values.alias,
       rfc: values.rfc,
       email: values.email,
-      giroPrincipal: values.giroPrincipal,
+      //giroPrincipal: values.giroPrincipal,
       productos: values.productos,
     };
     setStepPerfil(pasoPerfil);
@@ -185,9 +185,9 @@ export const usePerfil = () => {
         navigate(`/proveedor/${id}`);
       }
 
-      const giroPrincipal = proveedorPerfil.giroPrincipal
+      /* const giroPrincipal = proveedorPerfil.giroPrincipal
         ? giros?.find((giro) => giro.id === proveedorPerfil.giroPrincipal)
-        : null;
+        : null; */
 
       const productos = giros?.filter((obj) =>
         proveedorPerfil.productos.includes(obj.id)
@@ -200,7 +200,8 @@ export const usePerfil = () => {
         razonSocial: proveedorPerfil.razonSocial,
         alias: proveedorPerfil.alias ?? "",
         email: proveedorPerfil.email,
-        giroPrincipal: giroPrincipal?.descripcion ?? "",
+        //giroPrincipal: giroPrincipal?.descripcion ?? "",
+        giroPrincipal: "",
         productos: productos,
       };
     }
@@ -213,7 +214,8 @@ export const usePerfil = () => {
       razonSocial: stepPerfil ? stepPerfil.razonSocial : "",
       alias: stepPerfil ? stepPerfil.alias : "",
       email: stepPerfil ? stepPerfil.email : "",
-      giroPrincipal: stepPerfil ? stepPerfil.giroPrincipal : "",
+      //giroPrincipal: stepPerfil ? stepPerfil.giroPrincipal : "",
+      giroPrincipal: "",
       productos: stepPerfil ? stepPerfil.productos : [],
     };
   };
@@ -232,9 +234,9 @@ export const usePerfil = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      const giroPrincipal = giros?.find(
+      /*  const giroPrincipal = giros?.find(
         (giro) => giro.descripcion === values.giroPrincipal
-      );
+      ); */
       if (proveedorPerfil && proveedorPerfil.id) {
         // cargar datos a zustand
         //domicilio step
@@ -451,7 +453,8 @@ export const usePerfil = () => {
           tradeName: values.alias.trim(),
           rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
           email: values?.email ? values.email.trim() : "",
-          supplierActivityId: giroPrincipal?.id ?? null,
+          //supplierActivityId: giroPrincipal?.id ?? null,
+          supplierActivityId: null,
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
 
@@ -475,7 +478,8 @@ export const usePerfil = () => {
           tradeName: values.alias.trim(),
           rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
           email: values?.email ? values.email.trim() : "",
-          supplierActivityId: giroPrincipal?.id ?? null,
+          //supplierActivityId: giroPrincipal?.id ?? null,
+          supplierActivityId: null,
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
         });
@@ -509,8 +513,6 @@ export const usePerfil = () => {
     touched,
     errors,
     onChangeAutocomplete,
-    giros: giros ?? [],
-    setFieldValue,
     disableButtons,
   };
 };
