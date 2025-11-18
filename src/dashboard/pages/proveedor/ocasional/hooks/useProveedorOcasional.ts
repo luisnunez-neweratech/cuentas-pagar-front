@@ -16,6 +16,7 @@ import {
   getProveedorOcasional,
 } from "../services/proveedor.contrato.service";
 import { useDashboardLayoutStore } from "../../../../store/dashboardLayout.store";
+import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
@@ -28,6 +29,9 @@ export const useProveedorOcasional = () => {
     (state) => state.setStepPerfil
   );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const handleOpenModal = useProveedorOcasionalStore(
+    (state) => state.handleOpenModal
+  );
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -224,6 +228,10 @@ export const useProveedorOcasional = () => {
     setFieldValue("productos", newValues);
   };
 
+  const openModal = () => {
+    handleOpenModal();
+  };
+
   const actualizarProveedor = () => {
     if (id) {
       handleDisableButtons(true);
@@ -272,7 +280,8 @@ export const useProveedorOcasional = () => {
     onClickEliminar,
     onChangeAutocomplete,
     giros: giros ?? [],
-    actualizarProveedor,
     disableButtons,
+    openModal,
+    actualizarProveedor
   };
 };

@@ -16,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
 import { TipoEntidad } from "../interfaces/TipoEntidad";
 import { TipoPersona } from "../interfaces/TipoPersona";
+import { ConfirmModal } from "./components/ConfirmModal/ConfirmModal";
 
 export const ProveedorOcasionalPage = () => {
   const {
@@ -27,9 +28,10 @@ export const ProveedorOcasionalPage = () => {
     errors,
     id,
     onClickEliminar,
-    onChangeAutocomplete,    
+    onChangeAutocomplete,
+    openModal,
+    disableButtons,
     actualizarProveedor,
-    disableButtons
   } = useProveedorOcasional();
 
   return (
@@ -155,7 +157,7 @@ export const ProveedorOcasionalPage = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-        </Grid>       
+        </Grid>
 
         <Grid size={4}>
           <AutoCompleteComponent
@@ -173,7 +175,7 @@ export const ProveedorOcasionalPage = () => {
                 sx={{ backgroundColor: mainBackgroundColor }}
                 fullWidth
                 type="button"
-                onClick={actualizarProveedor}
+                onClick={openModal}
                 disabled={disableButtons}
               >
                 Actualizar a Contrato
@@ -221,6 +223,7 @@ export const ProveedorOcasionalPage = () => {
           </Grid>
         )}
       </Grid>
+      <ConfirmModal actualizarProovedor={actualizarProveedor} />
     </form>
   );
 };
