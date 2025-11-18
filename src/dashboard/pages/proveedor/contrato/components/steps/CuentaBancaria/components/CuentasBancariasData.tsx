@@ -104,8 +104,7 @@ export const CuentasBancariasData = ({
               <FormGroup sx={{ marginTop: 3 }}>
                 <FormControlLabel
                   control={
-                    <Switch
-                      defaultChecked
+                    <Switch                      
                       checked={values.status}
                       value={values.status}
                       onChange={() => setFieldValue("status", !values.status)}
