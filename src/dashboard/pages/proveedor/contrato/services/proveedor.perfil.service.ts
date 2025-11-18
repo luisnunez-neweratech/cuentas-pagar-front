@@ -66,7 +66,6 @@ export const addColaboradoresProveedor = async ({
 
 export const getProveedorPerfil = async (id: string): Promise<any> => {
   const { data } = await cuentasApi.get(`/Supplier/${id}/Details`);
-  console.log("data", data);
 
   return {
     id: data.id,

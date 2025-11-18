@@ -27,7 +27,6 @@ export const getProveedorContrato = async (id: string): Promise<any> => {
   const { data } = await cuentasApi.get(`/Contract/Supplier/${id}`);
 
   //TODO es un array , contemplar que es historico de contratos
-  console.log("data", data);
 
   return {
     id: data[0].id,
@@ -40,8 +39,7 @@ export const getProveedorContrato = async (id: string): Promise<any> => {
 };
 
 export const getProveedorDocumentos = async (id: string): Promise<any> => {
-  const { data } = await cuentasApi.get(`/SupplierProfileDocument/${id}`);
-  console.log("data", data);
+  const { data } = await cuentasApi.get(`/SupplierProfileDocument/${id}`);  
 
   // array con CSF, IdRepLegal, CompDom, PoderRep
   return data;
