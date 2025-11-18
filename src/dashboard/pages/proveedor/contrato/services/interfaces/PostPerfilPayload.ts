@@ -6,6 +6,6 @@ export interface PostPerfilPayload {
   tradeName: string;
   rfc: string;
   email: string;
-  supplierActivityId: number | null;
+  supplierActivity: string | null;
   productServiceIds: number[];
 }

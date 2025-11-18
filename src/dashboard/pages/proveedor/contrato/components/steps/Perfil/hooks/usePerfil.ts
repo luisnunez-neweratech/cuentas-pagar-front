@@ -70,7 +70,7 @@ export const usePerfil = () => {
       alias: values.alias,
       rfc: values.rfc,
       email: values.email,
-      //giroPrincipal: values.giroPrincipal,
+      giroPrincipal: values.giroPrincipal,
       productos: values.productos,
     };
     setStepPerfil(pasoPerfil);
@@ -200,8 +200,7 @@ export const usePerfil = () => {
         razonSocial: proveedorPerfil.razonSocial,
         alias: proveedorPerfil.alias ?? "",
         email: proveedorPerfil.email,
-        //giroPrincipal: giroPrincipal?.descripcion ?? "",
-        giroPrincipal: "",
+        giroPrincipal: proveedorPerfil?.giroPrincipal,
         productos: productos,
       };
     }
@@ -214,8 +213,7 @@ export const usePerfil = () => {
       razonSocial: stepPerfil ? stepPerfil.razonSocial : "",
       alias: stepPerfil ? stepPerfil.alias : "",
       email: stepPerfil ? stepPerfil.email : "",
-      //giroPrincipal: stepPerfil ? stepPerfil.giroPrincipal : "",
-      giroPrincipal: "",
+      giroPrincipal: stepPerfil ? stepPerfil.giroPrincipal : "",
       productos: stepPerfil ? stepPerfil.productos : [],
     };
   };
@@ -234,9 +232,6 @@ export const usePerfil = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      /*  const giroPrincipal = giros?.find(
-        (giro) => giro.descripcion === values.giroPrincipal
-      ); */
       if (proveedorPerfil && proveedorPerfil.id) {
         // cargar datos a zustand
         //domicilio step
@@ -453,8 +448,9 @@ export const usePerfil = () => {
           tradeName: values.alias.trim(),
           rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
           email: values?.email ? values.email.trim() : "",
-          //supplierActivityId: giroPrincipal?.id ?? null,
-          supplierActivityId: null,
+          supplierActivity: values.giroPrincipal
+            ? values.giroPrincipal.trim()
+            : "",
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
 
@@ -478,8 +474,9 @@ export const usePerfil = () => {
           tradeName: values.alias.trim(),
           rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
           email: values?.email ? values.email.trim() : "",
-          //supplierActivityId: giroPrincipal?.id ?? null,
-          supplierActivityId: null,
+          supplierActivity: values.giroPrincipal
+            ? values.giroPrincipal.trim()
+            : "",
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
         });
@@ -514,6 +511,6 @@ export const usePerfil = () => {
     errors,
     onChangeAutocomplete,
     disableButtons,
-    id
+    id,
   };
 };

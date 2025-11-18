@@ -8,7 +8,7 @@ export interface PutContratoPayload {
   tradeName: string;
   rfc: string;
   email: string;
-  supplierActivityId: number | null;
+  supplierActivity: string | null;
   productServiceIds: number[];
   //stepDomicilio
   country?: string | null;
