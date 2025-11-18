@@ -28,7 +28,6 @@ import { useAuthStore } from "../../stores/auth/auth.store";
 import { CircularLoading } from "../../components/common/CircularLoading";
 import { useDashboardLayoutStore } from "../store/dashboardLayout.store";
 import appInfo from "../../../package.json";
-import { grey } from "@mui/material/colors";
 
 const DashboardLayout = () => {
   const authStatus = useAuthStore((state) => state.status);
