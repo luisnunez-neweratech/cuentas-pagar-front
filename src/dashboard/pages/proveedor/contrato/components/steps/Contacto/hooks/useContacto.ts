@@ -100,5 +100,6 @@ export const useContacto = () => {
     guardarProovedor,
     disableButtons,
     validateContactos,
+    id: stateProveedor.id
   };
 };

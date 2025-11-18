@@ -134,5 +134,6 @@ export const usecuentaBancaria = () => {
     onClickNext,
     disableButtons,
     validateCuentas,
+    id: stateProveedor.id
   };
 };

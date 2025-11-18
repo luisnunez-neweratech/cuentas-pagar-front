@@ -206,5 +206,6 @@ export const useDomicilio = (inputRef: any) => {
     optionPais,
     setOptionPais,
     disableButtons,
+    id: stateContrato.id
   };
 };

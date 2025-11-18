@@ -23,6 +23,7 @@ export const Domicilio = () => {
     optionPais,
     setOptionPais,
     disableButtons,
+    id
   } = useDomicilio(inputRef);
 
   return (
@@ -203,6 +204,12 @@ export const Domicilio = () => {
             <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
               Atras
             </Button>
+            <Box sx={{ flex: "1 1 auto" }} />
+            {id && (
+              <Button variant="outlined" sx={{ mr: 1 }}>
+                Modificar
+              </Button>
+            )}
             <Box sx={{ flex: "1 1 auto" }} />
 
             <Button variant="outlined" type="submit" disabled={disableButtons}>

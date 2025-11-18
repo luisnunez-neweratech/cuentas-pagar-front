@@ -30,6 +30,7 @@ export const Contrato = () => {
     validateDocuments,
     onClickNext,
     disableButtons,
+    id
   } = useContrato();
 
   return (
@@ -128,6 +129,12 @@ export const Contrato = () => {
             <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
               Atras
             </Button>
+            <Box sx={{ flex: "1 1 auto" }} />
+             {id && (
+              <Button variant="outlined" sx={{ mr: 1 }}>
+                Modificar
+              </Button>
+            )}
             <Box sx={{ flex: "1 1 auto" }} />
             <Button
               type="submit"

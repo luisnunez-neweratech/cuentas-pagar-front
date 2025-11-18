@@ -507,5 +507,6 @@ export const useContrato = () => {
     validateDocuments,
     onClickNext,
     disableButtons,
+    id: stateContrato.id
   };
 };

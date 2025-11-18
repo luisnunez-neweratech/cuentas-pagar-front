@@ -24,6 +24,7 @@ export const Perfil = () => {
     errors,
     onChangeAutocomplete,
     disableButtons,
+    id,
   } = usePerfil();
 
   return (
@@ -174,7 +175,13 @@ export const Perfil = () => {
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
+            {id && (
+              <Button variant="outlined" sx={{ mr: 1 }}>
+                Modificar
+              </Button>
+            )}
 
+            <Box sx={{ flex: "1 1 auto" }} />
             <Button type="submit" variant="outlined" disabled={disableButtons}>
               Siguiente
             </Button>
