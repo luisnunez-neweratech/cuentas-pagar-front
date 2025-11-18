@@ -146,7 +146,7 @@ export const useDomicilio = (inputRef: any) => {
     libraries: ["places"],
   });
 
-  const handleOnPlacesChanged = () => {
+  const handleOnPlacesChanged = () => {    
     let address = inputRef.current.getPlace();
     console.log("address", address);
     if (address && address?.address_components.length > 0) {
@@ -158,7 +158,7 @@ export const useDomicilio = (inputRef: any) => {
         }
       );
       if (codigoPostal.length > 0) {
-        setFieldValue("codigoPostal", codigoPostal[0].long_name);
+        setFieldValue("codigoPostal", codigoPostal[0].long_name || '');
       }
 
       const colonia = address?.address_components.filter(
@@ -169,7 +169,7 @@ export const useDomicilio = (inputRef: any) => {
         }
       );
       if (colonia.length > 0) {
-        setFieldValue("colonia", colonia[0].long_name);
+        setFieldValue("colonia", colonia[0].long_name || '');
       }
 
       const ciudad = address?.address_components.filter((addressFound: any) => {
@@ -178,8 +178,8 @@ export const useDomicilio = (inputRef: any) => {
         }
       });
       if (ciudad.length > 0) {
-        setFieldValue("ciudad", ciudad[0].long_name);
-        setFieldValue("municipio", ciudad[0].long_name);
+        setFieldValue("ciudad", ciudad[0].long_name || '');
+        setFieldValue("municipio", ciudad[0].long_name || '');
       }
 
       const estado = address?.address_components.filter((addressFound: any) => {
@@ -188,7 +188,7 @@ export const useDomicilio = (inputRef: any) => {
         }
       });
       if (estado.length > 0) {
-        setFieldValue("estado", estado[0].long_name);
+        setFieldValue("estado", estado[0].long_name || '');
       }
     }
   };
