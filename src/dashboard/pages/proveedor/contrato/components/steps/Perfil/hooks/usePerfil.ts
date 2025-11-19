@@ -492,8 +492,7 @@ export const usePerfil = () => {
           handleNext();
         }
       } else {
-        console.log("llego aki?zzz");
-        /* createMutation.mutate({
+        createMutation.mutate({
           supplierTypeId: TipoProveedor.Contrato.value,
           originId: +values.tipoEntidad,
           legalPersonTypeId: +values.tipoPersona,
@@ -506,7 +505,7 @@ export const usePerfil = () => {
             : "",
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
-        }); */
+        });
       }
     },
   });
