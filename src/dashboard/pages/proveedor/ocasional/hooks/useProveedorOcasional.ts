@@ -28,6 +28,9 @@ export const useProveedorOcasional = () => {
   const setStepPerfil = useProveedorContratoStore(
     (state) => state.setStepPerfil
   );
+  const setProveedorId = useProveedorContratoStore(
+    (state) => state.setProveedorId
+  );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const handleOpenModal = useProveedorOcasionalStore(
     (state) => state.handleOpenModal
@@ -101,6 +104,7 @@ export const useProveedorOcasional = () => {
     mutationFn: updateProveedorOcasional,
     onSuccess: () => {
       toast.success("Proveedor actualizado correctamente");
+      setProveedorId(+id!);
       setStepPerfil({
         tipoProveedor: TipoProveedor.Contrato.value,
         tipoEntidad: +values.tipoEntidad,
@@ -110,7 +114,7 @@ export const useProveedorOcasional = () => {
         alias: values.alias,
         email: values.email,
         productos: values.productos,
-      });      
+      });
       navigate(`/proveedor/nuevo-contrato`);
     },
     onError: (error) => {
@@ -282,6 +286,6 @@ export const useProveedorOcasional = () => {
     giros: giros ?? [],
     disableButtons,
     openModal,
-    actualizarProveedor
+    actualizarProveedor,
   };
 };

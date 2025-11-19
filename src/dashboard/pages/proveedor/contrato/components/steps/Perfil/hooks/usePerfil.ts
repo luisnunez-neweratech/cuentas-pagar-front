@@ -38,6 +38,8 @@ export const usePerfil = () => {
     (state) => state.getStepPerfil
   );
 
+  const stateProveedor = useProveedorContratoStore((state) => state);
+
   const proveedorContratoState = useProveedorContratoStore((state) => state);
   const setStepDomicilio = useProveedorContratoStore(
     (state) => state.setStepDomicilio
@@ -232,10 +234,15 @@ export const usePerfil = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      if (proveedorPerfil && proveedorPerfil.id) {
+      if (
+        (proveedorPerfil && proveedorPerfil.id) || // cargado por id del url
+        stateProveedor.id // cargado de transfer
+      ) {
         // cargar datos a zustand
         //domicilio step
-        setProveedorId(+id!);
+        if (id) {
+          setProveedorId(+id!);
+        }
         const pasoDomicilio: StepDomicilio = {
           ...proveedorPerfil,
         };
@@ -243,7 +250,7 @@ export const usePerfil = () => {
 
         // contrato step
 
-        const csfDocument = proveedorDocumentos.find(
+        const csfDocument = proveedorDocumentos?.find(
           (documento: any) =>
             documento.documentType === TipoDocumentoProveedor.CSF
         );
@@ -267,7 +274,7 @@ export const usePerfil = () => {
           };
         }
 
-        const idRepLegalDocument = proveedorDocumentos.find(
+        const idRepLegalDocument = proveedorDocumentos?.find(
           (documento: any) =>
             documento.documentType === TipoDocumentoProveedor.IdRepLegal
         );
@@ -291,7 +298,7 @@ export const usePerfil = () => {
           };
         }
 
-        const comDomDocument = proveedorDocumentos.find(
+        const comDomDocument = proveedorDocumentos?.find(
           (documento: any) =>
             documento.documentType === TipoDocumentoProveedor.CompDom
         );
@@ -315,7 +322,7 @@ export const usePerfil = () => {
           };
         }
 
-        const poderRepDocument = proveedorDocumentos.find(
+        const poderRepDocument = proveedorDocumentos?.find(
           (documento: any) =>
             documento.documentType === TipoDocumentoProveedor.PoderRep
         );
@@ -359,7 +366,7 @@ export const usePerfil = () => {
             ...proveedorContratoState.stepContrato?.colaboradores!,
           ];
         }
-        if (proveedorPerfil.contratos.length > 0) {
+        if (proveedorPerfil?.contratos.length > 0) {
           setStepContrato({
             id: proveedorPerfil.contratos[0].id,
             contractor: proveedorPerfil.contratos[0].isNEContractor,
@@ -395,7 +402,7 @@ export const usePerfil = () => {
 
         // set step contacto
         let contactosData = [];
-        if (proveedorPerfil.contactos.length > 0) {
+        if (proveedorPerfil?.contactos.length > 0) {
           contactosData = proveedorPerfil.contactos.map((contacto: any) => {
             return {
               id: contacto.id,
@@ -485,7 +492,8 @@ export const usePerfil = () => {
           handleNext();
         }
       } else {
-        createMutation.mutate({
+        console.log("llego aki?zzz");
+        /* createMutation.mutate({
           supplierTypeId: TipoProveedor.Contrato.value,
           originId: +values.tipoEntidad,
           legalPersonTypeId: +values.tipoPersona,
@@ -498,7 +506,7 @@ export const usePerfil = () => {
             : "",
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
-        });
+        }); */
       }
     },
   });
