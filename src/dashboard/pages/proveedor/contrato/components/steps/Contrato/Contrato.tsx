@@ -12,6 +12,9 @@ import { ColaboradorMoral } from "./components/ColaboradorMoral";
 import { ArchivoCard } from "./components/ArchivoCard";
 import { mainBackgroundColor } from "../../../../../../../lib/constants";
 import { TipoPersona } from "../../../../interfaces/TipoPersona";
+import SaveIcon from "@mui/icons-material/Save";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 export const Contrato = () => {
   const {
@@ -32,7 +35,7 @@ export const Contrato = () => {
     disableButtons,
     id,
     setClickedBy,
-    validateColaboradores
+    validateColaboradores,
   } = useContrato();
 
   return (
@@ -130,12 +133,19 @@ export const Contrato = () => {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
               Atras
+              <NavigateBeforeIcon sx={{ marginLeft: 1 }} />
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-             {id && (
-              <Button variant="outlined" sx={{ mr: 1 }} type="submit" disabled={disableButtons}
-                onClick={() => setClickedBy(1)}>
+            {id && (
+              <Button
+                variant="outlined"
+                sx={{ mr: 1 }}
+                type="submit"
+                disabled={disableButtons}
+                onClick={() => setClickedBy(1)}
+              >
                 Modificar
+                <SaveIcon sx={{ marginLeft: 1 }} />
               </Button>
             )}
             <Box sx={{ flex: "1 1 auto" }} />
@@ -143,9 +153,10 @@ export const Contrato = () => {
               type="submit"
               onClick={onClickNext}
               disabled={disableButtons}
-              variant="outlined"              
+              variant="outlined"
             >
               Siguiente
+              <NavigateNextIcon sx={{ marginLeft: 1 }} />
             </Button>
           </Box>
         </Grid>

@@ -13,6 +13,8 @@ import { AutoCompleteComponent } from "../../../../../../../components/common/Au
 import { usePerfil } from "./hooks/usePerfil";
 import { TipoEntidad } from "../../../../interfaces/TipoEntidad";
 import { TipoPersona } from "../../../../interfaces/TipoPersona";
+import SaveIcon from "@mui/icons-material/Save";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 export const Perfil = () => {
   const {
@@ -25,7 +27,7 @@ export const Perfil = () => {
     onChangeAutocomplete,
     disableButtons,
     id,
-    setClickedBy,    
+    setClickedBy,
   } = usePerfil();
 
   return (
@@ -177,7 +179,7 @@ export const Perfil = () => {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
             {id && (
-              <Button                
+              <Button
                 variant="outlined"
                 type="submit"
                 sx={{ mr: 1 }}
@@ -185,6 +187,7 @@ export const Perfil = () => {
                 onClick={() => setClickedBy(1)}
               >
                 Modificar
+                <SaveIcon sx={{ marginLeft: 1 }} />
               </Button>
             )}
 
@@ -196,6 +199,7 @@ export const Perfil = () => {
               onClick={() => setClickedBy(0)}
             >
               Siguiente
+              <NavigateNextIcon sx={{ marginLeft: 1 }} />
             </Button>
           </Box>
         </Grid>

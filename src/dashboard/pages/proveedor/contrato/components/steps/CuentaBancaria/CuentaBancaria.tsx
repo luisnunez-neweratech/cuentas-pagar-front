@@ -1,6 +1,9 @@
 import { Box, Button, Grid } from "@mui/material";
 import { useCuentaBancaria } from "./hooks/usecuentaBancaria";
 import { CuentasBancarias } from "./components/CuentasBancarias";
+import SaveIcon from "@mui/icons-material/Save";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 export const CuentaBancaria = () => {
   const { handleBack, onClickNext, disableButtons, validateCuentas, id } =
@@ -18,6 +21,7 @@ export const CuentaBancaria = () => {
             sx={{ mr: 1 }}
           >
             Atras
+            <NavigateBeforeIcon sx={{ marginLeft: 1 }} />
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
           {id && (
@@ -28,6 +32,7 @@ export const CuentaBancaria = () => {
               disabled={disableButtons}
             >
               Modificar
+              <SaveIcon sx={{ marginLeft: 1 }} />
             </Button>
           )}
           <Box sx={{ flex: "1 1 auto" }} />
@@ -37,6 +42,7 @@ export const CuentaBancaria = () => {
             onClick={() => onClickNext(0)}
           >
             Siguiente
+            <NavigateNextIcon sx={{ marginLeft: 1 }} />
           </Button>
         </Box>
       </Grid>

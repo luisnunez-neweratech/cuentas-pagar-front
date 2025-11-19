@@ -6,6 +6,9 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { countries } from "../../../../../../../lib/constants";
 import { useDomicilio } from "./hooks/useDomicilio";
+import SaveIcon from "@mui/icons-material/Save";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 export const Domicilio = () => {
   const inputRef = useRef<any | null>(null);
@@ -204,6 +207,7 @@ export const Domicilio = () => {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
               Atras
+              <NavigateBeforeIcon sx={{ marginLeft: 1 }} />
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {id && (
@@ -215,6 +219,7 @@ export const Domicilio = () => {
                 sx={{ mr: 1 }}
               >
                 Modificar
+                <SaveIcon sx={{ marginLeft: 1 }} />
               </Button>
             )}
             <Box sx={{ flex: "1 1 auto" }} />
@@ -226,6 +231,7 @@ export const Domicilio = () => {
               onClick={() => setClickedBy(0)}
             >
               Siguiente
+              <NavigateNextIcon sx={{ marginLeft: 1 }} />
             </Button>
           </Box>
         </Grid>
