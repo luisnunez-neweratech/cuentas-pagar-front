@@ -6,12 +6,11 @@ import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.s
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { countries } from "../../../../../../../../lib/constants";
 import { updateProveedorContratoPerfil } from "../../../../services/proveedor.contrato.service";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
-import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 import { useParams } from "react-router";
 
 export const useDomicilio = (inputRef: any) => {
@@ -93,11 +92,6 @@ export const useDomicilio = (inputRef: any) => {
     );
   }, []);
 
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
-
   const {
     handleSubmit,
     values,
@@ -112,7 +106,7 @@ export const useDomicilio = (inputRef: any) => {
     onSubmit: async (values) => {
       handleDisableButtons(true);
       if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
-        console.log('here?', stateContrato)
+        console.log("here?", stateContrato);
         updateMutation.mutate({
           id: stateContrato.id!,
           //perfil
