@@ -18,17 +18,17 @@ import { useColaboradorData } from "../hooks/useColaboradorData";
 interface props {
   id: number;
   deleteColaborador: (id: number) => void;
-  index: number;
   isValidForm: (id: number, valid: boolean) => void;
   validateColaboradores: number;
+  total: number
 }
 
 export const ColaboradorData = ({
   id,
   deleteColaborador,
-  index,
   isValidForm,
   validateColaboradores,
+  total
 }: props) => {
   const {
     values,
@@ -138,23 +138,23 @@ export const ColaboradorData = ({
               </LocalizationProvider>
             </Grid>
             <Grid size={3} />
-            {index > 0 && (
-              <Grid size={1}>
-                <Tooltip title="Eliminar Colaborador">
-                  <IconButton
-                    sx={{ color: "red" }}
-                    onClick={() => deleteColaborador(id)}
-                  >
-                    <DeleteIcon
-                      style={{
-                        height: "36px",
-                        width: "36px",
-                      }}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            )}
+
+            <Grid size={1}>
+              <Tooltip title="Eliminar Colaborador">
+                <IconButton
+                  sx={{ color: "red" }}
+                  onClick={() => deleteColaborador(id)}
+                  disabled={total === 1}
+                >
+                  <DeleteIcon
+                    style={{
+                      height: "36px",
+                      width: "36px",
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
         </Paper>
       </div>

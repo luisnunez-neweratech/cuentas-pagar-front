@@ -31,7 +31,7 @@ export const CuentasBancarias = ({
 
   return (
     <>
-      {(stepCuentaBancaria ?? []).map((item, index) => (
+      {(stepCuentaBancaria ?? []).map((item) => (
         <CuentasBancariasData
           key={item.id}
           id={item.id}
@@ -40,9 +40,9 @@ export const CuentasBancarias = ({
           isValidForm={isValidForm}
           monedas={monedas ?? []}
           plazoPagos={plazoPagos ?? []}
-          index={index}
-          downloadUrl={item.downloadUrl}  
-          validateCuentas={validateCuentas}        
+          downloadUrl={item.downloadUrl}
+          validateCuentas={validateCuentas}
+          total={stepCuentaBancaria?.length!}
         />
       ))}
 

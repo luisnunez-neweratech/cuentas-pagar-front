@@ -29,9 +29,9 @@ interface props {
   isValidForm: (id: number, valid: boolean) => void;
   monedas: MonedaVenta[];
   plazoPagos: PlazoPago[];
-  index: number;
   downloadUrl?: string | null;
   validateCuentas: number;
+  total: number;
 }
 
 export const CuentasBancariasData = ({
@@ -41,9 +41,9 @@ export const CuentasBancariasData = ({
   isValidForm,
   monedas,
   plazoPagos,
-  index,
   downloadUrl,
   validateCuentas,
+  total,
 }: props) => {
   const {
     values,
@@ -104,7 +104,7 @@ export const CuentasBancariasData = ({
               <FormGroup sx={{ marginTop: 3 }}>
                 <FormControlLabel
                   control={
-                    <Switch                      
+                    <Switch
                       checked={values.status}
                       value={values.status}
                       onChange={() => setFieldValue("status", !values.status)}
@@ -237,23 +237,23 @@ export const CuentasBancariasData = ({
               )}
             </Grid>
             <Grid size={1} />
-            {index > 0 && (
-              <Grid size={1}>
-                <Tooltip title="Eliminar Cuenta">
-                  <IconButton
-                    sx={{ color: "red" }}
-                    onClick={() => deleteCuenta(id)}
-                  >
-                    <DeleteIcon
-                      style={{
-                        height: "36px",
-                        width: "36px",
-                      }}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            )}
+
+            <Grid size={1}>
+              <Tooltip title="Eliminar Cuenta">
+                <IconButton
+                  sx={{ color: "red" }}
+                  onClick={() => deleteCuenta(id)}
+                  disabled={total === 1}
+                >
+                  <DeleteIcon
+                    style={{
+                      height: "36px",
+                      width: "36px",
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
         </Paper>
       </div>

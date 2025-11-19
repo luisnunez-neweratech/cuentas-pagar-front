@@ -24,14 +24,14 @@ export const ColaboradorMoral = ({ validateColaboradores }: myProps) => {
 
   return (
     <>
-      {(stepContrato?.colaboradores ?? []).map((item, index) => (
+      {(stepContrato?.colaboradores ?? []).map((item) => (
         <ColaboradorData
-          key={item.id}
+          key={`${item.id}${Date()}`}
           id={item.id}
           deleteColaborador={deleteColaborador}
           isValidForm={isValidForm}
-          validateColaboradores={validateColaboradores}
-          index={index}
+          validateColaboradores={validateColaboradores}          
+          total={stepContrato?.colaboradores?.length!}
         />
       ))}
       <Grid size={11} />

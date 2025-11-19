@@ -335,7 +335,7 @@ export const useContrato = () => {
           };
           setStepContrato(newStepContrato);
           if (getValidScreen()) {
-            if (clickedBy === 1 || (clickedBy === 0 && idParams)) {
+            if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
               // moral sin colaboradores
               createMutation.mutate({
                 postContratoPayload: {
@@ -395,7 +395,7 @@ export const useContrato = () => {
               }
             } else {
               //clicked next?
-              console.log("hhe?");
+              handleNext();
             }
           }
         } else {
