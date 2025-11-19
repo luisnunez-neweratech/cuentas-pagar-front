@@ -21,14 +21,14 @@ export const Contactos = ({ validateContactos }: ContactosProps) => {
 
   return (
     <>
-      {(stepContacto ?? []).map((item, index) => (
+      {(stepContacto ?? []).map((item) => (
         <ContactosData
           key={item.id}
           id={item.id}
           deleteContacto={deleteContacto}
           isValidForm={isValidForm}
-          index={index}
           validateContactos={validateContactos}
+          total={stepContacto?.length!}
         />
       ))}
       <Grid size={11} />

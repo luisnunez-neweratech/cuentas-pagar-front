@@ -18,16 +18,16 @@ interface props {
   id: number;
   deleteContacto: (id: number) => void;
   isValidForm: (id: number, valid: boolean) => void;
-  index: number;
   validateContactos: number;
+  total: number;
 }
 
 export const ContactosData = ({
   id,
   deleteContacto,
   isValidForm,
-  index,
   validateContactos,
+  total,
 }: props) => {
   const { values, handleChange, handleBlur, touched, errors } =
     useContactosData({ id, isValidForm, validateContactos });
@@ -132,23 +132,23 @@ export const ContactosData = ({
             </Grid>
 
             <Grid size={1} />
-            {index > 0 && (
-              <Grid size={1}>
-                <Tooltip title="Eliminar Cuenta">
-                  <IconButton
-                    sx={{ color: "red" }}
-                    onClick={() => deleteContacto(id)}
-                  >
-                    <DeleteIcon
-                      style={{
-                        height: "36px",
-                        width: "36px",
-                      }}
-                    />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            )}
+
+            <Grid size={1}>
+              <Tooltip title="Eliminar Cuenta">
+                <IconButton
+                  sx={{ color: "red" }}
+                  onClick={() => deleteContacto(id)}
+                  disabled={total === 1}
+                >
+                  <DeleteIcon
+                    style={{
+                      height: "36px",
+                      width: "36px",
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Grid>
           </Grid>
         </Paper>
       </div>
