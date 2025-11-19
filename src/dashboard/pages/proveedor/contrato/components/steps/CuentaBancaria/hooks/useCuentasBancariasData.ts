@@ -90,7 +90,7 @@ export const useCuentasBancariasData = ({
 
   useEffect(() => {
     validateCuentaElement();
-  }, [values.status]);
+  }, [values]);
 
   const validateCuentaElement = async () => {
     console.log("entra al validate?");
@@ -117,6 +117,7 @@ export const useCuentasBancariasData = ({
               : undefined,
         });
       } else {
+        console.log('errores', errors)
         isValidForm(id, false);
       }
     });

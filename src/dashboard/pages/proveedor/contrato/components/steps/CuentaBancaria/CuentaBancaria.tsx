@@ -1,10 +1,10 @@
 import { Box, Button, Grid } from "@mui/material";
-import { usecuentaBancaria } from "./hooks/usecuentaBancaria";
+import { useCuentaBancaria } from "./hooks/usecuentaBancaria";
 import { CuentasBancarias } from "./components/CuentasBancarias";
 
 export const CuentaBancaria = () => {
   const { handleBack, onClickNext, disableButtons, validateCuentas, id } =
-    usecuentaBancaria();
+    useCuentaBancaria();
 
   return (
     <Grid container sx={{ marginTop: 4 }} spacing={2}>
@@ -21,7 +21,12 @@ export const CuentaBancaria = () => {
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
           {id && (
-            <Button variant="outlined" sx={{ mr: 1 }}>
+            <Button
+              onClick={() => onClickNext(1)}
+              variant="outlined"
+              sx={{ mr: 1 }}
+              disabled={disableButtons}
+            >
               Modificar
             </Button>
           )}
@@ -29,7 +34,7 @@ export const CuentaBancaria = () => {
           <Button
             variant="outlined"
             disabled={disableButtons}
-            onClick={onClickNext}
+            onClick={() => onClickNext(0)}
           >
             Siguiente
           </Button>

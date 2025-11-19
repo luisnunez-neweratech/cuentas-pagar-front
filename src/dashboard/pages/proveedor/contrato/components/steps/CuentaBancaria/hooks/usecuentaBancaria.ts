@@ -10,9 +10,9 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { useState } from "react";
-import { useParams } from 'react-router';
+import { useParams } from "react-router";
 
-export const usecuentaBancaria = () => {
+export const useCuentaBancaria = () => {
   const { id: idParams } = useParams();
   const [validateCuentas, doValidateCuentas] = useState<number>(0);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
@@ -73,11 +73,13 @@ export const usecuentaBancaria = () => {
 
   const updateMutation = useMutation({
     mutationFn: updateProveedorCuenta,
-    onSuccess: (data, variables) => {
-      createCaratulaMutation.mutate({
-        id: data.id,
-        caratulaFile: variables.caratulaFile,
-      });
+    onSuccess: (_data, variables) => {
+      if (variables.id && variables.caratulaFile) {
+        createCaratulaMutation.mutate({
+          id: variables.id,
+          caratulaFile: variables.caratulaFile,
+        });
+      }
     },
     onError: (error) => {
       console.log(error);
@@ -93,40 +95,43 @@ export const usecuentaBancaria = () => {
     },
   });
 
-  const onClickNext = () => {
+  const onClickNext = (clicked: number) => {
     doValidateCuentas(validateCuentas + 1);
     if (getCuentasValidos()) {
-      getStepCuentaBancaria()?.map((cuenta) => {
-        if (cuenta.newElement) {
-          createMutation.mutate({
-            postCuentaPayload: {
-              accountType: stateProveedor.stepPerfil?.tipoEntidad!,
-              bankName: cuenta.banco,
-              saleCurrencyId: +cuenta.monedaVenta,
-              clabe: cuenta.clabe.toString(),
-              swiftCode: cuenta.swift ?? "",
-              paymentTermsId: +cuenta.condicionesPago,
-            },
-            supplierId: stateProveedor.id!.toString(),
-            caratulaFile: cuenta.fileValue,
-          });
-        } else {
-          updateMutation.mutate({
-            putCuentaPayload: {
-              accountType: stateProveedor.stepPerfil?.tipoEntidad!,
-              bankName: cuenta.banco,
-              saleCurrencyId: +cuenta.monedaVenta,
-              clabe: cuenta.clabe.toString(),
-              swiftCode: cuenta.swift ?? "",
-              paymentTermsId: +cuenta.condicionesPago,
-              isActive: cuenta.status,
-            },
-            id: cuenta.id.toString(),
-            caratulaFile: cuenta.fileValue,
-          });
-        }
-      });
-      toast.success("Cuenta bancaria guardada correctamente");
+      if (clicked === 1 || (clicked === 0 && !idParams)) {
+        getStepCuentaBancaria()?.map((cuenta) => {
+          console.log('cuenta', cuenta)
+          if (cuenta.newElement) {
+            createMutation.mutate({
+              postCuentaPayload: {
+                accountType: stateProveedor.stepPerfil?.tipoEntidad!,
+                bankName: cuenta.banco,
+                saleCurrencyId: +cuenta.monedaVenta,
+                clabe: cuenta.clabe.toString(),
+                swiftCode: cuenta.swift ?? "",
+                paymentTermsId: +cuenta.condicionesPago,
+              },
+              supplierId: stateProveedor.id!.toString(),
+              caratulaFile: cuenta.fileValue,
+            });
+          } else {
+            updateMutation.mutate({
+              putCuentaPayload: {
+                accountType: stateProveedor.stepPerfil?.tipoEntidad!,
+                bankName: cuenta.banco,
+                saleCurrencyId: +cuenta.monedaVenta,
+                clabe: cuenta.clabe.toString(),
+                swiftCode: cuenta.swift ?? "",
+                paymentTermsId: +cuenta.condicionesPago,
+                isActive: cuenta.status,
+              },
+              id: cuenta.id.toString(),
+              caratulaFile: cuenta.fileValue,
+            });
+          }
+        });
+        toast.success("Cuenta bancaria guardada correctamente");
+      }
       handleNext();
     }
   };
@@ -136,6 +141,6 @@ export const usecuentaBancaria = () => {
     onClickNext,
     disableButtons,
     validateCuentas,
-    id: idParams
+    id: idParams,
   };
 };

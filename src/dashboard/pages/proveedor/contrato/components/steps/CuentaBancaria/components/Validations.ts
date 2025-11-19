@@ -21,8 +21,10 @@ export const validationSchema = (
         .required("Condiciones de Pago es requerido"),
       swift: yup
         .string()
+        .notRequired()
         .min(8, "Mínimo 8 dígitos")
         .max(11, "Máximo 11 dígitos"),
+        
     });
   }
 
