@@ -27,22 +27,18 @@ export const ArchivoCard = ({ contrato, validateDocuments }: props) => {
               addToContrato={!contrato}
             />
 
-            {contrato && (
-              <>
-                <Grid size={12}>
-                  <Divider />
-                </Grid>
-                <ArchivoElement
-                  title="Anexo"
-                  indeterminado={false}
-                  multiple={true}
-                  idInput="fileAnexo"
-                  tipoDocumento={TipoDocumento.anexo}
-                  optional={true}
-                  validateDocuments={validateDocuments}
-                />
-              </>
-            )}
+            <Grid size={12}>
+              <Divider />
+            </Grid>
+            <ArchivoElement
+              title="Anexo"
+              indeterminado={false}
+              multiple={true}
+              idInput="fileAnexo"
+              tipoDocumento={TipoDocumento.anexo}
+              optional={true}
+              validateDocuments={validateDocuments}
+            />
           </Grid>
         </CardContent>
       </Card>
