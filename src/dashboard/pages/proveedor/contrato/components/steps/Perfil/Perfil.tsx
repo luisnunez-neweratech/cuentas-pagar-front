@@ -25,6 +25,7 @@ export const Perfil = () => {
     onChangeAutocomplete,
     disableButtons,
     id,
+    setClickedBy,
   } = usePerfil();
 
   return (
@@ -176,13 +177,24 @@ export const Perfil = () => {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
             {id && (
-              <Button variant="outlined" sx={{ mr: 1 }}>
+              <Button                
+                variant="outlined"
+                type="submit"
+                sx={{ mr: 1 }}
+                disabled={disableButtons}
+                onClick={() => setClickedBy(1)}
+              >
                 Modificar
               </Button>
             )}
 
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button type="submit" variant="outlined" disabled={disableButtons}>
+            <Button
+              type="submit"
+              variant="outlined"
+              disabled={disableButtons}
+              onClick={() => setClickedBy(0)}
+            >
               Siguiente
             </Button>
           </Box>

@@ -54,6 +54,7 @@ export const usePerfil = () => {
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const [disableButtons, setDisableButtons] = useState(false);
+  const [clickedBy, setClickedBy] = useState<number>(0);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -184,10 +185,6 @@ export const usePerfil = () => {
       if (proveedorPerfil.tipoProveedor === TipoProveedor.Ocasional.value) {
         navigate(`/proveedor/${id}`);
       }
-
-      /* const giroPrincipal = proveedorPerfil.giroPrincipal
-        ? giros?.find((giro) => giro.id === proveedorPerfil.giroPrincipal)
-        : null; */
 
       const productos = giros?.filter((obj) =>
         proveedorPerfil.productos.includes(obj.id)
@@ -439,32 +436,39 @@ export const usePerfil = () => {
         }
         setStepCuentaBancaria(cuentasData);
 
-        updateMutation.mutate({
-          id: proveedorPerfil.id,
-          supplierTypeId: TipoProveedor.Contrato.value,
-          originId: +values.tipoEntidad,
-          legalPersonTypeId: +values.tipoPersona,
-          legalName: values.razonSocial.trim(),
-          tradeName: values.alias.trim(),
-          rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
-          email: values?.email ? values.email.trim() : "",
-          supplierActivity: values.giroPrincipal
-            ? values.giroPrincipal.trim()
-            : "",
-          productServiceIds:
-            values.productos?.map((producto: any) => producto.id) ?? [],
+        //click en modificar
+        if (clickedBy === 1) {
+          updateMutation.mutate({
+            id: proveedorPerfil.id,
+            supplierTypeId: TipoProveedor.Contrato.value,
+            originId: +values.tipoEntidad,
+            legalPersonTypeId: +values.tipoPersona,
+            legalName: values.razonSocial.trim(),
+            tradeName: values.alias.trim(),
+            rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
+            email: values?.email ? values.email.trim() : "",
+            supplierActivity: values.giroPrincipal
+              ? values.giroPrincipal.trim()
+              : "",
+            productServiceIds:
+              values.productos?.map((producto: any) => producto.id) ?? [],
 
-          // si tiene domicilio actulizarlo
-          country: proveedorPerfil.pais ?? "",
-          postalCode: proveedorPerfil.codigoPostal ?? "",
-          state: proveedorPerfil.estado ?? "",
-          municipality: proveedorPerfil.municipio ?? "",
-          city: proveedorPerfil.ciudad ?? "",
-          neighborhood: proveedorPerfil.colonia ?? "",
-          street: proveedorPerfil.calle ?? "",
-          interiorNumber: proveedorPerfil.numInterior,
-          exteriorNumber: proveedorPerfil.numExterior,
-        });
+            // si tiene domicilio actulizarlo
+            country: proveedorPerfil.pais ?? "",
+            postalCode: proveedorPerfil.codigoPostal ?? "",
+            state: proveedorPerfil.estado ?? "",
+            municipality: proveedorPerfil.municipio ?? "",
+            city: proveedorPerfil.ciudad ?? "",
+            neighborhood: proveedorPerfil.colonia ?? "",
+            street: proveedorPerfil.calle ?? "",
+            interiorNumber: proveedorPerfil.numInterior,
+            exteriorNumber: proveedorPerfil.numExterior,
+          });
+        } else {
+          //click en siguiente
+          handleDisableButtons(false);
+          handleNext();
+        }
       } else {
         createMutation.mutate({
           supplierTypeId: TipoProveedor.Contrato.value,
@@ -512,5 +516,6 @@ export const usePerfil = () => {
     onChangeAutocomplete,
     disableButtons,
     id,
+    setClickedBy,
   };
 };
