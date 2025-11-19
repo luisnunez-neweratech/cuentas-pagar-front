@@ -17,7 +17,7 @@ import {
   //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
 import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
-import { useParams } from 'react-router';
+import { useParams } from "react-router";
 
 export const useContrato = () => {
   const { id: idParams } = useParams();
@@ -53,6 +53,7 @@ export const useContrato = () => {
   const [validateDocuments, doValidateDocuments] = useState<number>(0);
   const [disableButtons, setDisableButtons] = useState(false);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const [clickedBy, setClickedBy] = useState<number>(0);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -203,8 +204,8 @@ export const useContrato = () => {
           documentos: prevStepContrato?.documentos!,
         };
         setStepContrato(stepContrato);
+
         if (getValidScreen()) {
-          console.log("stepContrato", stepContrato);
           if (!stepContrato.documentos.principal.id) {
             // crear documento principal
             createMutation.mutate({
@@ -225,8 +226,10 @@ export const useContrato = () => {
               supplierId: stateContrato.id?.toString()!,
             });
           } else {
-            console.log("h1");
-            // actualizar documento principal con post
+            // click en modificar
+            if (clickedBy === 1) {
+              // actualizar documento principal con post
+            }
           }
 
           //agregar documento csf
@@ -239,8 +242,10 @@ export const useContrato = () => {
               supplierId: stateContrato.id?.toString()!,
             });
           } else {
-            // actualizar con post
-            console.log("h2");
+            // click en modificar
+            if (clickedBy === 1) {
+              // actualizar con post
+            }
           }
 
           //agregar documento IdRepLegal
@@ -253,8 +258,10 @@ export const useContrato = () => {
               supplierId: stateContrato.id?.toString()!,
             });
           } else {
-            // actualizar con post
-            console.log("h3");
+            // click en modificar
+            if (clickedBy === 1) {
+              // actualizar con post
+            }
           }
 
           if (!stepContrato?.documentos.compDomicilio.id) {
@@ -267,8 +274,10 @@ export const useContrato = () => {
               supplierId: stateContrato.id?.toString()!,
             });
           } else {
-            // actualizar con post
-            console.log("h4");
+            // click en modificar
+            if (clickedBy === 1) {
+              // actualizar con post
+            }
           }
 
           //agregar documento PoderRep
@@ -287,12 +296,16 @@ export const useContrato = () => {
             stepContrato?.documentos.poderRepLegal.fileValue &&
             stepContrato?.documentos.poderRepLegal.id
           ) {
-            // actualizar con post
-            //TODO despues de validar todos ir la siguiente paso
-            toNextStep();
+            if (clickedBy === 1) {
+              // actualizar con post
+              //TODO despues de validar todos ir la siguiente paso
+              toNextStep();
+            } else {
+              //TODO despues de validar todos ir la siguiente paso
+              toNextStep();
+            }
           } else {
-            //TODO despues de validar todos ir la siguiente paso
-            toNextStep();
+            handleNext();
           }
         }
       } else {
@@ -320,77 +333,8 @@ export const useContrato = () => {
           };
           setStepContrato(newStepContrato);
           if (getValidScreen()) {
-            // moral sin colaboradores
-            createMutation.mutate({
-              postContratoPayload: {
-                startDate: new Date(
-                  newStepContrato.documentos.principal.fechaInicio
-                ),
-                endDate: newStepContrato.documentos.principal.fechaFin
-                  ? new Date(newStepContrato.documentos.principal.fechaFin)
-                  : null,
-                indefiniteEnd:
-                  newStepContrato.documentos.principal.indeterminado,
-                isNEContractor: newStepContrato?.noColaborador?.length
-                  ? true
-                  : false,
-                nePersonType: TipoPersona.Moral.label,
-                neCollaboratorNumber: newStepContrato?.noColaborador ?? null,
-              },
-              supplierId: stateContrato.id?.toString()!,
-            });
-
-            //agregar documento csf
-            createDocumentoMutation.mutate({
-              postDocumentoProveedor: {
-                documentType: TipoDocumentoProveedor.CSF,
-                file: stepContrato?.documentos.csf.fileValue!,
-              },
-              supplierId: stateContrato.id?.toString()!,
-            });
-
-            //agregar documento IdRepLegal
-            createDocumentoMutation.mutate({
-              postDocumentoProveedor: {
-                documentType: TipoDocumentoProveedor.IdRepLegal,
-                file: stepContrato?.documentos.idRepLegal.fileValue!,
-              },
-              supplierId: stateContrato.id?.toString()!,
-            });
-
-            //agregar documento CompDom
-            createDocumentoMutation.mutate({
-              postDocumentoProveedor: {
-                documentType: TipoDocumentoProveedor.CompDom,
-                file: stepContrato?.documentos.compDomicilio.fileValue!,
-              },
-              supplierId: stateContrato.id?.toString()!,
-            });
-
-            //agregar documento PoderRep
-            if (stepContrato?.documentos.poderRepLegal.fileValue) {
-              createDocumentoMutation.mutate({
-                postDocumentoProveedor: {
-                  documentType: TipoDocumentoProveedor.PoderRep,
-                  file: stepContrato?.documentos.poderRepLegal.fileValue!,
-                },
-                supplierId: stateContrato.id?.toString()!,
-              });
-            }
-          }
-        } else {
-          if (getColaboradoresValidos()) {
-            const prevStepContrato = getStepContrato();
-            const newStepContrato: StepContrato = {
-              ...prevStepContrato,
-              noColaborador: "",
-              contractor: checkContractor,
-              colaboradores: stepContrato?.colaboradores,
-              documentos: prevStepContrato?.documentos!,
-            };
-            setStepContrato(newStepContrato);
-            if (getValidScreen()) {
-              // moral con colaboradores
+            if (clickedBy === 1 || (clickedBy === 0 && idParams)) {
+              // moral sin colaboradores
               createMutation.mutate({
                 postContratoPayload: {
                   startDate: new Date(
@@ -401,7 +345,9 @@ export const useContrato = () => {
                     : null,
                   indefiniteEnd:
                     newStepContrato.documentos.principal.indeterminado,
-                  isNEContractor: checkContractor, // TODO revisar con helio este dato
+                  isNEContractor: newStepContrato?.noColaborador?.length
+                    ? true
+                    : false,
                   nePersonType: TipoPersona.Moral.label,
                   neCollaboratorNumber: newStepContrato?.noColaborador ?? null,
                 },
@@ -445,6 +391,81 @@ export const useContrato = () => {
                   supplierId: stateContrato.id?.toString()!,
                 });
               }
+            } else {
+              //clicked next?
+              console.log("hhe?");
+            }
+          }
+        } else {
+          if (getColaboradoresValidos()) {
+            const prevStepContrato = getStepContrato();
+            const newStepContrato: StepContrato = {
+              ...prevStepContrato,
+              noColaborador: "",
+              contractor: checkContractor,
+              colaboradores: stepContrato?.colaboradores,
+              documentos: prevStepContrato?.documentos!,
+            };
+            setStepContrato(newStepContrato);
+            if (getValidScreen()) {
+              if (clickedBy === 1 || (clickedBy === 0 && idParams)) {
+                // moral con colaboradores
+                createMutation.mutate({
+                  postContratoPayload: {
+                    startDate: new Date(
+                      newStepContrato.documentos.principal.fechaInicio
+                    ),
+                    endDate: newStepContrato.documentos.principal.fechaFin
+                      ? new Date(newStepContrato.documentos.principal.fechaFin)
+                      : null,
+                    indefiniteEnd:
+                      newStepContrato.documentos.principal.indeterminado,
+                    isNEContractor: checkContractor, // TODO revisar con helio este dato
+                    nePersonType: TipoPersona.Moral.label,
+                    neCollaboratorNumber:
+                      newStepContrato?.noColaborador ?? null,
+                  },
+                  supplierId: stateContrato.id?.toString()!,
+                });
+
+                //agregar documento csf
+                createDocumentoMutation.mutate({
+                  postDocumentoProveedor: {
+                    documentType: TipoDocumentoProveedor.CSF,
+                    file: stepContrato?.documentos.csf.fileValue!,
+                  },
+                  supplierId: stateContrato.id?.toString()!,
+                });
+
+                //agregar documento IdRepLegal
+                createDocumentoMutation.mutate({
+                  postDocumentoProveedor: {
+                    documentType: TipoDocumentoProveedor.IdRepLegal,
+                    file: stepContrato?.documentos.idRepLegal.fileValue!,
+                  },
+                  supplierId: stateContrato.id?.toString()!,
+                });
+
+                //agregar documento CompDom
+                createDocumentoMutation.mutate({
+                  postDocumentoProveedor: {
+                    documentType: TipoDocumentoProveedor.CompDom,
+                    file: stepContrato?.documentos.compDomicilio.fileValue!,
+                  },
+                  supplierId: stateContrato.id?.toString()!,
+                });
+
+                //agregar documento PoderRep
+                if (stepContrato?.documentos.poderRepLegal.fileValue) {
+                  createDocumentoMutation.mutate({
+                    postDocumentoProveedor: {
+                      documentType: TipoDocumentoProveedor.PoderRep,
+                      file: stepContrato?.documentos.poderRepLegal.fileValue!,
+                    },
+                    supplierId: stateContrato.id?.toString()!,
+                  });
+                }
+              }
             }
           }
         }
@@ -482,6 +503,7 @@ export const useContrato = () => {
   };
 
   const onClickNext = () => {
+    setClickedBy(0);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -509,6 +531,7 @@ export const useContrato = () => {
     validateDocuments,
     onClickNext,
     disableButtons,
-    id: idParams
+    id: idParams,
+    setClickedBy,
   };
 };

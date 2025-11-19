@@ -30,7 +30,8 @@ export const Contrato = () => {
     validateDocuments,
     onClickNext,
     disableButtons,
-    id
+    id,
+    setClickedBy
   } = useContrato();
 
   return (
@@ -131,7 +132,8 @@ export const Contrato = () => {
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
              {id && (
-              <Button variant="outlined" sx={{ mr: 1 }}>
+              <Button variant="outlined" sx={{ mr: 1 }} type="submit" disabled={disableButtons}
+                onClick={() => setClickedBy(1)}>
                 Modificar
               </Button>
             )}
@@ -140,7 +142,7 @@ export const Contrato = () => {
               type="submit"
               onClick={onClickNext}
               disabled={disableButtons}
-              variant="outlined"
+              variant="outlined"              
             >
               Siguiente
             </Button>
