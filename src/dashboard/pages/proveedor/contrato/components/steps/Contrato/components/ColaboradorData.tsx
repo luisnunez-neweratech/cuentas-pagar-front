@@ -18,15 +18,17 @@ import { useColaboradorData } from "../hooks/useColaboradorData";
 interface props {
   id: number;
   deleteColaborador: (id: number) => void;
-  isValidForm: (id: number, valid: boolean) => void;
   index: number;
+  isValidForm: (id: number, valid: boolean) => void;
+  validateColaboradores: number;
 }
 
 export const ColaboradorData = ({
   id,
   deleteColaborador,
+  index,
   isValidForm,
-  index
+  validateColaboradores,
 }: props) => {
   const {
     values,
@@ -34,14 +36,13 @@ export const ColaboradorData = ({
     handleBlur,
     touched,
     errors,
-    onMouseLeaveComponent,
     setFieldValue,
     setFieldTouched,
-  } = useColaboradorData({ id, isValidForm });
+  } = useColaboradorData({ id, isValidForm, validateColaboradores });
 
   return (
     <Grid size={12}>
-      <div onMouseLeave={onMouseLeaveComponent}>
+      <div>
         <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
           <Grid container spacing={2}>
             <Grid size={4}>

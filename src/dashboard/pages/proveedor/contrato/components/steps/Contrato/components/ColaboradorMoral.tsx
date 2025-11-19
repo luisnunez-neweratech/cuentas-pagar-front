@@ -8,10 +8,11 @@ import { usecolaboradorMoral } from "../hooks/useColaboradorMoral";
 export const ColaboradorMoral = () => {
   const {
     clickAddColaborador,
-    deleteColaborador,
-    isValidForm,
+    deleteColaborador,    
     setColaboradoresValidos,
     stepContrato,
+    validateColaboradores,
+    isValidForm
   } = usecolaboradorMoral();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export const ColaboradorMoral = () => {
           id={item.id}
           deleteColaborador={deleteColaborador}
           isValidForm={isValidForm}
+          validateColaboradores={validateColaboradores}
           index={index}
         />
       ))}

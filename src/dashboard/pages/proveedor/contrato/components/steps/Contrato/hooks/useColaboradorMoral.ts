@@ -9,6 +9,7 @@ type Colaborador = { id: number; valido: boolean };
 
 export const usecolaboradorMoral = () => {
   const [items, setItems] = useState<Colaborador[]>([]);
+  const [validateColaboradores, doValidateColaboradores] = useState<number>(0);
   const setColaboradoresValidos = useColaboradorMoralStore(
     (state) => state.setColaboradoresValidos
   );
@@ -86,5 +87,6 @@ export const usecolaboradorMoral = () => {
     isValidForm,
     setColaboradoresValidos,
     stepContrato,
+    validateColaboradores
   };
 };

@@ -1,13 +1,23 @@
 import { useFormik } from "formik";
 import { validationMoralSchema } from "../components/ColaboratorValidation";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import { useEffect } from "react";
 
 interface props {
   id: number;
   isValidForm: (id: number, valid: boolean) => void;
+  validateColaboradores: number;
 }
 
-export const useColaboradorData = ({ id, isValidForm }: props) => {
+export const useColaboradorData = ({
+  id,
+  isValidForm,
+  validateColaboradores,
+}: props) => {
+  useEffect(() => {
+    validateColaboradorElement();
+  }, [validateColaboradores]);
+
   const getStepContrato = useProveedorContratoStore(
     (state) => state.getStepContrato
   );
@@ -47,13 +57,20 @@ export const useColaboradorData = ({ id, isValidForm }: props) => {
     },
   });
 
-  const onMouseLeaveComponent = async () => {
+  useEffect(() => {
+    validateColaboradorElement();
+  }, [errors]);
+
+  useEffect(() => {
+    validateColaboradorElement();
+  }, [values]);
+
+  const validateColaboradorElement = async () => {
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
       console.log("errros", errors);
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
-        console.log('values leave', values)
         updateColaborador(id, {
           id: id,
           valido: true,
@@ -75,7 +92,6 @@ export const useColaboradorData = ({ id, isValidForm }: props) => {
     handleBlur,
     touched,
     errors,
-    onMouseLeaveComponent,
     setFieldValue,
     setFieldTouched,
   };

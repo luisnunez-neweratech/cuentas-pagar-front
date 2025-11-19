@@ -37,6 +37,7 @@ export const usePerfil = () => {
   const getStepPerfil = useProveedorContratoStore(
     (state) => state.getStepPerfil
   );
+
   const proveedorContratoState = useProveedorContratoStore((state) => state);
   const setStepDomicilio = useProveedorContratoStore(
     (state) => state.setStepDomicilio
@@ -61,7 +62,7 @@ export const usePerfil = () => {
     setIsLoading(state);
   };
 
-  const toNextStep = (proveedorId: number) => {
+  const toNextStep = (proveedorId: number, stay?: boolean) => {
     toast.success("Información Actualizada");
     const pasoPerfil: StepPerfil = {
       tipoProveedor: TipoProveedor.Contrato.value,
@@ -76,7 +77,9 @@ export const usePerfil = () => {
     };
     setStepPerfil(pasoPerfil);
     setProveedorId(proveedorId);
-    handleNext();
+    if (!stay) {
+      handleNext();
+    }
   };
 
   const createMutation = useMutation({
@@ -101,7 +104,7 @@ export const usePerfil = () => {
   const updateMutation = useMutation({
     mutationFn: updateProveedorContratoPerfil,
     onSuccess: () => {
-      toNextStep(proveedorContratoState.id!);
+      toNextStep(proveedorContratoState.id!, true);
     },
     onError: (error) => {
       console.log(error);
@@ -197,7 +200,7 @@ export const usePerfil = () => {
         razonSocial: proveedorPerfil.razonSocial,
         alias: proveedorPerfil.alias ?? "",
         email: proveedorPerfil.email,
-        giroPrincipal: proveedorPerfil?.giroPrincipal,
+        giroPrincipal: proveedorPerfil?.giroPrincipal ?? "",
         productos: productos,
       };
     }
