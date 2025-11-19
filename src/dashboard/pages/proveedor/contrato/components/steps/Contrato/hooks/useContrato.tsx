@@ -54,6 +54,7 @@ export const useContrato = () => {
   const [disableButtons, setDisableButtons] = useState(false);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const [clickedBy, setClickedBy] = useState<number>(0);
+  const [validateColaboradores, doValidateColaboradores] = useState<number>(0);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -193,6 +194,7 @@ export const useContrato = () => {
         : null,
     onSubmit: async (values) => {
       //validate files
+      doValidateColaboradores(validateColaboradores + 1);
       doValidateDocuments(validateDocuments + 1);
       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
         //type fisico
@@ -408,7 +410,7 @@ export const useContrato = () => {
             };
             setStepContrato(newStepContrato);
             if (getValidScreen()) {
-              if (clickedBy === 1 || (clickedBy === 0 && idParams)) {
+              if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
                 // moral con colaboradores
                 createMutation.mutate({
                   postContratoPayload: {
@@ -465,6 +467,8 @@ export const useContrato = () => {
                     supplierId: stateContrato.id?.toString()!,
                   });
                 }
+              } else {
+                handleNext();
               }
             }
           }
@@ -533,5 +537,6 @@ export const useContrato = () => {
     disableButtons,
     id: idParams,
     setClickedBy,
+    validateColaboradores,
   };
 };

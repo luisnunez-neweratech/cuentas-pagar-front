@@ -9,7 +9,6 @@ type Colaborador = { id: number; valido: boolean };
 
 export const usecolaboradorMoral = () => {
   const [items, setItems] = useState<Colaborador[]>([]);
-  const [validateColaboradores, doValidateColaboradores] = useState<number>(0);
   const setColaboradoresValidos = useColaboradorMoralStore(
     (state) => state.setColaboradoresValidos
   );
@@ -55,8 +54,7 @@ export const usecolaboradorMoral = () => {
     deleteMutation.mutate(id.toString());
   };
 
-  const isValidForm = (id: number, valid: boolean) => {
-    console.log("se disparo", id, valid);
+  const isValidForm = (id: number, valid: boolean) => {    
     setItems(
       items.map((item) => {
         if (item.id === id) {
@@ -86,7 +84,6 @@ export const usecolaboradorMoral = () => {
     deleteColaborador,
     isValidForm,
     setColaboradoresValidos,
-    stepContrato,
-    validateColaboradores
+    stepContrato,    
   };
 };

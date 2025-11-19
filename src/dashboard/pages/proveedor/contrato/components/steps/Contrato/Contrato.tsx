@@ -31,7 +31,8 @@ export const Contrato = () => {
     onClickNext,
     disableButtons,
     id,
-    setClickedBy
+    setClickedBy,
+    validateColaboradores
   } = useContrato();
 
   return (
@@ -75,7 +76,7 @@ export const Contrato = () => {
           )}
         {checkContractor &&
           getStepPerfil()?.tipoPersona !== TipoPersona.Fisica.value && (
-            <ColaboradorMoral />
+            <ColaboradorMoral validateColaboradores={validateColaboradores} />
           )}
         {!checkContractor && <Grid size={10} />}
         <Grid size={12} sx={{ marginTop: 1 }}>

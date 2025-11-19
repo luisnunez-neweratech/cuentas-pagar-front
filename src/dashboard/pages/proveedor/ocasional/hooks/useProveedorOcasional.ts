@@ -110,8 +110,8 @@ export const useProveedorOcasional = () => {
         alias: values.alias,
         email: values.email,
         productos: values.productos,
-      });
-      navigate(`/proveedor/contrato/${id}`);
+      });      
+      navigate(`/proveedor/nuevo-contrato`);
     },
     onError: (error) => {
       console.log(error);

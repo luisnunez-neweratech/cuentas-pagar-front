@@ -5,14 +5,17 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { ColaboradorData } from "./ColaboradorData";
 import { usecolaboradorMoral } from "../hooks/useColaboradorMoral";
 
-export const ColaboradorMoral = () => {
+interface myProps {
+  validateColaboradores: number;
+}
+
+export const ColaboradorMoral = ({ validateColaboradores }: myProps) => {
   const {
     clickAddColaborador,
-    deleteColaborador,    
+    deleteColaborador,
     setColaboradoresValidos,
     stepContrato,
-    validateColaboradores,
-    isValidForm
+    isValidForm,
   } = usecolaboradorMoral();
 
   useEffect(() => {

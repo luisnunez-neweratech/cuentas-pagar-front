@@ -68,7 +68,7 @@ export const useColaboradorData = ({
   const validateColaboradorElement = async () => {
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
-      console.log("errros", errors);
+      console.log("errros colaboradores?", errors);
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
         updateColaborador(id, {
