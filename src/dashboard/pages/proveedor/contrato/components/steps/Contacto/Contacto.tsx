@@ -15,13 +15,17 @@ export const Contacto = () => {
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
           {id && (
-            <Button variant="outlined" sx={{ mr: 1 }}>
+            <Button
+              variant="outlined"
+              sx={{ mr: 1 }}
+              onClick={() => guardarProovedor(1)}
+            >
               Modificar
             </Button>
           )}
           <Box sx={{ flex: "1 1 auto" }} />
-          <Button variant="outlined" onClick={guardarProovedor}>
-            Guardar Proveedor
+          <Button variant="outlined" onClick={() => guardarProovedor(0)}>
+            {id ? "Salir" : "Guardar Proveedor"}
           </Button>
         </Box>
       </Grid>

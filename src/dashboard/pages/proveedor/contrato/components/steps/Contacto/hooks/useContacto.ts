@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from "react-router";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
@@ -61,37 +61,37 @@ export const useContacto = () => {
     },
   });
 
-  const guardarProovedor = () => {
+  const guardarProovedor = (clickedBy: number) => {
     doValidateContactos(validateContactos + 1);
     if (getContactosValidos()) {
-      stateProveedor.stepContacto?.map((contacto) => {
-        console.log("contacto", contacto);
-        if (contacto.newElement) {
-          createMutation.mutate({
-            id: 0, // en create id 0
-            supplierId: stateProveedor.id!,
-            contactType: contacto.tipoContacto,
-            name: contacto.contacto,
-            phone: contacto.telefono,
-            email: contacto.email,
-            website: contacto.paginaWeb,
-            isActive: true,
-          });
-        } else {
-          updateMutation.mutate({
-            id: contacto.id,
-            supplierId: stateProveedor.id!,
-            contactType: contacto.tipoContacto,
-            name: contacto.contacto,
-            phone: contacto.telefono,
-            email: contacto.email,
-            website: contacto.paginaWeb,
-            isActive: true,
-          });
-        }
-      });
-
-      toast.success("Proveedor guardado correctamente");
+      if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
+        stateProveedor.stepContacto?.map((contacto) => {
+          if (contacto.newElement) {
+            createMutation.mutate({
+              id: 0, // en create id 0
+              supplierId: stateProveedor.id!,
+              contactType: contacto.tipoContacto,
+              name: contacto.contacto,
+              phone: contacto.telefono,
+              email: contacto.email,
+              website: contacto.paginaWeb,
+              isActive: true,
+            });
+          } else {
+            updateMutation.mutate({
+              id: contacto.id,
+              supplierId: stateProveedor.id!,
+              contactType: contacto.tipoContacto,
+              name: contacto.contacto,
+              phone: contacto.telefono,
+              email: contacto.email,
+              website: contacto.paginaWeb,
+              isActive: true,
+            });
+          }
+        });
+        toast.success("Proveedor guardado correctamente");
+      }
       navigate("/proveedor");
     }
   };
@@ -101,6 +101,6 @@ export const useContacto = () => {
     guardarProovedor,
     disableButtons,
     validateContactos,
-    id: idParams
+    id: idParams,
   };
 };
