@@ -23,7 +23,8 @@ export const Domicilio = () => {
     optionPais,
     setOptionPais,
     disableButtons,
-    id
+    id,
+    setClickedBy,
   } = useDomicilio(inputRef);
 
   return (
@@ -206,13 +207,24 @@ export const Domicilio = () => {
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {id && (
-              <Button variant="outlined" sx={{ mr: 1 }}>
+              <Button
+                variant="outlined"
+                type="submit"
+                disabled={disableButtons}
+                onClick={() => setClickedBy(1)}
+                sx={{ mr: 1 }}
+              >
                 Modificar
               </Button>
             )}
             <Box sx={{ flex: "1 1 auto" }} />
 
-            <Button variant="outlined" type="submit" disabled={disableButtons}>
+            <Button
+              variant="outlined"
+              type="submit"
+              disabled={disableButtons}
+              onClick={() => setClickedBy(0)}
+            >
               Siguiente
             </Button>
           </Box>

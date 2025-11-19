@@ -28,6 +28,7 @@ export const useDomicilio = (inputRef: any) => {
   const [optionPais, setOptionPais] = useState<any>(null);
   const [disableButtons, setDisableButtons] = useState(false);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const [clickedBy, setClickedBy] = useState<number>(0);
 
   const toNextStep = () => {
     toast.success("Información Actualizada");
@@ -110,32 +111,50 @@ export const useDomicilio = (inputRef: any) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
-      updateMutation.mutate({
-        id: stateContrato.id!,
-        //perfil
-        supplierTypeId: TipoProveedor.Contrato.value,
-        originId: stateContrato.stepPerfil?.tipoEntidad!,
-        legalPersonTypeId: stateContrato.stepPerfil?.tipoPersona!,
-        legalName: stateContrato.stepPerfil?.razonSocial!,
-        tradeName: stateContrato.stepPerfil?.alias!,
-        rfc: stateContrato.stepPerfil?.rfc!,
-        email: stateContrato.stepPerfil?.email!,
-        supplierActivity: stateContrato.stepPerfil?.giroPrincipal!,
-        productServiceIds:
-          stateContrato.stepPerfil?.productos?.map(
-            (producto: any) => producto.id
-          ) ?? [],
-        //domicilio
-        country: values.pais ?? "",
-        postalCode: values.codigoPostal?.toString() ?? "",
-        state: values.estado ?? "",
-        municipality: values.municipio ?? "",
-        city: values.ciudad ?? "",
-        neighborhood: values.colonia ?? "",
-        street: values.calle ?? "",
-        interiorNumber: values.numInterior,
-        exteriorNumber: values.numExterior,
-      });
+      if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
+        console.log('here?', stateContrato)
+        updateMutation.mutate({
+          id: stateContrato.id!,
+          //perfil
+          supplierTypeId: TipoProveedor.Contrato.value,
+          originId: stateContrato.stepPerfil?.tipoEntidad!,
+          legalPersonTypeId: stateContrato.stepPerfil?.tipoPersona!,
+          legalName: stateContrato.stepPerfil?.razonSocial!,
+          tradeName: stateContrato.stepPerfil?.alias!,
+          rfc: stateContrato.stepPerfil?.rfc!,
+          email: stateContrato.stepPerfil?.email!,
+          supplierActivity: stateContrato.stepPerfil?.giroPrincipal!,
+          productServiceIds:
+            stateContrato.stepPerfil?.productos?.map(
+              (producto: any) => producto.id
+            ) ?? [],
+          //domicilio
+          country: values.pais ?? "",
+          postalCode: values.codigoPostal?.toString() ?? "",
+          state: values.estado ?? "",
+          municipality: values.municipio ?? "",
+          city: values.ciudad ?? "",
+          neighborhood: values.colonia ?? "",
+          street: values.calle ?? "",
+          interiorNumber: values.numInterior,
+          exteriorNumber: values.numExterior,
+        });
+      } else {
+        const pasoDomicilio: StepDomicilio = {
+          pais: values.pais ?? "",
+          codigoPostal: values.codigoPostal ?? "",
+          estado: values.estado ?? "",
+          municipio: values.municipio ?? "",
+          ciudad: values.ciudad ?? "",
+          colonia: values.colonia ?? "",
+          calle: values.calle ?? "",
+          numInterior: values.numInterior,
+          numExterior: values.numExterior,
+        };
+        setStepDomicilio(pasoDomicilio);
+        handleNext();
+        handleDisableButtons(false);
+      }
     },
   });
 
@@ -206,5 +225,6 @@ export const useDomicilio = (inputRef: any) => {
     setOptionPais,
     disableButtons,
     id: idParams,
+    setClickedBy,
   };
 };

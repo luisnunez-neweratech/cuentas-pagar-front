@@ -466,6 +466,18 @@ export const usePerfil = () => {
           });
         } else {
           //click en siguiente
+          const pasoPerfil: StepPerfil = {
+            tipoProveedor: TipoProveedor.Contrato.value,
+            tipoEntidad: +values.tipoEntidad,
+            tipoPersona: +values.tipoPersona,
+            razonSocial: values.razonSocial,
+            alias: values.alias,
+            rfc: values.rfc,
+            email: values.email,
+            giroPrincipal: values.giroPrincipal,
+            productos: values.productos,
+          };
+          setStepPerfil(pasoPerfil);
           handleDisableButtons(false);
           handleNext();
         }
