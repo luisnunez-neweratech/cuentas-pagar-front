@@ -307,7 +307,12 @@ export const useContrato = () => {
               toNextStep();
             }
           } else {
-            handleNext();
+            if (clickedBy === 1) {
+              // actualizar con post
+              toast.success("Información Actualizada");
+            } else {
+              handleNext();
+            }
           }
         }
       } else {

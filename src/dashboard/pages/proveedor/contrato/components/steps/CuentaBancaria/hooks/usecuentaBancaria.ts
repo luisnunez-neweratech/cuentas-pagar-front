@@ -100,7 +100,6 @@ export const useCuentaBancaria = () => {
     if (getCuentasValidos()) {
       if (clicked === 1 || (clicked === 0 && !idParams)) {
         getStepCuentaBancaria()?.map((cuenta) => {
-          console.log('cuenta', cuenta)
           if (cuenta.newElement) {
             createMutation.mutate({
               postCuentaPayload: {
@@ -132,7 +131,9 @@ export const useCuentaBancaria = () => {
         });
         toast.success("Cuenta bancaria guardada correctamente");
       }
-      handleNext();
+      if (clicked !== 1) {
+        handleNext();
+      }
     }
   };
 

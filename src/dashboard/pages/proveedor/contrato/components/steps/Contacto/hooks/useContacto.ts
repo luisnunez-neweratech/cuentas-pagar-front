@@ -92,7 +92,9 @@ export const useContacto = () => {
         });
         toast.success("Proveedor guardado correctamente");
       }
-      navigate("/proveedor");
+      if (clickedBy !== 1) {
+        navigate("/proveedor");
+      }
     }
   };
 
