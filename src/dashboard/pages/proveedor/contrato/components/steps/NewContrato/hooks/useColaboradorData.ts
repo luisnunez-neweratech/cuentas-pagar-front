@@ -18,16 +18,16 @@ export const useColaboradorData = ({
     validateColaboradorElement();
   }, [validateColaboradores]);
 
-  const getStepContrato = useProveedorContratoStore(
-    (state) => state.getStepContrato
+  const getNewStepContrato = useProveedorContratoStore(
+    (state) => state.getNewStepContrato
   );
 
-  const updateColaborador = useProveedorContratoStore(
-    (state) => state.updateColaborador
+  const updateNewColaborador = useProveedorContratoStore(
+    (state) => state.updateNewColaborador
   );
 
   const getInitialValues = () => {
-    const contrato = getStepContrato()?.colaboradores?.find(
+    const contrato = getNewStepContrato()?.colaboradores?.find(
       (item) => item.id === id
     );
     return {
@@ -71,7 +71,7 @@ export const useColaboradorData = ({
       console.log("errros colaboradores?", errors);
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
-        updateColaborador(id, {
+        updateNewColaborador(id, {
           id: id,
           valido: true,
           noColaborador: values.noColaborador!,

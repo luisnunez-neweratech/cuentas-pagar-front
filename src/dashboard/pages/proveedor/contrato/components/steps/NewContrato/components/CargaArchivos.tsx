@@ -3,6 +3,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { mainBackgroundColor } from "../../../../../../../../lib/constants";
 import { ArchivoElement } from "./ArchivoElement";
 import { useCargaArchivos } from "../hooks/useCargaArchivos";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export const CargaArchivos = () => {
   const { newStepContrato, clickAddArchivo, deleteDocumento } =
@@ -16,13 +17,13 @@ export const CargaArchivos = () => {
           id={item.id!}
           deleteDocumento={deleteDocumento}
           //isValidForm={isValidForm}
-          //validateColaboradores={validateColaboradores}
+          //validateColaboradores={validateColaboradores}          
           total={newStepContrato?.documentos?.length!}
           idInput={`file${item.id}${Date()}`}
         />
       ))}
 
-      <Grid size={11} />
+      <Grid size={10} />
       <Grid size={1}>
         <Tooltip title="Agregar Nuevo Documento">
           <IconButton
@@ -30,6 +31,21 @@ export const CargaArchivos = () => {
             onClick={() => clickAddArchivo()}
           >
             <AddCircleIcon
+              style={{
+                height: "36px",
+                width: "36px",
+              }}
+            />
+          </IconButton>
+        </Tooltip>
+      </Grid>
+      <Grid size={1}>
+        <Tooltip title="Cargar Documentos">
+          <IconButton
+            sx={{ color: mainBackgroundColor }}
+            //onClick={() => clickAddArchivo()}
+          >
+            <CloudUploadIcon
               style={{
                 height: "36px",
                 width: "36px",

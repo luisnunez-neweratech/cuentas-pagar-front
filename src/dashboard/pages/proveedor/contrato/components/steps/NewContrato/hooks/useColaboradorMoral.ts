@@ -13,18 +13,18 @@ export const usecolaboradorMoral = () => {
     (state) => state.setColaboradoresValidos
   );
 
-  const addColaborador = useProveedorContratoStore(
-    (state) => state.addColaborador
+  const addNewColaborador = useProveedorContratoStore(
+    (state) => state.addNewColaborador
   );
-  const stepContrato = useProveedorContratoStore((state) => state.stepContrato);
-  const removeColaborador = useProveedorContratoStore(
-    (state) => state.removeColaborador
+  const newStepContrato = useProveedorContratoStore((state) => state.newStepContrato);
+  const removeNewColaborador = useProveedorContratoStore(
+    (state) => state.removeNewColaborador
   );
 
   const deleteMutation = useMutation({
     mutationFn: deleteColaboradoresContrato,
     onSuccess: (_data, variables) => {
-      removeColaborador(+variables);
+      removeNewColaborador(+variables);
     },
     onError: (error) => {
       console.log(error);
@@ -38,8 +38,8 @@ export const usecolaboradorMoral = () => {
   });
 
   const clickAddColaborador = () => {
-    addColaborador({
-      id: (stepContrato?.colaboradores?.length ?? 0) + 1,
+    addNewColaborador({
+      id: (newStepContrato?.colaboradores?.length ?? 0) + 1,
       valido: false,
       noColaborador: "",
       nombre: "",
@@ -84,6 +84,6 @@ export const usecolaboradorMoral = () => {
     deleteColaborador,
     isValidForm,
     setColaboradoresValidos,
-    stepContrato,    
+    newStepContrato,    
   };
 };

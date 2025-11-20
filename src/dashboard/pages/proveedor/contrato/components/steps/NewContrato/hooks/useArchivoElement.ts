@@ -1,52 +1,37 @@
 import { useFormik } from "formik";
 import { useState } from "react";
+import { validationArchivoschema } from "../components/ArchivosValidation";
+import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
 interface props {
   //tipoDocumento: TipoDocumento;
+  id: number;
   idInput: string;
   /*  optional?: boolean;
   validateDocuments: number; */
 }
 
-export const useArchivoElement = ({ idInput }: props) => {
-  const getInitialValues = () => {
-    /*  let documento: Documento;
-    switch (tipoDocumento) {
-      case "principal":
-        documento = getStepContrato()?.documentos.principal!;
-        break;
-      case "csf":
-        documento = getStepContrato()?.documentos.csf!;
-        break;
-      case "idRepLegal":
-        documento = getStepContrato()?.documentos.idRepLegal!;
-        break;
-      case "compDomicilio":
-        documento = getStepContrato()?.documentos.compDomicilio!;
-        break;
-      case "poderRepLegal":
-        documento = getStepContrato()?.documentos.poderRepLegal!;
-        break;
-      case "anexo":
-        documento = getStepContrato()?.documentos.anexo!;
-        break;
-      default:
-        documento = getStepContrato()?.documentos.principal!;
-        break;
-    } */
+export const useArchivoElement = ({ idInput, id }: props) => {
 
+
+const getNewStepContrato = useProveedorContratoStore(
+    (state) => state.getNewStepContrato
+  );
+
+
+ 
+  const getInitialValues = () => {
+    const documento = getNewStepContrato()?.documentos?.find(
+      (item) => item.id === id
+    );
     return {
-      //id: documento.id,
-      tipoDocumento: 0,
-      fechaInicio: "", // Or dayjs() for a default value
-      fechaFin: "", // Or dayjs() for a default value
-      indeterminado: true,
-      [idInput]: null,
-      //addToContrato: documento.addToContrato,
-      //downloadUrl: documento.downloadUrl,
-      //fileName: documento.fileName,
+       tipoDocumento: documento?.tipoDocumento,
+      fechaInicio: documento?.fechaInicio, // Or dayjs() for a default value
+      fechaFin: documento?.fechaFin, // Or dayjs() for a default value
+      indeterminado: documento?.indeterminado,
+      [idInput]: idInput,    
     };
-  };
+  }; 
 
   const {
     handleSubmit,
@@ -60,7 +45,7 @@ export const useArchivoElement = ({ idInput }: props) => {
     handleBlur,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: null, //optional ? null : validationArchivoschema(idInput),
+    validationSchema: validationArchivoschema(idInput),
     onSubmit: (values) => {
       console.log(values);
     },

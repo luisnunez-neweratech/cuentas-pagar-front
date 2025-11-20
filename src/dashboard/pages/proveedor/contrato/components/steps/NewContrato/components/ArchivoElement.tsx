@@ -45,7 +45,7 @@ export const ArchivoElement = ({
     handleBlur,
     fileName,
     handleFileChange,
-  } = useArchivoElement({ idInput });
+  } = useArchivoElement({ idInput, id });
 
   return (
     <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>

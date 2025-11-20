@@ -14,7 +14,7 @@ export const ColaboradorMoral = ({ validateColaboradores }: myProps) => {
     clickAddColaborador,
     deleteColaborador,
     setColaboradoresValidos,
-    stepContrato,
+    newStepContrato,
     isValidForm,
   } = usecolaboradorMoral();
 
@@ -24,14 +24,14 @@ export const ColaboradorMoral = ({ validateColaboradores }: myProps) => {
 
   return (
     <>
-      {(stepContrato?.colaboradores ?? []).map((item) => (
+      {(newStepContrato?.colaboradores ?? []).map((item) => (
         <ColaboradorData
           key={`${item.id}${Date()}`}
           id={item.id}
           deleteColaborador={deleteColaborador}
           isValidForm={isValidForm}
-          validateColaboradores={validateColaboradores}          
-          total={stepContrato?.colaboradores?.length!}
+          validateColaboradores={validateColaboradores}
+          total={newStepContrato?.colaboradores?.length!}
         />
       ))}
       <Grid size={11} />
