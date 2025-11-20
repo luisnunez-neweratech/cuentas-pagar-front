@@ -11,9 +11,14 @@ export const addProveedorContratoPerfil = async (
   return data;
 };
 
-export const updateProveedorContratoPerfil = async (
-  putContratoPayload: PutContratoPayload
-): Promise<any> => {
+interface updateProveedorContratoPerfilProps {
+  putContratoPayload: PutContratoPayload;
+  clickedBy?: number;
+}
+export const updateProveedorContratoPerfil = async ({
+  putContratoPayload,
+  clickedBy: _,
+}: updateProveedorContratoPerfilProps): Promise<any> => {
   const response = await cuentasApi.put(
     `/Supplier/Update/${putContratoPayload.id}`,
     {
@@ -39,7 +44,7 @@ export const getProveedorContrato = async (id: string): Promise<any> => {
 };
 
 export const getProveedorDocumentos = async (id: string): Promise<any> => {
-  const { data } = await cuentasApi.get(`/SupplierProfileDocument/${id}`);  
+  const { data } = await cuentasApi.get(`/SupplierProfileDocument/${id}`);
 
   // array con CSF, IdRepLegal, CompDom, PoderRep
   return data;
