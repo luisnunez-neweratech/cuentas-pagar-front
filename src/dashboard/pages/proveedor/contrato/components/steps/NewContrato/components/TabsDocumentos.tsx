@@ -36,7 +36,7 @@ function TabPanel(props: TabPanelProps) {
 export const TabsDocumentos = () => {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

@@ -30,9 +30,19 @@ export const useCargaArchivos = () => {
     });
   };
 
+  const enviarArchivos = () => {
+    console.log('here?', newStepContrato?.documentos)
+     newStepContrato?.documentos.map((documento) => {
+        if(documento.fileValue){
+          console.log('enviar archivo')
+        }
+     })
+  }
+
   return {
     newStepContrato,
     clickAddArchivo,
     deleteDocumento,
+    enviarArchivos
   };
 };

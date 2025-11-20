@@ -26,11 +26,11 @@ export const useProveedorContratoPage = () => {
   const getStepScreen = (index: number) => {
     switch (index) {
       case 0:
-        return <NewContrato/>//return <Perfil />;
+        return <Perfil />;
       case 1:
         return <Domicilio />;
       case 2:
-        return <Contrato />;
+        return <NewContrato />; //return <Contrato />;
       case 3:
         return <CuentaBancaria />;
       case 4:

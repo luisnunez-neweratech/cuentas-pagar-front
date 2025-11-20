@@ -6,20 +6,20 @@ import { useCargaArchivos } from "../hooks/useCargaArchivos";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export const CargaArchivos = () => {
-  const { newStepContrato, clickAddArchivo, deleteDocumento } =
+  const { newStepContrato, clickAddArchivo, deleteDocumento, enviarArchivos } =
     useCargaArchivos();
 
   return (
     <Grid container>
       {(newStepContrato?.documentos ?? []).map((item) => (
         <ArchivoElement
-          key={`${item.id}${Date()}`}
+          key={item.id}
           id={item.id!}
           deleteDocumento={deleteDocumento}
           //isValidForm={isValidForm}
           //validateColaboradores={validateColaboradores}          
           total={newStepContrato?.documentos?.length!}
-          idInput={`file${item.id}${Date()}`}
+          idInput={`file${item.id}`}
         />
       ))}
 
@@ -43,7 +43,7 @@ export const CargaArchivos = () => {
         <Tooltip title="Cargar Documentos">
           <IconButton
             sx={{ color: mainBackgroundColor }}
-            //onClick={() => clickAddArchivo()}
+            onClick={() => enviarArchivos()}
           >
             <CloudUploadIcon
               style={{
