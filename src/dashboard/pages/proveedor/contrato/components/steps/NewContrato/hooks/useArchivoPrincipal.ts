@@ -1,13 +1,13 @@
-import { useState } from "react"
+import { useState } from "react";
 
 export const useArchivoPrincipal = () => {
+  const [agregarPropuesta, setAgregarPropuesta] = useState(false);
+  const [agregarAnexo, setAgregarAnexo] = useState(false);
 
-
-    const [agregarPropuesta, setAgregarPropuesta] = useState(false);
-
-
-    return {
-        agregarPropuesta,
-        setAgregarPropuesta
-    }
-}
+  return {
+    agregarPropuesta,
+    setAgregarPropuesta,
+    agregarAnexo,
+    setAgregarAnexo,
+  };
+};

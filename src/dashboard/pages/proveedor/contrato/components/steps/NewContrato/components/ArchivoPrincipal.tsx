@@ -20,7 +20,12 @@ import { ArchivoDependiente } from "./ArchivoDependiente";
 import { useArchivoPrincipal } from "../hooks/useArchivoPrincipal";
 
 export const ArchivoPrincipal = () => {
-  const { agregarPropuesta, setAgregarPropuesta } = useArchivoPrincipal();
+  const {
+    agregarPropuesta,
+    setAgregarPropuesta,
+    agregarAnexo,
+    setAgregarAnexo,
+  } = useArchivoPrincipal();
 
   return (
     <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
@@ -182,13 +187,8 @@ export const ArchivoPrincipal = () => {
           <FormControlLabel
             control={
               <Checkbox
-              /* checked={values.indeterminado}
-                onChange={() => {
-                  setFieldValue("indeterminado", !values.indeterminado);
-                  if (!values.indeterminado === true) {
-                    setFieldValue("fechaFin", "");
-                  }
-                }} */
+                checked={agregarAnexo}
+                onChange={() => setAgregarAnexo(!agregarAnexo)}
               />
             }
             label="Agregar Anexo"
@@ -203,11 +203,13 @@ export const ArchivoPrincipal = () => {
             indeterminado={true}
           />
         )}
-        <ArchivoDependiente
-          title="Anexo"
-          fechaVencimiento={false}
-          indeterminado={false}
-        />
+        {agregarAnexo && (
+          <ArchivoDependiente
+            title="Anexo"
+            fechaVencimiento={false}
+            indeterminado={false}
+          />
+        )}
       </Grid>
     </Paper>
   );
