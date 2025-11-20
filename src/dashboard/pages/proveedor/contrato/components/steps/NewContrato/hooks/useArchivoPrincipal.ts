@@ -1,7 +1,11 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 
-export const useArchivoPrincipal = () => {
+interface props {
+  idInput: string
+}
+
+export const useArchivoPrincipal = ({idInput}: props) => {
   const [agregarPropuesta, setAgregarPropuesta] = useState(false);
   const [agregarAnexo, setAgregarAnexo] = useState(false);
 
@@ -9,6 +13,8 @@ export const useArchivoPrincipal = () => {
   const [isPrincipal, setIsPrincipal] = useState(false);
 
   const [showPropuesta, setShowPropuesta] = useState(false);
+
+    const [fileName, setFileName] = useState("");
 
   const getInitialValues = () => {
     /* const documento = getNewStepContrato()?.documentos?.find(
@@ -23,6 +29,9 @@ export const useArchivoPrincipal = () => {
     }; */
     return {
       tipoDocumento: 0, // contrato
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
     };
   };
 
@@ -31,8 +40,8 @@ export const useArchivoPrincipal = () => {
     values,
     touched,
     errors,
-    //setFieldValue,
-    //setFieldTouched,
+    setFieldValue,
+    setFieldTouched,
     //validateForm,
     handleChange,
     handleBlur,
@@ -43,6 +52,17 @@ export const useArchivoPrincipal = () => {
       console.log(values);
     },
   });
+
+  const handleFileChange = (event: any) => {
+    /* const formData = new FormData();
+    formData.append('file',files[0]) */
+    if (event.target.files.length > 0) {
+      const files = event.target.files; // Get the FileList object
+      const fileNames = Array.from(files).map((file: any) => file.name);
+      setFileName(fileNames.join(" "));
+      setFieldValue(idInput, event.target.files[0]);
+    }
+  };
 
   return {
     agregarPropuesta,
@@ -60,5 +80,9 @@ export const useArchivoPrincipal = () => {
     setShowPrincipal,
     showPropuesta,
     setShowPropuesta,
+    setFieldValue,
+    setFieldTouched,
+    handleFileChange,
+    fileName
   };
 };

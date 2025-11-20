@@ -13,7 +13,7 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-//import dayjs from "dayjs";
+import dayjs from "dayjs";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { ArchivoDependiente } from "./ArchivoDependiente";
 import { useArchivoPrincipal } from "../hooks/useArchivoPrincipal";
@@ -35,7 +35,11 @@ export const ArchivoPrincipal = () => {
     setShowPrincipal,
     showPropuesta,
     setShowPropuesta,
-  } = useArchivoPrincipal();
+    setFieldValue,
+    setFieldTouched,
+    handleFileChange,
+    fileName,
+  } = useArchivoPrincipal({ idInput: "filePrincipal" });
 
   return (
     <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
@@ -69,7 +73,7 @@ export const ArchivoPrincipal = () => {
               <MenuItem value={2}>Propuesta</MenuItem>
             </Select>
             <FormHelperText>
-              {/* {touched.tipoDocumento && errors.tipoDocumento?.toString()} */}
+              {touched.tipoDocumento && errors.tipoDocumento?.toString()}
             </FormHelperText>
           </FormControl>
         </Grid>
@@ -79,15 +83,15 @@ export const ArchivoPrincipal = () => {
             <DatePicker
               sx={{ width: "100%" }}
               label="Fecha Inicio"
-              //value={values.fechaInicio ? dayjs(values.fechaInicio) : null}
-              //onChange={(newValue) => setFieldValue("fechaInicio", newValue)}
+              value={values.fechaInicio ? dayjs(values.fechaInicio) : null}
+              onChange={(newValue) => setFieldValue("fechaInicio", newValue)}
               format="DD-MM-YYYY"
               slotProps={{
                 textField: {
                   name: "fechaInicio",
-                  /*  error: touched.fechaInicio && Boolean(errors.fechaInicio),
+                  error: touched.fechaInicio && Boolean(errors.fechaInicio),
                   helperText: touched.fechaInicio && errors.fechaInicio,
-                  onBlur: () => setFieldTouched("fechaInicio", true), */
+                  onBlur: () => setFieldTouched("fechaInicio", true),
                 },
                 field: { clearable: true },
               }}
@@ -95,41 +99,41 @@ export const ArchivoPrincipal = () => {
           </LocalizationProvider>
         </Grid>
 
-        {/* {!values.indeterminado && ( */}
-        <Grid size={3}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              sx={{ width: "100%" }}
-              label="Fecha Vencimiento"
-              //value={values.fechaFin ? dayjs(values.fechaFin) : null}
-              //onChange={(newValue) => setFieldValue("fechaFin", newValue)}
-              format="DD-MM-YYYY"
-              slotProps={{
-                textField: {
-                  name: "fechaFin",
-                  //error: touched.fechaFin && Boolean(errors.fechaFin),
-                  //helperText: touched.fechaFin && errors.fechaFin,
-                  //onBlur: () => setFieldTouched("fechaFin", true),
-                },
-                field: { clearable: true },
-              }}
-            />
-          </LocalizationProvider>
-        </Grid>
-        {/* )} */}
+        {!values.indeterminado && (
+          <Grid size={3}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                sx={{ width: "100%" }}
+                label="Fecha Vencimiento"
+                value={values.fechaFin ? dayjs(values.fechaFin) : null}
+                onChange={(newValue) => setFieldValue("fechaFin", newValue)}
+                format="DD-MM-YYYY"
+                slotProps={{
+                  textField: {
+                    name: "fechaFin",
+                    error: touched.fechaFin && Boolean(errors.fechaFin),
+                    helperText: touched.fechaFin && errors.fechaFin,
+                    onBlur: () => setFieldTouched("fechaFin", true),
+                  },
+                  field: { clearable: true },
+                }}
+              />
+            </LocalizationProvider>
+          </Grid>
+        )}
 
-        {/* {values.indeterminado && <Grid size={3} />} */}
+        {values.indeterminado && <Grid size={3} />}
         <Grid size={3}>
           <FormControlLabel
             control={
               <Checkbox
-              /* checked={values.indeterminado}
+                checked={values.indeterminado}
                 onChange={() => {
                   setFieldValue("indeterminado", !values.indeterminado);
                   if (!values.indeterminado === true) {
                     setFieldValue("fechaFin", "");
                   }
-                }} */
+                }}
               />
             }
             label="Indeterminado"
@@ -140,15 +144,13 @@ export const ArchivoPrincipal = () => {
         <Grid size={3}>
           <input
             type="file"
-            //id={idInput}
-            id="file"
+            id="filePrincipal"
             style={{ display: "none" }}
-            //onChange={handleFileChange}
+            onChange={handleFileChange}
             accept=".pdf, image/*"
           />
 
-          {/* <label htmlFor={idInput}> */}
-          <label htmlFor="file">
+          <label htmlFor="filePrincipal">
             <Button
               color="primary"
               component="span"
@@ -162,14 +164,11 @@ export const ArchivoPrincipal = () => {
         </Grid>
 
         <Grid size={6}>
-          <p style={{ color: "rgba(0, 0, 0, 0.6)" }}>
-            {`Nombre del Archivo: `}
-          </p>
-          {/* {fileName && (
+          {fileName && (
             <p style={{ color: "rgba(0, 0, 0, 0.6)" }}>
               {`Nombre del Archivo: ${fileName}`}
             </p>
-          )} */}
+          )}
         </Grid>
 
         <Grid size={3}>
