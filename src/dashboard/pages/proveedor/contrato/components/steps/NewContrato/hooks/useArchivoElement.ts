@@ -16,8 +16,7 @@ export const useArchivoElement = ({
   id,
   validateDocuments,
 }: props) => {
-  useEffect(() => {
-    console.log('aa')
+  useEffect(() => {    
     validateArchivoElement(); //children function of interest
   }, [validateDocuments]);
 

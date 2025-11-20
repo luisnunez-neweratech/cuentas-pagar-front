@@ -25,6 +25,17 @@ export const ArchivoPrincipal = () => {
     setAgregarPropuesta,
     agregarAnexo,
     setAgregarAnexo,
+    showPrincipal,
+    isPrincipal,
+    setIsPrincipal,
+    touched,
+    errors,
+    values,
+    handleChange,
+    handleBlur,
+    setShowPrincipal,
+    showPropuesta,
+    setShowPropuesta,
   } = useArchivoPrincipal();
 
   return (
@@ -33,7 +44,7 @@ export const ArchivoPrincipal = () => {
         <Grid size={3}>
           <FormControl
             fullWidth
-            //error={touched.tipoDocumento && Boolean(errors.tipoDocumento)}
+            error={touched.tipoDocumento && Boolean(errors.tipoDocumento)}
           >
             <InputLabel id="tipo-documento-label">Tipo Documento</InputLabel>
             <Select
@@ -41,9 +52,19 @@ export const ArchivoPrincipal = () => {
               id="tipoDocumento"
               name="tipoDocumento"
               label="Tipo Documento"
-              /*  value={values.tipoDocumento}
-            onChange={handleChange}
-            onBlur={handleBlur} */
+              value={values.tipoDocumento}
+              onChange={(e) => {
+                if (e.target.value === 0) {
+                  // contrato
+                  setShowPrincipal(false);
+                  setShowPropuesta(true);
+                } else {
+                  setShowPrincipal(true);
+                  setShowPropuesta(false);
+                }
+                handleChange(e);
+              }}
+              onBlur={handleBlur}
             >
               <MenuItem value={0}>Contrato</MenuItem>
               <MenuItem value={2}>Propuesta</MenuItem>
@@ -153,35 +174,34 @@ export const ArchivoPrincipal = () => {
         </Grid>
 
         <Grid size={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-              /* checked={values.indeterminado}
-                onChange={() => {
-                  setFieldValue("indeterminado", !values.indeterminado);
-                  if (!values.indeterminado === true) {
-                    setFieldValue("fechaFin", "");
-                  }
-                }} */
-              />
-            }
-            label="Principal"
-            style={{ marginTop: 8 }}
-          />
+          {showPrincipal && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isPrincipal}
+                  onChange={() => setIsPrincipal(!isPrincipal)}
+                />
+              }
+              label="Principal"
+              style={{ marginTop: 8 }}
+            />
+          )}
         </Grid>
 
-        <Grid size={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={agregarPropuesta}
-                onChange={() => setAgregarPropuesta(!agregarPropuesta)}
-              />
-            }
-            label="Agregar Propuesta"
-            style={{ marginTop: 8 }}
-          />
-        </Grid>
+        {showPropuesta && (
+          <Grid size={3}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={agregarPropuesta}
+                  onChange={() => setAgregarPropuesta(!agregarPropuesta)}
+                />
+              }
+              label="Agregar Propuesta"
+              style={{ marginTop: 8 }}
+            />
+          </Grid>
+        )}
 
         <Grid size={3}>
           <FormControlLabel
