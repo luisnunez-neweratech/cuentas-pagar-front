@@ -5,12 +5,21 @@ import { ArchivoElement } from "./ArchivoElement";
 import { useCargaArchivos } from "../hooks/useCargaArchivos";
 
 export const CargaArchivos = () => {
-  const { newStepContrato, clickAddArchivo } = useCargaArchivos();
+  const { newStepContrato, clickAddArchivo, deleteDocumento } =
+    useCargaArchivos();
 
   return (
     <Grid container>
       {(newStepContrato?.documentos ?? []).map((item) => (
-        <ArchivoElement />
+        <ArchivoElement
+          key={`${item.id}${Date()}`}
+          id={item.id!}
+          deleteDocumento={deleteDocumento}
+          //isValidForm={isValidForm}
+          //validateColaboradores={validateColaboradores}
+          total={newStepContrato?.documentos?.length!}
+          idInput={`file${item.id}${Date()}`}
+        />
       ))}
 
       <Grid size={11} />

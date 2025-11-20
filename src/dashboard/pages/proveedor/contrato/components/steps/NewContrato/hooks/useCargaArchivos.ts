@@ -9,6 +9,14 @@ export const useCargaArchivos = () => {
     (state) => state.addNewDocument
   );
 
+  const removeNewDocumento = useProveedorContratoStore(
+    (state) => state.removeNewDocumento
+  );
+
+  const deleteDocumento = (id: number) => {
+    removeNewDocumento(id);
+  };
+
   const clickAddArchivo = () => {
     addNewDocument({
       id: (newStepContrato?.documentos?.length ?? 0) + 1,
@@ -25,5 +33,6 @@ export const useCargaArchivos = () => {
   return {
     newStepContrato,
     clickAddArchivo,
+    deleteDocumento,
   };
 };
