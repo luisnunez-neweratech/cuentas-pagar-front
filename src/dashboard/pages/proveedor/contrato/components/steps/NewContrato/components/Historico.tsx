@@ -7,44 +7,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Grid } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
-
-function createData(
-  tipo: string,
-  documento: string,
-  fechaInicio: string,
-  fechaVencimiento: string,
-  indeterminado: boolean
-) {
-  return { tipo, documento, fechaInicio, fechaVencimiento, indeterminado };
-}
-
-const rows = [
-  createData(
-    "Contrato",
-    "contrato-C25119004",
-    "01/10/2025",
-    "01/10/2025",
-    false
-  ),
-  createData(
-    "Contrato",
-    "contrato-C25119005",
-    "01/10/2025",
-    "01/10/2025",
-    false
-  ),
-  createData("Propuesta", "propuesta-C25119004", "01/10/2025", "", true),
-  createData("CSF", "csf-C25119004", "01/10/2025", "01/10/2025", false),
-  createData("Comprobante Domicilio", "csf-C25119004", "01/10/2025", "", true),
-];
+import { useHistorico } from "../hooks/useHistorico";
 
 export const Historico = () => {
-  const getNewStepContrato = useProveedorContratoStore(
-    (state) => state.getNewStepContrato
-  );
-
-  console.log("getNewStepContrato", getNewStepContrato());
+  const { rows, getNameTipoDocumento } = useHistorico();
 
   return (
     <Grid container>
@@ -67,17 +33,17 @@ export const Historico = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => (
+              {rows?.map((row) => (
                 <TableRow
-                  key={index}
+                  key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.tipo}
+                    {getNameTipoDocumento(row.tipoDocumento)}
                   </TableCell>
-                  <TableCell>{row.documento}</TableCell>
+                  <TableCell>{row.fileName}</TableCell>
                   <TableCell>{row.fechaInicio}</TableCell>
-                  <TableCell>{row.fechaVencimiento}</TableCell>
+                  <TableCell>{row.fechaFin}</TableCell>
                   <TableCell>
                     {row.indeterminado && <CheckCircleOutlineIcon />}
                   </TableCell>
