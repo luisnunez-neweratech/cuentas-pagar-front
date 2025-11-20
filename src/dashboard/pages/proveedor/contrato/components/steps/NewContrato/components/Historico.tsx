@@ -5,7 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Grid } from "@mui/material";
+import { Grid, Link } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useHistorico } from "../hooks/useHistorico";
 
@@ -41,7 +41,9 @@ export const Historico = () => {
                   <TableCell component="th" scope="row">
                     {getNameTipoDocumento(row.tipoDocumento)}
                   </TableCell>
-                  <TableCell>{row.fileName}</TableCell>
+                  <TableCell>
+                    <Link href={row.fileUrl}> {row.fileName}</Link>
+                  </TableCell>
                   <TableCell>{row.fechaInicio}</TableCell>
                   <TableCell>{row.fechaFin}</TableCell>
                   <TableCell>
