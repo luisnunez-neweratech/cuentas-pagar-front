@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
 import { Contrato } from "../components/steps/Contrato/Contrato";
 import { Perfil } from "../components/steps/Perfil/Perfil";
+import { NewContrato } from "../components/steps/NewContrato/NewContrato";
 
 const steps = [
   "Perfil",
@@ -29,7 +30,7 @@ export const useProveedorContratoPage = () => {
       case 1:
         return <Domicilio />;
       case 2:
-        return <Contrato />;
+        return <NewContrato />; //return <Contrato />;
       case 3:
         return <CuentaBancaria />;
       case 4:

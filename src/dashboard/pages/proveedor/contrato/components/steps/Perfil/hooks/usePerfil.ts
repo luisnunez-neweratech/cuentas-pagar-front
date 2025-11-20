@@ -22,6 +22,7 @@ import { getProveedorPerfil } from "../../../../services/proveedor.perfil.servic
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 import { TipoContacto } from "../../../../../interfaces/TipoContacto";
+import type { HistorialDocumentos } from "../../../../interface/stepContrato";
 
 export const usePerfil = () => {
   const { id } = useParams();
@@ -44,8 +45,8 @@ export const usePerfil = () => {
   const setStepDomicilio = useProveedorContratoStore(
     (state) => state.setStepDomicilio
   );
-  const setStepContrato = useProveedorContratoStore(
-    (state) => state.setStepContrato
+  const setNewStepContrato = useProveedorContratoStore(
+    (state) => state.setNewStepContrato
   );
   const setStepContacto = useProveedorContratoStore(
     (state) => state.setStepContacto
@@ -250,101 +251,18 @@ export const usePerfil = () => {
 
         // contrato step
 
-        const csfDocument = proveedorDocumentos?.find(
-          (documento: any) =>
-            documento.documentType === TipoDocumentoProveedor.CSF
-        );
-        let dataCsf = null;
-        if (csfDocument) {
-          dataCsf = {
-            id: csfDocument.id,
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true, //TODO falta el dato de BD
-            downloadUrl: csfDocument.downloadUrl,
-            fileName: csfDocument.fileName,
-          };
-        } else {
-          dataCsf = {
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true,
-          };
-        }
-
-        const idRepLegalDocument = proveedorDocumentos?.find(
-          (documento: any) =>
-            documento.documentType === TipoDocumentoProveedor.IdRepLegal
-        );
-        let dataidRepLegal = null;
-        if (idRepLegalDocument) {
-          dataidRepLegal = {
-            id: idRepLegalDocument.id,
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true, //TODO falta el dato de BD
-            downloadUrl: idRepLegalDocument.downloadUrl,
-            fileName: idRepLegalDocument.fileName,
-          };
-        } else {
-          dataidRepLegal = {
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true,
-          };
-        }
-
-        const comDomDocument = proveedorDocumentos?.find(
-          (documento: any) =>
-            documento.documentType === TipoDocumentoProveedor.CompDom
-        );
-        let dataComDom = null;
-        if (comDomDocument) {
-          dataComDom = {
-            id: comDomDocument.id,
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true, //TODO falta el dato de BD
-            downloadUrl: comDomDocument.downloadUrl,
-            fileName: comDomDocument.fileName,
-          };
-        } else {
-          dataComDom = {
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true,
-          };
-        }
-
-        const poderRepDocument = proveedorDocumentos?.find(
-          (documento: any) =>
-            documento.documentType === TipoDocumentoProveedor.PoderRep
-        );
-        let dataPoderRep = null;
-        if (poderRepDocument) {
-          dataPoderRep = {
-            id: poderRepDocument.id,
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true, //TODO falta el dato de BD
-            downloadUrl: poderRepDocument.downloadUrl,
-            fileName: poderRepDocument.fileName,
-          };
-        } else {
-          dataPoderRep = {
-            fileValue: null,
-            fechaInicio: "",
-            fechaFin: "",
-            indeterminado: true,
-          };
-        }
+        let historialDocumentos: HistorialDocumentos[] = [];
+        proveedorDocumentos?.map((documento: any) => {
+          historialDocumentos.push({
+            id: documento.id,
+            fechaInicio: documento.startDate,
+            fechaFin: documento.startDate,
+            indeterminado: documento.indefiniteEnd,
+            fileUrl: documento.downloadUrl,
+            fileName: documento.fileName,
+            tipoDocumento: documento.documentType,
+          });
+        });
 
         // contrato es array, porque es historico
         let colaboradoresData = [];
@@ -367,36 +285,25 @@ export const usePerfil = () => {
           ];
         }
         if (proveedorPerfil?.contratos.length > 0) {
-          setStepContrato({
+          setNewStepContrato({
             id: proveedorPerfil.contratos[0].id,
             contractor: proveedorPerfil.contratos[0].isNEContractor,
             noColaborador: proveedorPerfil.contratos[0].neCollaboratorNumber,
             colaboradores: colaboradoresData,
-            documentos: {
-              ...proveedorContratoState.stepContrato?.documentos!,
-              //tipo: "contrato", //propuesta
-              principal: {
-                id: proveedorPerfil.contratos[0].id,
-                fileValue: undefined,
-                fechaInicio: proveedorPerfil.contratos[0].startDate,
-                fechaFin: proveedorPerfil.contratos[0].endDate,
-                indeterminado: proveedorPerfil.contratos[0].indefiniteEnd,
-                /* downloadUrl: poderRepDocument.downloadUrl,
-                fileName: poderRepDocument.fileName, */
-              },
-              //proveedorDocumentos
-              csf: dataCsf,
-              idRepLegal: dataidRepLegal,
-              compDomicilio: dataComDom,
-              poderRepLegal: dataPoderRep,
-              /*
-              anexo: {
-                fileValue: null,
+            historialDocumentos: historialDocumentos,
+            documentos: [
+              {
+                id: 1,
                 fechaInicio: "",
                 fechaFin: "",
                 indeterminado: true,
-              },*/
-            },
+                fileValue: null,
+                addToContrato: false,
+                fileName: "",
+                tipoDocumento: 0,
+                newElement: true,
+              },
+            ],
           });
         }
 

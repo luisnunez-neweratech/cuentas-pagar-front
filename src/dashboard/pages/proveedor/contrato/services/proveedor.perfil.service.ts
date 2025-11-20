@@ -33,6 +33,15 @@ export const addDocumentoProveedor = async ({
     "documentType",
     postDocumentoProveedor.documentType.toString()
   );
+  formData.append("fechaInicio", postDocumentoProveedor.fechaInicio);
+  formData.append(
+    "fechaVencimiento",
+    postDocumentoProveedor.fechaVencimiento ?? ""
+  );
+  formData.append(
+    "esIndeterminado",
+    postDocumentoProveedor.esIndeterminado ? "true" : " false"
+  );
 
   const { data } = await cuentasApi.post(
     `/SupplierProfileDocument/${supplierId}/Upload`,
