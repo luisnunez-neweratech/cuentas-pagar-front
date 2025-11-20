@@ -255,7 +255,7 @@ export const usePerfil = () => {
           historialDocumentos.push({
             id: documento.id,
             fechaInicio: documento.startDate,
-            fechaFin: documento.startDate,
+            fechaFin: documento.endDate,
             indeterminado: documento.indefiniteEnd,
             fileUrl: documento.downloadUrl,
             fileName: documento.fileName,

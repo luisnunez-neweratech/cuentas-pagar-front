@@ -8,9 +8,12 @@ import Paper from "@mui/material/Paper";
 import { Grid, Link } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useHistorico } from "../hooks/useHistorico";
+import { converDateFormat } from "../../../../../../../../lib/dates";
 
 export const Historico = () => {
   const { rows, getNameTipoDocumento } = useHistorico();
+
+  console.log('rows', rows)
 
   return (
     <Grid container>
@@ -44,8 +47,10 @@ export const Historico = () => {
                   <TableCell>
                     <Link href={row.fileUrl}> {row.fileName}</Link>
                   </TableCell>
-                  <TableCell>{row.fechaInicio}</TableCell>
-                  <TableCell>{row.fechaFin}</TableCell>
+                  <TableCell>{converDateFormat(row.fechaInicio)}</TableCell>
+                  <TableCell>
+                    {row.fechaFin ? converDateFormat(row.fechaFin) : ""}
+                  </TableCell>
                   <TableCell>
                     {row.indeterminado && <CheckCircleOutlineIcon />}
                   </TableCell>
