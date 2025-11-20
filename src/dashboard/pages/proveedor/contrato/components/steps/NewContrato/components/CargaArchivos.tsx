@@ -3,13 +3,14 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { mainBackgroundColor } from "../../../../../../../../lib/constants";
 import { ArchivoElement } from "./ArchivoElement";
 import { useCargaArchivos } from "../hooks/useCargaArchivos";
+import { ArchivoPrincipal } from "./ArchivoPrincipal";
 //import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 interface myProps {
-  validateDocuments: number
+  validateDocuments: number;
 }
 
-export const CargaArchivos = ({validateDocuments}:myProps) => {
+export const CargaArchivos = ({ validateDocuments }: myProps) => {
   const {
     newStepContrato,
     clickAddArchivo,
@@ -18,17 +19,22 @@ export const CargaArchivos = ({validateDocuments}:myProps) => {
 
   return (
     <Grid container>
-      {(newStepContrato?.documentos ?? []).map((item) => (
-        <ArchivoElement
-          key={item.id}
-          id={item.id!}
-          deleteDocumento={deleteDocumento}
-          //isValidForm={isValidForm}
-          validateDocuments={validateDocuments}
-          total={newStepContrato?.documentos?.length!}
-          idInput={`file${item.id}`}
-        />
-      ))}
+      <Grid size={12}>
+        <ArchivoPrincipal />
+      </Grid>
+      <Grid size={12}>
+        {(newStepContrato?.documentos ?? []).map((item) => (
+          <ArchivoElement
+            key={item.id}
+            id={item.id!}
+            deleteDocumento={deleteDocumento}
+            //isValidForm={isValidForm}
+            validateDocuments={validateDocuments}
+            total={newStepContrato?.documentos?.length!}
+            idInput={`file${item.id}`}
+          />
+        ))}
+      </Grid>
 
       <Grid size={11} />
       <Grid size={1}>
