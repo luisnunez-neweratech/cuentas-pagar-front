@@ -449,30 +449,33 @@ export const usePerfil = () => {
         //click en modificar
         if (clickedBy === 1) {
           updateMutation.mutate({
-            id: proveedorPerfil.id,
-            supplierTypeId: TipoProveedor.Contrato.value,
-            originId: +values.tipoEntidad,
-            legalPersonTypeId: +values.tipoPersona,
-            legalName: values.razonSocial.trim(),
-            tradeName: values.alias.trim(),
-            rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
-            email: values?.email ? values.email.trim() : "",
-            supplierActivity: values.giroPrincipal
-              ? values.giroPrincipal.trim()
-              : "",
-            productServiceIds:
-              values.productos?.map((producto: any) => producto.id) ?? [],
+            putContratoPayload: {
+              id: proveedorPerfil.id,
+              supplierTypeId: TipoProveedor.Contrato.value,
+              originId: +values.tipoEntidad,
+              legalPersonTypeId: +values.tipoPersona,
+              legalName: values.razonSocial.trim(),
+              tradeName: values.alias.trim(),
+              rfc: values?.rfc ? values.rfc.toUpperCase().trim() : "",
+              email: values?.email ? values.email.trim() : "",
+              supplierActivity: values.giroPrincipal
+                ? values.giroPrincipal.trim()
+                : "",
+              productServiceIds:
+                values.productos?.map((producto: any) => producto.id) ?? [],
 
-            // si tiene domicilio actulizarlo
-            country: proveedorPerfil.pais ?? "",
-            postalCode: proveedorPerfil.codigoPostal ?? "",
-            state: proveedorPerfil.estado ?? "",
-            municipality: proveedorPerfil.municipio ?? "",
-            city: proveedorPerfil.ciudad ?? "",
-            neighborhood: proveedorPerfil.colonia ?? "",
-            street: proveedorPerfil.calle ?? "",
-            interiorNumber: proveedorPerfil.numInterior,
-            exteriorNumber: proveedorPerfil.numExterior,
+              // si tiene domicilio actulizarlo
+              country: proveedorPerfil.pais ?? "",
+              postalCode: proveedorPerfil.codigoPostal ?? "",
+              state: proveedorPerfil.estado ?? "",
+              municipality: proveedorPerfil.municipio ?? "",
+              city: proveedorPerfil.ciudad ?? "",
+              neighborhood: proveedorPerfil.colonia ?? "",
+              street: proveedorPerfil.calle ?? "",
+              interiorNumber: proveedorPerfil.numInterior,
+              exteriorNumber: proveedorPerfil.numExterior,
+            },
+            clickedBy: clickedBy,
           });
         } else {
           //click en siguiente
