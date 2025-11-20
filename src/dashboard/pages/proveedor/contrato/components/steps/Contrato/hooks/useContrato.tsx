@@ -301,13 +301,20 @@ export const useContrato = () => {
             if (clickedBy === 1) {
               // actualizar con post
               //TODO despues de validar todos ir la siguiente paso
-              toNextStep();
+              console.log("1");
+              //toNextStep();
             } else {
               //TODO despues de validar todos ir la siguiente paso
-              toNextStep();
+              //toNextStep();
+              console.log("2");
             }
           } else {
-            handleNext();
+            if (clickedBy === 1) {
+              // actualizar con post
+              toast.success("Información Actualizada");
+            } else {
+              handleNext();
+            }
           }
         }
       } else {
