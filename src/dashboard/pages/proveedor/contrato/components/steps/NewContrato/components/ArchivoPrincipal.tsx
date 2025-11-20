@@ -17,8 +17,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { ArchivoDependiente } from "./ArchivoDependiente";
+import { useArchivoPrincipal } from "../hooks/useArchivoPrincipal";
 
 export const ArchivoPrincipal = () => {
+  const { agregarPropuesta, setAgregarPropuesta } = useArchivoPrincipal();
+
   return (
     <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
       <Grid container spacing={2}>
@@ -166,13 +169,8 @@ export const ArchivoPrincipal = () => {
           <FormControlLabel
             control={
               <Checkbox
-              /* checked={values.indeterminado}
-                onChange={() => {
-                  setFieldValue("indeterminado", !values.indeterminado);
-                  if (!values.indeterminado === true) {
-                    setFieldValue("fechaFin", "");
-                  }
-                }} */
+                checked={agregarPropuesta}
+                onChange={() => setAgregarPropuesta(!agregarPropuesta)}
               />
             }
             label="Agregar Propuesta"
@@ -198,11 +196,13 @@ export const ArchivoPrincipal = () => {
           />
         </Grid>
         <Grid size={4} />
-        <ArchivoDependiente
-          title="Propuesta"
-          fechaVencimiento={true}
-          indeterminado={true}
-        />
+        {agregarPropuesta && (
+          <ArchivoDependiente
+            title="Propuesta"
+            fechaVencimiento={true}
+            indeterminado={true}
+          />
+        )}
         <ArchivoDependiente
           title="Anexo"
           fechaVencimiento={false}
