@@ -98,6 +98,7 @@ const initialNewStepContrato = {
       newElement: true,
     },
   ],
+  historialDocumentos: [],
 };
 
 const initialStepDomicilio = {
@@ -385,14 +386,12 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
       ],
     }));
   },
-  updateCuentaBancaria: (id: number, cuentaBancaria: StepCuentaBancaria) => {    
-
+  updateCuentaBancaria: (id: number, cuentaBancaria: StepCuentaBancaria) => {
     set((state) => ({
       stepCuentaBancaria: (state.stepCuentaBancaria ?? []).map((item) => {
         return item.id === id ? { ...cuentaBancaria } : item;
       }),
     }));
-    
   },
 
   setStepContacto: (stepContacto: StepContacto[]) => {

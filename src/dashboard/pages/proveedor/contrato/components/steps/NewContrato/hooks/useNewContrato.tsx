@@ -195,7 +195,7 @@ export const useNewContrato = () => {
       doValidateColaboradores(validateColaboradores + 1);
       doValidateDocuments(validateDocuments + 1);
       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
-        console.log('here')
+        console.log("here");
         //type fisico
         const prevStepContrato = getNewStepContrato();
         const stepContrato: NewStepContrato = {
@@ -203,8 +203,9 @@ export const useNewContrato = () => {
           noColaborador: checkContractor ? values.noColaborador : "",
           contractor: checkContractor,
           documentos: prevStepContrato?.documentos!,
+          historialDocumentos: prevStepContrato?.historialDocumentos!,
         };
-        setNewStepContrato(stepContrato);        
+        setNewStepContrato(stepContrato);
         if (getValidScreen()) {
           // crear contrato
           createMutation.mutate({
@@ -220,7 +221,7 @@ export const useNewContrato = () => {
             },
             supplierId: stateContrato.id?.toString()!,
           });
-          
+
           stepContrato.documentos.map((documento) => {
             if (documento.fileValue) {
               createDocumentoMutation.mutate({
@@ -265,6 +266,7 @@ export const useNewContrato = () => {
             ],
             //obtener documentos
             documentos: prevStepContrato?.documentos!,
+            historialDocumentos: prevStepContrato?.historialDocumentos!,
           };
           setNewStepContrato(newStepContrato);
           if (getValidScreen()) {
@@ -315,6 +317,7 @@ export const useNewContrato = () => {
               contractor: checkContractor,
               colaboradores: newStepContrato?.colaboradores,
               documentos: prevStepContrato?.documentos!,
+              historialDocumentos: prevStepContrato?.historialDocumentos!,
             };
             setNewStepContrato(_newStepContrato);
             if (getValidScreen()) {
@@ -386,6 +389,6 @@ export const useNewContrato = () => {
     id: idParams,
     setClickedBy,
     validateColaboradores,
-    validateDocuments
+    validateDocuments,
   };
 };

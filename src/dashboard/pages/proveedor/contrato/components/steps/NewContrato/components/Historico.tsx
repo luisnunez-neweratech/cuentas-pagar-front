@@ -7,6 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Grid } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
 function createData(
   tipo: string,
@@ -39,6 +40,12 @@ const rows = [
 ];
 
 export const Historico = () => {
+  const getNewStepContrato = useProveedorContratoStore(
+    (state) => state.getNewStepContrato
+  );
+
+  console.log("getNewStepContrato", getNewStepContrato());
+
   return (
     <Grid container>
       <Grid size={12}>

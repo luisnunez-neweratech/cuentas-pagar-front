@@ -15,6 +15,7 @@ export interface NewStepContrato {
   noColaborador?: string;
   colaboradores?: Colaboradores[];
   documentos: NewDocumento[];
+  historialDocumentos: HistorialDocumentos[] | []
 }
 
  export interface NewDocumento {
@@ -27,4 +28,14 @@ export interface NewStepContrato {
   fileName?: string; // nombre del archivo de BD
   tipoDocumento: number;
   newElement: boolean;
+}
+
+ export interface HistorialDocumentos {
+  id: number;
+  fechaInicio: string;
+  fechaFin?: string;
+  indeterminado: boolean;
+  fileUrl: string;  
+  fileName: string;
+  tipoDocumento: number;
 }
