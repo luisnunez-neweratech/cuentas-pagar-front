@@ -20,7 +20,6 @@ import {
 } from "../../../../services/proveedor.contrato.service";
 import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
-import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 import { TipoContacto } from "../../../../../interfaces/TipoContacto";
 import type { HistorialDocumentos } from "../../../../interface/stepContrato";
 

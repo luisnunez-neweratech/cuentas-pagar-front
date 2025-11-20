@@ -3,7 +3,6 @@ import { CuentaBancaria } from "../components/steps/CuentaBancaria/CuentaBancari
 import { Contacto } from "../components/steps/Contacto/Contacto";
 import { useNavigate } from "react-router";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
-import { Contrato } from "../components/steps/Contrato/Contrato";
 import { Perfil } from "../components/steps/Perfil/Perfil";
 import { NewContrato } from "../components/steps/NewContrato/NewContrato";
 
@@ -30,7 +29,7 @@ export const useProveedorContratoPage = () => {
       case 1:
         return <Domicilio />;
       case 2:
-        return <NewContrato />; //return <Contrato />;
+        return <NewContrato />;
       case 3:
         return <CuentaBancaria />;
       case 4:

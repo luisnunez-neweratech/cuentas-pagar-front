@@ -16,7 +16,7 @@ import {
   addDocumentoProveedor,
   //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
-import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
+//import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 import { useParams } from "react-router";
 
 export const useNewContrato = () => {
@@ -59,10 +59,10 @@ export const useNewContrato = () => {
     setIsLoading(state);
   };
 
-  const toNextStep = () => {
+  /*   const toNextStep = () => {
     toast.success("Información Actualizada");
     handleNext();
-  };
+  }; */
 
   //TODO para la edicion de datos contrato moral
   /* const createColaboradorMutation = useMutation({

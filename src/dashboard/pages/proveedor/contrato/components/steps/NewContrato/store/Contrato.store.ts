@@ -15,7 +15,7 @@ interface IContrato {
   getValidScreen: () => boolean;
 }
 
-export const useContratoStore = create<IContrato>()((set, get) => ({
+export const useContratoStore = create<IContrato>()((set) => ({
   validScreen: false,
   validArchivoPrincipal: false, // requerido
   validArchivoCSF: false, // requerido
