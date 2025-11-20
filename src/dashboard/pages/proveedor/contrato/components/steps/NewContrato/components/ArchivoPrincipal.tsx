@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  Divider,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -14,7 +13,7 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs from "dayjs";
+//import dayjs from "dayjs";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { ArchivoDependiente } from "./ArchivoDependiente";
 import { useArchivoPrincipal } from "../hooks/useArchivoPrincipal";

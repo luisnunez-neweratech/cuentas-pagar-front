@@ -31,15 +31,15 @@ export const useArchivoDependiente = ({ idInput }: props) => {
   };
 
   const {
-    handleSubmit,
+    //handleSubmit,
     values,
     touched,
     errors,
     setFieldValue,
     setFieldTouched,
-    validateForm,
-    handleChange,
-    handleBlur,
+    //validateForm,
+    //handleChange,
+    //handleBlur,
   } = useFormik({
     initialValues: getInitialValues(),
     validationSchema: null, //validationArchivoschema(idInput),
@@ -48,7 +48,7 @@ export const useArchivoDependiente = ({ idInput }: props) => {
     },
   });
 
-  const [fileName, setFileName] = useState("");
+  const [_fileName, setFileName] = useState("");
 
   const handleFileChange = (event: any) => {
     /* const formData = new FormData();

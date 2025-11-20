@@ -27,13 +27,13 @@ export const useArchivoPrincipal = () => {
   };
 
   const {
-    handleSubmit,
+    //handleSubmit,
     values,
     touched,
     errors,
-    setFieldValue,
-    setFieldTouched,
-    validateForm,
+    //setFieldValue,
+    //setFieldTouched,
+    //validateForm,
     handleChange,
     handleBlur,
   } = useFormik({
