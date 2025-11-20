@@ -18,7 +18,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 export const ArchivoElement = () => {
   return (
-    <Paper elevation={3} sx={{ padding: 2 }}>
+    <Paper elevation={3} sx={{ padding: 2, marginBottom:2 }}>
         <Grid container spacing={2}>
           <Grid size={3}>
             <FormControl

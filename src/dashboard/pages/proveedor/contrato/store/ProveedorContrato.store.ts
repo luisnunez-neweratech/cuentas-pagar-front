@@ -1,6 +1,10 @@
 import { type StateCreator, create } from "zustand";
 import type { StepPerfil } from "../interface/stepPerfil";
-import type { StepContrato } from "../interface/stepContrato";
+import type {
+  NewDocumento,
+  NewStepContrato,
+  StepContrato,
+} from "../interface/stepContrato";
 import type { StepDomicilio } from "../interface/stepDomicilio";
 import type { StepCuentaBancaria } from "../interface/stepCuentaBancaria";
 import type { StepContacto } from "../interface/stepContacto";
@@ -65,6 +69,37 @@ const initialStepContrato = {
   },
 };
 
+const initialNewStepContrato = {
+  id: null,
+  contractor: false,
+  noColaborador: "",
+  colaboradores: [
+    {
+      id: 1,
+      valido: false,
+      nombre: "",
+      noColaborador: "",
+      fechaFin: "",
+      fechaInicio: "",
+      status: true,
+      newElement: true,
+    },
+  ],
+  documentos: [
+    {
+      id: 1,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+      fileValue: null,
+      addToContrato: false,
+      fileName: "",
+      tipoDocumento: 0,
+      newElement: true,
+    },
+  ],
+};
+
 const initialStepDomicilio = {
   pais: "",
   codigoPostal: "",
@@ -110,6 +145,7 @@ export interface AuthState {
   activeStep: number;
   stepPerfil?: StepPerfil | null;
   stepContrato?: StepContrato | null;
+  newStepContrato?: NewStepContrato | null;
   stepDomicilio?: StepDomicilio | null;
   stepCuentaBancaria?: StepCuentaBancaria[] | null;
   stepContacto?: StepContacto[] | null;
@@ -129,6 +165,15 @@ export interface AuthState {
   removeColaborador: (id: number) => void;
   updateColaborador: (id: number, colaborador: Colaboradores) => void;
   updateDocumentos: (documentos: Documentos) => void;
+
+  setNewStepContrato: (newStepContrato: NewStepContrato) => void;
+  getNewStepContrato: () => NewStepContrato | null | undefined;
+  addNewColaborador: (colaborador: Colaboradores) => void;
+  removeNewColaborador: (id: number) => void;
+  updateNewColaborador: (id: number, colaborador: Colaboradores) => void;
+  addNewDocument: (documento: NewDocumento) => void;
+  removeNewDocumento: (id: number) => void;
+  updateNewDocumento: (id: number, documento: NewDocumento) => void;
 
   setStepDomicilio: (stepDomicilio: StepDomicilio) => void;
   getStepDomicilio: () => StepDomicilio | null | undefined;
@@ -155,6 +200,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   activeStep: 0,
   stepPerfil: null,
   stepContrato: initialStepContrato,
+  newStepContrato: initialNewStepContrato,
   stepDomicilio: initialStepDomicilio,
   stepCuentaBancaria: initialStepCuentBancaria,
   stepContacto: initialStepContacto,
@@ -180,6 +226,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
       activeStep: 0,
       stepPerfil: null,
       stepContrato: initialStepContrato,
+      newStepContrato: initialNewStepContrato,
       stepDomicilio: initialStepDomicilio,
       stepCuentaBancaria: initialStepCuentBancaria,
       stepContacto: initialStepContacto,
@@ -193,6 +240,76 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   },
   getStepPerfil: () => {
     return get().stepPerfil;
+  },
+
+  setNewStepContrato: (newStepContrato: NewStepContrato) => {
+    set({ newStepContrato: newStepContrato });
+  },
+  getNewStepContrato: () => {
+    return get().newStepContrato;
+  },
+  addNewColaborador: (colaborador: Colaboradores) => {
+    set((state) => ({
+      newStepContrato: {
+        ...state.newStepContrato!,
+        colaboradores: [
+          ...(state.newStepContrato?.colaboradores ?? []),
+          colaborador,
+        ],
+      },
+    }));
+  },
+  removeNewColaborador: (id: number) => {
+    set((state) => ({
+      newStepContrato: {
+        ...state.newStepContrato!,
+        colaboradores: [
+          ...(state.newStepContrato!.colaboradores!.filter(
+            (item) => item.id !== id
+          ) ?? []),
+        ],
+      },
+    }));
+  },
+  updateNewColaborador: (id: number, colaborador: Colaboradores) => {
+    set((state) => ({
+      newStepContrato: {
+        ...state.newStepContrato!,
+        colaboradores: (state.newStepContrato?.colaboradores ?? []).map(
+          (item) => (item.id === id ? { ...colaborador } : item)
+        ),
+      },
+    }));
+  },
+  addNewDocument: (documento: NewDocumento) => {
+    set((state) => ({
+      newStepContrato: {
+        ...state.newStepContrato!,
+        documentos: [...(state.newStepContrato?.documentos ?? []), documento],
+      },
+    }));
+  },
+  removeNewDocumento: (id: number) => {
+    set((state) => ({
+      newStepContrato: {
+        ...state.newStepContrato!,
+        documentos: [
+          ...(state.newStepContrato!.documentos!.filter(
+            (item) => item.id !== id
+          ) ?? []),
+        ],
+      },
+    }));
+  },
+  updateNewDocumento: (id: number, documento: NewDocumento) => {
+    set((state) => ({
+      newStepContrato: {
+        ...state.newStepContrato!,
+        documentos: (state.newStepContrato?.documentos ?? []).map((item) =>
+          item.id === id ? { ...documento } : item
+        ),
+      },
+    }));
   },
 
   setStepContrato: (stepContrato: StepContrato) => {
@@ -269,15 +386,15 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
     }));
   },
   updateCuentaBancaria: (id: number, cuentaBancaria: StepCuentaBancaria) => {
-    console.log('cuentaBancaria', cuentaBancaria)
-    
+    console.log("cuentaBancaria", cuentaBancaria);
+
     set((state) => ({
       stepCuentaBancaria: (state.stepCuentaBancaria ?? []).map((item) => {
         return item.id === id ? { ...cuentaBancaria } : item;
       }),
     }));
-    
-    console.log('updated?',get().stepCuentaBancaria)
+
+    console.log("updated?", get().stepCuentaBancaria);
   },
 
   setStepContacto: (stepContacto: StepContacto[]) => {
