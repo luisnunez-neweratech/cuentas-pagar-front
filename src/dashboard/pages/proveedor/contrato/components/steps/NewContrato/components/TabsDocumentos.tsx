@@ -33,7 +33,11 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-export const TabsDocumentos = () => {
+interface tabsDocumentosProps {
+  validateDocuments: number;
+}
+
+export const TabsDocumentos = ({validateDocuments}: tabsDocumentosProps) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -52,7 +56,7 @@ export const TabsDocumentos = () => {
           <Tab icon={<HistoryIcon />} label="Histórico" />
         </Tabs>
         <TabPanel value={value} index={0}>
-          <CargaArchivos />
+          <CargaArchivos validateDocuments={validateDocuments} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <Historico />

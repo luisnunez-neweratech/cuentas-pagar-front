@@ -24,7 +24,7 @@ interface props {
   id: number;
   deleteDocumento: (id: number) => void;
   //isValidForm: (id: number, valid: boolean) => void;
-  //validateColaboradores: number;
+  validateDocuments: number;
   idInput: string;
   total: number;
 }
@@ -34,6 +34,7 @@ export const ArchivoElement = ({
   total,
   deleteDocumento,
   idInput,
+  validateDocuments
 }: props) => {
   const {
     values,
@@ -45,7 +46,7 @@ export const ArchivoElement = ({
     handleBlur,
     fileName,
     handleFileChange,
-  } = useArchivoElement({ idInput, id });
+  } = useArchivoElement({ idInput, id, validateDocuments });
 
   return (
     <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>

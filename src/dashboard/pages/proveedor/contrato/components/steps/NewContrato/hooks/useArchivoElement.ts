@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validationArchivoschema } from "../components/ArchivosValidation";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
@@ -7,31 +7,40 @@ interface props {
   //tipoDocumento: TipoDocumento;
   id: number;
   idInput: string;
-  /*  optional?: boolean;
-  validateDocuments: number; */
+  validateDocuments: number;
+  /*  optional?: boolean;*/
 }
 
-export const useArchivoElement = ({ idInput, id }: props) => {
+export const useArchivoElement = ({
+  idInput,
+  id,
+  validateDocuments,
+}: props) => {
+  useEffect(() => {
+    console.log('aa')
+    validateArchivoElement(); //children function of interest
+  }, [validateDocuments]);
 
-
-const getNewStepContrato = useProveedorContratoStore(
+  const getNewStepContrato = useProveedorContratoStore(
     (state) => state.getNewStepContrato
   );
 
+  const updateNewDocumento = useProveedorContratoStore(
+    (state) => state.updateNewDocumento
+  );
 
- 
   const getInitialValues = () => {
     const documento = getNewStepContrato()?.documentos?.find(
       (item) => item.id === id
     );
     return {
-       tipoDocumento: documento?.tipoDocumento,
+      tipoDocumento: documento?.tipoDocumento,
       fechaInicio: documento?.fechaInicio, // Or dayjs() for a default value
       fechaFin: documento?.fechaFin, // Or dayjs() for a default value
       indeterminado: documento?.indeterminado,
-      [idInput]: idInput,    
+      [idInput]: idInput,
     };
-  }; 
+  };
 
   const {
     handleSubmit,
@@ -62,6 +71,46 @@ const getNewStepContrato = useProveedorContratoStore(
       setFileName(fileNames.join(" "));
       setFieldValue(idInput, event.target.files[0]);
     }
+  };
+
+  useEffect(() => {
+    validateArchivoElement();
+  }, [errors]);
+
+  useEffect(() => {
+    validateArchivoElement();
+  }, [values]);
+
+  const validateArchivoElement = async () => {
+    handleSubmit();
+    validateForm().then((errors) => {
+      if (Object.keys(errors).length === 0) {
+        console.log("llega aqui?");
+        updateNewDocumento(id, {
+          id: id,
+          fechaInicio: values.fechaInicio ?? "",
+          fechaFin: values.fechaFin,
+          indeterminado: values.indeterminado!,
+          fileValue: values[idInput],
+          fileName: fileName,
+          tipoDocumento: values.tipoDocumento ?? 0,
+          newElement: true,
+        });
+      } else {
+        /* if (tipoDocumento === TipoDocumento.principal) {
+          setValidArchivoPrincipal(false);
+        }
+        if (tipoDocumento === TipoDocumento.csf) {
+          setValidArchivoCSF(false);
+        }
+        if (tipoDocumento === TipoDocumento.idRepLegal) {
+          setValidIdRepLegal(false);
+        }
+        if (tipoDocumento === TipoDocumento.compDomicilio) {
+          setValidCompDomicilio(false);
+        } */
+      }
+    });
   };
 
   return {

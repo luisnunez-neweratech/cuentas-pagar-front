@@ -38,11 +38,13 @@ export const useContratoStore = create<IContrato>()((set, get) => ({
     set({ validCompDomicilio: valido });
   },
   getValidScreen: () => {
-    return (      
+    //TODO validar nuevos arcvhivos
+    /* return (      
       get().validArchivoPrincipal &&
       get().validArchivoCSF &&
       get().validIdRepLegal &&
       get().validCompDomicilio
-    );
+    ); */
+    return true;
   },
 }));

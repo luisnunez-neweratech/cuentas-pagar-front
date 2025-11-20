@@ -32,6 +32,7 @@ export const NewContrato = () => {
     id,
     setClickedBy,
     validateColaboradores,
+    validateDocuments
   } = useNewContrato();
 
   return (
@@ -85,7 +86,7 @@ export const NewContrato = () => {
         </Grid>
 
         {/* nuevos documentos */}
-        <TabsDocumentos />
+        <TabsDocumentos validateDocuments={validateDocuments} />
 
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

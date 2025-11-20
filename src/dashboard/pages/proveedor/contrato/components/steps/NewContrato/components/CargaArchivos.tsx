@@ -3,11 +3,18 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { mainBackgroundColor } from "../../../../../../../../lib/constants";
 import { ArchivoElement } from "./ArchivoElement";
 import { useCargaArchivos } from "../hooks/useCargaArchivos";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+//import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-export const CargaArchivos = () => {
-  const { newStepContrato, clickAddArchivo, deleteDocumento, enviarArchivos } =
-    useCargaArchivos();
+interface myProps {
+  validateDocuments: number
+}
+
+export const CargaArchivos = ({validateDocuments}:myProps) => {
+  const {
+    newStepContrato,
+    clickAddArchivo,
+    deleteDocumento /* enviarArchivos */,
+  } = useCargaArchivos();
 
   return (
     <Grid container>
@@ -17,13 +24,13 @@ export const CargaArchivos = () => {
           id={item.id!}
           deleteDocumento={deleteDocumento}
           //isValidForm={isValidForm}
-          //validateColaboradores={validateColaboradores}          
+          validateDocuments={validateDocuments}
           total={newStepContrato?.documentos?.length!}
           idInput={`file${item.id}`}
         />
       ))}
 
-      <Grid size={10} />
+      <Grid size={11} />
       <Grid size={1}>
         <Tooltip title="Agregar Nuevo Documento">
           <IconButton
@@ -39,7 +46,7 @@ export const CargaArchivos = () => {
           </IconButton>
         </Tooltip>
       </Grid>
-      <Grid size={1}>
+      {/*  <Grid size={1}>
         <Tooltip title="Cargar Documentos">
           <IconButton
             sx={{ color: mainBackgroundColor }}
@@ -53,7 +60,7 @@ export const CargaArchivos = () => {
             />
           </IconButton>
         </Tooltip>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

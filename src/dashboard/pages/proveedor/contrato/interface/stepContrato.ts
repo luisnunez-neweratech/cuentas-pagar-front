@@ -22,7 +22,7 @@ export interface NewStepContrato {
   fechaInicio: string;
   fechaFin?: string;
   indeterminado: boolean;
-  fileValue?: File | null;
+  fileValue?: any | null;
   addToContrato?: boolean;  
   fileName?: string; // nombre del archivo de BD
   tipoDocumento: number;
