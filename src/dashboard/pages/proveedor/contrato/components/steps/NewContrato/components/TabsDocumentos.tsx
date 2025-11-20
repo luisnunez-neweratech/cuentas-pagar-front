@@ -5,6 +5,7 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import HistoryIcon from "@mui/icons-material/History";
 import { Box, Grid, Typography } from "@mui/material";
 import { Historico } from "./Historico";
+import { CargaArchivos } from "./CargaArchivos";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,21 +41,23 @@ export const TabsDocumentos = () => {
   };
 
   return (
-    <Grid container>
+    
       <Grid size={12}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="icon label tabs example"
         >
-          <Tab icon={<DriveFolderUploadIcon />} label="Carga de Archivos" />
+          <Tab icon={<DriveFolderUploadIcon />} label="Carga de Documentos" />
           <Tab icon={<HistoryIcon />} label="Histórico" />
         </Tabs>
-        <TabPanel value={value} index={0}></TabPanel>
+        <TabPanel value={value} index={0}>
+          <CargaArchivos />
+        </TabPanel>
         <TabPanel value={value} index={1}>
           <Historico />
         </TabPanel>
       </Grid>
-    </Grid>
+    
   );
 };
