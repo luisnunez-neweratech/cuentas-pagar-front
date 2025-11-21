@@ -15,6 +15,7 @@ import {
   addProveedorContrato,
   addDocumentoProveedor,
   addDocumentoPrincipalProveedor,
+  addColaboradoresProveedor,
   //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
 //import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
@@ -68,22 +69,21 @@ export const useNewContrato = () => {
     handleNext();
   };
 
-  //TODO para la edicion de datos contrato moral
-  /* const createColaboradorMutation = useMutation({
-        mutationFn: addColaboradoresProveedor,
-        onError: (error) => {
-          console.log(error);
-          if (error instanceof AxiosError) {
-            toast.error(error.message);
-            return;
-          }
-          toast.error("Error al actualizar el colaborador");
-          return;
-        },
-        onSettled: () => {
-          handleDisableButtons(false);
-        },
-      }); */
+  const createColaboradorMutation = useMutation({
+    mutationFn: addColaboradoresProveedor,
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el colaborador");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
 
   const createDocumentoMutation = useMutation({
     mutationFn: addDocumentoProveedor,
