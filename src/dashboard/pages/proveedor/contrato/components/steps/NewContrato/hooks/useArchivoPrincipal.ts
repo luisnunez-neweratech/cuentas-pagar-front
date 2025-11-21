@@ -25,7 +25,7 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
   const [showPrincipal, setShowPrincipal] = useState(false);
   const [isPrincipal, setIsPrincipal] = useState(false);
 
-  const [showPropuesta, setShowPropuesta] = useState(false);
+  const [showPropuesta, setShowPropuesta] = useState(true);
 
   const [fileName, setFileName] = useState("");
 
