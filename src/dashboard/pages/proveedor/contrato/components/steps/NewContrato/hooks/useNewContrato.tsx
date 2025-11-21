@@ -281,9 +281,11 @@ export const useNewContrato = () => {
             // crear contrato
             createMutation.mutate({
               postContratoPayload: {
-                startDate: new Date(), // TODO actulizar cuando se cargue contratos
-                endDate: null, //new Date(),
-                indefiniteEnd: true,
+                startDate: new Date(stateArchivoPrincipal.fechaInicio),
+                endDate: !stateArchivoPrincipal.indeterminado
+                  ? new Date(stateArchivoPrincipal.fechaFin!)
+                  : null,
+                indefiniteEnd: stateArchivoPrincipal.indeterminado,
                 isNEContractor: stepContrato?.noColaborador?.length
                   ? true
                   : false,
@@ -347,11 +349,11 @@ export const useNewContrato = () => {
               if (stateArchivoPrincipal.file) {
                 createMutation.mutate({
                   postContratoPayload: {
-                    startDate: new Date() /* new Date(
-                      newStepContrato.documentos.principal.fechaInicio
-                    ) */,
-                    endDate: null,
-                    indefiniteEnd: true,
+                    startDate: new Date(stateArchivoPrincipal.fechaInicio),
+                    endDate: !stateArchivoPrincipal.indeterminado
+                      ? new Date(stateArchivoPrincipal.fechaFin!)
+                      : null,
+                    indefiniteEnd: stateArchivoPrincipal.indeterminado,
                     isNEContractor: newStepContrato?.noColaborador?.length
                       ? true
                       : false,
@@ -404,9 +406,11 @@ export const useNewContrato = () => {
                 if (stateArchivoPrincipal.file) {
                   createMutation.mutate({
                     postContratoPayload: {
-                      startDate: new Date(), //TODO actulizar valores
-                      endDate: null,
-                      indefiniteEnd: true,
+                      startDate: new Date(stateArchivoPrincipal.fechaInicio),
+                      endDate: !stateArchivoPrincipal.indeterminado
+                        ? new Date(stateArchivoPrincipal.fechaFin!)
+                        : null,
+                      indefiniteEnd: stateArchivoPrincipal.indeterminado,
                       isNEContractor: checkContractor,
                       nePersonType: TipoPersona.Moral.label,
                       neCollaboratorNumber:
