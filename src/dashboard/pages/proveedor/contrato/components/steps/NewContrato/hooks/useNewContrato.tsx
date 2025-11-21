@@ -120,10 +120,8 @@ export const useNewContrato = () => {
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
     onSuccess: (data) => {
-      console.log("contrato response", data);
       //toNextStep();
       // documento principal
-      console.log("h1", stateArchivoPrincipal);
       if (stateArchivoPrincipal.file) {
         createDocumentoPrincipalMutation.mutate({
           postDocumentoPrincipalProveedor: {
@@ -279,20 +277,22 @@ export const useNewContrato = () => {
         };
         setNewStepContrato(stepContrato);
         if (getValidScreen()) {
-          // crear contrato
-          createMutation.mutate({
-            postContratoPayload: {
-              startDate: new Date(), // TODO actulizar cuando se cargue contratos
-              endDate: null, //new Date(),
-              indefiniteEnd: true,
-              isNEContractor: stepContrato?.noColaborador?.length
-                ? true
-                : false,
-              nePersonType: TipoPersona.Fisica.label,
-              neCollaboratorNumber: stepContrato?.noColaborador ?? null,
-            },
-            supplierId: stateContrato.id?.toString()!,
-          });
+          if (stateArchivoPrincipal.file) {
+            // crear contrato
+            createMutation.mutate({
+              postContratoPayload: {
+                startDate: new Date(), // TODO actulizar cuando se cargue contratos
+                endDate: null, //new Date(),
+                indefiniteEnd: true,
+                isNEContractor: stepContrato?.noColaborador?.length
+                  ? true
+                  : false,
+                nePersonType: TipoPersona.Fisica.label,
+                neCollaboratorNumber: stepContrato?.noColaborador ?? null,
+              },
+              supplierId: stateContrato.id?.toString()!,
+            });
+          }
 
           //agrega documentos
           stepContrato.documentos.map((documento) => {
@@ -344,21 +344,24 @@ export const useNewContrato = () => {
           if (getValidScreen()) {
             if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
               // moral sin colaboradores
-              createMutation.mutate({
-                postContratoPayload: {
-                  startDate: new Date() /* new Date(
-                    newStepContrato.documentos.principal.fechaInicio
-                  ) */,
-                  endDate: null,
-                  indefiniteEnd: true,
-                  isNEContractor: newStepContrato?.noColaborador?.length
-                    ? true
-                    : false,
-                  nePersonType: TipoPersona.Moral.label,
-                  neCollaboratorNumber: newStepContrato?.noColaborador ?? null,
-                },
-                supplierId: stateContrato.id?.toString()!,
-              });
+              if (stateArchivoPrincipal.file) {
+                createMutation.mutate({
+                  postContratoPayload: {
+                    startDate: new Date() /* new Date(
+                      newStepContrato.documentos.principal.fechaInicio
+                    ) */,
+                    endDate: null,
+                    indefiniteEnd: true,
+                    isNEContractor: newStepContrato?.noColaborador?.length
+                      ? true
+                      : false,
+                    nePersonType: TipoPersona.Moral.label,
+                    neCollaboratorNumber:
+                      newStepContrato?.noColaborador ?? null,
+                  },
+                  supplierId: stateContrato.id?.toString()!,
+                });
+              }
 
               newStepContrato?.documentos.map((documento) => {
                 if (documento.fileValue) {
@@ -398,18 +401,20 @@ export const useNewContrato = () => {
             if (getValidScreen()) {
               if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
                 // moral con colaboradores
-                createMutation.mutate({
-                  postContratoPayload: {
-                    startDate: new Date(), //TODO actulizar valores
-                    endDate: null,
-                    indefiniteEnd: true,
-                    isNEContractor: checkContractor,
-                    nePersonType: TipoPersona.Moral.label,
-                    neCollaboratorNumber:
-                      newStepContrato?.noColaborador ?? null,
-                  },
-                  supplierId: stateContrato.id?.toString()!,
-                });
+                if (stateArchivoPrincipal.file) {
+                  createMutation.mutate({
+                    postContratoPayload: {
+                      startDate: new Date(), //TODO actulizar valores
+                      endDate: null,
+                      indefiniteEnd: true,
+                      isNEContractor: checkContractor,
+                      nePersonType: TipoPersona.Moral.label,
+                      neCollaboratorNumber:
+                        newStepContrato?.noColaborador ?? null,
+                    },
+                    supplierId: stateContrato.id?.toString()!,
+                  });
+                }
 
                 newStepContrato?.documentos.map((documento) => {
                   if (documento.fileValue) {

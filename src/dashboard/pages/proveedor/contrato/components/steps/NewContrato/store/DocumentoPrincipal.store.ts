@@ -33,6 +33,8 @@ interface IContrato {
   ) => void;
 
   updateAnexo: (anexoFile: any, anexoFechaInicio: string) => void;
+
+  clearData: () => void;
 }
 
 export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
@@ -84,7 +86,25 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
   updateAnexo: (anexoFile: any, anexoFechaInicio: string) => {
     set({
       anexoFile,
-      anexoFechaInicio
+      anexoFechaInicio,
     });
-  }
+  },
+  clearData: () => {
+    set({
+      tipoDocumento: 0,
+      fechaInicio: "",
+      fechaFin: "",
+      indeterminado: true,
+      file: null,
+      isPrincipal: false,
+
+      propuestaFile: null,
+      propuestaFechaInicio: "",
+      propuestaFechaFin: "",
+      propuestaIndeterminado: true,
+
+      anexoFile: null,
+      anexoFechaInicio: "",
+    });
+  },
 }));
