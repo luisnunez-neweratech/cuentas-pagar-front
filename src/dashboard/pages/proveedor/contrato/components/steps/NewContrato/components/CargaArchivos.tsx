@@ -20,7 +20,7 @@ export const CargaArchivos = ({ validateDocuments }: myProps) => {
   return (
     <Grid container>
       <Grid size={12}>
-        <ArchivoPrincipal />
+        <ArchivoPrincipal validateDocuments={validateDocuments} />
       </Grid>
       <Grid size={12}>
         {(newStepContrato?.documentos ?? []).map((item) => (

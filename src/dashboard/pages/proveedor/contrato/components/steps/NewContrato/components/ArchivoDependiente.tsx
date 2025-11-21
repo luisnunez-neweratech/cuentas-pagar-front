@@ -30,6 +30,7 @@ export const ArchivoDependiente = ({
     touched,
     errors,
     setFieldTouched,
+    fileName,
   } = useArchivoDependiente({
     idInput: title,
   });
@@ -129,6 +130,13 @@ export const ArchivoDependiente = ({
           />
         </Grid>
       )}
+      <Grid size={8}>
+        {fileName && (
+          <p style={{ color: "rgba(0, 0, 0, 0.6)" }}>
+            {`Nombre del Archivo: ${fileName}`}
+          </p>
+        )}
+      </Grid>
     </>
   );
 };

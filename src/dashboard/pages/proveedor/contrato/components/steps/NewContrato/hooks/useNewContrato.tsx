@@ -14,10 +14,12 @@ import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLay
 import {
   addProveedorContrato,
   addDocumentoProveedor,
+  addDocumentoPrincipalProveedor,
   //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
 //import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 import { useParams } from "react-router";
+import { useDocumentoPrincipalStore } from "../store/DocumentoPrincipal.store";
 
 export const useNewContrato = () => {
   const { id: idParams } = useParams();
@@ -43,6 +45,8 @@ export const useNewContrato = () => {
   const getValidScreen = useContratoStore((state) => state.getValidScreen);
 
   const stateContrato = useProveedorContratoStore((state) => state);
+
+  const stateArchivoPrincipal = useDocumentoPrincipalStore((state) => state);
 
   const [checkContractor, setCheckContractor] = useState<boolean>(
     getNewStepContrato()?.contractor ?? false
@@ -97,10 +101,47 @@ export const useNewContrato = () => {
     },
   });
 
+  const createDocumentoPrincipalMutation = useMutation({
+    mutationFn: addDocumentoPrincipalProveedor,
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar el documento");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
+
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
-    onSuccess: (_data) => {
+    onSuccess: (data) => {
+      console.log("contrato response", data);
       //toNextStep();
+      // documento principal
+      console.log("h1", stateArchivoPrincipal);
+      if (stateArchivoPrincipal.file) {
+        createDocumentoPrincipalMutation.mutate({
+          postDocumentoPrincipalProveedor: {
+            documentType: stateArchivoPrincipal.tipoDocumento,
+            isProposal:
+              stateArchivoPrincipal.tipoDocumento === 0 ? false : true,
+            isMainDocument:
+              stateArchivoPrincipal.tipoDocumento === 0
+                ? true
+                : stateArchivoPrincipal.isPrincipal,
+            fechaInicio: stateArchivoPrincipal.fechaInicio,
+            fechaVencimiento: stateArchivoPrincipal.fechaFin ?? "",
+            esIndeterminado: stateArchivoPrincipal.indeterminado,
+            file: stateArchivoPrincipal.file,
+          },
+          contractId: data.id,
+        });
+      }
     },
     onError: (error) => {
       console.log(error);
@@ -289,6 +330,8 @@ export const useNewContrato = () => {
                 supplierId: stateContrato.id?.toString()!,
               });
 
+              console.log("h2", stateArchivoPrincipal);
+
               newStepContrato?.documentos.map((documento) => {
                 if (documento.fileValue) {
                   createDocumentoMutation.mutate({
@@ -335,6 +378,8 @@ export const useNewContrato = () => {
                   },
                   supplierId: stateContrato.id?.toString()!,
                 });
+
+                console.log("h3", stateArchivoPrincipal);
 
                 newStepContrato?.documentos.map((documento) => {
                   if (documento.fileValue) {

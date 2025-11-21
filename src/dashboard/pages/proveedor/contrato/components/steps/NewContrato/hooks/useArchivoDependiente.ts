@@ -10,6 +10,7 @@ interface props {
 }
 
 export const useArchivoDependiente = ({ idInput }: props) => {
+
   const getInitialValues = () => {
     /* const documento = getNewStepContrato()?.documentos?.find(
       (item) => item.id === id
@@ -48,7 +49,7 @@ export const useArchivoDependiente = ({ idInput }: props) => {
     },
   });
 
-  const [_fileName, setFileName] = useState("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileChange = (event: any) => {
     /* const formData = new FormData();
@@ -68,5 +69,6 @@ export const useArchivoDependiente = ({ idInput }: props) => {
     touched,
     errors,
     setFieldTouched,
+    fileName
   };
 };

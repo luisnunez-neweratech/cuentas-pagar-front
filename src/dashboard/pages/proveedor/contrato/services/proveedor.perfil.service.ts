@@ -1,6 +1,7 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
 import type { PostColaboradorPayload } from "./interfaces/PostColaborador.Payload";
 import type { PostContratoPayload } from "./interfaces/PostContratoPayload";
+import type { PostDocumentoPrincipalProveedor } from "./interfaces/PostDocumentoPrincipalProveedor";
 import type { PostDocumentoProveedor } from "./interfaces/PostDocumentoProveedor.Payload";
 
 interface addProveedorContratoProps {
@@ -45,6 +46,52 @@ export const addDocumentoProveedor = async ({
 
   const { data } = await cuentasApi.post(
     `/SupplierProfileDocument/${supplierId}/Upload`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return data;
+};
+
+interface addProveedorDocumentoPrincipalProps {
+  contractId: string;
+  postDocumentoPrincipalProveedor: PostDocumentoPrincipalProveedor;
+}
+
+export const addDocumentoPrincipalProveedor = async ({
+  contractId,
+  postDocumentoPrincipalProveedor,
+}: addProveedorDocumentoPrincipalProps): Promise<any> => {
+  const formData = new FormData();
+  formData.append("file", postDocumentoPrincipalProveedor.file);
+  formData.append(
+    "documentType",
+    postDocumentoPrincipalProveedor.documentType.toString()
+  );
+  formData.append(
+    "isProposal",
+    postDocumentoPrincipalProveedor.isProposal ? "true" : " false"
+  );
+  formData.append(
+    "isMainDocument",
+    postDocumentoPrincipalProveedor.isMainDocument ? "true" : " false"
+  );
+
+  formData.append("fechaInicio", postDocumentoPrincipalProveedor.fechaInicio);
+  formData.append(
+    "fechaVencimiento",
+    postDocumentoPrincipalProveedor.fechaVencimiento ?? ""
+  );
+  formData.append(
+    "esIndeterminado",
+    postDocumentoPrincipalProveedor.esIndeterminado ? "true" : " false"
+  );
+
+  const { data } = await cuentasApi.post(
+    `/ContractDocument/Contract/${contractId}/Upload`,
     formData,
     {
       headers: {

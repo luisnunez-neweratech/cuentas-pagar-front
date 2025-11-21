@@ -18,7 +18,11 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { ArchivoDependiente } from "./ArchivoDependiente";
 import { useArchivoPrincipal } from "../hooks/useArchivoPrincipal";
 
-export const ArchivoPrincipal = () => {
+interface props {
+  validateDocuments: number;
+}
+
+export const ArchivoPrincipal = ({validateDocuments}: props) => {
   const {
     agregarPropuesta,
     setAgregarPropuesta,
@@ -39,7 +43,7 @@ export const ArchivoPrincipal = () => {
     setFieldTouched,
     handleFileChange,
     fileName,
-  } = useArchivoPrincipal({ idInput: "filePrincipal" });
+  } = useArchivoPrincipal({ idInput: "filePrincipal", validateDocuments });
 
   return (
     <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
@@ -61,6 +65,7 @@ export const ArchivoPrincipal = () => {
                   // contrato
                   setShowPrincipal(false);
                   setShowPropuesta(true);
+                  setIsPrincipal(false);
                 } else {
                   setShowPrincipal(true);
                   setShowPropuesta(false);
@@ -165,7 +170,7 @@ export const ArchivoPrincipal = () => {
 
         <Grid size={6}>
           {fileName && (
-            <p style={{ color: "rgba(0, 0, 0, 0.6)" }}>
+            <p style={{ marginTop: 18, color: "rgba(0, 0, 0, 0.6)" }}>
               {`Nombre del Archivo: ${fileName}`}
             </p>
           )}
