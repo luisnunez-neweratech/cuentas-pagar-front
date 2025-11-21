@@ -8,6 +8,7 @@ import { getProveedores } from "../../../services/proveedores.service";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 import { useProveedorContratoStore } from "../../../../proveedor/contrato/store/ProveedorContrato.store";
 import { useProveedoresPageStore } from "../../../store/ProveedoresPage.store";
+import { useDocumentoPrincipalStore } from "../../../../proveedor/contrato/components/steps/NewContrato/store/DocumentoPrincipal.store";
 
 export const useProveedorTable = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export const useProveedorTable = () => {
   const filtrosProveedores = useProveedoresPageStore(
     (state) => state.filtrosProveedores
   );
+  const clearData = useDocumentoPrincipalStore((state) => state.clearData);
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -58,6 +60,7 @@ export const useProveedorTable = () => {
 
   const rowClick = (row: any) => {
     handleReset();
+    clearData();
     if (row.tipoProveedor === TipoProveedor.Ocasional.value) {
       navigate(row.id);
     }

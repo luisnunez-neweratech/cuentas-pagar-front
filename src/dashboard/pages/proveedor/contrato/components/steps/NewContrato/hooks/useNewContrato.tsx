@@ -283,45 +283,48 @@ export const useNewContrato = () => {
         };
         setNewStepContrato(stepContrato);
         if (getValidScreen()) {
-          if (stateArchivoPrincipal.file) {
-            // crear contrato
-            createMutation.mutate({
-              postContratoPayload: {
-                startDate: new Date(stateArchivoPrincipal.fechaInicio),
-                endDate: !stateArchivoPrincipal.indeterminado
-                  ? new Date(stateArchivoPrincipal.fechaFin!)
-                  : null,
-                indefiniteEnd: stateArchivoPrincipal.indeterminado,
-                isNEContractor: stepContrato?.noColaborador?.length
-                  ? true
-                  : false,
-                nePersonType: TipoPersona.Fisica.label,
-                neCollaboratorNumber: stepContrato?.noColaborador ?? null,
-              },
-              supplierId: stateContrato.id?.toString()!,
-            });
-          }
-
-          //agrega documentos
-          stepContrato.documentos.map((documento) => {
-            if (documento.fileValue) {
-              createDocumentoMutation.mutate({
-                postDocumentoProveedor: {
-                  documentType: documento.tipoDocumento,
-                  file: documento.fileValue,
-                  fechaInicio: documento.fechaInicio,
-                  fechaVencimiento: documento.fechaFin ?? null,
-                  esIndeterminado: documento.indeterminado,
+          if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
+            if (stateArchivoPrincipal.file) {
+              // crear contrato
+              createMutation.mutate({
+                postContratoPayload: {
+                  startDate: new Date(stateArchivoPrincipal.fechaInicio),
+                  endDate: !stateArchivoPrincipal.indeterminado
+                    ? new Date(stateArchivoPrincipal.fechaFin!)
+                    : null,
+                  indefiniteEnd: stateArchivoPrincipal.indeterminado,
+                  isNEContractor: stepContrato?.noColaborador?.length
+                    ? true
+                    : false,
+                  nePersonType: TipoPersona.Fisica.label,
+                  neCollaboratorNumber: stepContrato?.noColaborador ?? null,
                 },
                 supplierId: stateContrato.id?.toString()!,
               });
             }
-          });
 
-          if (clickedBy === 1) {
-            toast.success("Información Actualizada");
+            //agrega documentos
+            stepContrato.documentos.map((documento) => {
+              if (documento.fileValue) {
+                createDocumentoMutation.mutate({
+                  postDocumentoProveedor: {
+                    documentType: documento.tipoDocumento,
+                    file: documento.fileValue,
+                    fechaInicio: documento.fechaInicio,
+                    fechaVencimiento: documento.fechaFin ?? null,
+                    esIndeterminado: documento.indeterminado,
+                  },
+                  supplierId: stateContrato.id?.toString()!,
+                });
+              }
+            });
+            if (clickedBy === 1) {
+              toast.success("Información Actualizada");
+            } else {
+              toNextStep();
+            }
           } else {
-            toNextStep();
+            handleNext();
           }
         }
       } else {
