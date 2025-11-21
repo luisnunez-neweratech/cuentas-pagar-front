@@ -52,8 +52,8 @@ export const useArchivoDependiente = ({
     setFieldValue,
     setFieldTouched,
     validateForm,
-    handleChange,
-    handleBlur,
+    /* handleChange,
+    handleBlur, */
   } = useFormik({
     initialValues: getInitialValues(),
     validationSchema: null, //validationArchivoschema(idInput),
