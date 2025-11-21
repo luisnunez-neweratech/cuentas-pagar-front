@@ -141,7 +141,10 @@ export const useNewContrato = () => {
         });
       }
       //anexo propuesta
-      if (stateArchivoPrincipal.propuestaFile) {
+      if (
+        stateArchivoPrincipal.propuestaFile &&
+        stateArchivoPrincipal.propuestaFile instanceof File
+      ) {
         createDocumentoPrincipalMutation.mutate({
           postDocumentoPrincipalProveedor: {
             documentType: 2, // propuesta valor 2
@@ -157,7 +160,10 @@ export const useNewContrato = () => {
       }
 
       //anexo
-      if (stateArchivoPrincipal.anexoFile) {
+      if (
+        stateArchivoPrincipal.anexoFile &&
+        stateArchivoPrincipal.anexoFile instanceof File
+      ) {
         createDocumentoPrincipalMutation.mutate({
           postDocumentoPrincipalProveedor: {
             documentType: 1, // anexo valor 1
