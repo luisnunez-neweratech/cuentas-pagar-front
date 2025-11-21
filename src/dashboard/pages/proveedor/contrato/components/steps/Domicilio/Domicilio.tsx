@@ -96,7 +96,7 @@ export const Domicilio = () => {
                 id="codigoPostal"
                 name="codigoPostal"
                 onChange={handleChange}
-                value={values.codigoPostal}
+                value={values.codigoPostal || ""}
                 onBlur={handleBlur}
                 error={touched.codigoPostal && Boolean(errors.codigoPostal)}
                 helperText={touched.codigoPostal && errors.codigoPostal}
@@ -112,7 +112,7 @@ export const Domicilio = () => {
             id="estado"
             label="*Estado"
             name="estado"
-            value={values.estado}
+            value={values.estado || ""}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.estado && Boolean(errors.estado)}
@@ -127,7 +127,7 @@ export const Domicilio = () => {
             id="municipio"
             label="*Municipio"
             name="municipio"
-            value={values.municipio}
+            value={values.municipio || ""}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.municipio && Boolean(errors.municipio)}
@@ -142,7 +142,7 @@ export const Domicilio = () => {
             id="ciudad"
             label="*Ciudad"
             name="ciudad"
-            value={values.ciudad}
+            value={values.ciudad || ""}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.ciudad && Boolean(errors.ciudad)}
@@ -157,7 +157,7 @@ export const Domicilio = () => {
             id="colonia"
             label="*Colonia"
             name="colonia"
-            value={values.colonia}
+            value={values.colonia || ""}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.colonia && Boolean(errors.colonia)}
@@ -172,7 +172,7 @@ export const Domicilio = () => {
             id="calle"
             label="*Calle"
             name="calle"
-            value={values.calle}
+            value={values.calle || ""}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.calle && Boolean(errors.calle)}

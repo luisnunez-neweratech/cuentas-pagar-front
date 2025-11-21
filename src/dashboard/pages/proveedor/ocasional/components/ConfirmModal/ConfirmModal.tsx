@@ -20,8 +20,8 @@ export const ConfirmModal = ({ actualizarProovedor }: myProps) => {
           flexWrap: "wrap",
           "& > :not(style)": {
             m: 1,
-            width: 260,
-            height: 175,
+            width: 290,
+            height: 190,
           },
         }}
       >

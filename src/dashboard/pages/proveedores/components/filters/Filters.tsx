@@ -74,6 +74,7 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               <DatePicker
                 sx={{ width: "100%" }}
                 value={fechaAlta ? dayjs(fechaAlta) : null}
+                label="Fecha Alta"
                 onChange={(newValue) =>
                   onChangeFechaAlta(
                     convertDateToFilterFormat(newValue?.toDate())
