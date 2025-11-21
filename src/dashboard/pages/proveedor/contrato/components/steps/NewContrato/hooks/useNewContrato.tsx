@@ -121,6 +121,27 @@ export const useNewContrato = () => {
     mutationFn: addProveedorContrato,
     onSuccess: (data) => {
       //toNextStep();
+
+      // revisar si es moral y tiene colaboradores para guardarlo
+      if (
+        checkContractor &&
+        getStepPerfil()?.tipoPersona === TipoPersona.Moral.value
+      ) {        
+        //addColaboradoresProveedor
+        newStepContrato?.colaboradores?.map((colaborador) => {
+          createColaboradorMutation.mutate({
+            contractId: data.id,
+            postColaboradorPayload: {
+              collaboratorNumber: colaborador.noColaborador,
+              name: colaborador.nombre,
+              startDate: new Date(colaborador.fechaInicio),
+              tentativeEndDate: new Date(colaborador.fechaFin),
+              status: colaborador.status ? "Active" : "Inactive",
+            },
+          });
+        });
+      }
+
       // documento principal
       if (stateArchivoPrincipal.file) {
         createDocumentoPrincipalMutation.mutate({

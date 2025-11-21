@@ -177,7 +177,7 @@ export const usePerfil = () => {
       "Contract",
       `${
         proveedorPerfil?.contratos && proveedorPerfil?.contratos.length > 0
-          ? proveedorPerfil?.contratos[0].id
+          ? proveedorPerfil?.contratos[proveedorPerfil?.contratos.length - 1].id // TODO obtener el tulimo contrato
           : 0
       }`,
     ],
@@ -273,7 +273,6 @@ export const usePerfil = () => {
         let historialDocumentos: HistorialDocumentos[] = [];
 
         proveedorDocumentosContrato.map((result: any) => {
-          console.log("proveedorDocumentosContrato data", result.data);
           if (result.data.mainDocument) {
             // main document
             historialDocumentos.push({
