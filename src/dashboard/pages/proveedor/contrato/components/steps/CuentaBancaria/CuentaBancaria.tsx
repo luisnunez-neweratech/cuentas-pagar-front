@@ -20,8 +20,8 @@ export const CuentaBancaria = () => {
             onClick={handleBack}
             sx={{ mr: 1 }}
           >
+            <NavigateBeforeIcon sx={{ marginRight: 1 }} />
             Atras
-            <NavigateBeforeIcon sx={{ marginLeft: 1 }} />
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
           {id && (

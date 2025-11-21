@@ -206,8 +206,8 @@ export const Domicilio = () => {
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
+              <NavigateBeforeIcon sx={{ marginRight: 1 }} />
               Atras
-              <NavigateBeforeIcon sx={{ marginLeft: 1 }} />
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {id && (
