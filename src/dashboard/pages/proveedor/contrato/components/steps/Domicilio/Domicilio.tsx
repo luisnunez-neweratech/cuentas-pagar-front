@@ -91,8 +91,7 @@ export const Domicilio = () => {
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                label="*C&oacute;digo Postal"
-                type="number"
+                label="*C&oacute;digo Postal"                
                 id="codigoPostal"
                 name="codigoPostal"
                 onChange={handleChange}
