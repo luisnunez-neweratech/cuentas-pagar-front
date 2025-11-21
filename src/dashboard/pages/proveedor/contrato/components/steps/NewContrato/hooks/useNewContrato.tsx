@@ -63,10 +63,10 @@ export const useNewContrato = () => {
     setIsLoading(state);
   };
 
-  /*   const toNextStep = () => {
+  const toNextStep = () => {
     toast.success("Información Actualizada");
     handleNext();
-  }; */
+  };
 
   //TODO para la edicion de datos contrato moral
   /* const createColaboradorMutation = useMutation({
@@ -266,8 +266,8 @@ export const useNewContrato = () => {
       //validate files
       doValidateColaboradores(validateColaboradores + 1);
       doValidateDocuments(validateDocuments + 1);
+
       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
-        console.log("here");
         //type fisico
         const prevStepContrato = getNewStepContrato();
         const stepContrato: NewStepContrato = {
@@ -294,6 +294,7 @@ export const useNewContrato = () => {
             supplierId: stateContrato.id?.toString()!,
           });
 
+          //agrega documentos
           stepContrato.documentos.map((documento) => {
             if (documento.fileValue) {
               createDocumentoMutation.mutate({
@@ -310,10 +311,9 @@ export const useNewContrato = () => {
           });
 
           if (clickedBy === 1) {
-            // actualizar con post
             toast.success("Información Actualizada");
           } else {
-            handleNext();
+            toNextStep();
           }
         }
       } else {
@@ -346,7 +346,6 @@ export const useNewContrato = () => {
               // moral sin colaboradores
               createMutation.mutate({
                 postContratoPayload: {
-                  //TODO actualizar cuando se guarde contrato
                   startDate: new Date() /* new Date(
                     newStepContrato.documentos.principal.fechaInicio
                   ) */,
@@ -360,8 +359,6 @@ export const useNewContrato = () => {
                 },
                 supplierId: stateContrato.id?.toString()!,
               });
-
-              console.log("h2", stateArchivoPrincipal);
 
               newStepContrato?.documentos.map((documento) => {
                 if (documento.fileValue) {
@@ -377,8 +374,12 @@ export const useNewContrato = () => {
                   });
                 }
               });
+              if (clickedBy === 1) {
+                toast.success("Información Actualizada");
+              } else {
+                toNextStep();
+              }
             } else {
-              //clicked next?
               handleNext();
             }
           }
@@ -410,8 +411,6 @@ export const useNewContrato = () => {
                   supplierId: stateContrato.id?.toString()!,
                 });
 
-                console.log("h3", stateArchivoPrincipal);
-
                 newStepContrato?.documentos.map((documento) => {
                   if (documento.fileValue) {
                     createDocumentoMutation.mutate({
@@ -426,6 +425,11 @@ export const useNewContrato = () => {
                     });
                   }
                 });
+                if (clickedBy === 1) {
+                  toast.success("Información Actualizada");
+                } else {
+                  toNextStep();
+                }
               } else {
                 handleNext();
               }
