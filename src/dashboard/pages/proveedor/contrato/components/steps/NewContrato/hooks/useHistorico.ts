@@ -10,6 +10,9 @@ export const useHistorico = () => {
     if (id === 1) return "ID Rep. Legal";
     if (id === 2) return "Comp. Domicilio";
     if (id === 3) return "Poder Rep.";
+    if (id === 4) return "Contrato";
+    if (id === 5) return "Propuesta";
+    if (id === 6) return "Anexo";
     return "";
   };
 

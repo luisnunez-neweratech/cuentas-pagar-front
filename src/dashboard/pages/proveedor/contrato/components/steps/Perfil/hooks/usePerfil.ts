@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { validationSchema } from "../Validations";
@@ -17,6 +17,7 @@ import {
   getProveedorDocumentos,
   getColaboradoresContrato,
   getProveedorCuentas,
+  getProveedorDocumentosContrato,
 } from "../../../../services/proveedor.contrato.service";
 import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
@@ -145,6 +146,26 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
+  // cargar documentos de contrato
+  /*   const {
+   
+    data: proveedorDocumentosContrato,
+  } = useQuery({
+    queryKey: ["ContractDocument", 'Contract', `${id}`, 'Grouped'],
+    queryFn: () => getProveedorDocumentosContrato(id || ""),
+    enabled: !!id,
+  });
+ */
+
+  const proveedorContratosData = proveedorPerfil?.contratos ?? [];
+
+  const proveedorDocumentosContrato = useQueries({
+    queries: proveedorContratosData.map((contrato: any) => ({
+      queryKey: ["ContractDocument", "Contract", `${contrato.id}`, "Grouped"], // Unique key for each query
+      queryFn: () => getProveedorDocumentosContrato(contrato.id), // Function that fetches the data
+    })),
+  });
+
   // cargar colaboradores
   const {
     /* isError: isErrorGet,
@@ -249,8 +270,27 @@ export const usePerfil = () => {
         setStepDomicilio(pasoDomicilio);
 
         // contrato step
-
         let historialDocumentos: HistorialDocumentos[] = [];
+
+        proveedorDocumentosContrato.map((result: any) => {
+          console.log("proveedorDocumentosContrato data", result.data);
+          if (result.data.mainDocument) {
+            // main document
+            historialDocumentos.push({
+              id: result.data.mainDocument.id,
+              fechaInicio: result.data.mainDocument.fechaInicio,
+              fechaFin: result.data.mainDocument.fechaVencimiento,
+              indeterminado: result.data.mainDocument.esIndeterminado,
+              fileUrl: result.data.mainDocument.downloadUrl,
+              fileName: result.data.mainDocument.fileName,
+              tipoDocumento:
+                result.data.mainDocument.documentType === 0 ? 4 : 5,
+            });
+          }
+
+          //TODO agregar anexos, tipodocumento 6
+        });
+        // documentos normales
         proveedorDocumentos?.map((documento: any) => {
           historialDocumentos.push({
             id: documento.id,

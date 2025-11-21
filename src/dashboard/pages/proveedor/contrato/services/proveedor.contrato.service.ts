@@ -50,6 +50,13 @@ export const getProveedorDocumentos = async (id: string): Promise<any> => {
   return data;
 };
 
+export const getProveedorDocumentosContrato = async (contratoId: string): Promise<any> => {
+  const { data } = await cuentasApi.get(`/ContractDocument/Contract/${contratoId}/Grouped`);
+
+  // array con CSF, IdRepLegal, CompDom, PoderRep
+  return data;
+};
+
 export const getColaboradoresContrato = async (
   contratoId: string
 ): Promise<any> => {
