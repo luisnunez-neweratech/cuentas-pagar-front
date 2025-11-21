@@ -142,6 +142,37 @@ export const useNewContrato = () => {
           contractId: data.id,
         });
       }
+      //anexo propuesta
+      if (stateArchivoPrincipal.propuestaFile) {
+        createDocumentoPrincipalMutation.mutate({
+          postDocumentoPrincipalProveedor: {
+            documentType: 2, // propuesta valor 2
+            isProposal: false,
+            isMainDocument: false,
+            fechaInicio: stateArchivoPrincipal.propuestaFechaInicio,
+            fechaVencimiento: stateArchivoPrincipal.propuestaFechaFin ?? "",
+            esIndeterminado: stateArchivoPrincipal.propuestaIndeterminado,
+            file: stateArchivoPrincipal.propuestaFile,
+          },
+          contractId: data.id,
+        });
+      }
+
+      //anexo
+      if (stateArchivoPrincipal.anexoFile) {
+        createDocumentoPrincipalMutation.mutate({
+          postDocumentoPrincipalProveedor: {
+            documentType: 1, // anexo valor 1
+            isProposal: false,
+            isMainDocument: false,
+            fechaInicio: stateArchivoPrincipal.anexoFechaInicio,
+            fechaVencimiento: "",
+            esIndeterminado: false,
+            file: stateArchivoPrincipal.anexoFile,
+          },
+          contractId: data.id,
+        });
+      }
     },
     onError: (error) => {
       console.log(error);

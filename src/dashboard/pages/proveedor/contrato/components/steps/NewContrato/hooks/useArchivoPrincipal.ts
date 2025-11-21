@@ -79,8 +79,8 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
   const validateArchivoPrincipal = () => {
     handleSubmit();
     validateForm().then((errors) => {
-      if (Object.keys(errors).length === 0) {
-        console.log("llega aqui2222222?");
+      if (Object.keys(errors).length === 0) {   
+        console.log("llega 44?");     
         updateArchivoPrincipal(
           values.tipoDocumento,
           values.fechaInicio,

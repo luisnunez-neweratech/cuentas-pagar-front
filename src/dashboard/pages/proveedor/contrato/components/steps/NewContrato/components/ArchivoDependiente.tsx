@@ -16,12 +16,14 @@ interface myProps {
   title: string;
   fechaVencimiento: boolean;
   indeterminado: boolean;
+  validateDocuments: number;
 }
 
 export const ArchivoDependiente = ({
   title,
   fechaVencimiento,
   indeterminado,
+  validateDocuments
 }: myProps) => {
   const {
     handleFileChange,
@@ -33,6 +35,7 @@ export const ArchivoDependiente = ({
     fileName,
   } = useArchivoDependiente({
     idInput: title,
+    validateDocuments
   });
 
   return (

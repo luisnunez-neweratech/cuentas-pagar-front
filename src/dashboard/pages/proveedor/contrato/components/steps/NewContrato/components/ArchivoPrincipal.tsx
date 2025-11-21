@@ -224,6 +224,7 @@ export const ArchivoPrincipal = ({validateDocuments}: props) => {
             title="Propuesta"
             fechaVencimiento={true}
             indeterminado={true}
+            validateDocuments={validateDocuments}
           />
         )}
         {agregarAnexo && (
@@ -231,6 +232,7 @@ export const ArchivoPrincipal = ({validateDocuments}: props) => {
             title="Anexo"
             fechaVencimiento={false}
             indeterminado={false}
+            validateDocuments={validateDocuments}
           />
         )}
       </Grid>

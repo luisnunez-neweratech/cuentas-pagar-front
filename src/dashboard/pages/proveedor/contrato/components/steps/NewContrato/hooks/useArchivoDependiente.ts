@@ -1,15 +1,28 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDocumentoPrincipalStore } from "../store/DocumentoPrincipal.store";
 
 interface props {
   //tipoDocumento: TipoDocumento;
   //id: number;
   idInput: string;
+  validateDocuments: number;
   //validateDocuments: number;
   /*  optional?: boolean;*/
 }
 
-export const useArchivoDependiente = ({ idInput }: props) => {
+export const useArchivoDependiente = ({
+  idInput,
+  validateDocuments,
+}: props) => {
+  useEffect(() => {
+    validateArchivoPrincipal(); //children function of interest
+  }, [validateDocuments]);
+
+  const updatePropuesta = useDocumentoPrincipalStore(
+    (state) => state.updatePropuesta
+  );
+  const updateAnexo = useDocumentoPrincipalStore((state) => state.updateAnexo);
 
   const getInitialValues = () => {
     /* const documento = getNewStepContrato()?.documentos?.find(
@@ -32,15 +45,15 @@ export const useArchivoDependiente = ({ idInput }: props) => {
   };
 
   const {
-    //handleSubmit,
+    handleSubmit,
     values,
     touched,
     errors,
     setFieldValue,
     setFieldTouched,
-    //validateForm,
-    //handleChange,
-    //handleBlur,
+    validateForm,
+    handleChange,
+    handleBlur,
   } = useFormik({
     initialValues: getInitialValues(),
     validationSchema: null, //validationArchivoschema(idInput),
@@ -62,6 +75,45 @@ export const useArchivoDependiente = ({ idInput }: props) => {
     }
   };
 
+  useEffect(() => {
+    validateArchivoPrincipal();
+  }, [errors]);
+
+  useEffect(() => {
+    validateArchivoPrincipal();
+  }, [values]);
+
+  const validateArchivoPrincipal = () => {
+    handleSubmit();
+    validateForm().then((errors) => {
+      if (Object.keys(errors).length === 0) {
+        if (idInput === "Propuesta") {
+          updatePropuesta(
+            values[idInput],
+            values.fechaInicio,
+            values.indeterminado,
+            values.fechaFin ?? ""
+          );
+        } else {
+          updateAnexo(values[idInput], values.fechaInicio);
+        }
+      } else {
+        /* if (tipoDocumento === TipoDocumento.principal) {
+          setValidArchivoPrincipal(false);
+        }
+        if (tipoDocumento === TipoDocumento.csf) {
+          setValidArchivoCSF(false);
+        }
+        if (tipoDocumento === TipoDocumento.idRepLegal) {
+          setValidIdRepLegal(false);
+        }
+        if (tipoDocumento === TipoDocumento.compDomicilio) {
+          setValidCompDomicilio(false);
+        } */
+      }
+    });
+  };
+
   return {
     handleFileChange,
     values,
@@ -69,6 +121,6 @@ export const useArchivoDependiente = ({ idInput }: props) => {
     touched,
     errors,
     setFieldTouched,
-    fileName
+    fileName,
   };
 };

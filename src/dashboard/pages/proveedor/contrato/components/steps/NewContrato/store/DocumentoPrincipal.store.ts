@@ -24,6 +24,15 @@ interface IContrato {
     isPrincipal: boolean,
     fechaFin?: string
   ) => void;
+
+  updatePropuesta: (
+    propuestaFile: any,
+    propuestaFechaInicio: string,
+    propuestaIndeterminado: boolean,
+    propuestaFechaFin: string
+  ) => void;
+
+  updateAnexo: (anexoFile: any, anexoFechaInicio: string) => void;
 }
 
 export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
@@ -59,4 +68,23 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
       fechaFin,
     });
   },
+  updatePropuesta: (
+    propuestaFile: any,
+    propuestaFechaInicio: string,
+    propuestaIndeterminado: boolean,
+    propuestaFechaFin: string
+  ) => {
+    set({
+      propuestaFile,
+      propuestaFechaInicio,
+      propuestaIndeterminado,
+      propuestaFechaFin,
+    });
+  },
+  updateAnexo: (anexoFile: any, anexoFechaInicio: string) => {
+    set({
+      anexoFile,
+      anexoFechaInicio
+    });
+  }
 }));
