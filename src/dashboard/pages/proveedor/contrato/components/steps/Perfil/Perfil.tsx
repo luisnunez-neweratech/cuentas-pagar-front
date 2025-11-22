@@ -115,7 +115,7 @@ export const Perfil = () => {
             id="razonSocial"
             label="*Raz&oacute;n Social"
             name="razonSocial"
-            value={values.razonSocial}
+            value={values.razonSocial.toUpperCase()}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.razonSocial && Boolean(errors.razonSocial)}
@@ -131,7 +131,7 @@ export const Perfil = () => {
             id="alias"
             label="*Alias"
             name="alias"
-            value={values.alias}
+            value={values.alias.toUpperCase()}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.alias && Boolean(errors.alias)}
