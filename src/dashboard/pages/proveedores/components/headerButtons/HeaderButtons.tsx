@@ -6,6 +6,8 @@ import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import { mainBackgroundColor } from "../../../../../lib/constants";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { useHeaderButtons } from "./hooks/useHeaderButtons";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 
 interface HeaderButtonsProps {
   showFilter: boolean;
@@ -16,7 +18,8 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-  const { handleOpenModal, clearFiltros, downloadFile } = useHeaderButtons();
+  const { handleOpenModal, clearFiltros, downloadFile, hasActiveFiltres } =
+    useHeaderButtons();
 
   return (
     <>
@@ -35,7 +38,19 @@ export const HeaderButtons = ({
           </IconButton>
         </Tooltip>
       </Grid>
-      <Grid size={8} />
+
+      {hasActiveFiltres && !showFilter && (
+        <Grid size={1}>
+          <Stack spacing={1} sx={{ alignItems: "center", marginTop: 1 }}>
+            <Stack direction="row" spacing={1}>
+              <Chip label="Filtros Activos" color="primary" />
+            </Stack>
+          </Stack>
+        </Grid>
+      )}
+
+      <Grid size={hasActiveFiltres && !showFilter ? 7 : 8} />
+
       <Grid size={1}>
         {showFilter && (
           <Tooltip title="Limpiar Filtros">
