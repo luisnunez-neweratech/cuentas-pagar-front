@@ -43,7 +43,7 @@ export const Giro = () => {
             id="nombre"
             label="Giro"
             name="nombre"
-            value={values.nombre}
+            value={values.nombre.toUpperCase()}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.nombre && Boolean(errors.nombre)}
