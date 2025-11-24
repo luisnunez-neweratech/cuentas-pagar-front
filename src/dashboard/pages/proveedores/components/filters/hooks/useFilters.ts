@@ -15,7 +15,7 @@ export const useFilters = () => {
 
   const debouncedQuery = useDebounce(query, 500);
   useEffect(() => {
-    if (debouncedQuery) {      
+    if (debouncedQuery) {
       setCallApi();
     }
   }, [debouncedQuery]);
@@ -68,6 +68,14 @@ export const useFilters = () => {
     setQuery("fechaFinContrato" + fechaFinContrato);
   };
 
+  const onChangeStatus = (status: boolean) => {
+    setFiltrosProveedores({
+      ...filtrosProveedores,
+      status,
+    });
+    setQuery("status" + status);
+  };
+
   return {
     rfc: filtrosProveedores.rfc,
     alias: filtrosProveedores.alias,
@@ -75,11 +83,13 @@ export const useFilters = () => {
     fechaAlta: filtrosProveedores.fechaAlta,
     fechaInicioContrato: filtrosProveedores.fechaInicioContrato,
     fechaFinContrato: filtrosProveedores.fechaFinContrato,
+    status: filtrosProveedores.status,
     onChangeRfc,
     onChangeAlias,
     onChangeRazonSocial,
     onChangeFechaAlta,
     onChangeFechaInicioContrato,
-    onChangeFechaFinContrato
+    onChangeFechaFinContrato,
+    onChangeStatus,
   };
 };

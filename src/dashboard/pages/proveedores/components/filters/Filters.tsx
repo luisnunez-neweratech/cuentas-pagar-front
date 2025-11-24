@@ -1,4 +1,10 @@
-import { Grid, TextField } from "@mui/material";
+import {
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Switch,
+  TextField,
+} from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -19,11 +25,13 @@ export const Filters = ({ showFilter }: FiltersProps) => {
     razonSocial,
     onChangeRazonSocial,
     fechaAlta,
+    status,
     onChangeFechaAlta,
     onChangeFechaInicioContrato,
     fechaInicioContrato,
     fechaFinContrato,
     onChangeFechaFinContrato,
+    onChangeStatus,
   } = useFilters();
 
   return (
@@ -133,6 +141,20 @@ export const Filters = ({ showFilter }: FiltersProps) => {
                 }}
               />
             </LocalizationProvider>
+          </Grid>
+          <Grid size={3}>
+            <FormGroup sx={{ marginTop: 3 }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={status}
+                    value={status}
+                    onChange={() => onChangeStatus(!status)}
+                  />
+                }
+                label={status ? "Activos" : "Inactivos"}
+              />
+            </FormGroup>
           </Grid>
         </>
       )}

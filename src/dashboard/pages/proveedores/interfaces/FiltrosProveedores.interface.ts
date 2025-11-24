@@ -5,4 +5,5 @@ export interface FiltrosProveedores {
   fechaAlta: string | undefined | null;
   fechaInicioContrato: string;
   fechaFinContrato: string;
+  status: boolean;
 }

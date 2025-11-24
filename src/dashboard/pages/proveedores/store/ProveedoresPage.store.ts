@@ -8,6 +8,7 @@ const initFiltros = {
   fechaAlta: "",
   fechaInicioContrato: "",
   fechaFinContrato: "",
+  status: true,
 };
 interface IProveedoresPage {
   openModal: boolean;
