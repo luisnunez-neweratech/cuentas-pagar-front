@@ -56,6 +56,7 @@ export const useCuentasBancariasData = ({
       condicionesPago: cuentaBancaria?.condicionesPago,
       [idInput]: cuentaBancaria?.fileValue,
       newElement: cuentaBancaria?.newElement,
+      noCuenta: cuentaBancaria?.noCuenta,
     };
   };
 

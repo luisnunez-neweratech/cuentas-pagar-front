@@ -24,7 +24,7 @@ export const validationSchema = (
         .notRequired()
         .min(8, "Mínimo 8 dígitos")
         .max(11, "Máximo 11 dígitos"),
-        
+      noCuenta: yup.string().notRequired(),
     });
   }
 
@@ -46,5 +46,6 @@ export const validationSchema = (
         (value: any) => value && SUPPORTED_FORMATS.includes(value.type)
       ),
     swift: yup.string().min(8, "Mínimo 8 dígitos").max(11, "Máximo 11 dígitos"),
+    noCuenta: yup.string().notRequired(),
   });
 };

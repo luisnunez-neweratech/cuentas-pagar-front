@@ -125,6 +125,7 @@ const initialStepCuentBancaria = [
     status: true,
     fileValue: undefined,
     newElement: true,
+    noCuenta: "",
   },
 ];
 const initialStepContacto = [

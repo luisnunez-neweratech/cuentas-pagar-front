@@ -194,6 +194,22 @@ export const CuentasBancariasData = ({
                 />
               )}
             </Grid>
+            <Grid size={4}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="noCuenta"
+                label="Número de Cuenta"
+                name="noCuenta"
+                value={values.noCuenta?.toUpperCase()}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.noCuenta && Boolean(errors.noCuenta)}
+                helperText={touched.noCuenta && errors.noCuenta}
+                sx={{ marginTop: 1 }}
+              />
+            </Grid>
             <Grid size={3}>
               {!downloadUrl && (
                 <>
@@ -224,7 +240,7 @@ export const CuentasBancariasData = ({
               )}
             </Grid>
 
-            <Grid size={5} sx={{ marginTop: 2 }}>
+            <Grid size={3} sx={{ marginTop: 2 }}>
               {fileName && (
                 <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
                   {`Nombre del Archivo: ${fileName}`}
@@ -236,7 +252,7 @@ export const CuentasBancariasData = ({
                 <Link href={downloadUrl}>Descargar Carátula</Link>
               )}
             </Grid>
-            <Grid size={1} />
+            <Grid size={11} />
 
             <Grid size={1}>
               <Tooltip title="Eliminar Cuenta">
