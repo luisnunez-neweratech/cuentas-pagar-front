@@ -149,10 +149,7 @@ export const useNewContrato = () => {
             documentType: stateArchivoPrincipal.tipoDocumento,
             isProposal:
               stateArchivoPrincipal.tipoDocumento === 0 ? false : true,
-            isMainDocument:
-              stateArchivoPrincipal.tipoDocumento === 0
-                ? true
-                : stateArchivoPrincipal.isPrincipal,
+            isMainDocument: true,
             fechaInicio: stateArchivoPrincipal.fechaInicio,
             fechaVencimiento: stateArchivoPrincipal.fechaFin ?? "",
             esIndeterminado: stateArchivoPrincipal.indeterminado,
