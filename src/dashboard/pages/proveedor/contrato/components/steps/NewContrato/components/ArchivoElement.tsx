@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useArchivoElement } from "../hooks/useArchivoElement";
+import { converDateFormat } from "../../../../../../../../lib/dates";
 
 interface props {
   id: number;
@@ -46,6 +47,7 @@ export const ArchivoElement = ({
     handleBlur,
     fileName,
     handleFileChange,
+    listaContratos,
   } = useArchivoElement({ idInput, id, validateDocuments });
 
   return (
@@ -193,6 +195,17 @@ export const ArchivoElement = ({
                 onBlur={handleBlur}
               >
                 <MenuItem value={0}>Actual</MenuItem>
+                {listaContratos.map((contrato) => (
+                  <MenuItem key={contrato.id} value={contrato.id}>
+                    {`Contrato desde ${converDateFormat(
+                      contrato.fechaInicio
+                    )} hasta ${
+                      contrato.indeterminado
+                        ? "Indeterminado"
+                        : converDateFormat(contrato.fechaFin)
+                    }`}
+                  </MenuItem>
+                ))}
               </Select>
               <FormHelperText>
                 {touched.perteneceContratoId &&

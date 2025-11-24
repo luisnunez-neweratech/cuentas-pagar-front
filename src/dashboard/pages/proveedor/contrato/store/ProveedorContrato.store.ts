@@ -100,6 +100,7 @@ const initialNewStepContrato = {
     },
   ],
   historialDocumentos: [],
+  listaContratos: [],
 };
 
 const initialStepDomicilio = {

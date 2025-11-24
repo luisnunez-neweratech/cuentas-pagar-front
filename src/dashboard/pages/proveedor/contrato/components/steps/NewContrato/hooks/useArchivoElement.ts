@@ -123,5 +123,6 @@ export const useArchivoElement = ({
     handleBlur,
     handleFileChange,
     fileName,
+    listaContratos:  getNewStepContrato()?.listaContratos || [],
   };
 };

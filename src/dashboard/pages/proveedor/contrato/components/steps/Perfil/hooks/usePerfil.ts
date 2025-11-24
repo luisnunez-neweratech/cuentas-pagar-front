@@ -19,7 +19,10 @@ import {
 import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { TipoContacto } from "../../../../../interfaces/TipoContacto";
-import type { HistorialDocumentos } from "../../../../interface/stepContrato";
+import type {
+  HistorialDocumentos,
+  ListaContratos,
+} from "../../../../interface/stepContrato";
 
 export const usePerfil = () => {
   const { id } = useParams();
@@ -237,8 +240,8 @@ export const usePerfil = () => {
 
         // contrato step
         let historialDocumentos: HistorialDocumentos[] = [];
+        let listaContratos: ListaContratos[] = [];
 
-        console.log("proveedorPerfil", proveedorPerfil);
         //proveedorDocumentosContrato
 
         Object.entries(proveedorPerfil.proveedorDocumentosContrato).map(
@@ -253,6 +256,13 @@ export const usePerfil = () => {
                 fileUrl: value.mainDocument.downloadUrl,
                 fileName: value.mainDocument.fileName,
                 tipoDocumento: value.mainDocument.documentType === 0 ? 4 : 5,
+              });
+
+              listaContratos.push({
+                id: value.mainDocument.id,
+                fechaInicio: value.mainDocument.fechaInicio,
+                fechaFin: value.mainDocument.fechaVencimiento,
+                indeterminado: value.mainDocument.esIndeterminado,
               });
               //TODO agregar anexos, tipodocumento 6
             }
@@ -299,6 +309,7 @@ export const usePerfil = () => {
             noColaborador: proveedorPerfil.contratos[0].neCollaboratorNumber,
             colaboradores: colaboradoresData,
             historialDocumentos: historialDocumentos,
+            listaContratos: listaContratos,
             documentos: [
               {
                 id: 1,

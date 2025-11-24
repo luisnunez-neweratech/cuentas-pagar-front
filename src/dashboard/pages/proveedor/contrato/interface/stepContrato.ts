@@ -15,28 +15,36 @@ export interface NewStepContrato {
   noColaborador?: string;
   colaboradores?: Colaboradores[];
   documentos: NewDocumento[];
-  historialDocumentos: HistorialDocumentos[] | []
+  historialDocumentos: HistorialDocumentos[] | [];
+  listaContratos: ListaContratos[] | [];
 }
 
- export interface NewDocumento {
+export interface NewDocumento {
   id?: number;
   fechaInicio: string;
   fechaFin?: string;
   indeterminado: boolean;
   fileValue?: any | null;
-  addToContrato?: boolean;  
+  addToContrato?: boolean;
   fileName?: string; // nombre del archivo de BD
   tipoDocumento: number;
   newElement: boolean;
   perteneceContratoId?: number | null;
 }
 
- export interface HistorialDocumentos {
+export interface HistorialDocumentos {
   id: number;
   fechaInicio: string;
   fechaFin?: string;
   indeterminado: boolean;
-  fileUrl: string;  
+  fileUrl: string;
   fileName: string;
   tipoDocumento: number;
+}
+
+export interface ListaContratos {
+  id: number;
+  fechaInicio: string;
+  fechaFin: string;
+  indeterminado: string;
 }
