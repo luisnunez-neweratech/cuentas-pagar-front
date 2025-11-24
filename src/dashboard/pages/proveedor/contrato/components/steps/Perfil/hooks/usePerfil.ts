@@ -224,6 +224,8 @@ export const usePerfil = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       handleDisableButtons(true);
+      createMutation.reset();
+      updateMutation.reset();
       if (
         (proveedorPerfil && proveedorPerfil.id) || // cargado por id del url
         stateProveedor.id // cargado de transfer
@@ -244,30 +246,32 @@ export const usePerfil = () => {
 
         //proveedorDocumentosContrato
 
-        Object.entries(proveedorPerfil.proveedorDocumentosContrato).map(
-          ([_key, value]: any) => {
-            if (value.mainDocument) {
-              // main document
-              historialDocumentos.push({
-                id: value.mainDocument.id,
-                fechaInicio: value.mainDocument.fechaInicio,
-                fechaFin: value.mainDocument.fechaVencimiento,
-                indeterminado: value.mainDocument.esIndeterminado,
-                fileUrl: value.mainDocument.downloadUrl,
-                fileName: value.mainDocument.fileName,
-                tipoDocumento: value.mainDocument.documentType === 0 ? 4 : 5,
-              });
+        if (proveedorPerfil.proveedorDocumentosContrato) {
+          Object.entries(proveedorPerfil.proveedorDocumentosContrato).map(
+            ([_key, value]: any) => {
+              if (value.mainDocument) {
+                // main document
+                historialDocumentos.push({
+                  id: value.mainDocument.id,
+                  fechaInicio: value.mainDocument.fechaInicio,
+                  fechaFin: value.mainDocument.fechaVencimiento,
+                  indeterminado: value.mainDocument.esIndeterminado,
+                  fileUrl: value.mainDocument.downloadUrl,
+                  fileName: value.mainDocument.fileName,
+                  tipoDocumento: value.mainDocument.documentType === 0 ? 4 : 5,
+                });
 
-              listaContratos.push({
-                id: value.mainDocument.id,
-                fechaInicio: value.mainDocument.fechaInicio,
-                fechaFin: value.mainDocument.fechaVencimiento,
-                indeterminado: value.mainDocument.esIndeterminado,
-              });
-              //TODO agregar anexos, tipodocumento 6
+                listaContratos.push({
+                  id: value.mainDocument.id,
+                  fechaInicio: value.mainDocument.fechaInicio,
+                  fechaFin: value.mainDocument.fechaVencimiento,
+                  indeterminado: value.mainDocument.esIndeterminado,
+                });
+                //TODO agregar anexos, tipodocumento 6
+              }
             }
-          }
-        );
+          );
+        }
 
         // documentos normales
         proveedorPerfil.proveedorDocumentos?.map((documento: any) => {
