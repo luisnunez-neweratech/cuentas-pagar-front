@@ -126,7 +126,7 @@ export const useNewContrato = () => {
       if (
         checkContractor &&
         getStepPerfil()?.tipoPersona === TipoPersona.Moral.value
-      ) {        
+      ) {
         //addColaboradoresProveedor
         newStepContrato?.colaboradores?.map((colaborador) => {
           createColaboradorMutation.mutate({
@@ -301,6 +301,7 @@ export const useNewContrato = () => {
           contractor: checkContractor,
           documentos: prevStepContrato?.documentos!,
           historialDocumentos: prevStepContrato?.historialDocumentos!,
+          listaContratos: prevStepContrato?.listaContratos ?? [],
         };
         setNewStepContrato(stepContrato);
         if (getValidScreen()) {
@@ -371,6 +372,7 @@ export const useNewContrato = () => {
             //obtener documentos
             documentos: prevStepContrato?.documentos!,
             historialDocumentos: prevStepContrato?.historialDocumentos!,
+            listaContratos: prevStepContrato?.listaContratos ?? [],
           };
           setNewStepContrato(newStepContrato);
           if (getValidScreen()) {
@@ -428,6 +430,7 @@ export const useNewContrato = () => {
               colaboradores: newStepContrato?.colaboradores,
               documentos: prevStepContrato?.documentos!,
               historialDocumentos: prevStepContrato?.historialDocumentos!,
+              listaContratos: prevStepContrato?.listaContratos ?? [],
             };
             setNewStepContrato(_newStepContrato);
             if (getValidScreen()) {
