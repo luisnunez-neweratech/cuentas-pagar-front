@@ -119,7 +119,7 @@ export const useNewContrato = () => {
 
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       //toNextStep();
 
       // revisar si es moral y tiene colaboradores para guardarlo
@@ -161,43 +161,27 @@ export const useNewContrato = () => {
           contractId: data.id,
         });
       }
-      //anexo propuesta
-      if (
-        stateArchivoPrincipal.propuestaFile &&
-        stateArchivoPrincipal.propuestaFile instanceof File
-      ) {
-        createDocumentoPrincipalMutation.mutate({
-          postDocumentoPrincipalProveedor: {
-            documentType: 2, // propuesta valor 2
-            isProposal: false,
-            isMainDocument: false,
-            fechaInicio: stateArchivoPrincipal.propuestaFechaInicio,
-            fechaVencimiento: stateArchivoPrincipal.propuestaFechaFin ?? "",
-            esIndeterminado: stateArchivoPrincipal.propuestaIndeterminado,
-            file: stateArchivoPrincipal.propuestaFile,
-          },
-          contractId: data.id,
+      // propuesta o anexo
+      variables?.documentos &&
+        variables?.documentos.map((documento) => {
+          if (documento.fileValue && documento.tipoDocumento > 3) {
+            if (documento.perteneceContratoId === 0) {
+              //agregar propuesta o anexo a nuevo contrato
+              createDocumentoPrincipalMutation.mutate({
+                postDocumentoPrincipalProveedor: {
+                  documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
+                  isProposal: false,
+                  isMainDocument: false,
+                  fechaInicio: documento.fechaInicio,
+                  fechaVencimiento: documento.fechaFin ?? "",
+                  esIndeterminado: documento.indeterminado,
+                  file: documento.fileValue,
+                },
+                contractId: data.id,
+              });
+            }
+          }
         });
-      }
-
-      //anexo
-      if (
-        stateArchivoPrincipal.anexoFile &&
-        stateArchivoPrincipal.anexoFile instanceof File
-      ) {
-        createDocumentoPrincipalMutation.mutate({
-          postDocumentoPrincipalProveedor: {
-            documentType: 1, // anexo valor 1
-            isProposal: false,
-            isMainDocument: false,
-            fechaInicio: stateArchivoPrincipal.anexoFechaInicio,
-            fechaVencimiento: "",
-            esIndeterminado: false,
-            file: stateArchivoPrincipal.anexoFile,
-          },
-          contractId: data.id,
-        });
-      }
     },
     onError: (error) => {
       console.log(error);
@@ -255,12 +239,6 @@ export const useNewContrato = () => {
       */
 
   const initialFormValues = () => {
-    /* if (id) {
-          return {
-            tipoEntidad: proveedorOcasional!.tipoEntidad,
-            
-          };
-        } */
     const stepContrato = getNewStepContrato();
 
     return {
@@ -322,22 +300,40 @@ export const useNewContrato = () => {
                   neCollaboratorNumber: stepContrato?.noColaborador ?? null,
                 },
                 supplierId: stateContrato.id?.toString()!,
+                documentos: stepContrato.documentos,
               });
             }
 
             //agrega documentos
             stepContrato.documentos.map((documento) => {
               if (documento.fileValue) {
-                createDocumentoMutation.mutate({
-                  postDocumentoProveedor: {
-                    documentType: documento.tipoDocumento,
-                    file: documento.fileValue,
-                    fechaInicio: documento.fechaInicio,
-                    fechaVencimiento: documento.fechaFin ?? null,
-                    esIndeterminado: documento.indeterminado,
-                  },
-                  supplierId: stateContrato.id?.toString()!,
-                });
+                if (documento.tipoDocumento < 4) {
+                  createDocumentoMutation.mutate({
+                    postDocumentoProveedor: {
+                      documentType: documento.tipoDocumento,
+                      file: documento.fileValue,
+                      fechaInicio: documento.fechaInicio,
+                      fechaVencimiento: documento.fechaFin ?? null,
+                      esIndeterminado: documento.indeterminado,
+                    },
+                    supplierId: stateContrato.id?.toString()!,
+                  });
+                } else if (documento.perteneceContratoId !== 0) {
+                  // existe ya el contrato
+                  //agregar propuesta o anexo
+                  createDocumentoPrincipalMutation.mutate({
+                    postDocumentoPrincipalProveedor: {
+                      documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
+                      isProposal: false,
+                      isMainDocument: false,
+                      fechaInicio: documento.fechaInicio,
+                      fechaVencimiento: documento.fechaFin ?? "",
+                      esIndeterminado: documento.indeterminado,
+                      file: documento.fileValue,
+                    },
+                    contractId: documento.perteneceContratoId!.toString(),
+                  });
+                }
               }
             });
             if (clickedBy === 1) {
@@ -394,23 +390,43 @@ export const useNewContrato = () => {
                       newStepContrato?.noColaborador ?? null,
                   },
                   supplierId: stateContrato.id?.toString()!,
+                  documentos: newStepContrato.documentos,
                 });
               }
 
-              newStepContrato?.documentos.map((documento) => {
+              //agrega documentos
+              newStepContrato.documentos.map((documento) => {
                 if (documento.fileValue) {
-                  createDocumentoMutation.mutate({
-                    postDocumentoProveedor: {
-                      documentType: documento.tipoDocumento,
-                      file: documento.fileValue,
-                      fechaInicio: documento.fechaInicio,
-                      fechaVencimiento: documento.fechaFin ?? null,
-                      esIndeterminado: documento.indeterminado,
-                    },
-                    supplierId: stateContrato.id?.toString()!,
-                  });
+                  if (documento.tipoDocumento < 4) {
+                    createDocumentoMutation.mutate({
+                      postDocumentoProveedor: {
+                        documentType: documento.tipoDocumento,
+                        file: documento.fileValue,
+                        fechaInicio: documento.fechaInicio,
+                        fechaVencimiento: documento.fechaFin ?? null,
+                        esIndeterminado: documento.indeterminado,
+                      },
+                      supplierId: stateContrato.id?.toString()!,
+                    });
+                  } else if (documento.perteneceContratoId !== 0) {
+                    // existe ya el contrato
+                    //agregar propuesta o anexo
+                    createDocumentoPrincipalMutation.mutate({
+                      postDocumentoPrincipalProveedor: {
+                        documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
+                        isProposal: false,
+                        isMainDocument: false,
+                        fechaInicio: documento.fechaInicio,
+                        fechaVencimiento: documento.fechaFin ?? "",
+                        esIndeterminado: documento.indeterminado,
+                        file: documento.fileValue,
+                      },
+                      contractId: documento.perteneceContratoId!.toString(),
+                    });
+                  }
                 }
               });
+
               if (clickedBy === 1) {
                 toast.success("Información Actualizada");
               } else {
@@ -450,23 +466,43 @@ export const useNewContrato = () => {
                         newStepContrato?.noColaborador ?? null,
                     },
                     supplierId: stateContrato.id?.toString()!,
+                    documentos: newStepContrato?.documentos,
                   });
                 }
 
+                //agrega documentos
                 newStepContrato?.documentos.map((documento) => {
                   if (documento.fileValue) {
-                    createDocumentoMutation.mutate({
-                      postDocumentoProveedor: {
-                        documentType: documento.tipoDocumento,
-                        file: documento.fileValue,
-                        fechaInicio: documento.fechaInicio,
-                        fechaVencimiento: documento.fechaFin ?? null,
-                        esIndeterminado: documento.indeterminado,
-                      },
-                      supplierId: stateContrato.id?.toString()!,
-                    });
+                    if (documento.tipoDocumento < 4) {
+                      createDocumentoMutation.mutate({
+                        postDocumentoProveedor: {
+                          documentType: documento.tipoDocumento,
+                          file: documento.fileValue,
+                          fechaInicio: documento.fechaInicio,
+                          fechaVencimiento: documento.fechaFin ?? null,
+                          esIndeterminado: documento.indeterminado,
+                        },
+                        supplierId: stateContrato.id?.toString()!,
+                      });
+                    } else if (documento.perteneceContratoId !== 0) {
+                      // existe ya el contrato
+                      //agregar propuesta o anexo
+                      createDocumentoPrincipalMutation.mutate({
+                        postDocumentoPrincipalProveedor: {
+                          documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
+                          isProposal: false,
+                          isMainDocument: false,
+                          fechaInicio: documento.fechaInicio,
+                          fechaVencimiento: documento.fechaFin ?? "",
+                          esIndeterminado: documento.indeterminado,
+                          file: documento.fileValue,
+                        },
+                        contractId: documento.perteneceContratoId!.toString(),
+                      });
+                    }
                   }
                 });
+
                 if (clickedBy === 1) {
                   toast.success("Información Actualizada");
                 } else {

@@ -1,4 +1,5 @@
 import { cuentasApi } from "../../../../../api/cuentasApi";
+import type { NewDocumento } from "../interface/stepContrato";
 import type { PostColaboradorPayload } from "./interfaces/PostColaborador.Payload";
 import type { PostContratoPayload } from "./interfaces/PostContratoPayload";
 import type { PostDocumentoPrincipalProveedor } from "./interfaces/PostDocumentoPrincipalProveedor";
@@ -7,11 +8,13 @@ import type { PostDocumentoProveedor } from "./interfaces/PostDocumentoProveedor
 interface addProveedorContratoProps {
   supplierId: string;
   postContratoPayload: PostContratoPayload;
+  documentos?: NewDocumento[];
 }
 
 export const addProveedorContrato = async ({
   supplierId,
   postContratoPayload,
+
 }: addProveedorContratoProps): Promise<any> => {
   const { data } = await cuentasApi.post(`/Contract/Supplier/${supplierId}`, {
     ...postContratoPayload,

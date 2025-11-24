@@ -8,14 +8,6 @@ interface IContrato {
   file: any | null;
   isPrincipal: boolean;
 
-  propuestaFile: any | null;
-  propuestaFechaInicio: string;
-  propuestaFechaFin?: string | null;
-  propuestaIndeterminado: boolean;
-
-  anexoFile: any | null;
-  anexoFechaInicio: string;
-
   updateTipoDocumento: (tipoDocumento: number) => void;
 
   updateArchivoPrincipal: (
@@ -27,15 +19,6 @@ interface IContrato {
     fechaFin?: string
   ) => void;
 
-  updatePropuesta: (
-    propuestaFile: any,
-    propuestaFechaInicio: string,
-    propuestaIndeterminado: boolean,
-    propuestaFechaFin: string
-  ) => void;
-
-  updateAnexo: (anexoFile: any, anexoFechaInicio: string) => void;
-
   clearData: () => void;
 }
 
@@ -46,14 +29,6 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
   indeterminado: true,
   file: null,
   isPrincipal: false,
-
-  propuestaFile: null,
-  propuestaFechaInicio: "",
-  propuestaFechaFin: "",
-  propuestaIndeterminado: true,
-
-  anexoFile: null,
-  anexoFechaInicio: "",
 
   updateTipoDocumento: (tipoDocumento: number) => {
     set({ tipoDocumento });
@@ -76,25 +51,6 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
       fechaFin,
     });
   },
-  updatePropuesta: (
-    propuestaFile: any,
-    propuestaFechaInicio: string,
-    propuestaIndeterminado: boolean,
-    propuestaFechaFin: string
-  ) => {
-    set({
-      propuestaFile,
-      propuestaFechaInicio,
-      propuestaIndeterminado,
-      propuestaFechaFin,
-    });
-  },
-  updateAnexo: (anexoFile: any, anexoFechaInicio: string) => {
-    set({
-      anexoFile,
-      anexoFechaInicio,
-    });
-  },
   clearData: () => {
     set({
       tipoDocumento: 0,
@@ -103,14 +59,6 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
       indeterminado: true,
       file: null,
       isPrincipal: false,
-
-      propuestaFile: null,
-      propuestaFechaInicio: "",
-      propuestaFechaFin: "",
-      propuestaIndeterminado: true,
-
-      anexoFile: null,
-      anexoFechaInicio: "",
     });
   },
 }));
