@@ -20,9 +20,11 @@ export const CargaArchivos = ({ validateDocuments }: myProps) => {
   return (
     <Grid container>
       <Grid size={12}>
+        <h3>Documento Principal</h3>
         <ArchivoPrincipal validateDocuments={validateDocuments} />
       </Grid>
       <Grid size={12}>
+        <h3>Documentos</h3>
         {(newStepContrato?.documentos ?? []).map((item) => (
           <ArchivoElement
             key={item.id}

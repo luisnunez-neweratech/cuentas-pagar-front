@@ -23,9 +23,6 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
 
   const stateArchivoPrincipal = useDocumentoPrincipalStore((state) => state);
 
-  const [showPrincipal, setShowPrincipal] = useState(false);
-  const [isPrincipal, setIsPrincipal] = useState(false);
-
   const [fileName, setFileName] = useState("");
 
   const getInitialValues = () => {
@@ -84,7 +81,7 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
           values.fechaInicio,
           values.indeterminado,
           values[idInput],
-          isPrincipal,
+          true,
           values.fechaFin ?? ""
         );
       } else {
@@ -105,19 +102,15 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
   };
 
   return {
-    showPrincipal,
-    isPrincipal,
-    setIsPrincipal,
     values,
     touched,
     errors,
     handleChange,
     handleBlur,
-    setShowPrincipal,
     setFieldValue,
     setFieldTouched,
     handleFileChange,
     fileName,
-    updateTipoDocumento,    
+    updateTipoDocumento,
   };
 };

@@ -23,15 +23,11 @@ interface props {
 
 export const ArchivoPrincipal = ({ validateDocuments }: props) => {
   const {
-    showPrincipal,
-    isPrincipal,
-    setIsPrincipal,
     touched,
     errors,
     values,
     handleChange,
     handleBlur,
-    setShowPrincipal,
     setFieldValue,
     setFieldTouched,
     handleFileChange,
@@ -56,13 +52,6 @@ export const ArchivoPrincipal = ({ validateDocuments }: props) => {
               value={values.tipoDocumento}
               onChange={(e) => {
                 updateTipoDocumento(e.target.value);
-                if (e.target.value === 0) {
-                  // contrato
-                  setShowPrincipal(false);
-                  setIsPrincipal(false);
-                } else {
-                  setShowPrincipal(true);
-                }
                 handleChange(e);
               }}
               onBlur={handleBlur}
@@ -166,21 +155,6 @@ export const ArchivoPrincipal = ({ validateDocuments }: props) => {
             <p style={{ marginTop: 18, color: "rgba(0, 0, 0, 0.6)" }}>
               {`Nombre del Archivo: ${fileName}`}
             </p>
-          )}
-        </Grid>
-
-        <Grid size={3}>
-          {showPrincipal && (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isPrincipal}
-                  onChange={() => setIsPrincipal(!isPrincipal)}
-                />
-              }
-              label="¿Es Principal?"
-              style={{ marginTop: 8 }}
-            />
           )}
         </Grid>
       </Grid>
