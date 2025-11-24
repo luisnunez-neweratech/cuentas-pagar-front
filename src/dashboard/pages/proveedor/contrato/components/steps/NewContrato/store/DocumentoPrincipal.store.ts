@@ -16,6 +16,8 @@ interface IContrato {
   anexoFile: any | null;
   anexoFechaInicio: string;
 
+  updateTipoDocumento: (tipoDocumento: number) => void;
+
   updateArchivoPrincipal: (
     tipoDocumento: number,
     fechaInicio: string,
@@ -52,6 +54,10 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
 
   anexoFile: null,
   anexoFechaInicio: "",
+
+  updateTipoDocumento: (tipoDocumento: number) => {
+    set({ tipoDocumento });
+  },
 
   updateArchivoPrincipal: (
     tipoDocumento: number,

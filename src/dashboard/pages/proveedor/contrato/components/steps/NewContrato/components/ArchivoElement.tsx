@@ -48,6 +48,7 @@ export const ArchivoElement = ({
     fileName,
     handleFileChange,
     listaContratos,
+    stateArchivoPrincipal,
   } = useArchivoElement({ idInput, id, validateDocuments });
 
   return (
@@ -72,7 +73,9 @@ export const ArchivoElement = ({
               <MenuItem value={1}>ID Rep. Legal</MenuItem>
               <MenuItem value={2}>Comp. Domicilio</MenuItem>
               <MenuItem value={3}>Poder Rep.</MenuItem>
-              <MenuItem value={4}>Propuesta</MenuItem>
+              {stateArchivoPrincipal.tipoDocumento === 0 && (
+                <MenuItem value={4}>Propuesta</MenuItem>
+              )}
               <MenuItem value={5}>Anexo</MenuItem>
             </Select>
             <FormHelperText>

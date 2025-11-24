@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { validationArchivoschema } from "../components/ArchivosValidation";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
+import { useDocumentoPrincipalStore } from "../store/DocumentoPrincipal.store";
 
 interface props {
   //tipoDocumento: TipoDocumento;
@@ -16,7 +17,7 @@ export const useArchivoElement = ({
   id,
   validateDocuments,
 }: props) => {
-  useEffect(() => {    
+  useEffect(() => {
     validateArchivoElement(); //children function of interest
   }, [validateDocuments]);
 
@@ -27,6 +28,8 @@ export const useArchivoElement = ({
   const updateNewDocumento = useProveedorContratoStore(
     (state) => state.updateNewDocumento
   );
+
+  const stateArchivoPrincipal = useDocumentoPrincipalStore((state) => state);
 
   const getInitialValues = () => {
     const documento = getNewStepContrato()?.documentos?.find(
@@ -123,6 +126,7 @@ export const useArchivoElement = ({
     handleBlur,
     handleFileChange,
     fileName,
-    listaContratos:  getNewStepContrato()?.listaContratos || [],
+    listaContratos: getNewStepContrato()?.listaContratos || [],
+    stateArchivoPrincipal,
   };
 };

@@ -17,6 +17,10 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
     (state) => state.updateArchivoPrincipal
   );
 
+  const updateTipoDocumento = useDocumentoPrincipalStore(
+    (state) => state.updateTipoDocumento
+  );
+
   const stateArchivoPrincipal = useDocumentoPrincipalStore((state) => state);
 
   const [showPrincipal, setShowPrincipal] = useState(false);
@@ -114,5 +118,6 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
     setFieldTouched,
     handleFileChange,
     fileName,
+    updateTipoDocumento,    
   };
 };

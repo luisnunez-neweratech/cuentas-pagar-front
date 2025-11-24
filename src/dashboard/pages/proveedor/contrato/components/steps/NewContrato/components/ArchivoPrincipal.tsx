@@ -36,6 +36,7 @@ export const ArchivoPrincipal = ({ validateDocuments }: props) => {
     setFieldTouched,
     handleFileChange,
     fileName,
+    updateTipoDocumento,
   } = useArchivoPrincipal({ idInput: "filePrincipal", validateDocuments });
 
   return (
@@ -54,6 +55,7 @@ export const ArchivoPrincipal = ({ validateDocuments }: props) => {
               label="Tipo Documento"
               value={values.tipoDocumento}
               onChange={(e) => {
+                updateTipoDocumento(e.target.value);
                 if (e.target.value === 0) {
                   // contrato
                   setShowPrincipal(false);
