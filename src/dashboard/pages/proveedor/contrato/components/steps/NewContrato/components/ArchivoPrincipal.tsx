@@ -15,19 +15,14 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { ArchivoDependiente } from "./ArchivoDependiente";
 import { useArchivoPrincipal } from "../hooks/useArchivoPrincipal";
 
 interface props {
   validateDocuments: number;
 }
 
-export const ArchivoPrincipal = ({validateDocuments}: props) => {
+export const ArchivoPrincipal = ({ validateDocuments }: props) => {
   const {
-    agregarPropuesta,
-    setAgregarPropuesta,
-    agregarAnexo,
-    setAgregarAnexo,
     showPrincipal,
     isPrincipal,
     setIsPrincipal,
@@ -37,8 +32,6 @@ export const ArchivoPrincipal = ({validateDocuments}: props) => {
     handleChange,
     handleBlur,
     setShowPrincipal,
-    showPropuesta,
-    setShowPropuesta,
     setFieldValue,
     setFieldTouched,
     handleFileChange,
@@ -64,11 +57,9 @@ export const ArchivoPrincipal = ({validateDocuments}: props) => {
                 if (e.target.value === 0) {
                   // contrato
                   setShowPrincipal(false);
-                  setShowPropuesta(true);
                   setIsPrincipal(false);
                 } else {
                   setShowPrincipal(true);
-                  setShowPropuesta(false);
                 }
                 handleChange(e);
               }}
@@ -185,56 +176,11 @@ export const ArchivoPrincipal = ({validateDocuments}: props) => {
                   onChange={() => setIsPrincipal(!isPrincipal)}
                 />
               }
-              label="Principal"
+              label="¿Es Principal?"
               style={{ marginTop: 8 }}
             />
           )}
         </Grid>
-
-        {showPropuesta && (
-          <Grid size={3}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={agregarPropuesta}
-                  onChange={() => setAgregarPropuesta(!agregarPropuesta)}
-                />
-              }
-              label="Agregar Propuesta"
-              style={{ marginTop: 8 }}
-            />
-          </Grid>
-        )}
-
-        <Grid size={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={agregarAnexo}
-                onChange={() => setAgregarAnexo(!agregarAnexo)}
-              />
-            }
-            label="Agregar Anexo"
-            style={{ marginTop: 8 }}
-          />
-        </Grid>
-        <Grid size={4} />
-        {agregarPropuesta && (
-          <ArchivoDependiente
-            title="Propuesta"
-            fechaVencimiento={true}
-            indeterminado={true}
-            validateDocuments={validateDocuments}
-          />
-        )}
-        {agregarAnexo && (
-          <ArchivoDependiente
-            title="Anexo"
-            fechaVencimiento={false}
-            indeterminado={false}
-            validateDocuments={validateDocuments}
-          />
-        )}
       </Grid>
     </Paper>
   );

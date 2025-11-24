@@ -28,6 +28,7 @@ export interface NewStepContrato {
   fileName?: string; // nombre del archivo de BD
   tipoDocumento: number;
   newElement: boolean;
+  perteneceContratoId?: number | null;
 }
 
  export interface HistorialDocumentos {

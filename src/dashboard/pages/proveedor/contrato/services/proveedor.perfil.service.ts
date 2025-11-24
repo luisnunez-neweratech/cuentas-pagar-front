@@ -150,5 +150,14 @@ export const getProveedorPerfil = async (id: string): Promise<any> => {
 
     //contactos
     contactos: data.contacts,
+
+    //bancos
+    cuentasBancarias: data.bankDetails,
+
+    //documentos
+    proveedorDocumentos: data.profileDocuments,
+
+    // contracto documents
+    proveedorDocumentosContrato: data.contractDocuments,
   };
 };

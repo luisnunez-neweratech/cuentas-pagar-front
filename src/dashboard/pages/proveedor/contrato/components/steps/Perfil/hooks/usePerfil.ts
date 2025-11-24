@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { validationSchema } from "../Validations";
@@ -14,10 +14,7 @@ import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLay
 import {
   addProveedorContratoPerfil,
   updateProveedorContratoPerfil,
-  getProveedorDocumentos,
   getColaboradoresContrato,
-  getProveedorCuentas,
-  getProveedorDocumentosContrato,
 } from "../../../../services/proveedor.contrato.service";
 import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
@@ -135,17 +132,6 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
-  // cargar documentos
-  const {
-    /* isError: isErrorGet,
-    error: errorGet, */
-    data: proveedorDocumentos,
-  } = useQuery({
-    queryKey: ["SupplierProfileDocument", `${id}`],
-    queryFn: () => getProveedorDocumentos(id || ""),
-    enabled: !!id,
-  });
-
   // cargar documentos de contrato
   /*   const {
    
@@ -156,15 +142,6 @@ export const usePerfil = () => {
     enabled: !!id,
   });
  */
-
-  const proveedorContratosData = proveedorPerfil?.contratos ?? [];
-
-  const proveedorDocumentosContrato = useQueries({
-    queries: proveedorContratosData.map((contrato: any) => ({
-      queryKey: ["ContractDocument", "Contract", `${contrato.id}`, "Grouped"], // Unique key for each query
-      queryFn: () => getProveedorDocumentosContrato(contrato.id), // Function that fetches the data
-    })),
-  });
 
   // cargar colaboradores
   const {
@@ -188,17 +165,6 @@ export const usePerfil = () => {
           : 0
       ),
     enabled: !!id && !!proveedorPerfil?.contratos,
-  });
-
-  // cargar cuentas bancarias
-  const {
-    /* isError: isErrorGet,
-    error: errorGet, */
-    data: proveedorCuentasBancarias,
-  } = useQuery({
-    queryKey: ["BankDetail", "Supplier", `${id}`],
-    queryFn: () => getProveedorCuentas(id!),
-    enabled: !!id,
   });
 
   const { data: giros } = useQuery({
@@ -272,25 +238,29 @@ export const usePerfil = () => {
         // contrato step
         let historialDocumentos: HistorialDocumentos[] = [];
 
-        proveedorDocumentosContrato.map((result: any) => {
-          if (result.data.mainDocument) {
-            // main document
-            historialDocumentos.push({
-              id: result.data.mainDocument.id,
-              fechaInicio: result.data.mainDocument.fechaInicio,
-              fechaFin: result.data.mainDocument.fechaVencimiento,
-              indeterminado: result.data.mainDocument.esIndeterminado,
-              fileUrl: result.data.mainDocument.downloadUrl,
-              fileName: result.data.mainDocument.fileName,
-              tipoDocumento:
-                result.data.mainDocument.documentType === 0 ? 4 : 5,
-            });
-          }
+        console.log("proveedorPerfil", proveedorPerfil);
+        //proveedorDocumentosContrato
 
-          //TODO agregar anexos, tipodocumento 6
-        });
+        Object.entries(proveedorPerfil.proveedorDocumentosContrato).map(
+          ([_key, value]: any) => {
+            if (value.mainDocument) {
+              // main document
+              historialDocumentos.push({
+                id: value.mainDocument.id,
+                fechaInicio: value.mainDocument.fechaInicio,
+                fechaFin: value.mainDocument.fechaVencimiento,
+                indeterminado: value.mainDocument.esIndeterminado,
+                fileUrl: value.mainDocument.downloadUrl,
+                fileName: value.mainDocument.fileName,
+                tipoDocumento: value.mainDocument.documentType === 0 ? 4 : 5,
+              });
+              //TODO agregar anexos, tipodocumento 6
+            }
+          }
+        );
+
         // documentos normales
-        proveedorDocumentos?.map((documento: any) => {
+        proveedorPerfil.proveedorDocumentos?.map((documento: any) => {
           historialDocumentos.push({
             id: documento.id,
             fechaInicio: documento.startDate,
@@ -371,8 +341,11 @@ export const usePerfil = () => {
 
         //cuentas bancarias
         let cuentasData = [];
-        if (proveedorCuentasBancarias && proveedorCuentasBancarias.length > 0) {
-          cuentasData = proveedorCuentasBancarias.map((cuenta: any) => {
+        if (
+          proveedorPerfil.cuentasBancarias &&
+          proveedorPerfil.cuentasBancarias.length > 0
+        ) {
+          cuentasData = proveedorPerfil.cuentasBancarias.map((cuenta: any) => {
             return {
               id: cuenta.id,
               valido: true,
@@ -384,6 +357,7 @@ export const usePerfil = () => {
               status: cuenta.isActive,
               downloadUrl: cuenta.downloadUrl,
               newElement: false,
+              //TODO no cuenta agregar
             };
           });
         } else {

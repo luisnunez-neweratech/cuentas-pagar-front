@@ -19,13 +19,8 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
 
   const stateArchivoPrincipal = useDocumentoPrincipalStore((state) => state);
 
-  const [agregarPropuesta, setAgregarPropuesta] = useState(false);
-  const [agregarAnexo, setAgregarAnexo] = useState(false);
-
   const [showPrincipal, setShowPrincipal] = useState(false);
   const [isPrincipal, setIsPrincipal] = useState(false);
-
-  const [showPropuesta, setShowPropuesta] = useState(true);
 
   const [fileName, setFileName] = useState("");
 
@@ -79,15 +74,14 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
   const validateArchivoPrincipal = () => {
     handleSubmit();
     validateForm().then((errors) => {
-      if (Object.keys(errors).length === 0) {   
-        console.log("llega 44?");     
+      if (Object.keys(errors).length === 0) {
         updateArchivoPrincipal(
           values.tipoDocumento,
           values.fechaInicio,
           values.indeterminado,
           values[idInput],
           isPrincipal,
-          values.fechaFin ?? ''
+          values.fechaFin ?? ""
         );
       } else {
         /* if (tipoDocumento === TipoDocumento.principal) {
@@ -107,10 +101,6 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
   };
 
   return {
-    agregarPropuesta,
-    setAgregarPropuesta,
-    agregarAnexo,
-    setAgregarAnexo,
     showPrincipal,
     isPrincipal,
     setIsPrincipal,
@@ -120,8 +110,6 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
     handleChange,
     handleBlur,
     setShowPrincipal,
-    showPropuesta,
-    setShowPropuesta,
     setFieldValue,
     setFieldTouched,
     handleFileChange,

@@ -34,7 +34,7 @@ export const ArchivoElement = ({
   total,
   deleteDocumento,
   idInput,
-  validateDocuments
+  validateDocuments,
 }: props) => {
   const {
     values,
@@ -70,6 +70,8 @@ export const ArchivoElement = ({
               <MenuItem value={1}>ID Rep. Legal</MenuItem>
               <MenuItem value={2}>Comp. Domicilio</MenuItem>
               <MenuItem value={3}>Poder Rep.</MenuItem>
+              <MenuItem value={4}>Propuesta</MenuItem>
+              <MenuItem value={5}>Anexo</MenuItem>
             </Select>
             <FormHelperText>
               {touched.tipoDocumento && errors.tipoDocumento?.toString()}
@@ -121,21 +123,23 @@ export const ArchivoElement = ({
         )}
         {values.indeterminado && <Grid size={3} />}
         <Grid size={3}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={values.indeterminado}
-                onChange={() => {
-                  setFieldValue("indeterminado", !values.indeterminado);
-                  if (!values.indeterminado === true) {
-                    setFieldValue("fechaFin", "");
-                  }
-                }}
-              />
-            }
-            label="Indeterminado"
-            style={{ marginTop: 8 }}
-          />
+          {values.tipoDocumento !== 5 && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={values.indeterminado}
+                  onChange={() => {
+                    setFieldValue("indeterminado", !values.indeterminado);
+                    if (!values.indeterminado === true) {
+                      setFieldValue("fechaFin", "");
+                    }
+                  }}
+                />
+              }
+              label="Indeterminado"
+              style={{ marginTop: 8 }}
+            />
+          )}
         </Grid>
 
         <Grid size={3}>
@@ -159,11 +163,42 @@ export const ArchivoElement = ({
             </Button>
           </label>
         </Grid>
-        <Grid size={8}>
+        <Grid size={4}>
           {fileName && (
             <p style={{ color: "rgba(0, 0, 0, 0.6)" }}>
               {`Nombre del Archivo: ${fileName}`}
             </p>
+          )}
+        </Grid>
+
+        <Grid size={4}>
+          {(values.tipoDocumento === 4 || values.tipoDocumento === 5) && (
+            <FormControl
+              fullWidth
+              error={
+                touched.perteneceContratoId &&
+                Boolean(errors.perteneceContratoId)
+              }
+            >
+              <InputLabel id="pertenece-contrato-label">
+                Seleccionar Contrato - Propuesta
+              </InputLabel>
+              <Select
+                labelId="pertenece-contrato-label"
+                id="perteneceContratoId"
+                name="perteneceContratoId"
+                label="Seleccionar Contrato - Propuesta"
+                value={values.perteneceContratoId}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              >
+                <MenuItem value={0}>Actual</MenuItem>
+              </Select>
+              <FormHelperText>
+                {touched.perteneceContratoId &&
+                  errors.perteneceContratoId?.toString()}
+              </FormHelperText>
+            </FormControl>
           )}
         </Grid>
 

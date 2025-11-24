@@ -83,6 +83,7 @@ const initialNewStepContrato = {
       fechaInicio: "",
       status: true,
       newElement: true,
+      perteneceContratoId: null,
     },
   ],
   documentos: [

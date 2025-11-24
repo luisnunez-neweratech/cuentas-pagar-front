@@ -38,6 +38,7 @@ export const useArchivoElement = ({
       fechaFin: documento?.fechaFin, // Or dayjs() for a default value
       indeterminado: documento?.indeterminado,
       [idInput]: idInput,
+      perteneceContratoId: documento?.perteneceContratoId || "",
     };
   };
 
