@@ -9,7 +9,7 @@ export const FacturasPage = () => {
         showFilter={false}
         onClickShowFilter={() => console.log("onclickshowfilter")}
       />
-      <Filters showFilter={true} />
+      <Filters showFilter={false} />
     </Grid>
   );
 };

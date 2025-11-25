@@ -49,6 +49,8 @@ export const ArchivoElement = ({
     handleFileChange,
     listaContratos,
     stateArchivoPrincipal,
+    showIndetermindo,
+    setShowIndeterminado,
   } = useArchivoElement({ idInput, id, validateDocuments });
 
   return (
@@ -66,7 +68,16 @@ export const ArchivoElement = ({
               name="tipoDocumento"
               label="Tipo Documento"
               value={values.tipoDocumento}
-              onChange={handleChange}
+              onChange={(e) => {
+                if (e.target.value === 5) {
+                  setFieldValue("indeterminado", false);
+                  setShowIndeterminado(false);
+                } else {
+                  setShowIndeterminado(true);
+                  setFieldValue("indeterminado", true);
+                }
+                handleChange(e);
+              }}
               onBlur={handleBlur}
             >
               <MenuItem value={0}>CSF</MenuItem>
@@ -128,7 +139,7 @@ export const ArchivoElement = ({
         )}
         {values.indeterminado && <Grid size={3} />}
         <Grid size={3}>
-          {values.tipoDocumento !== 5 && (
+          {showIndetermindo && (
             <FormControlLabel
               control={
                 <Checkbox

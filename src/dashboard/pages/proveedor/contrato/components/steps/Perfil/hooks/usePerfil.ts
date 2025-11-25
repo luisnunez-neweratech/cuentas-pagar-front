@@ -262,12 +262,26 @@ export const usePerfil = () => {
                 });
 
                 listaContratos.push({
-                  id: value.mainDocument.id,
+                  id: value.mainDocument.contractId,
                   fechaInicio: value.mainDocument.fechaInicio,
                   fechaFin: value.mainDocument.fechaVencimiento,
                   indeterminado: value.mainDocument.esIndeterminado,
                 });
-                //TODO agregar anexos, tipodocumento 6
+                //TODO agregar tipodocumento 6
+              }
+              console.log('anexos',value.anexos);
+              if (value.anexos && value.anexos.length > 0) {
+                value.anexos.map((anexo: any) => {
+                  historialDocumentos.push({
+                    id: anexo.id,
+                    fechaInicio: anexo.fechaInicio,
+                    fechaFin: anexo.fechaVencimiento,
+                    indeterminado: false, // no aplica
+                    fileUrl: anexo.downloadUrl,
+                    fileName: anexo.fileName,
+                    tipoDocumento: 6, // anexo
+                  });
+                });
               }
             }
           );
@@ -288,7 +302,7 @@ export const usePerfil = () => {
 
         // contrato es array, porque es historico
         let colaboradoresData = [];
-        if (proveedorColaboradores.length > 0) {
+        if (proveedorColaboradores && proveedorColaboradores.length > 0) {
           colaboradoresData = proveedorColaboradores.map((colaborador: any) => {
             return {
               id: colaborador.id,

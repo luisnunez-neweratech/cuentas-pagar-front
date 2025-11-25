@@ -161,9 +161,11 @@ export const useNewContrato = () => {
           contractId: data.id,
         });
       }
+      console.log("variables", variables);
       // propuesta o anexo
       variables?.documentos &&
         variables?.documentos.map((documento) => {
+          console.log("documento", documento);
           if (documento.fileValue && documento.tipoDocumento > 3) {
             if (documento.perteneceContratoId === 0) {
               //agregar propuesta o anexo a nuevo contrato

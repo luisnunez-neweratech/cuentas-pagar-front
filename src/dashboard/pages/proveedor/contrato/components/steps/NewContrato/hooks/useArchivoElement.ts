@@ -21,6 +21,8 @@ export const useArchivoElement = ({
     validateArchivoElement(); //children function of interest
   }, [validateDocuments]);
 
+  const [showIndetermindo, setShowIndeterminado] = useState(true);
+
   const getNewStepContrato = useProveedorContratoStore(
     (state) => state.getNewStepContrato
   );
@@ -88,7 +90,6 @@ export const useArchivoElement = ({
     handleSubmit();
     validateForm().then((errors) => {
       if (Object.keys(errors).length === 0) {
-        console.log("llega aqui?");
         updateNewDocumento(id, {
           id: id,
           fechaInicio: values.fechaInicio ?? "",
@@ -98,6 +99,7 @@ export const useArchivoElement = ({
           fileName: fileName,
           tipoDocumento: values.tipoDocumento ?? 0,
           newElement: true,
+          perteneceContratoId: +values.perteneceContratoId,
         });
       } else {
         /* if (tipoDocumento === TipoDocumento.principal) {
@@ -128,5 +130,7 @@ export const useArchivoElement = ({
     fileName,
     listaContratos: getNewStepContrato()?.listaContratos || [],
     stateArchivoPrincipal,
+    showIndetermindo,
+    setShowIndeterminado
   };
 };
