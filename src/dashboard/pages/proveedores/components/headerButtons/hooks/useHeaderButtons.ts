@@ -20,6 +20,7 @@ export const useHeaderButtons = () => {
       fechaAlta: fechaalta,
       fechaFinContrato: contratoFechaFin,
       fechaInicioContrato: contratoFechaInicio,
+      status,
     } = filtrosProveedores;
     let paramsToSend: any = {};
 
@@ -41,6 +42,8 @@ export const useHeaderButtons = () => {
     if (contratoFechaFin && contratoFechaFin.length > 0) {
       paramsToSend.contratoFechaFin = contratoFechaFin;
     }
+
+    paramsToSend.isActive = status ? "true" : "false";
 
     const searchParams = new URLSearchParams(paramsToSend);
     const queryString = searchParams.toString();
