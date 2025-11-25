@@ -172,6 +172,7 @@ export const Perfil = () => {
           <AutoCompleteComponent
             onChange={onChangeAutocomplete}
             setValues={values.productos}
+            isGiros={true}
           />
         </Grid>
 

@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import { useState } from "react";
-import { DateRange } from "react-date-range";
+//import { DateRange } from "react-date-range";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -10,7 +10,7 @@ interface FiltersProps {
 }
 
 export const Filters = ({ showFilter }: FiltersProps) => {
-  const [_state, setState] = useState([
+  const [_state, _setState] = useState([
     {
       startDate: new Date(),
       endDate: null,

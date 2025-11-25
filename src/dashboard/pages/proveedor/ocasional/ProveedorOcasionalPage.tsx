@@ -163,6 +163,7 @@ export const ProveedorOcasionalPage = () => {
           <AutoCompleteComponent
             onChange={onChangeAutocomplete}
             setValues={values.productos}
+            isGiros={true}
           />
         </Grid>
         <Grid size={8} />
