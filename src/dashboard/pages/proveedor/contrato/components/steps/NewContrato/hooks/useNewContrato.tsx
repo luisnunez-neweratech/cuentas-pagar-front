@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { useFormik } from "formik";
 import { validationFisicoSchema } from "../Validations";
@@ -6,7 +6,7 @@ import type { NewStepContrato } from "../../../../interface/stepContrato";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 import { useContratoStore } from "../store/Contrato.store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -16,6 +16,7 @@ import {
   addDocumentoProveedor,
   addDocumentoPrincipalProveedor,
   addColaboradoresProveedor,
+  getProveedorPerfil,
   //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
 //import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
@@ -58,6 +59,7 @@ export const useNewContrato = () => {
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const [clickedBy, setClickedBy] = useState<number>(0);
   const [validateColaboradores, doValidateColaboradores] = useState<number>(0);
+  const [actualizarHistorial, setActualizarHistorial] = useState<boolean>(false);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -194,47 +196,6 @@ export const useNewContrato = () => {
     },
   });
 
-  //TODO para la edicion de datos contrato moral
-  /*
-      const createMutationMoral = useMutation({
-        mutationFn: addProveedorContrato,
-        onSuccess: (data) => {
-          if (
-            checkContractor &&
-            getStepPerfil()?.tipoPersona === TipoPersona.Moral.value
-          ) {
-            //addColaboradoresProveedor
-            stepContrato?.colaboradores?.map((colaborador) => {
-              createColaboradorMutation.mutate({
-                contractId: data.id,
-                postColaboradorPayload: {
-                  collaboratorNumber: colaborador.noColaborador,
-                  name: colaborador.nombre,
-                  startDate: new Date(colaborador.fechaInicio),
-                  tentativeEndDate: new Date(colaborador.fechaFin),
-                  status: colaborador.status ? "Active" : "Inactive",
-                },
-              });
-            });
-          }
-    
-          toNextStep();
-        },
-        onError: (error) => {
-          console.log(error);
-          if (error instanceof AxiosError) {
-            toast.error(error.message);
-            return;
-          }
-          toast.error("Error al actualizar el proveedor");
-          return;
-        },
-        onSettled: () => {
-          handleDisableButtons(false);
-        },
-      });
-      */
-
   const initialFormValues = () => {
     const stepContrato = getNewStepContrato();
 
@@ -247,6 +208,28 @@ export const useNewContrato = () => {
       documentos: stepContrato?.documentos,
     };
   };
+
+  //cargar datos de perfil, domicilio, contrato
+  const {
+    isLoading,
+    isError: isErrorGet,
+    error: errorGet,
+    data: proveedorPerfil,
+  } = useQuery({
+    queryKey: ["Supplier", `${stateContrato.id}`, "Details"],
+    queryFn: () => getProveedorPerfil(stateContrato.id!.toString()),
+    enabled: actualizarHistorial,
+  });
+
+  useEffect(() => {
+    setActualizarHistorial(false);
+    if(proveedorPerfil && proveedorPerfil.proveedorDocumentosContrato){
+
+    }
+    
+  },[proveedorPerfil])
+
+
 
   const {
     handleSubmit,
@@ -512,6 +495,8 @@ export const useNewContrato = () => {
           }
         }
       }
+      // TODO actualizar lista de documentos en historico
+      setActualizarHistorial(true);
     },
   });
 

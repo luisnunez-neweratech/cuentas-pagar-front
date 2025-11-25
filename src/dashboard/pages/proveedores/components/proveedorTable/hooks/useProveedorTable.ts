@@ -55,6 +55,7 @@ export const useProveedorTable = () => {
         fechaalta: filtrosProveedores.fechaAlta,
         contratoFechaInicio: filtrosProveedores.fechaInicioContrato,
         contratoFechaFin: filtrosProveedores.fechaFinContrato,
+        status: filtrosProveedores.status
       }),
   });
 
@@ -89,6 +90,9 @@ export const useProveedorTable = () => {
   useEffect(() => {
     setPage(0);
   }, [filtrosProveedores.fechaFinContrato]);
+  useEffect(() => {
+    setPage(0);
+  }, [filtrosProveedores.status]);
 
   useEffect(() => {
     if (isErrorGet) {

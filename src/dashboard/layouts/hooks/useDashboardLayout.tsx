@@ -4,9 +4,10 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import { mainBackgroundColor } from "../../../lib/constants";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { Tooltip } from "@mui/material";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 
 //const menuOptions = ["Proveedores", "Facturas", "Reportes", "Catálogos"];
-const menuOptions = ["Proveedores", "Catálogos"];
+const menuOptions = ["Proveedores", "Facturas", "Catálogos"];
 
 export const useDashboardLayout = () => {
   const navigate = useNavigate();
@@ -17,8 +18,11 @@ export const useDashboardLayout = () => {
     if (location.pathname.includes("/proveedor")) {
       return 0;
     }
-    if (location.pathname.includes("/catalogos")) {
+    if (location.pathname.includes("/facturas")) {
       return 1;
+    }
+    if (location.pathname.includes("/catalogos")) {
+      return 2;
     }
     return -1;
   };
@@ -43,12 +47,7 @@ export const useDashboardLayout = () => {
             />
           </Tooltip>
         );
-      /*  case 1:
-        return (
-          <ReceiptIcon
-            style={{ color: optionSelected === 1 ? mainBackgroundColor : "" }}
-          />
-        );
+      /*  
       case 2:
         return (
           <AssessmentIcon
@@ -57,10 +56,17 @@ export const useDashboardLayout = () => {
         ); */
       case 1:
         return (
+          <Tooltip title="Facturas">
+            <ReceiptIcon
+              style={{ color: optionSelected === 1 ? mainBackgroundColor : "" }}
+            />
+          </Tooltip>
+        );
+      case 2:
+        return (
           <Tooltip title="Catálogos">
             <LibraryBooksIcon
-              //style={{ color: optionSelected === 3 ? mainBackgroundColor : "" }}
-              style={{ color: optionSelected === 1 ? mainBackgroundColor : "" }}
+              style={{ color: optionSelected === 2 ? mainBackgroundColor : "" }}
             />
           </Tooltip>
         );
@@ -77,14 +83,15 @@ export const useDashboardLayout = () => {
         navigate("/");
         setOptionSelected(1);
         break;
-      case 2:
-        navigate("/");
-        setOptionSelected(2);
+       */
+     /*  case 1:
+        navigate("/facturas");
+        setOptionSelected(1);
         break; */
-      case 1:
+      case 2:
         navigate("/catalogos");
         //setOptionSelected(3);
-        setOptionSelected(1);
+        setOptionSelected(2);
         break;
       default:
         navigate("/");

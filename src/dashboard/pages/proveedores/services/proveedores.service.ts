@@ -11,6 +11,7 @@ interface getProveedoresProps {
   fechaalta?: string | null;
   contratoFechaInicio?: string | null;
   contratoFechaFin?: string | null;
+  status?: boolean | null;
 }
 
 export const getProveedores = async ({
@@ -22,6 +23,7 @@ export const getProveedores = async ({
   fechaalta,
   contratoFechaInicio,
   contratoFechaFin,
+  status,
 }: getProveedoresProps): Promise<any> => {
   let paramsToSend: any = {};
   if (rfc && rfc.length > 0) {
@@ -42,6 +44,8 @@ export const getProveedores = async ({
   if (contratoFechaFin && contratoFechaFin.length > 0) {
     paramsToSend.contratoFechaFin = contratoFechaFin;
   }
+
+  paramsToSend.isActive = status ? "true" : "false";
 
   const { data } = await cuentasApi.get(
     `/Supplier/GetPagedAsync/${page}/${rowsPerPage}`,
