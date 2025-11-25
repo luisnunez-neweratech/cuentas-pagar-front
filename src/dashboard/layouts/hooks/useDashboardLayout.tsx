@@ -85,8 +85,8 @@ export const useDashboardLayout = () => {
         break;
        */
       case 1:
-        //navigate("/facturas");
-        //setOptionSelected(1);
+        navigate("/facturas");
+        setOptionSelected(1);
         break;
       case 2:
         navigate("/catalogos");
