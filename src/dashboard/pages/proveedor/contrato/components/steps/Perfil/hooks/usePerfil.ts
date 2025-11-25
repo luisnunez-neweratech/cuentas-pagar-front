@@ -372,7 +372,7 @@ export const usePerfil = () => {
               status: cuenta.isActive,
               downloadUrl: cuenta.downloadUrl,
               newElement: false,
-              //TODO no cuenta agregar
+              noCuenta: cuenta.accountNumber,
             };
           });
         } else {

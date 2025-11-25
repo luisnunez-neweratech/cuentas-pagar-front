@@ -22,7 +22,6 @@ export const useCuentasBancariasData = ({
   const location = useLocation();
   const currentPath = location.pathname;
 
-
   useEffect(() => {
     validateCuentaElement(); //children function of interest
   }, [validateCuentas]);
@@ -73,9 +72,7 @@ export const useCuentasBancariasData = ({
   } = useFormik({
     initialValues: getInitialValues(),
     validationSchema: validationSchema(idInput, downloadUrl),
-    onSubmit: (values) => {
-      console.log("y estos?", values);
-    },
+    onSubmit: (_values) => {},
   });
 
   const handleFileChange = (event: any) => {
@@ -94,12 +91,10 @@ export const useCuentasBancariasData = ({
   }, [values]);
 
   const validateCuentaElement = async () => {
-    console.log("entra al validate?");
     handleSubmit(); // show the errors
     validateForm().then((errors) => {
       if (Object.keys(errors).length === 0) {
         isValidForm(id, true);
-        console.log("estos values2", values);
         updateCuentaBancaria(id, {
           downloadUrl: downloadUrl,
           newElement: values.newElement,
@@ -116,9 +111,9 @@ export const useCuentasBancariasData = ({
             values[idInput] instanceof File
               ? values[idInput]
               : undefined,
+          noCuenta: values.noCuenta!,
         });
       } else {
-        console.log('errores', errors)
         isValidForm(id, false);
       }
     });
