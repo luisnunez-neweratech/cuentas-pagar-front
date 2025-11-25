@@ -329,8 +329,8 @@ export const FacturaTable = () => {
             <TableCell />
             <TableCell>Proveedor</TableCell>
             <TableCell>No. Factura</TableCell>
-            <TableCell>Tipo Documento</TableCell>
-            <TableCell>Fólio Fiscal</TableCell>
+            <TableCell>Tipo</TableCell>
+            <TableCell>Folio Fiscal</TableCell>
             <TableCell>Fecha Factura</TableCell>
             <TableCell>Estatus Factura</TableCell>
             <TableCell>Estatus Reembolso</TableCell>
