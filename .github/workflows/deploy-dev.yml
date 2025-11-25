@@ -40,7 +40,7 @@ jobs:
           server: ${{ vars.FTP_HOST }}
           username: ${{ vars.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: /
+          local-dir: ./dist/
           protocol: ftps
           server-dir: ${{ vars.FTP_DESTINATION_PATH }}
           timeout: 60000
