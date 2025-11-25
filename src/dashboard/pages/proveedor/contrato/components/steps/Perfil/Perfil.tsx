@@ -28,6 +28,7 @@ export const Perfil = () => {
     disableButtons,
     id,
     setClickedBy,
+    giros
   } = usePerfil();
 
   return (
@@ -172,7 +173,7 @@ export const Perfil = () => {
           <AutoCompleteComponent
             onChange={onChangeAutocomplete}
             setValues={values.productos}
-            isGiros={true}
+            itemsList={giros}
           />
         </Grid>
 

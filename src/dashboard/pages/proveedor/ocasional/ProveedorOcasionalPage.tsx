@@ -32,6 +32,7 @@ export const ProveedorOcasionalPage = () => {
     openModal,
     disableButtons,
     actualizarProveedor,
+    giros,
   } = useProveedorOcasional();
 
   return (
@@ -163,7 +164,7 @@ export const ProveedorOcasionalPage = () => {
           <AutoCompleteComponent
             onChange={onChangeAutocomplete}
             setValues={values.productos}
-            isGiros={true}
+            itemsList={giros}
           />
         </Grid>
         <Grid size={8} />
