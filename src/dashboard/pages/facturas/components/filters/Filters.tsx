@@ -10,7 +10,7 @@ interface FiltersProps {
 }
 
 export const Filters = ({ showFilter }: FiltersProps) => {
-  const [state, setState] = useState([
+  const [_state, setState] = useState([
     {
       startDate: new Date(),
       endDate: null,
@@ -28,8 +28,8 @@ export const Filters = ({ showFilter }: FiltersProps) => {
               editableDateInputs={true}
               onChange={(item: any) => setState([item.selection])}
               moveRangeOnFirstSelection={false}
-              ranges={state}
-              showDateRangePicker={false}
+              //ranges={state}
+              //showDateRangePicker={false}
             />
           </Grid>
           <Grid size={3}>

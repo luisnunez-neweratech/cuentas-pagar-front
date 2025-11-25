@@ -1,5 +1,5 @@
 import { Grid, Tooltip, IconButton } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+//import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
@@ -21,10 +21,12 @@ export const HeaderButtons = ({
   const { handleOpenModal, clearFiltros, downloadFile, hasActiveFiltres } =
     useHeaderButtons();
 
+  console.log("handleOpenModal", handleOpenModal());
+
   return (
     <>
       <Grid size={1}>
-       {/*  <Tooltip title="Nuevo Proveedor">
+        {/*  <Tooltip title="Nuevo Proveedor">
           <IconButton
             sx={{ color: mainBackgroundColor }}
             onClick={handleOpenModal}

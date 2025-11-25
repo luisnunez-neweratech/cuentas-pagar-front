@@ -59,7 +59,8 @@ export const useNewContrato = () => {
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const [clickedBy, setClickedBy] = useState<number>(0);
   const [validateColaboradores, doValidateColaboradores] = useState<number>(0);
-  const [actualizarHistorial, setActualizarHistorial] = useState<boolean>(false);
+  const [actualizarHistorial, setActualizarHistorial] =
+    useState<boolean>(false);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -210,12 +211,7 @@ export const useNewContrato = () => {
   };
 
   //cargar datos de perfil, domicilio, contrato
-  const {
-    isLoading,
-    isError: isErrorGet,
-    error: errorGet,
-    data: proveedorPerfil,
-  } = useQuery({
+  const { data: proveedorPerfil } = useQuery({
     queryKey: ["Supplier", `${stateContrato.id}`, "Details"],
     queryFn: () => getProveedorPerfil(stateContrato.id!.toString()),
     enabled: actualizarHistorial,
@@ -223,13 +219,9 @@ export const useNewContrato = () => {
 
   useEffect(() => {
     setActualizarHistorial(false);
-    if(proveedorPerfil && proveedorPerfil.proveedorDocumentosContrato){
-
+    if (proveedorPerfil && proveedorPerfil.proveedorDocumentosContrato) {
     }
-    
-  },[proveedorPerfil])
-
-
+  }, [proveedorPerfil]);
 
   const {
     handleSubmit,
