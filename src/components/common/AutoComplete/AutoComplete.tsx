@@ -1,19 +1,24 @@
 import { CustomAutocomplete } from "./CustomAutocomplete";
 import { useAutocomplete } from "./hooks/useAutocomplete";
-import type { Giro } from "../../../dashboard/pages/catalogos/giros/interfaces/Giro";
+import type { Item } from "./interfaces/Item";
 
 interface Props {
-  onChange: (giro: Giro[]) => void;
-  setValues?: Giro[];
+  onChange: (item: Item[]) => void;
+  isGiros: boolean;
+  setValues?: Item[];
 }
 
-export const AutoCompleteComponent = ({ onChange, setValues = [] }: Props) => {
-  const { giros } = useAutocomplete();
+export const AutoCompleteComponent = ({
+  onChange,
+  isGiros,
+  setValues = [],
+}: Props) => {
+  const { data } = useAutocomplete({ isGiros });
 
   return (
-    <CustomAutocomplete<Giro>
+    <CustomAutocomplete<Item>
       id="customized-autocomplete"
-      options={giros ? giros : []}
+      options={data ? data : []}
       getOptionLabel={(option) => option.descripcion}
       onChange={(_e, newvalue) => {
         if (newvalue.length < 5) {

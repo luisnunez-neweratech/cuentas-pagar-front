@@ -23,18 +23,24 @@ export const Filters = ({ showFilter }: FiltersProps) => {
       {showFilter && (
         <>
           <Grid size={3}>
+           {/*  <AutoCompleteComponent
+              onChange={onChangeAutocomplete}
+              setValues={values.productos}
+            /> */}
+          </Grid>
+          <Grid size={3}>
             {/*Fecha factura */}
-            <DateRange
+            {/* <DateRange
               editableDateInputs={true}
               onChange={(item: any) => setState([item.selection])}
               moveRangeOnFirstSelection={false}
               //ranges={state}
               //showDateRangePicker={false}
-            />
+            /> */}
           </Grid>
           <Grid size={3}>
             {/*Fecha de pago */}
-           {/*  <DateRange
+            {/*  <DateRange
               editableDateInputs={true}
               onChange={(item: any) => setState([item.selection])}
               moveRangeOnFirstSelection={false}
@@ -43,7 +49,7 @@ export const Filters = ({ showFilter }: FiltersProps) => {
           </Grid>
           <Grid size={3}>
             {/*Fecha programada pago */}
-           {/*  <DateRange
+            {/*  <DateRange
               editableDateInputs={true}
               onChange={(item: any) => setState([item.selection])}
               moveRangeOnFirstSelection={false}
@@ -52,7 +58,7 @@ export const Filters = ({ showFilter }: FiltersProps) => {
           </Grid>
           <Grid size={3}>
             {/*Fecha reembolso */}
-           {/*  <DateRange
+            {/*  <DateRange
               editableDateInputs={true}
               onChange={(item: any) => setState([item.selection])}
               moveRangeOnFirstSelection={false}
