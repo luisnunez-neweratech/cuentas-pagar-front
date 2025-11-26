@@ -72,12 +72,12 @@ export const useAutocompleteFilters = () => {
   };
 
   const {
-    handleSubmit,
+    //handleSubmit,
     values,
-    handleChange,
-    handleBlur,
-    touched,
-    errors,
+    //handleChange,
+    //handleBlur,
+    //touched,
+    //errors,
     setFieldValue,
   } = useFormik({
     enableReinitialize: true,
