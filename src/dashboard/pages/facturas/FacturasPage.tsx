@@ -3,7 +3,7 @@ import { HeaderButtons } from "./components/headerButtons/HeaderButtons";
 import { Filters } from "./components/filters/Filters";
 import { FacturaTable } from "./components/facturaTable/FacturaTable";
 import { useFacturasPage } from "./hooks/useFacturasPage";
-import { DetalleFactura } from "./components/detalleFactura/DetalleFactura";
+import { DetalleFacturaModal } from "./components/detalleFacturaModal/DetalleFacturaModal";
 
 export const FacturasPage = () => {
   const { showFilter, onClickShowFilter } = useFacturasPage();
@@ -13,7 +13,7 @@ export const FacturasPage = () => {
       <HeaderButtons {...{ onClickShowFilter, showFilter }} />
       <Filters {...{ showFilter }} />
       <FacturaTable />
-      <DetalleFactura />
+      <DetalleFacturaModal />
     </Grid>
   );
 };
