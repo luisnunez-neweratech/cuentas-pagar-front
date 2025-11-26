@@ -1,4 +1,4 @@
-import { useFacturasPageStore } from "../../../../../store/FacturasPage.store";
+import { useFacturasPageStore } from "../../../store/FacturasPage.store";
 
 export const useDetalleFactura = () => {
   const openModal = useFacturasPageStore((state) => state.openModal);

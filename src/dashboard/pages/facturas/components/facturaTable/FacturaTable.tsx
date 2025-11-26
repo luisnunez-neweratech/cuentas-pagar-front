@@ -13,6 +13,7 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Link } from "@mui/material";
+import { useFacturaTable } from "./hooks/useFacturaTable";
 
 function createData(
   proveedor: string,
@@ -76,9 +77,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
+  const { rowClick } = useFacturaTable();
+
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" }, cursor: "pointer" }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -88,16 +91,64 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell
+          component="th"
+          scope="row"
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
           {row.proveedor}
         </TableCell>
-        <TableCell>{row.noFactura}</TableCell>
-        <TableCell>{row.tipoDocumento}</TableCell>
-        <TableCell>{row.folioFiscal}</TableCell>
-        <TableCell>{row.fechaFactura}</TableCell>
-        <TableCell>{row.statusFacturas}</TableCell>
-        <TableCell>{row.statusReembolso}</TableCell>
-        <TableCell>{row.total}</TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.noFactura}
+        </TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.tipoDocumento}
+        </TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.folioFiscal}
+        </TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.fechaFactura}
+        </TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.statusFacturas}
+        </TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.statusReembolso}
+        </TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.total}
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -322,29 +373,27 @@ const rows = [
 
 export const FacturaTable = () => {
   return (
-    
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Proveedor</TableCell>
-              <TableCell>No. Factura</TableCell>
-              <TableCell>Tipo</TableCell>
-              <TableCell>Folio Fiscal</TableCell>
-              <TableCell>Fecha Factura</TableCell>
-              <TableCell>Estatus Factura</TableCell>
-              <TableCell>Estatus Reembolso</TableCell>
-              <TableCell>Total</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row key={row.proveedor} row={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    
+    <TableContainer component={Paper}>
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            <TableCell>Proveedor</TableCell>
+            <TableCell>No. Factura</TableCell>
+            <TableCell>Tipo</TableCell>
+            <TableCell>Folio Fiscal</TableCell>
+            <TableCell>Fecha Factura</TableCell>
+            <TableCell>Estatus Factura</TableCell>
+            <TableCell>Estatus Reembolso</TableCell>
+            <TableCell>Total</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <Row key={row.proveedor} row={row} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
