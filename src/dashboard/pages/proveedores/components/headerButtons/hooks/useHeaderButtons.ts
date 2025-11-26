@@ -5,9 +5,6 @@ export const useHeaderButtons = () => {
     (state) => state.handleOpenModal
   );
   const clearFiltros = useProveedoresPageStore((state) => state.clearFiltros);
-  const hasActiveFiltres = useProveedoresPageStore(
-    (state) => state.hasActiveFiltres
-  );
   const filtrosProveedores = useProveedoresPageStore(
     (state) => state.filtrosProveedores
   );
@@ -56,6 +53,5 @@ export const useHeaderButtons = () => {
     handleOpenModal,
     clearFiltros,
     downloadFile,
-    hasActiveFiltres,
   };
 };
