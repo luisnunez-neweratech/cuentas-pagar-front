@@ -12,6 +12,7 @@ export const FacturasPage = () => {
       <HeaderButtons {...{ onClickShowFilter, showFilter }} />
       <Filters {...{ showFilter }} />
       <FacturaTable />
+      {/* <DetalleFactura /> */}
     </Grid>
   );
 };

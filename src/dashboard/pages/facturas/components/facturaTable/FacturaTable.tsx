@@ -191,7 +191,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell></TableCell>                   
+                    <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -199,7 +199,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                     <TableRow key={producto.id}>
                       <TableCell component="th" scope="row">
                         {producto.nombre}
-                      </TableCell>                      
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -322,27 +322,29 @@ const rows = [
 
 export const FacturaTable = () => {
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Proveedor</TableCell>
-            <TableCell>No. Factura</TableCell>
-            <TableCell>Tipo</TableCell>
-            <TableCell>Folio Fiscal</TableCell>
-            <TableCell>Fecha Factura</TableCell>
-            <TableCell>Estatus Factura</TableCell>
-            <TableCell>Estatus Reembolso</TableCell>
-            <TableCell>Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <Row key={row.proveedor} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>Proveedor</TableCell>
+              <TableCell>No. Factura</TableCell>
+              <TableCell>Tipo</TableCell>
+              <TableCell>Folio Fiscal</TableCell>
+              <TableCell>Fecha Factura</TableCell>
+              <TableCell>Estatus Factura</TableCell>
+              <TableCell>Estatus Reembolso</TableCell>
+              <TableCell>Total</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <Row key={row.proveedor} row={row} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    
   );
 };
