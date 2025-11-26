@@ -10,7 +10,7 @@ import {
 import { useUniqueFilters } from "./hooks/useUniqueFilters";
 
 export const UniqueFilters = () => {
-  const {} = useUniqueFilters();
+  const { monedas } = useUniqueFilters();
 
   return (
     <>
@@ -76,8 +76,11 @@ export const UniqueFilters = () => {
             //onChange={handleChange}
             //onBlur={handleBlur}
           >
-            <MenuItem value={0}>MX</MenuItem>
-            <MenuItem value={1}>DLLS</MenuItem>
+            {monedas?.map((moneda) => (
+              <MenuItem key={moneda.id} value={moneda.id}>
+                {moneda.descripcion}
+              </MenuItem>
+            ))}
           </Select>
           <FormHelperText>
             {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
