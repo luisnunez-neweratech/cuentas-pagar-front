@@ -10,7 +10,7 @@ import {
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AutoCompleteComponent } from "../../../../../components/common/AutoComplete/AutoComplete";
-import dayjs from "dayjs";
+//import dayjs from "dayjs";
 import { useFacturaHeader } from "./hooks/useFacturaHeader";
 
 export const FacturaHeader = () => {

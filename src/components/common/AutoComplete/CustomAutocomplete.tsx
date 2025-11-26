@@ -7,7 +7,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 import { type PropsWithChildren } from "react";
-import { TextField } from "@mui/material";
 
 const Root = styled("div")(({ theme }) => ({
   color: "rgba(0,0,0,0.85)",
@@ -16,14 +15,6 @@ const Root = styled("div")(({ theme }) => ({
     color: "rgba(255,255,255,0.65)",
   }),
 }));
-
-const Label = styled("label")`
-  padding: 10px 0 4px;
-  line-height: 1.5;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 4px;
-`;
 
 const InputWrapper = styled("div")(({ theme }) => ({
   width: "100%",
@@ -188,7 +179,7 @@ export function CustomAutocomplete<Value>(
 
   const { title } = props;
 
-  console.log('value', value)
+  console.log("value", value);
 
   return (
     <Root>
@@ -208,7 +199,9 @@ export function CustomAutocomplete<Value>(
           )}
 
           <input
-            placeholder={Array.isArray(value) && value.length === 0 ? title : ""}
+            placeholder={
+              Array.isArray(value) && value.length === 0 ? title : ""
+            }
             {...getInputProps()}
           />
         </InputWrapper>
