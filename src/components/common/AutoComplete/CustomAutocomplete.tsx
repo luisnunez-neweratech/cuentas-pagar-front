@@ -16,14 +16,6 @@ const Root = styled("div")(({ theme }) => ({
   }),
 }));
 
-const Label = styled("label")`
-  padding: 10px 0 4px;
-  line-height: 1.5;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 4px;
-`;
-
 const InputWrapper = styled("div")(({ theme }) => ({
   width: "100%",
   minHeight: "56px",
@@ -187,10 +179,11 @@ export function CustomAutocomplete<Value>(
 
   const { title } = props;
 
+  console.log("value", value);
+
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label sx={{ paddingTop: 0 }}>{title}</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
           {(Array.isArray(value) ? value : value ? [value] : []).map(
             (option, index) => {
@@ -204,7 +197,13 @@ export function CustomAutocomplete<Value>(
               );
             }
           )}
-          <input {...getInputProps()} />
+
+          <input
+            placeholder={
+              Array.isArray(value) && value.length === 0 ? title : ""
+            }
+            {...getInputProps()}
+          />
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (

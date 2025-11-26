@@ -1,5 +1,5 @@
 import { Grid, Tooltip, IconButton } from "@mui/material";
-//import AddCircleIcon from "@mui/icons-material/AddCircle";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
@@ -8,6 +8,7 @@ import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { useHeaderButtons } from "./hooks/useHeaderButtons";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router";
 
 interface HeaderButtonsProps {
   showFilter: boolean;
@@ -18,18 +19,15 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-  const { handleOpenModal, clearFiltros, downloadFile, hasActiveFiltres } =
-    useHeaderButtons();
-
-  console.log("handleOpenModal", handleOpenModal());
-
+  const { clearFiltros, downloadFile, hasActiveFiltres } = useHeaderButtons();
+  const navigate = useNavigate();
   return (
     <>
       <Grid size={1}>
-        {/*  <Tooltip title="Nuevo Proveedor">
+        <Tooltip title="Nueva Factura">
           <IconButton
             sx={{ color: mainBackgroundColor }}
-            onClick={handleOpenModal}
+            onClick={() => navigate("/facturas/nueva-factura")}
           >
             <AddCircleIcon
               style={{
@@ -38,7 +36,7 @@ export const HeaderButtons = ({
               }}
             />
           </IconButton>
-        </Tooltip> */}
+        </Tooltip>
       </Grid>
 
       {hasActiveFiltres && !showFilter && (
