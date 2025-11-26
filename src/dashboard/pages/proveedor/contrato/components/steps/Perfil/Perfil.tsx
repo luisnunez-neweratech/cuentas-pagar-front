@@ -174,6 +174,8 @@ export const Perfil = () => {
             onChange={onChangeAutocomplete}
             setValues={values.productos}
             itemsList={giros}
+            maxItems={5}
+            title="Productos o Servicios"
           />
         </Grid>
 

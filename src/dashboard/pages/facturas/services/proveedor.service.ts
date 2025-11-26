@@ -1,0 +1,19 @@
+import { cuentasApi } from "../../../../api/cuentasApi";
+
+export const getProveedores = async (): Promise<any> => {
+  const { data } = await cuentasApi.get(`/Supplier/GetAll`);
+
+  const basicList = data.map((proveedor: any) => ({
+    id: proveedor.id,
+    descripcion: proveedor.tradeName,
+  }));
+
+  const distProveedores = basicList.reduce((acc: any, obj: any) => {
+    if (!acc.some((item: any) => item.descripcion === obj.descripcion)) {
+      acc.push(obj);
+    }
+    return acc;
+  }, []);  
+
+  return distProveedores;
+};

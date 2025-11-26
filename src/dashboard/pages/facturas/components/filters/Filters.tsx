@@ -4,12 +4,16 @@ import { useState } from "react";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import { AutoCompleteComponent } from "../../../../../components/common/AutoComplete/AutoComplete";
+import { useFilters } from "./hooks/useFilters";
 
 interface FiltersProps {
   showFilter: boolean;
 }
 
 export const Filters = ({ showFilter }: FiltersProps) => {
+  const { onChangeProveedor, proveedores, values } = useFilters();
+
   const [_state, _setState] = useState([
     {
       startDate: new Date(),
@@ -17,16 +21,21 @@ export const Filters = ({ showFilter }: FiltersProps) => {
       key: "selection",
     },
   ]);
+  
 
   return (
     <>
       {showFilter && (
         <>
           <Grid size={3}>
-           {/*  <AutoCompleteComponent
-              onChange={onChangeAutocomplete}
-              setValues={values.productos}
-            /> */}
+            {/* proveedores */}
+            <AutoCompleteComponent
+              onChange={onChangeProveedor}
+              setValues={values.proveedores}
+              itemsList={proveedores}
+              maxItems={5}
+              title="Proveedores"
+            />
           </Grid>
           <Grid size={3}>
             {/*Fecha factura */}

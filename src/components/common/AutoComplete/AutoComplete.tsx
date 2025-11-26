@@ -5,24 +5,31 @@ interface Props {
   onChange: (item: Item[]) => void;
   setValues?: Item[];
   itemsList?: Item[];
+  maxItems: number;
+  title: string;
 }
 
 export const AutoCompleteComponent = ({
   onChange,
   setValues = [],
   itemsList,
+  maxItems,
+  title,
 }: Props) => {
   return (
     <CustomAutocomplete<Item>
       id="customized-autocomplete"
       options={itemsList ? itemsList : []}
-      getOptionLabel={(option) => option.descripcion}
+      getOptionLabel={(option) =>
+        typeof option === "string" ? option : option.descripcion
+      }
       onChange={(_e, newvalue) => {
-        if (newvalue.length < 5) {
-          onChange(newvalue);
+        if (Array.isArray(newvalue) && newvalue.length < maxItems) {
+          onChange(newvalue.filter((v): v is Item => typeof v !== "string"));
         }
       }}
       value={setValues}
+      title={title}
     />
   );
 };

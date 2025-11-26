@@ -6,6 +6,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
+import { type PropsWithChildren } from "react";
 
 const Root = styled("div")(({ theme }) => ({
   color: "rgba(0,0,0,0.85)",
@@ -119,7 +120,7 @@ const StyledItem = styled(Item)<ItemProps>(({ theme }) => ({
   },
 }));
 
-const Listbox = styled("ul")(({ theme }) => ({  
+const Listbox = styled("ul")(({ theme }) => ({
   margin: "2px 0 0",
   padding: 0,
   position: "absolute",
@@ -166,7 +167,8 @@ const Listbox = styled("ul")(({ theme }) => ({
 }));
 
 export function CustomAutocomplete<Value>(
-  props: UseAutocompleteProps<Value, true, false, false>
+  props: UseAutocompleteProps<Value, boolean, boolean, boolean> &
+    PropsWithChildren<{ title: string }>
 ) {
   const {
     getRootProps,
@@ -183,21 +185,25 @@ export function CustomAutocomplete<Value>(
     ...props,
   });
 
+  const { title } = props;
+
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label sx={{ paddingTop: 0 }}>Productos o Servicios</Label>
+        <Label sx={{ paddingTop: 0 }}>{title}</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
-          {value.map((option, index) => {
-            const { key, ...itemProps } = getItemProps({ index });
-            return (
-              <StyledItem
-                key={key}
-                {...itemProps}
-                label={props.getOptionLabel!(option)}
-              />
-            );
-          })}
+          {(Array.isArray(value) ? value : value ? [value] : []).map(
+            (option, index) => {
+              const itemProps = getItemProps({ index });
+              return (
+                <StyledItem
+                  key={index}
+                  {...itemProps}
+                  label={props.getOptionLabel!(option)}
+                />
+              );
+            }
+          )}
           <input {...getInputProps()} />
         </InputWrapper>
       </div>

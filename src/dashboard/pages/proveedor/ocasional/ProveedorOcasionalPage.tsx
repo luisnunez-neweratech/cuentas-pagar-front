@@ -165,6 +165,8 @@ export const ProveedorOcasionalPage = () => {
             onChange={onChangeAutocomplete}
             setValues={values.productos}
             itemsList={giros}
+            maxItems={5}
+            title="Productos o Servicios"
           />
         </Grid>
         <Grid size={8} />
