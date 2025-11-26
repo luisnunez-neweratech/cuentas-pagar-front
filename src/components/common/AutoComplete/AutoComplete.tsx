@@ -7,6 +7,7 @@ interface Props {
   itemsList?: Item[];
   maxItems: number;
   title: string;
+  id: string;
 }
 
 export const AutoCompleteComponent = ({
@@ -15,10 +16,11 @@ export const AutoCompleteComponent = ({
   itemsList,
   maxItems,
   title,
+  id,
 }: Props) => {
   return (
     <CustomAutocomplete<Item>
-      id="customized-autocomplete"
+      id={id}
       options={itemsList ? itemsList : []}
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.descripcion

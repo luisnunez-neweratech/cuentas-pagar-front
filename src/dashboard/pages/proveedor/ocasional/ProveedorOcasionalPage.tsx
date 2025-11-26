@@ -167,6 +167,7 @@ export const ProveedorOcasionalPage = () => {
             itemsList={giros}
             maxItems={5}
             title="Productos o Servicios"
+            id="giros-autocomplete"
           />
         </Grid>
         <Grid size={8} />
