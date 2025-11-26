@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 import { type PropsWithChildren } from "react";
+import { TextField } from "@mui/material";
 
 const Root = styled("div")(({ theme }) => ({
   color: "rgba(0,0,0,0.85)",
@@ -187,10 +188,11 @@ export function CustomAutocomplete<Value>(
 
   const { title } = props;
 
+  console.log('value', value)
+
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label sx={{ paddingTop: 0 }}>{title}</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
           {(Array.isArray(value) ? value : value ? [value] : []).map(
             (option, index) => {
@@ -204,7 +206,11 @@ export function CustomAutocomplete<Value>(
               );
             }
           )}
-          <input {...getInputProps()} />
+
+          <input
+            placeholder={Array.isArray(value) && value.length === 0 ? title : ""}
+            {...getInputProps()}
+          />
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (
