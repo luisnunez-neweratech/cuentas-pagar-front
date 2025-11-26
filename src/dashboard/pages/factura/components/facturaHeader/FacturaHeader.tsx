@@ -40,16 +40,6 @@ export const FacturaHeader = () => {
           </FormHelperText>
         </FormControl>
       </Grid>
-      <Grid size={2}>
-        <AutoCompleteComponent
-          onChange={(e) => onChangeAutocomplete(e, "productos")}
-          setValues={values.productos}
-          itemsList={giros}
-          maxItems={5}
-          title="Productos o Servicios"
-          id="giros-autocomplete"
-        />
-      </Grid>
       <Grid size={2} sx={{ marginTop: 2 }}>
         <TextField
           variant="outlined"
@@ -97,27 +87,7 @@ export const FacturaHeader = () => {
           </FormHelperText>
         </FormControl>
       </Grid>
-      <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 4 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha de Factura"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaDeFactura",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
-      </Grid>
+
       <Grid size={2}>
         <FormControl
           fullWidth
@@ -144,69 +114,7 @@ export const FacturaHeader = () => {
           </FormHelperText>
         </FormControl>
       </Grid>
-      <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 4 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Programada Pago"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaProgramadaPago",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
-      </Grid>
-      <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 4 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Pago"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaPago",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
-      </Grid>
-      <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 4 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Reembolso"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaReembolso",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
-      </Grid>
+
       <Grid size={2}>
         <FormControl
           fullWidth
@@ -233,6 +141,62 @@ export const FacturaHeader = () => {
           </FormHelperText>
         </FormControl>
       </Grid>
+
+      <Grid size={2}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            sx={{ width: "100%", marginTop: 4 }}
+            //value={fechaAlta ? dayjs(fechaAlta) : null}
+            label="Fecha de Factura"
+            /* onChange={(newValue) =>
+                      onChangeFechaAlta(
+                        convertDateToFilterFormat(newValue?.toDate())
+                      )
+                    } */
+            format="DD-MM-YYYY"
+            slotProps={{
+              textField: {
+                name: "fechaDeFactura",
+              },
+              field: { clearable: true },
+            }}
+          />
+        </LocalizationProvider>
+      </Grid>
+
+      <Grid size={2}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            sx={{ width: "100%", marginTop: 4 }}
+            //value={fechaAlta ? dayjs(fechaAlta) : null}
+            label="Fecha Programada Pago"
+            /* onChange={(newValue) =>
+                      onChangeFechaAlta(
+                        convertDateToFilterFormat(newValue?.toDate())
+                      )
+                    } */
+            format="DD-MM-YYYY"
+            slotProps={{
+              textField: {
+                name: "fechaProgramadaPago",
+              },
+              field: { clearable: true },
+            }}
+          />
+        </LocalizationProvider>
+      </Grid>
+
+      <Grid size={2}>
+        <AutoCompleteComponent
+          onChange={(e) => onChangeAutocomplete(e, "productos")}
+          setValues={values.productos}
+          itemsList={giros}
+          maxItems={5}
+          title="Productos o Servicios"
+          id="giros-autocomplete"
+        />
+      </Grid>
+
       {/* //TODO autocomplete */}
       <Grid size={2}>
         <FormControl
@@ -256,6 +220,159 @@ export const FacturaHeader = () => {
             {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
           </FormHelperText>
         </FormControl>
+      </Grid>
+
+      <Grid size={2} sx={{ marginTop: 4 }}>
+        <FormControl
+          fullWidth
+          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
+        >
+          <InputLabel id="moneda-label">Moneda</InputLabel>
+          <Select
+            labelId="moneda-label"
+            id="moneda"
+            name="moneda"
+            label="moneda"
+            //value={values.tipoEntidad}
+            //onChange={handleChange}
+            //onBlur={handleBlur}
+          >
+            {/* <MenuItem value={0}>Factura</MenuItem> */}
+          </Select>
+          <FormHelperText>
+            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
+          </FormHelperText>
+        </FormControl>
+      </Grid>
+      <Grid size={2} sx={{ marginTop: 2, marginBottom: 0 }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="subtotal"
+          label="Subtotal"
+          name="subtotal"
+          sx={{ marginBottom: 0 }}
+          /* value={noFactura}
+                          onChange={(e) => onChangeNoFactura(e.target.value)} */
+        />
+      </Grid>
+      <Grid size={2}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            sx={{ width: "100%", marginTop: 0 }}
+            //value={fechaAlta ? dayjs(fechaAlta) : null}
+            label="Fecha Pago"
+            /* onChange={(newValue) =>
+                      onChangeFechaAlta(
+                        convertDateToFilterFormat(newValue?.toDate())
+                      )
+                    } */
+            format="DD-MM-YYYY"
+            slotProps={{
+              textField: {
+                name: "fechaPago",
+              },
+              field: { clearable: true },
+            }}
+          />
+        </LocalizationProvider>
+      </Grid>
+      <Grid size={2}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            sx={{ width: "100%", marginTop: 0 }}
+            //value={fechaAlta ? dayjs(fechaAlta) : null}
+            label="Fecha Reembolso"
+            /* onChange={(newValue) =>
+                      onChangeFechaAlta(
+                        convertDateToFilterFormat(newValue?.toDate())
+                      )
+                    } */
+            format="DD-MM-YYYY"
+            slotProps={{
+              textField: {
+                name: "fechaReembolso",
+              },
+              field: { clearable: true },
+            }}
+          />
+        </LocalizationProvider>
+      </Grid>
+
+      <Grid size={6} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="descuento"
+          label="Descuento"
+          name="descuento"
+          sx={{ marginTop: 0, marginBottom:0 }}
+          /* value={noFactura}
+                    onChange={(e) => onChangeNoFactura(e.target.value)} */
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="impuestos"
+          label="Impuestos"
+          name="impuestos"
+          sx={{ marginTop: 0 }}
+          /* value={noFactura}
+                    onChange={(e) => onChangeNoFactura(e.target.value)} */
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="ivaRetenido"
+          label="IVA Retenido"
+          name="ivaRetenido"
+          sx={{ marginTop: 0 }}
+          /* value={noFactura}
+                    onChange={(e) => onChangeNoFactura(e.target.value)} */
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="isrRetenido"
+          label="ISR Retenido"
+          name="isrRetenido"
+          sx={{ marginTop: 0 }}
+          /* value={noFactura}
+                          onChange={(e) => onChangeNoFactura(e.target.value)} */
+        />
+      </Grid>
+
+       <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="total"
+          label="Total"
+          name="total"
+          sx={{ marginTop: 0 }}
+          /* value={noFactura}
+                    onChange={(e) => onChangeNoFactura(e.target.value)} */
+        />
       </Grid>
     </>
   );
