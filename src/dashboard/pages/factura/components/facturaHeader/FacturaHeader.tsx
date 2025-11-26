@@ -145,7 +145,7 @@ export const FacturaHeader = () => {
       <Grid size={2}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            sx={{ width: "100%", marginTop: 4 }}
+            sx={{ width: "100%", marginTop: 0 }}
             //value={fechaAlta ? dayjs(fechaAlta) : null}
             label="Fecha de Factura"
             /* onChange={(newValue) =>
@@ -167,7 +167,7 @@ export const FacturaHeader = () => {
       <Grid size={2}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            sx={{ width: "100%", marginTop: 4 }}
+            sx={{ width: "100%", marginTop: 0 }}
             //value={fechaAlta ? dayjs(fechaAlta) : null}
             label="Fecha Programada Pago"
             /* onChange={(newValue) =>
@@ -201,7 +201,7 @@ export const FacturaHeader = () => {
       <Grid size={2}>
         <FormControl
           fullWidth
-          sx={{ marginTop: 4 }}
+          sx={{ marginTop: 0 }}
           //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
         >
           <InputLabel id="colaborador-label">Colaborador</InputLabel>
@@ -222,7 +222,7 @@ export const FacturaHeader = () => {
         </FormControl>
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: 4 }}>
+      <Grid size={2} sx={{ marginTop: 0 }}>
         <FormControl
           fullWidth
           //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
@@ -244,7 +244,7 @@ export const FacturaHeader = () => {
           </FormHelperText>
         </FormControl>
       </Grid>
-      <Grid size={2} sx={{ marginTop: 2, marginBottom: 0 }}>
+      <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -252,7 +252,7 @@ export const FacturaHeader = () => {
           id="subtotal"
           label="Subtotal"
           name="subtotal"
-          sx={{ marginBottom: 0 }}
+          sx={{ marginBottom: 0 , marginTop: 0, }}
           /* value={noFactura}
                           onChange={(e) => onChangeNoFactura(e.target.value)} */
         />
