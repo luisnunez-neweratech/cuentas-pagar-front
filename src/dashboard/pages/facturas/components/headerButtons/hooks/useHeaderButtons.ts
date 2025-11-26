@@ -1,8 +1,4 @@
 export const useHeaderButtons = () => {
-  const handleOpenModal = () => {
-    // Logic to open modal
-  };
-
   const clearFiltros = () => {
     // Logic to clear filters
   };
@@ -14,7 +10,6 @@ export const useHeaderButtons = () => {
   const hasActiveFiltres = false; // Logic to determine if there are active filters
 
   return {
-    handleOpenModal,
     clearFiltros,
     downloadFile,
     hasActiveFiltres,
