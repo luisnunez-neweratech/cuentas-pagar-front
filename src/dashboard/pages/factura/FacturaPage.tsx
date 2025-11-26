@@ -1,7 +1,11 @@
-
+import { Grid } from "@mui/material";
+import { FacturaHeader } from "./components/facturaHeader/FacturaHeader";
 
 export const FacturaPage = () => {
+
   return (
-    <div>Factura</div>
-  )
-}
+    <Grid container spacing={2}>
+      <FacturaHeader />
+    </Grid>
+  );
+};
