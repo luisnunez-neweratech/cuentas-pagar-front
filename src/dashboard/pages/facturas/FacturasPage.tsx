@@ -2,15 +2,15 @@ import { Grid } from "@mui/material";
 import { HeaderButtons } from "./components/headerButtons/HeaderButtons";
 import { Filters } from "./components/filters/Filters";
 import { FacturaTable } from "./components/facturaTable/FacturaTable";
+import { useFacturasPage } from "./hooks/useFacturasPage";
 
 export const FacturasPage = () => {
+  const { showFilter, onClickShowFilter } = useFacturasPage();
+
   return (
     <Grid container spacing={2}>
-      <HeaderButtons
-        showFilter={false}
-        onClickShowFilter={() => console.log("onclickshowfilter")}
-      />
-      <Filters showFilter={true} />
+      <HeaderButtons {...{ onClickShowFilter, showFilter }} />
+      <Filters {...{ showFilter }} />
       <FacturaTable />
     </Grid>
   );
