@@ -8,7 +8,7 @@ import { TanStackProvider } from "./plugins/TanStackProvider";
 export const FacturasApp = () => {
   return (
     <TanStackProvider>
-      <BrowserRouter /* basename="/Accounts_Payable" */>
+      <BrowserRouter basename="/Accounts_Payable">
         <Toaster richColors />
         <ThemeProvider theme={customTheme}>
           <FacturasRoutes />
