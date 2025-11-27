@@ -1,10 +1,10 @@
 import { useFacturaStore } from "../../../../store/Factura.store";
 
 export const useDetalleTable = () => {
-
-
-const stateFactura = useFacturaStore((state) => state);
-  
+  const stateFactura = useFacturaStore((state) => state);
+  const removeRowFacturaDetalle = useFacturaStore(
+    (state) => state.removeRowFacturaDetalle
+  );
 
   const handleInputChange = (event: any, id: number, field: string) => {
     /* const newRows = rows.map((row) => {
@@ -16,8 +16,13 @@ const stateFactura = useFacturaStore((state) => state);
     setRows(newRows); */
   };
 
+  const deleteRowFactura = (id: number) => {
+    removeRowFacturaDetalle(id);
+  };
+
   return {
     rows: stateFactura.facturaDetalle,
     handleInputChange,
+    deleteRowFactura,
   };
 };

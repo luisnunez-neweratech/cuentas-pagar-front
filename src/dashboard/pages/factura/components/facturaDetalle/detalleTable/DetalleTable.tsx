@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useDetalleTable } from "./hooks/useDetalleTable";
 
 export const DetalleTable = () => {
-  const { rows, handleInputChange } = useDetalleTable();
+  const { rows, handleInputChange, deleteRowFactura } = useDetalleTable();
 
   return (
     <TableContainer component={Paper}>
@@ -157,9 +157,7 @@ export const DetalleTable = () => {
                   <IconButton
                     color="error"
                     edge="start"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
+                    onClick={() => deleteRowFactura(row.id)}
                     sx={{ marginLeft: 3 }}
                   >
                     <DeleteIcon style={{ width: 32, height: 32 }} />
