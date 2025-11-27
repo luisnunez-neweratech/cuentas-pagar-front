@@ -27,13 +27,13 @@ export const useRowDetalle = ({ id }: props) => {
   };
 
   const {
-    handleSubmit,
+    //handleSubmit,
     values,
     handleChange,
     handleBlur,
-    touched,
-    errors,
-    validateForm,
+    //touched,
+    //errors,
+    //validateForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: getInitialValues(),
