@@ -3,10 +3,12 @@ import type { Giro } from "../giros/interfaces/Giro";
 
 export const getAllGiros = async (): Promise<Giro[]> => {
   const { data } = await cuentasApi.get(`/CatalogMaster/GetAll/Giros`);
+  console.log("data", data);
   const response: Giro[] = data.map((giro: any) => {
     return {
       id: giro.id,
-      descripcion: giro.itemValue,
+      descripcion: giro.itemName,
+      value: giro.itemValue,
     };
   });
   return response;
