@@ -51,6 +51,7 @@ export const PlazoPagoListPage = () => {
               <TableRow>
                 <TableCell style={cellHeaderStyle}>Id</TableCell>
                 <TableCell style={cellHeaderStyle}>Descripción</TableCell>
+                <TableCell style={cellHeaderStyle}>Valor</TableCell>
                 <TableCell style={cellHeaderStyle} align="center">
                   Acciones
                 </TableCell>
@@ -74,6 +75,7 @@ export const PlazoPagoListPage = () => {
                       {plazoPago.id}
                     </TableCell>
                     <TableCell>{plazoPago.descripcion}</TableCell>
+                    <TableCell>{plazoPago.value}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="Modificar">
                         <IconButton

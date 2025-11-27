@@ -63,10 +63,11 @@ export const usePlazo = () => {
 
   const getData = () => {
     if (plazo) {
-      return { nombre: plazo.descripcion };
+      return { nombre: plazo.descripcion, value: plazo.value };
     }
     return {
       nombre: "",
+      value: "",
     };
   };
 
@@ -84,10 +85,17 @@ export const usePlazo = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       if (id) {
-        updatePlazoMutation.mutate({ id, descripcion: values.nombre });
+        updatePlazoMutation.mutate({
+          id,
+          descripcion: values.nombre,
+          value: values.value != null ? +values.value : null,
+        });
         return;
       } else {
-        addPlazoMutation.mutate(values.nombre);
+        addPlazoMutation.mutate({
+          descripcion: values.nombre,
+          value: values.value != null ? +values.value : null,
+        });
         return;
       }
     },

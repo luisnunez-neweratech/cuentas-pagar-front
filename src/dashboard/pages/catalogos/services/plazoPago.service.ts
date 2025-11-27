@@ -22,25 +22,46 @@ export const getPlazoPago = async (id: string): Promise<PlazoPago> => {
   };
 };
 
-export const addPlazoPago = async (descripcion: string): Promise<any> => {
-  const response = await cuentasApi.post("/CatalogMaster/CreateItem", {
+interface postPlazoPago {
+  descripcion: string;
+  value?: number | null;
+}
+
+export const addPlazoPago = async ({
+  descripcion,
+  value,
+}: postPlazoPago): Promise<any> => {
+  let dataSend: {
+    catalogName: string;
+    item: string;
+    itemValue?: number | null;
+  } = {
     catalogName: "PlazoPago",
     item: descripcion,
-  });
+  };
+
+  if (value) {
+    dataSend.itemValue = value;
+  }
+
+  const response = await cuentasApi.post("/CatalogMaster/CreateItem", dataSend);
   return response;
 };
 
 export interface updateProps {
   id: string;
   descripcion: string;
+  value?: number | null;
 }
 export const updatePlazoPago = async ({
   id,
   descripcion,
+  value,
 }: updateProps): Promise<any> => {
   const response = await cuentasApi.put(`/CatalogMaster/UpdateItem`, {
     id: Number(id),
     item: descripcion,
+    itemValue: value,
   });
   return response;
 };
