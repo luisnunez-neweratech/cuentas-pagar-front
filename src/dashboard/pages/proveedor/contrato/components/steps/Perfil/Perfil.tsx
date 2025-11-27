@@ -169,7 +169,7 @@ export const Perfil = () => {
             onBlur={handleBlur}
           />
         </Grid>
-        <Grid size={4}>
+        <Grid size={4} sx={{marginTop:4}}>
           <AutoCompleteComponent
             onChange={onChangeAutocomplete}
             setValues={values.productos}
