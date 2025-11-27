@@ -15,6 +15,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Link } from "@mui/material";
 import { useFacturaTable } from "./hooks/useFacturaTable";
 
+const cellHeaderStyle = { fontWeight: "bold" };
+
 function createData(
   proveedor: string,
   noFactura: string,
@@ -152,9 +154,9 @@ function Row(props: { row: ReturnType<typeof createData> }) {
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit sx={{paddingLeft: 8}}>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+              <Typography variant="body1" gutterBottom component="div" style={{fontWeight:'bold'}}>
                 Fechas
               </Typography>
 
@@ -179,7 +181,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             </Box>
 
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+              <Typography variant="body1" gutterBottom component="div" style={{fontWeight:'bold'}}>
                 Importes
               </Typography>
 
@@ -208,7 +210,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             </Box>
 
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+              <Typography variant="body1"  gutterBottom component="div" style={{fontWeight:'bold'}}>
                 Información
               </Typography>
 
@@ -235,7 +237,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             </Box>
 
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+              <Typography variant="body1"  gutterBottom component="div" style={{fontWeight:'bold'}}>
                 Productos o Servicios
               </Typography>
 
@@ -378,14 +380,14 @@ export const FacturaTable = () => {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Proveedor</TableCell>
-            <TableCell>No. Factura</TableCell>
-            <TableCell>Tipo</TableCell>
-            <TableCell>Folio Fiscal</TableCell>
-            <TableCell>Fecha Factura</TableCell>
-            <TableCell>Estatus Factura</TableCell>
-            <TableCell>Estatus Reembolso</TableCell>
-            <TableCell>Total</TableCell>
+            <TableCell style={cellHeaderStyle}>Proveedor</TableCell>
+            <TableCell style={cellHeaderStyle}>No. Factura</TableCell>
+            <TableCell style={cellHeaderStyle}>Tipo</TableCell>
+            <TableCell style={cellHeaderStyle}>Folio Fiscal</TableCell>
+            <TableCell style={cellHeaderStyle}>Fecha Factura</TableCell>
+            <TableCell style={cellHeaderStyle}>Estatus Factura</TableCell>
+            <TableCell style={cellHeaderStyle}>Estatus Reembolso</TableCell>
+            <TableCell style={cellHeaderStyle}>Total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
