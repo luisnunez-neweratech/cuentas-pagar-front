@@ -1,7 +1,5 @@
 import { Grid } from "@mui/material";
-
 import { AutoCompleteComponent } from "../../../../../components/common/AutoComplete/AutoComplete";
-
 import { useFacturaHeader } from "./hooks/useFacturaHeader";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
 import { SelectCommon } from "../../../../../components/common/SelectCommon/SelectCommon";
@@ -14,7 +12,7 @@ import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export const FacturaHeader = () => {
-  const { onChangeAutocomplete, values, giros } = useFacturaHeader();
+  const { onChangeAutocomplete, values, giros, convertMonedas } = useFacturaHeader();
 
   return (
     <>
@@ -69,7 +67,7 @@ export const FacturaHeader = () => {
       </Grid>
 
       <Grid size={2}>
-        <SelectCommon id={"moneda"} label={"Moneda"} options={[]} />
+        <SelectCommon id={"moneda"} label={"Moneda"} options={convertMonedas} />
       </Grid>
 
       <Grid size={2}>

@@ -2,12 +2,32 @@ import { useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import type { Item } from "../../../../../../components/common/AutoComplete/interfaces/Item";
 import { getAllGiros } from "../../../../catalogos/services/giros.service";
+import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
+import { useEffect, useState } from "react";
 
 export const useFacturaHeader = () => {
+  const [convertMonedas, setConvertMonedas] = useState<{ value: number; label: string }[]>([]);
+
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
     queryFn: () => getAllGiros(),
   });
+
+  const { data: monedas } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "Moneda"],
+    queryFn: () => getAllMonedaVentas(),
+  });
+
+  useEffect(() => {
+    const newMonedas = monedas?.map((moneda) => {
+      return {
+        value: moneda.id,
+        label: moneda.descripcion,
+      };
+    });
+
+    setConvertMonedas(newMonedas ?? []);
+  }, [monedas]);
 
   const initialFormValues = () => {
     /*     if (proveedorOcasional) {
@@ -57,5 +77,6 @@ export const useFacturaHeader = () => {
     onChangeAutocomplete,
     values,
     giros,
+    convertMonedas,
   };
 };
