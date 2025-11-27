@@ -59,7 +59,7 @@ export const useGiro = () => {
 
   const getData = () => {
     if (giro) {
-      return { nombre: giro.descripcion };
+      return { nombre: giro.descripcion ?? "" };
     }
     return {
       nombre: "",
@@ -101,7 +101,7 @@ export const useGiro = () => {
       }
       toast.error("Error al obtener el giro");
     }
-  }, [isError]); 
+  }, [isError]);
 
   return {
     handleSubmit,
