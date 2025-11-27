@@ -6,7 +6,8 @@ export const getAllMonedaVentas = async (): Promise<MonedaVenta[]> => {
   const response: MonedaVenta[] = data.map((moneda: any) => {
     return {
       id: moneda.id,
-      descripcion: moneda.itemValue,
+      descripcion: moneda.itemName,
+      value: moneda.itemValue,
     };
   });
   return response;
@@ -16,7 +17,8 @@ export const getMonedaVenta = async (id: string): Promise<MonedaVenta> => {
   const { data } = await cuentasApi.get(`/CatalogMaster/${id}`);
   return {
     id: data.id,
-    descripcion: data.itemValue,
+    descripcion: data.itemName,
+    value: data.itemValue,
   };
 };
 

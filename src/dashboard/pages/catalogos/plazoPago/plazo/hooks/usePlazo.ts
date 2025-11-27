@@ -55,18 +55,19 @@ export const usePlazo = () => {
     isLoading,
     isError,
     error,
-    data: giro,
+    data: plazo,
   } = useQuery({
     queryKey: ["CatalogMaster", `${id}`],
     queryFn: () => getPlazoPago(id || ""),
   });
 
   const getData = () => {
-    if (giro) {
-      return { nombre: giro.descripcion };
+    if (plazo) {
+      return { nombre: plazo.descripcion, value: plazo.value };
     }
     return {
       nombre: "",
+      value: "",
     };
   };
 
@@ -84,10 +85,17 @@ export const usePlazo = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       if (id) {
-        updatePlazoMutation.mutate({ id, descripcion: values.nombre });
+        updatePlazoMutation.mutate({
+          id,
+          descripcion: values.nombre,
+          value: values.value != null ? +values.value : null,
+        });
         return;
       } else {
-        addPlazoMutation.mutate(values.nombre);
+        addPlazoMutation.mutate({
+          descripcion: values.nombre,
+          value: values.value != null ? +values.value : null,
+        });
         return;
       }
     },
@@ -106,7 +114,6 @@ export const usePlazo = () => {
       toast.error("Error al obtener la moneda de venta");
     }
   }, [isError]);
-
 
   return {
     handleSubmit,

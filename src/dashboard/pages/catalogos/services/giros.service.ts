@@ -6,7 +6,8 @@ export const getAllGiros = async (): Promise<Giro[]> => {
   const response: Giro[] = data.map((giro: any) => {
     return {
       id: giro.id,
-      descripcion: giro.itemValue,
+      descripcion: giro.itemName,
+      value: giro.itemValue,
     };
   });
   return response;
@@ -16,14 +17,15 @@ export const getGiro = async (id: string): Promise<Giro> => {
   const { data } = await cuentasApi.get(`/CatalogMaster/${id}`);
   return {
     id: data.id,
-    descripcion: data.itemValue,
+    descripcion: data.itemName,
+    value: data.itemValue,
   };
 };
 
 export const addGiro = async (descripcion: string): Promise<any> => {
   const response = await cuentasApi.post("/CatalogMaster/CreateItem", {
     catalogName: "Giros",
-    item: descripcion,
+    item: descripcion.toUpperCase(),
   });
   return response;
 };
@@ -38,7 +40,7 @@ export const updateGiro = async ({
 }: updateProps): Promise<any> => {
   const response = await cuentasApi.put(`/CatalogMaster/UpdateItem`, {
     id: Number(id),
-    item: descripcion,
+    item: descripcion.toUpperCase(),
   });
   return response;
 };

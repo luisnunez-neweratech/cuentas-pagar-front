@@ -17,7 +17,7 @@ export const Plazo = () => {
       noValidate
       onSubmit={handleSubmit}
     >
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid size={1}>
           <Tooltip title="Atras">
             <IconButton
@@ -51,7 +51,24 @@ export const Plazo = () => {
             autoFocus
           />
         </Grid>
-        <Grid size={9} />
+        <Grid size={3}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="value"
+            label="Valor"
+            name="value"
+            value={values.value}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.value && Boolean(errors.value)}
+            helperText={touched.value && errors.value}
+            autoFocus
+          />
+        </Grid>
+        <Grid size={6} />
 
         <Grid size={2} sx={{ marginTop: 4 }}>
           <Button variant="contained" color="primary" fullWidth type="submit">
