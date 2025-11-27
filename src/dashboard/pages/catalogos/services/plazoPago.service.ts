@@ -6,7 +6,8 @@ export const getAllPlazoPagos = async (): Promise<PlazoPago[]> => {
   const response: PlazoPago[] = data.map((moneda: any) => {
     return {
       id: moneda.id,
-      descripcion: moneda.itemValue,
+      descripcion: moneda.itemName,
+      value: moneda.itemValue,
     };
   });
   return response;
@@ -16,7 +17,8 @@ export const getPlazoPago = async (id: string): Promise<PlazoPago> => {
   const { data } = await cuentasApi.get(`/CatalogMaster/${id}`);
   return {
     id: data.id,
-    descripcion: data.itemValue,
+    descripcion: data.itemName,
+    value: data.itemValue,
   };
 };
 

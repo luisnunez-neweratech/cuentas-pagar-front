@@ -55,15 +55,15 @@ export const usePlazo = () => {
     isLoading,
     isError,
     error,
-    data: giro,
+    data: plazo,
   } = useQuery({
     queryKey: ["CatalogMaster", `${id}`],
     queryFn: () => getPlazoPago(id || ""),
   });
 
   const getData = () => {
-    if (giro) {
-      return { nombre: giro.descripcion };
+    if (plazo) {
+      return { nombre: plazo.descripcion };
     }
     return {
       nombre: "",
@@ -106,7 +106,6 @@ export const usePlazo = () => {
       toast.error("Error al obtener la moneda de venta");
     }
   }, [isError]);
-
 
   return {
     handleSubmit,
