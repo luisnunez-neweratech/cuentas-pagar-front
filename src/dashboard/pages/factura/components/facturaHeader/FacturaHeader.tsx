@@ -38,6 +38,26 @@ export const FacturaHeader = () => {
         <SelectCommon id={"moneda"} label={"Moneda"} />
       </Grid>
 
+      
+      <Grid size={2}>
+        <TextFieldCommon id="noFactura" label="No Factura" />
+      </Grid>
+
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon id="folioFiscal" label="Folio Fiscal" />
+      </Grid>
+
+       <Grid size={2}>
+        <AutoCompleteComponent
+          onChange={(e) => onChangeAutocomplete(e, "productos")}
+          setValues={values.productos}
+          itemsList={giros}
+          maxItems={5}
+          title="Productos o Servicios"
+          id="giros-autocomplete"
+        />
+      </Grid>
+
       <Grid size={2}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
@@ -82,27 +102,14 @@ export const FacturaHeader = () => {
         </LocalizationProvider>
       </Grid>
 
-      <Grid size={2}>
-        <AutoCompleteComponent
-          onChange={(e) => onChangeAutocomplete(e, "productos")}
-          setValues={values.productos}
-          itemsList={giros}
-          maxItems={5}
-          title="Productos o Servicios"
-          id="giros-autocomplete"
-        />
-      </Grid>
-
-      <Grid size={2}>
-        <TextFieldCommon id="noFactura" label="No Factura" />
-      </Grid>
-
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="folioFiscal" label="Folio Fiscal" />
-      </Grid>
       <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
         <TextFieldCommon id="subtotal" label="Subtotal" />
       </Grid>
+
+     <Grid size={6} />
+
+      
+      
       <Grid size={2}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
@@ -146,10 +153,10 @@ export const FacturaHeader = () => {
         </LocalizationProvider>
       </Grid>
 
-      <Grid size={6} />
       <Grid size={2} sx={{ marginTop: 0 }}>
         <TextFieldCommon id="descuento" label="Descuento" />
       </Grid>
+      
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
