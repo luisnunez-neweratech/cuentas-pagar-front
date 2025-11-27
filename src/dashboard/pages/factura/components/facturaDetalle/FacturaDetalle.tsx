@@ -22,7 +22,7 @@ export const FacturaDetalle = () => {
         </Tooltip>
       </Grid>
       <Grid size={8}/>
-      <Grid size={9} sx={{ marginTop: -25 }}>
+      <Grid size={10} sx={{ marginTop: -25 }}>
         <DetalleTable />
       </Grid>
     </>

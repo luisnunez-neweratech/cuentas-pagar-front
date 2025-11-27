@@ -6,7 +6,7 @@ import SaveIcon from "@mui/icons-material/Save";
 export const FacturaFooter = () => {
   return (
     <>
-      <Grid size={3} />
+      <Grid size={2} />
       <Grid size={3}>
         <input
           type="file"

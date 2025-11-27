@@ -13,11 +13,22 @@ function createData(
 }
 
 export const useDetalleTable = () => {
-  const [rows, _setRows] = useState([
+  const [rows, setRows] = useState([
     createData(0, 159, "Frozen yoghurt", "6.0", "24", 4.0, 5),
   ]);
 
+  const handleInputChange = (event: any, id: number, field: string) => {
+    const newRows = rows.map((row) => {
+      if (row.id === id) {
+        return { ...row, [field]: event.target.value };
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
+
   return {
     rows,
+    handleInputChange,
   };
 };
