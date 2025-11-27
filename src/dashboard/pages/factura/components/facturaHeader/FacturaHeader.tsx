@@ -6,6 +6,7 @@ import { AutoCompleteComponent } from "../../../../../components/common/AutoComp
 import { useFacturaHeader } from "./hooks/useFacturaHeader";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
 import { SelectCommon } from "../../../../../components/common/SelectCommon/SelectCommon";
+import { DatePickerCommon } from "../../../../../components/common/DatePickerCommon/DatePickerCommon";
 
 export const FacturaHeader = () => {
   const { onChangeAutocomplete, values, giros } = useFacturaHeader();
@@ -38,7 +39,6 @@ export const FacturaHeader = () => {
         <SelectCommon id={"moneda"} label={"Moneda"} />
       </Grid>
 
-      
       <Grid size={2}>
         <TextFieldCommon id="noFactura" label="No Factura" />
       </Grid>
@@ -47,7 +47,7 @@ export const FacturaHeader = () => {
         <TextFieldCommon id="folioFiscal" label="Folio Fiscal" />
       </Grid>
 
-       <Grid size={2}>
+      <Grid size={2}>
         <AutoCompleteComponent
           onChange={(e) => onChangeAutocomplete(e, "productos")}
           setValues={values.productos}
@@ -59,104 +59,29 @@ export const FacturaHeader = () => {
       </Grid>
 
       <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0, fontSize: 14 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha de Factura"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaDeFactura",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DatePickerCommon id="fechaDeFactura" label="Fecha de Factura" />
       </Grid>
 
       <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0, fontSize: 14 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Programada Pago"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaProgramadaPago",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DatePickerCommon id="fechaProgramadaPago" label="Programada Pago" />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
         <TextFieldCommon id="subtotal" label="Subtotal" />
       </Grid>
 
-     <Grid size={6} />
+      <Grid size={6} />
 
-      
-      
       <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0, fontSize: 14 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Pago"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaPago",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DatePickerCommon id="fechaPago" label="Fecha Pago" />
       </Grid>
       <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0, fontSize: 14 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Reembolso"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaReembolso",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DatePickerCommon id="fechaReembolso" label="Fecha Reembolso" />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0 }}>
         <TextFieldCommon id="descuento" label="Descuento" />
       </Grid>
-      
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
