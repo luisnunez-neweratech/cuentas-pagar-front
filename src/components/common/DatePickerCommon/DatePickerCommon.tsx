@@ -31,7 +31,8 @@ export const DatePickerCommon = ({ label, id }: props) => {
               "& .MuiInputLabel-root": {
                 fontSize: "14px", // Target the label
               },
-              fontSize: "14px"
+              fontSize: "14px",
+              width: "100%"
             }, 
           },
           field: { clearable: true },

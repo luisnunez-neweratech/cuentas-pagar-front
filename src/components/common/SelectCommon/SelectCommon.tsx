@@ -1,16 +1,13 @@
-import {
-  InputLabel,
-  Select,  
-  FormHelperText,
-} from "@mui/material";
+import { InputLabel, Select, FormHelperText, MenuItem } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 interface props {
   id: string;
   label: string;
+  options: any[];
 }
 
-export const SelectCommon = ({ id, label }: props) => {
+export const SelectCommon = ({ id, label, options }: props) => {
   return (
     <FormControl
       fullWidth
@@ -27,7 +24,9 @@ export const SelectCommon = ({ id, label }: props) => {
         //onChange={handleChange}
         //onBlur={handleBlur}
       >
-        {/* <MenuItem value={0}>Factura</MenuItem> */}
+        {options.map((option) => (
+          <MenuItem value={option.value}>{option.label}</MenuItem>
+        ))}
       </Select>
       <FormHelperText>
         {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}

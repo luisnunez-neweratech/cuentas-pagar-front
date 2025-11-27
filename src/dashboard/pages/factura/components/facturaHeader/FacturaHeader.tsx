@@ -1,12 +1,17 @@
 import { Grid } from "@mui/material";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 import { AutoCompleteComponent } from "../../../../../components/common/AutoComplete/AutoComplete";
-//import dayjs from "dayjs";
+
 import { useFacturaHeader } from "./hooks/useFacturaHeader";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
 import { SelectCommon } from "../../../../../components/common/SelectCommon/SelectCommon";
 import { DatePickerCommon } from "../../../../../components/common/DatePickerCommon/DatePickerCommon";
+import { NormalAutocomplete } from "../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
+import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
+import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
+import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
+
+const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export const FacturaHeader = () => {
   const { onChangeAutocomplete, values, giros } = useFacturaHeader();
@@ -14,29 +19,57 @@ export const FacturaHeader = () => {
   return (
     <>
       <Grid size={2}>
-        <SelectCommon id={"proveedor"} label={"Proveedor"} />
-      </Grid>
-
-      {/* //TODO autocomplete */}
-
-      <Grid size={2}>
-        <SelectCommon id={"colaborador"} label={"Colaborador"} />
-      </Grid>
-
-      <Grid size={2}>
-        <SelectCommon id={"documento"} label={"Documento"} />
+        <NormalAutocomplete
+          options={top100Films}
+          label="Proveedor"
+          id="proveedor"
+        />
       </Grid>
 
       <Grid size={2}>
-        <SelectCommon id={"statusFactura"} label={"Estatus Factura"} />
+        <NormalAutocomplete
+          options={top100Films}
+          label="Colaborador"
+          id="colaborador"
+        />
       </Grid>
 
       <Grid size={2}>
-        <SelectCommon id={"statusReembolso"} label={"Estatus Reembolso"} />
+        <SelectCommon
+          id={"documento"}
+          label={"Documento"}
+          options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
+        />
       </Grid>
 
       <Grid size={2}>
-        <SelectCommon id={"moneda"} label={"Moneda"} />
+        <SelectCommon
+          id={"statusFactura"}
+          label={"Estatus Factura"}
+          options={[
+            StatusFactura.Pendiente,
+            StatusFactura.Pagado,
+            StatusFactura.Cancelado,
+            StatusFactura.EnRevision,
+          ]}
+        />
+      </Grid>
+
+      <Grid size={2}>
+        <SelectCommon
+          id={"statusReembolso"}
+          label={"Estatus Reembolso"}
+          options={[
+            StatusReembolso.Pendiente,
+            StatusReembolso.Pagado,
+            StatusReembolso.Cancelado,
+            StatusReembolso.NoAplica,
+          ]}
+        />
+      </Grid>
+
+      <Grid size={2}>
+        <SelectCommon id={"moneda"} label={"Moneda"} options={[]} />
       </Grid>
 
       <Grid size={2}>

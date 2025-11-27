@@ -15,6 +15,7 @@ export const TextFieldCommon = ({ id, label }: props) => {
       id={id}
       label={label}
       name={id}
+      sx={{marginTop:0}}
       /* value={noFactura}
     onChange={(e) => onChangeNoFactura(e.target.value)} */
     />
