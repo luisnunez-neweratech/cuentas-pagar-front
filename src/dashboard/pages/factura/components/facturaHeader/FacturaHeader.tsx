@@ -1,189 +1,81 @@
-import {
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  FormHelperText,
-  TextField,
-  MenuItem,
-} from "@mui/material";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Grid } from "@mui/material";
 import { AutoCompleteComponent } from "../../../../../components/common/AutoComplete/AutoComplete";
-//import dayjs from "dayjs";
 import { useFacturaHeader } from "./hooks/useFacturaHeader";
+import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
+import { SelectCommon } from "../../../../../components/common/SelectCommon/SelectCommon";
+import { DatePickerCommon } from "../../../../../components/common/DatePickerCommon/DatePickerCommon";
+import { NormalAutocomplete } from "../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
+import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
+import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
+import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
+
+const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export const FacturaHeader = () => {
-  const { onChangeAutocomplete, values, giros } = useFacturaHeader();
+  const { onChangeAutocomplete, values, giros, convertMonedas } = useFacturaHeader();
 
   return (
     <>
-      <Grid size={2} sx={{ marginTop: 4 }}>
-        <FormControl
-          fullWidth
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="proveedor-label">Proveedor</InputLabel>
-          <Select
-            labelId="proveedor-label"
-            id="proveedor"
-            name="proveedor"
-            label="Proveedor"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            {/* <MenuItem value={0}>Factura</MenuItem> */}
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
-      </Grid>
-      <Grid size={2} sx={{ marginTop: 2 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="noFactura"
-          label="No Factura"
-          name="noFactura"
-          /* value={noFactura}
-              onChange={(e) => onChangeNoFactura(e.target.value)} */
+      <Grid size={2}>
+        <NormalAutocomplete
+          options={top100Films}
+          label="Proveedor"
+          id="proveedor"
         />
       </Grid>
-      <Grid size={2} sx={{ marginTop: 2 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="folioFiscal"
-          label="Folio Fiscal"
-          name="Folio Fiscal"
-          /* value={noFactura}
-              onChange={(e) => onChangeNoFactura(e.target.value)} */
+
+      <Grid size={2}>
+        <NormalAutocomplete
+          options={top100Films}
+          label="Colaborador"
+          id="colaborador"
         />
       </Grid>
-      <Grid size={2} sx={{ paddingTop: 4 }}>
-        <FormControl
-          fullWidth
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="tipo-documento-label">Tipo Documento</InputLabel>
-          <Select
-            labelId="tipo-documento-label"
-            id="tipoDocumento"
-            name="tipoDocumento"
-            label="Tipo Documento"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            <MenuItem value={0}>Factura</MenuItem>
-            <MenuItem value={1}>Nota de Crédito</MenuItem>
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
+
+      <Grid size={2}>
+        <SelectCommon
+          id={"documento"}
+          label={"Documento"}
+          options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
+        />
       </Grid>
 
       <Grid size={2}>
-        <FormControl
-          fullWidth
-          sx={{ marginTop: 4 }}
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="status-factura-label">Estatus Factura</InputLabel>
-          <Select
-            labelId="status-factura-label"
-            id="statusFactura"
-            name="statusFactura"
-            label="Estatus Factura"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            <MenuItem value={0}>Pendiente</MenuItem>
-            <MenuItem value={1}>Pagada</MenuItem>
-            <MenuItem value={2}>Cancelada</MenuItem>
-            <MenuItem value={3}>En Revision</MenuItem>
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
+        <SelectCommon
+          id={"statusFactura"}
+          label={"Estatus Factura"}
+          options={[
+            StatusFactura.Pendiente,
+            StatusFactura.Pagado,
+            StatusFactura.Cancelado,
+            StatusFactura.EnRevision,
+          ]}
+        />
       </Grid>
 
       <Grid size={2}>
-        <FormControl
-          fullWidth
-          sx={{ marginTop: 4 }}
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="status-reembolso-label">Estatus Reembolso</InputLabel>
-          <Select
-            labelId="status-reembolso-label"
-            id="statusReembolso"
-            name="statusReembolso"
-            label="Estatus Reembolso"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            <MenuItem value={0}>Pendiente</MenuItem>
-            <MenuItem value={1}>Pagada</MenuItem>
-            <MenuItem value={2}>Cancelada</MenuItem>
-            <MenuItem value={3}>N/A</MenuItem>
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
+        <SelectCommon
+          id={"statusReembolso"}
+          label={"Estatus Reembolso"}
+          options={[
+            StatusReembolso.Pendiente,
+            StatusReembolso.Pagado,
+            StatusReembolso.Cancelado,
+            StatusReembolso.NoAplica,
+          ]}
+        />
       </Grid>
 
       <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha de Factura"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaDeFactura",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <SelectCommon id={"moneda"} label={"Moneda"} options={convertMonedas} />
       </Grid>
 
       <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Programada Pago"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaProgramadaPago",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <TextFieldCommon id="noFactura" label="No Factura" />
+      </Grid>
+
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon id="folioFiscal" label="Folio Fiscal" />
       </Grid>
 
       <Grid size={2}>
@@ -197,182 +89,49 @@ export const FacturaHeader = () => {
         />
       </Grid>
 
-      {/* //TODO autocomplete */}
       <Grid size={2}>
-        <FormControl
-          fullWidth
-          sx={{ marginTop: 0 }}
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="colaborador-label">Colaborador</InputLabel>
-          <Select
-            labelId="colaborador-label"
-            id="colaborador"
-            name="colaborador"
-            label="Colaborador"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            {/* <MenuItem value={0}>Pendiente</MenuItem> */}
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
+        <DatePickerCommon id="fechaDeFactura" label="Fecha de Factura" />
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <FormControl
-          fullWidth
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="moneda-label">Moneda</InputLabel>
-          <Select
-            labelId="moneda-label"
-            id="moneda"
-            name="moneda"
-            label="moneda"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            {/* <MenuItem value={0}>Factura</MenuItem> */}
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
+      <Grid size={2}>
+        <DatePickerCommon id="fechaProgramadaPago" label="Programada Pago" />
       </Grid>
+
       <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="subtotal"
-          label="Subtotal"
-          name="subtotal"
-          sx={{ marginBottom: 0 , marginTop: 0, }}
-          /* value={noFactura}
-                          onChange={(e) => onChangeNoFactura(e.target.value)} */
-        />
-      </Grid>
-      <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Pago"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaPago",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
-      </Grid>
-      <Grid size={2}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            sx={{ width: "100%", marginTop: 0 }}
-            //value={fechaAlta ? dayjs(fechaAlta) : null}
-            label="Fecha Reembolso"
-            /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaReembolso",
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <TextFieldCommon id="subtotal" label="Subtotal" />
       </Grid>
 
       <Grid size={6} />
+
+      <Grid size={2}>
+        <DatePickerCommon id="fechaPago" label="Fecha Pago" />
+      </Grid>
+      <Grid size={2}>
+        <DatePickerCommon id="fechaReembolso" label="Fecha Reembolso" />
+      </Grid>
+
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="descuento"
-          label="Descuento"
-          name="descuento"
-          sx={{ marginTop: 0, marginBottom:0 }}
-          /* value={noFactura}
-                    onChange={(e) => onChangeNoFactura(e.target.value)} */
-        />
+        <TextFieldCommon id="descuento" label="Descuento" />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="impuestos"
-          label="Impuestos"
-          name="impuestos"
-          sx={{ marginTop: 0 }}
-          /* value={noFactura}
-                    onChange={(e) => onChangeNoFactura(e.target.value)} */
-        />
+        <TextFieldCommon id="impuestos" label="Impuestos" />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="ivaRetenido"
-          label="IVA Retenido"
-          name="ivaRetenido"
-          sx={{ marginTop: 0 }}
-          /* value={noFactura}
-                    onChange={(e) => onChangeNoFactura(e.target.value)} */
-        />
+        <TextFieldCommon id="ivaRetenido" label="IVA Retenido" />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="isrRetenido"
-          label="ISR Retenido"
-          name="isrRetenido"
-          sx={{ marginTop: 0 }}
-          /* value={noFactura}
-                          onChange={(e) => onChangeNoFactura(e.target.value)} */
-        />
+        <TextFieldCommon id="isrRetenido" label="ISR Retenido" />
       </Grid>
 
-       <Grid size={10} />
+      <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="total"
-          label="Total"
-          name="total"
-          sx={{ marginTop: 0 }}
-          /* value={noFactura}
-                    onChange={(e) => onChangeNoFactura(e.target.value)} */
-        />
+        <TextFieldCommon id="total" label="Total" />
       </Grid>
     </>
   );
