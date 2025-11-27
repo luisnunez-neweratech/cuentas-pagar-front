@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Link } from "@mui/material";
+import { Link, TableFooter, TablePagination, TablePaginationActions } from "@mui/material";
 import { useFacturaTable } from "./hooks/useFacturaTable";
 
 const cellHeaderStyle = { fontWeight: "bold" };
@@ -154,9 +154,19 @@ function Row(props: { row: ReturnType<typeof createData> }) {
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit sx={{paddingLeft: 8}}>
+          <Collapse
+            in={open}
+            timeout="auto"
+            unmountOnExit
+            sx={{ paddingLeft: 8 }}
+          >
             <Box sx={{ margin: 1 }}>
-              <Typography variant="body1" gutterBottom component="div" style={{fontWeight:'bold'}}>
+              <Typography
+                variant="body1"
+                gutterBottom
+                component="div"
+                style={{ fontWeight: "bold" }}
+              >
                 Fechas
               </Typography>
 
@@ -181,7 +191,12 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             </Box>
 
             <Box sx={{ margin: 1 }}>
-              <Typography variant="body1" gutterBottom component="div" style={{fontWeight:'bold'}}>
+              <Typography
+                variant="body1"
+                gutterBottom
+                component="div"
+                style={{ fontWeight: "bold" }}
+              >
                 Importes
               </Typography>
 
@@ -210,7 +225,12 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             </Box>
 
             <Box sx={{ margin: 1 }}>
-              <Typography variant="body1"  gutterBottom component="div" style={{fontWeight:'bold'}}>
+              <Typography
+                variant="body1"
+                gutterBottom
+                component="div"
+                style={{ fontWeight: "bold" }}
+              >
                 Información
               </Typography>
 
@@ -237,7 +257,12 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             </Box>
 
             <Box sx={{ margin: 1 }}>
-              <Typography variant="body1"  gutterBottom component="div" style={{fontWeight:'bold'}}>
+              <Typography
+                variant="body1"
+                gutterBottom
+                component="div"
+                style={{ fontWeight: "bold" }}
+              >
                 Productos o Servicios
               </Typography>
 
@@ -395,6 +420,28 @@ export const FacturaTable = () => {
             <Row key={row.proveedor} row={row} />
           ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              colSpan={12}
+              //count={totalRows}
+              count={10}
+              //rowsPerPage={rowsPerPage}
+              rowsPerPage={5}
+              //page={page}
+              page={0}
+              labelRowsPerPage="Filas por página:"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
+              }
+              //onPageChange={handleChangePage}
+              onPageChange={() => {}}
+              //onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );
