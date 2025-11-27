@@ -2,15 +2,18 @@ import { Grid, IconButton, Tooltip } from "@mui/material";
 import { DetalleTable } from "./detalleTable/DetalleTable";
 import { mainBackgroundColor } from "../../../../../lib/constants";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useFacturaDetalle } from "./hooks/useFacturaDetalle";
 
 export const FacturaDetalle = () => {
+  const { clickAddRowDetalle } = useFacturaDetalle();
+
   return (
     <>
       <Grid size={1} sx={{ marginTop: -30 }}>
         <Tooltip title="Agregar Detalle">
           <IconButton
             sx={{ color: mainBackgroundColor }}
-            //onClick={() => navigate("/facturas/nueva-factura")}
+            onClick={clickAddRowDetalle}
           >
             <AddCircleIcon
               style={{
@@ -21,7 +24,7 @@ export const FacturaDetalle = () => {
           </IconButton>
         </Tooltip>
       </Grid>
-      <Grid size={8}/>
+      <Grid size={8} />
       <Grid size={10} sx={{ marginTop: -25 }}>
         <DetalleTable />
       </Grid>
