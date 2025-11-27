@@ -1,115 +1,39 @@
-import {
-  FormControl,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 import { useUniqueFilters } from "./hooks/useUniqueFilters";
+import { TextFieldCommon } from "../../../../../../../components/common/TextFieldCommon/TextFieldCommon";
+import { SelectCommon } from "../../../../../../../components/common/SelectCommon/SelectCommon";
+import { TipoDocumento } from "../../../../interfaces/TipoDocumento";
+import { NormalAutocomplete } from "../../../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
+
+const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export const UniqueFilters = () => {
-  const { monedas } = useUniqueFilters();
+  const { convertMonedas } = useUniqueFilters();
 
   return (
     <>
-      <Grid size={3}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="noFactura"
-          label="No. Factura"
-          name="noFactura"
-          /* value={noFactura}
-          onChange={(e) => onChangeNoFactura(e.target.value)} */
+      <Grid size={2}>
+        <TextFieldCommon id="noFactura" label="No. Factura" />
+      </Grid>
+      <Grid size={2}>
+        <TextFieldCommon id="year" label="Año" />
+      </Grid>
+      <Grid size={2}>
+        <SelectCommon
+          id={"documento"}
+          label={"Documento"}
+          options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
         />
       </Grid>
-      <Grid size={3}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="year"
-          label="Año"
-          name="year"
-          /* value={noFactura}
-          onChange={(e) => onChangeNoFactura(e.target.value)} */
+      <Grid size={2}>
+        <SelectCommon id={"moneda"} label={"Moneda"} options={convertMonedas} />
+      </Grid>
+      <Grid size={2}>
+        <NormalAutocomplete
+          options={top100Films}
+          label="Colaborador"
+          id="colaborador"
         />
-      </Grid>
-      <Grid size={3} sx={{ paddingTop: 2 }}>
-        <FormControl
-          fullWidth
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="tipo-documento-label">Tipo Documento</InputLabel>
-          <Select
-            labelId="tipo-documento-label"
-            id="tipoDocumento"
-            name="tipoDocumento"
-            label="Tipo Documento"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            <MenuItem value={0}>Factura</MenuItem>
-            <MenuItem value={1}>Nota de Crédito</MenuItem>
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
-      </Grid>
-      <Grid size={3} sx={{ paddingTop: 2 }}>
-        <FormControl
-          fullWidth
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="moneda-label">Moneda</InputLabel>
-          <Select
-            labelId="moneda-label"
-            id="moneda"
-            name="moneda"
-            label="Moneda"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            {monedas?.map((moneda) => (
-              <MenuItem key={moneda.id} value={moneda.id}>
-                {moneda.descripcion}
-              </MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
-      </Grid>
-      <Grid size={3} sx={{ paddingTop: 2 }}>
-        <FormControl
-          fullWidth
-          //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-        >
-          <InputLabel id="nombre-colaborador-label">
-            Nombre Colaborador
-          </InputLabel>
-          <Select
-            labelId="nombre-colaborador-label"
-            id="nombreColaborador"
-            name="nombreColaborador"
-            label="Nombre Colaborador"
-            //value={values.tipoEntidad}
-            //onChange={handleChange}
-            //onBlur={handleBlur}
-          >
-            {/*  <MenuItem value={0}>MX</MenuItem> */}
-          </Select>
-          <FormHelperText>
-            {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
-          </FormHelperText>
-        </FormControl>
       </Grid>
     </>
   );

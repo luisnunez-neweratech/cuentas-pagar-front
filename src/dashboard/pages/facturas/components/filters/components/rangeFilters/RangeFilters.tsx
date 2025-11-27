@@ -35,6 +35,17 @@ export const RangeFilters = () => {
             slotProps={{
               textField: {
                 name: "fechaFactura",
+                size: "small",
+                sx: {
+                  "& .MuiPickersInputBase-root": {
+                    fontSize: "14px", // Target the input text
+                  },
+                  "& .MuiInputLabel-root": {
+                    fontSize: "14px", // Target the label
+                  },
+                  fontSize: "14px",
+                  width: "100%",
+                },
               },
               field: { clearable: true },
             }}
@@ -55,9 +66,20 @@ export const RangeFilters = () => {
                   )
                 } */
             format="DD-MM-YYYY"
-            slotProps={{
+              slotProps={{
               textField: {
                 name: "fechaPago",
+                size: "small",
+                sx: {
+                  "& .MuiPickersInputBase-root": {
+                    fontSize: "14px", // Target the input text
+                  },
+                  "& .MuiInputLabel-root": {
+                    fontSize: "14px", // Target the label
+                  },
+                  fontSize: "14px",
+                  width: "100%",
+                },
               },
               field: { clearable: true },
             }}
@@ -78,9 +100,20 @@ export const RangeFilters = () => {
                   )
                 } */
             format="DD-MM-YYYY"
-            slotProps={{
+              slotProps={{
               textField: {
                 name: "fechaProgramadaPago",
+                size: "small",
+                sx: {
+                  "& .MuiPickersInputBase-root": {
+                    fontSize: "14px", // Target the input text
+                  },
+                  "& .MuiInputLabel-root": {
+                    fontSize: "14px", // Target the label
+                  },
+                  fontSize: "14px",
+                  width: "100%",
+                },
               },
               field: { clearable: true },
             }}
@@ -101,9 +134,20 @@ export const RangeFilters = () => {
                   )
                 } */
             format="DD-MM-YYYY"
-            slotProps={{
+              slotProps={{
               textField: {
                 name: "fechaReembolso",
+                size: "small",
+                sx: {
+                  "& .MuiPickersInputBase-root": {
+                    fontSize: "14px", // Target the input text
+                  },
+                  "& .MuiInputLabel-root": {
+                    fontSize: "14px", // Target the label
+                  },
+                  fontSize: "14px",
+                  width: "100%",
+                },
               },
               field: { clearable: true },
             }}
