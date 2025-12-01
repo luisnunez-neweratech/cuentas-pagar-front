@@ -3,7 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import HistoryIcon from "@mui/icons-material/History";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { Historico } from "./Historico";
 import { CargaArchivos } from "./CargaArchivos";
 import { useParams } from "react-router";
@@ -27,7 +27,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>

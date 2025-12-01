@@ -6,7 +6,7 @@ export const validationSchema = (
   idInput: string,
   downloadUrl?: string | null
 ) => {
-  console.log("valid downloadUrl", downloadUrl);
+  
   if (downloadUrl) {
     return yup.object().shape({
       banco: yup.string().required("Banco es requerido"),

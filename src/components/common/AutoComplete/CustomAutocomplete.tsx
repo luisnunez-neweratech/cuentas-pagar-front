@@ -179,8 +179,6 @@ export function CustomAutocomplete<Value>(
 
   const { title } = props;
 
-  console.log("value", value);
-
   return (
     <Root>
       <div {...getRootProps()}>
@@ -188,10 +186,13 @@ export function CustomAutocomplete<Value>(
           {(Array.isArray(value) ? value : value ? [value] : []).map(
             (option, index) => {
               const itemProps = getItemProps({ index });
+
               return (
                 <StyledItem
                   key={index}
-                  {...itemProps}
+                  data-item-index={itemProps["data-item-index"]}
+                  onDelete={itemProps.onDelete}
+                  tabIndex={itemProps.tabIndex}
                   label={props.getOptionLabel!(option)}
                 />
               );
