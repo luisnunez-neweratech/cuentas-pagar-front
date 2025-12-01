@@ -114,14 +114,14 @@ export const RowDetalle = ({ id }: props) => {
           fullWidth // Optional: makes the TextField take the full width of the cell
           slotProps={{
             input: {
-              style: { fontSize: "11px" },
+              style: { fontSize: "11px", textAlign: "right" },
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
               ),
             },
             // Or for the native HTML element
             htmlInput: {
-              style: { fontSize: "11px" },
+              style: { fontSize: "11px", textAlign: "right" },
             },
           }}
         />
@@ -139,14 +139,14 @@ export const RowDetalle = ({ id }: props) => {
           fullWidth // Optional: makes the TextField take the full width of the cell
           slotProps={{
             input: {
-              style: { fontSize: "11px" },
+              style: { fontSize: "11px", textAlign: "right" },
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
               ),
             },
             // Or for the native HTML element
             htmlInput: {
-              style: { fontSize: "11px" },
+              style: { fontSize: "11px", textAlign: "right" },
             },
           }}
         />
