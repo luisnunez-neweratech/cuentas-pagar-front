@@ -8,7 +8,8 @@ import { NormalAutocomplete } from "../../../../../../../components/common/Norma
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export const UniqueFilters = () => {
-  const { convertMonedas } = useUniqueFilters();
+  const { convertMonedas, values, handleChange, handleBlur, touched, errors } =
+    useUniqueFilters();
 
   return (
     <>
@@ -24,13 +25,27 @@ export const UniqueFilters = () => {
       </Grid>
       <Grid size={2}>
         <SelectCommon
-          id={"documento"}
+          id={"documentoId"}
           label={"Documento"}
           options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
+          value={values.documentoId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
       <Grid size={2}>
-        <SelectCommon id={"moneda"} label={"Moneda"} options={convertMonedas} />
+        <SelectCommon
+          id={"monedaId"}
+          label={"Moneda"}
+          options={convertMonedas}
+          value={values.monedaId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
       </Grid>
       <Grid size={2}>
         <NormalAutocomplete
