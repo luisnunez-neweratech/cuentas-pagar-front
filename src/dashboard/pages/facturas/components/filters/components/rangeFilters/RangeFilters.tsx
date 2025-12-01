@@ -5,14 +5,14 @@ import "rsuite/dist/rsuite.css";
 
 export const RangeFilters = () => {
   const {
-    fechaFactura,
-    setFechaFactura,
-    fechaPago,
+    //fechaFactura,
+    //setFechaFactura,
+   /*  fechaPago,
     setFechaPago,
     fechaProgramadaPago,
     setFechaProgramadaPago,
     fechaReembolso,
-    setFechaReembolsa,
+    setFechaReembolsa, */
   } = useRangeFilters();
 
   return (
@@ -21,18 +21,14 @@ export const RangeFilters = () => {
         <DateRangePicker
           size="md"
           placeholder="Fecha Factura"
-          value={
-            Array.isArray(fechaFactura) && fechaFactura.length === 2
-              ? [fechaFactura[0], fechaFactura[1]]
-              : undefined
-          }
+         /*  value={fechaFactura}
           onChange={(value) => {
             if (Array.isArray(value) && value.length === 2) {
               setFechaFactura(value as Date[]);
             } else {
               setFechaFactura([]);
             }
-          }}
+          }} */
           format="dd-MM-yyyy"
         />
       </Grid>
@@ -40,8 +36,8 @@ export const RangeFilters = () => {
         <DateRangePicker
           size="md"
           placeholder="Fecha Pago"
-          value={
-            Array.isArray(fechaPago) && fechaPago.length === 2
+         /*  value={
+            Array.isArray(fechaPago) && fechaPago.length === 2 && fechaPago[0] instanceof Date && fechaPago[1] instanceof Date
               ? [fechaPago[0], fechaPago[1]]
               : undefined
           }
@@ -51,7 +47,7 @@ export const RangeFilters = () => {
             } else {
               setFechaPago([]);
             }
-          }}
+          }} */
           format="dd-MM-yyyy"
         />
       </Grid>
@@ -59,9 +55,11 @@ export const RangeFilters = () => {
         <DateRangePicker
           size="md"
           placeholder="Fecha Programada Pago"
-          value={
+         /*  value={
             Array.isArray(fechaProgramadaPago) &&
-            fechaProgramadaPago.length === 2
+            fechaProgramadaPago.length === 2 &&
+            fechaProgramadaPago[0] instanceof Date &&
+            fechaProgramadaPago[1] instanceof Date
               ? [fechaProgramadaPago[0], fechaProgramadaPago[1]]
               : undefined
           }
@@ -71,17 +69,17 @@ export const RangeFilters = () => {
             } else {
               setFechaProgramadaPago([]);
             }
-          }}
+          }} */
           format="dd-MM-yyyy"
         />
       </Grid>
       <Grid size={3}>
         <DateRangePicker
-          size="md"
-          placeholder="Fecha Reembolso"
-          value={
-            Array.isArray(fechaReembolso) && fechaReembolso.length === 2
+         /*  value={
+            Array.isArray(fechaReembolso) && fechaReembolso.length === 2 && fechaReembolso[0] instanceof Date && fechaReembolso[1] instanceof Date
               ? [fechaReembolso[0], fechaReembolso[1]]
+              : undefined
+          }
               : undefined
           }
           onChange={(value) => {
@@ -90,7 +88,7 @@ export const RangeFilters = () => {
             } else {
               setFechaReembolsa([]);
             }
-          }}
+          }} */
           format="dd-MM-yyyy"
         />
       </Grid>
