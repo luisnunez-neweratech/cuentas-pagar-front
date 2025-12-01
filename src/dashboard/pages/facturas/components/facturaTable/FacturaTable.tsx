@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { useFacturaTable } from "./hooks/useFacturaTable";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { useNavigate } from "react-router";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -87,6 +88,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   const [open, setOpen] = React.useState(false);
 
   const { rowClick } = useFacturaTable();
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
@@ -165,7 +167,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
               edge="start"
               onClick={(e) => {
                 e.stopPropagation();
-                //rowClick(giro);
+                navigate("/facturas/0") // TODO agregar id
+                
               }}
               sx={{ marginRight: 3 }}
             >
