@@ -5,14 +5,28 @@ interface props {
   id: string;
   label: string;
   options: any[];
+  value?: any;
+  handleChange?: (value: any) => void;
+  handleBlur?: (value: any) => void;
+  touched?: any;
+  errors?: any;
 }
 
-export const SelectCommon = ({ id, label, options }: props) => {
+export const SelectCommon = ({
+  id,
+  label,
+  options,
+  value,
+  handleChange,
+  handleBlur,
+  touched,
+  errors,
+}: props) => {
   return (
     <FormControl
       fullWidth
       size="small"
-      //error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
+      error={touched[id] && Boolean(errors[id])}
     >
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select
@@ -20,16 +34,16 @@ export const SelectCommon = ({ id, label, options }: props) => {
         id={id}
         name={id}
         label={label}
-        //value={values.tipoEntidad}
-        //onChange={handleChange}
-        //onBlur={handleBlur}
+        value={value}
+        onChange={handleChange}
+        onBlur={handleBlur}
       >
         {options.map((option) => (
           <MenuItem value={option.value}>{option.label}</MenuItem>
         ))}
       </Select>
       <FormHelperText>
-        {/* {touched.tipoEntidad && errors.tipoEntidad?.toString()} */}
+        {touched[id] && errors[id]?.toString()}
       </FormHelperText>
     </FormControl>
   );

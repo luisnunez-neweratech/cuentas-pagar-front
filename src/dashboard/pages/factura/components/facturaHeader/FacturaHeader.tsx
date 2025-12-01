@@ -12,7 +12,18 @@ import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export const FacturaHeader = () => {
-  const { onChangeAutocomplete, values, giros, convertMonedas } = useFacturaHeader();
+  const {
+    onChangeAutocomplete,
+    values,
+    giros,
+    convertMonedas,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+  } = useFacturaHeader();
+
+  console.log("values", values);
 
   return (
     <>
@@ -21,6 +32,8 @@ export const FacturaHeader = () => {
           options={top100Films}
           label="Proveedor"
           id="proveedor"
+          value={values.proveedorId}
+          onChange={handleChange}
         />
       </Grid>
 
@@ -29,20 +42,27 @@ export const FacturaHeader = () => {
           options={top100Films}
           label="Colaborador"
           id="colaborador"
+          value={values.colaboradorId}
+          onChange={handleChange}
         />
       </Grid>
 
       <Grid size={2}>
         <SelectCommon
-          id={"documento"}
+          id={"tipoDocumentoId"}
           label={"Documento"}
           options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
+          value={values.tipoDocumentoId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
       <Grid size={2}>
         <SelectCommon
-          id={"statusFactura"}
+          id={"statusFacturaId"}
           label={"Estatus Factura"}
           options={[
             StatusFactura.Pendiente,
@@ -50,12 +70,17 @@ export const FacturaHeader = () => {
             StatusFactura.Cancelado,
             StatusFactura.EnRevision,
           ]}
+          value={values.statusFacturaId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
       <Grid size={2}>
         <SelectCommon
-          id={"statusReembolso"}
+          id={"statusReembolsoId"}
           label={"Estatus Reembolso"}
           options={[
             StatusReembolso.Pendiente,
@@ -63,11 +88,25 @@ export const FacturaHeader = () => {
             StatusReembolso.Cancelado,
             StatusReembolso.NoAplica,
           ]}
+          value={values.statusReembolsoId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
       <Grid size={2}>
-        <SelectCommon id={"moneda"} label={"Moneda"} options={convertMonedas} />
+        <SelectCommon
+          id={"monedaId"}
+          label={"Moneda"}
+          options={convertMonedas}
+          value={values.monedaId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
       </Grid>
 
       <Grid size={2}>
@@ -81,7 +120,7 @@ export const FacturaHeader = () => {
       <Grid size={2}>
         <AutoCompleteComponent
           onChange={(e) => onChangeAutocomplete(e, "productos")}
-          setValues={values.productos}
+          setValues={values.productos ?? []}
           itemsList={giros}
           maxItems={5}
           title="Productos o Servicios"

@@ -25,10 +25,7 @@ export const RowDetalle = ({ id }: props) => {
       <TableCell component="th" scope="row">
         <TextField
           value={values.cantidad}
-          onChange={(e) => {
-            console.log("here", e.target.value);
-            handleChange(e);
-          }}
+          onChange={handleChange}
           onBlur={handleBlur}
           variant="outlined"
           size="small"
@@ -47,10 +44,7 @@ export const RowDetalle = ({ id }: props) => {
       <TableCell>
         <TextField
           value={values.uMedida}
-          onChange={(e) => {
-            console.log("here", e.target.value);
-            handleChange(e);
-          }}
+          onChange={handleChange}
           onBlur={handleBlur}
           variant="outlined" // Use outlined for better visibility in a table
           size="small" // Make it less bulky
