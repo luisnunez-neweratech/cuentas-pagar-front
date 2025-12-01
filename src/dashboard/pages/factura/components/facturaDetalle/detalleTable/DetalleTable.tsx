@@ -17,7 +17,7 @@ export const DetalleTable = () => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell style={{ fontWeight: "bold", width: 80 }}>
+            <TableCell style={{ fontWeight: "bold", width: 120 }}>
               Cantidad
             </TableCell>
             <TableCell style={{ fontWeight: "bold", width: 200 }}>
@@ -29,13 +29,13 @@ export const DetalleTable = () => {
             <TableCell style={{ fontWeight: "bold", width: 300 }}>
               Concepto
             </TableCell>
-            <TableCell style={{ fontWeight: "bold", width: 130 }}>
+            <TableCell style={{ fontWeight: "bold", width: 150 }}>
               Precio
             </TableCell>
-            <TableCell style={{ fontWeight: "bold", width: 130 }}>
+            <TableCell style={{ fontWeight: "bold", width: 150 }}>
               Total
-            </TableCell>
-            <TableCell></TableCell>
+            </TableCell >
+            <TableCell style={{ width: 50 }}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

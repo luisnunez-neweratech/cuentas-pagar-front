@@ -22,7 +22,7 @@ export const FacturaHeader = () => {
     touched,
     errors,
     setFieldValue,
-  } = useFacturaHeader();  
+  } = useFacturaHeader();
 
   return (
     <>
@@ -114,6 +114,7 @@ export const FacturaHeader = () => {
           label="No Factura"
           value={values.noFactura}
           handleChange={handleChange}
+          typeMoneda={false}
         />
       </Grid>
 
@@ -123,6 +124,7 @@ export const FacturaHeader = () => {
           label="Folio Fiscal"
           value={values.folioFiscal}
           handleChange={handleChange}
+          typeMoneda={false}
         />
       </Grid>
 
@@ -161,6 +163,7 @@ export const FacturaHeader = () => {
           label="Subtotal"
           value={values.subtotal}
           handleChange={handleChange}
+          typeMoneda={true}
         />
       </Grid>
 
@@ -189,6 +192,7 @@ export const FacturaHeader = () => {
           label="Descuento"
           value={values.descuento}
           handleChange={handleChange}
+          typeMoneda={true}
         />
       </Grid>
 
@@ -199,6 +203,7 @@ export const FacturaHeader = () => {
           label="Impuestos"
           value={values.impuestos}
           handleChange={handleChange}
+          typeMoneda={true}
         />
       </Grid>
 
@@ -209,6 +214,7 @@ export const FacturaHeader = () => {
           label="IVA Retenido"
           value={values.ivaRetenido}
           handleChange={handleChange}
+          typeMoneda={true}
         />
       </Grid>
 
@@ -219,6 +225,7 @@ export const FacturaHeader = () => {
           label="ISR Retenido"
           value={values.isrRetenido}
           handleChange={handleChange}
+          typeMoneda={true}
         />
       </Grid>
 
@@ -229,6 +236,7 @@ export const FacturaHeader = () => {
           label="Total"
           value={values.total}
           handleChange={handleChange}
+          typeMoneda={true}
         />
       </Grid>
     </>

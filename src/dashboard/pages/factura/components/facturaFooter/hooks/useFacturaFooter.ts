@@ -1,14 +1,28 @@
 import { useState } from "react";
+import { useFacturaStore } from "../../../store/Factura.store";
 
 export const useFacturaFooter = () => {
-  const [_fileName, setFileName] = useState(
-    ""
-    //getStepCuentaBancaria()?.find((item) => item.id === id)?.fileValue?.name
+
+  const stateFactura = useFacturaStore((state) => state);
+
+  const [pdfFileName, setPdfFileName] = useState(
+    stateFactura.pdfFileValue
   );
 
-  const handleFileChange = (event: any) => {
+  const [xmlFileName, setXmlFileName] = useState(
+    stateFactura.xmlFileValue
+  );
+
+  const handlePdfFileChange = (event: any) => {
     if (event.target.files.length > 0) {
-      setFileName(event.target.files[0].name);
+      setPdfFileName(event.target.files[0].name);
+      //setFieldValue(idInput, event.target.files[0]);
+    }
+  };
+
+  const handleXmlFileChange = (event: any) => {
+    if (event.target.files.length > 0) {
+      setXmlFileName(event.target.files[0].name);
       //setFieldValue(idInput, event.target.files[0]);
     }
   };
@@ -21,8 +35,11 @@ export const useFacturaFooter = () => {
   const disableButtons = false;
 
   return {
-    handleFileChange,
+    handlePdfFileChange,
     errors,
     disableButtons,
+    pdfFileName,
+    xmlFileName,
+    handleXmlFileChange
   };
 };

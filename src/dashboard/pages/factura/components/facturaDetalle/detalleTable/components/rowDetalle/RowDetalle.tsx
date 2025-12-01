@@ -4,6 +4,8 @@ import {
   TextField,
   Tooltip,
   IconButton,
+  TextareaAutosize,
+  InputAdornment,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRowDetalle } from "./hooks/useRowDetalle";
@@ -26,6 +28,7 @@ export const RowDetalle = ({ id }: props) => {
         <TextField
           id="cantidad"
           name="cantidad"
+          type="tel"
           value={values.cantidad}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -34,11 +37,11 @@ export const RowDetalle = ({ id }: props) => {
           fullWidth
           slotProps={{
             input: {
-              style: { fontSize: "12px" }, // Styles the input element itself
+              style: { fontSize: "11px" }, // Styles the input element itself
             },
             // Or for the native HTML element
             htmlInput: {
-              style: { fontSize: "12px" },
+              style: { fontSize: "11px" },
             },
           }}
         />
@@ -55,11 +58,11 @@ export const RowDetalle = ({ id }: props) => {
           fullWidth // Optional: makes the TextField take the full width of the cell
           slotProps={{
             input: {
-              style: { fontSize: "12px" }, // Styles the input element itself
+              style: { fontSize: "11px" }, // Styles the input element itself
             },
             // Or for the native HTML element
             htmlInput: {
-              style: { fontSize: "12px" },
+              style: { fontSize: "11px" },
             },
           }}
         />
@@ -76,40 +79,33 @@ export const RowDetalle = ({ id }: props) => {
           fullWidth // Optional: makes the TextField take the full width of the cell
           slotProps={{
             input: {
-              style: { fontSize: "12px" }, // Styles the input element itself
+              style: { fontSize: "11px" }, // Styles the input element itself
             },
             // Or for the native HTML element
             htmlInput: {
-              style: { fontSize: "12px" },
+              style: { fontSize: "11px" },
             },
           }}
         />
       </TableCell>
       <TableCell>
-        <TextField
+        <TextareaAutosize
+          aria-label="minimum height"
           id="concepto"
           name="concepto"
           value={values.concepto}
           onChange={handleChange}
           onBlur={handleBlur}
-          variant="outlined" // Use outlined for better visibility in a table
-          size="small" // Make it less bulky
-          fullWidth // Optional: makes the TextField take the full width of the cell
-          slotProps={{
-            input: {
-              style: { fontSize: "12px" }, // Styles the input element itself
-            },
-            // Or for the native HTML element
-            htmlInput: {
-              style: { fontSize: "12px" },
-            },
-          }}
+          style={{ width: 250, marginTop: 4 }}
+          maxRows={4}
+          minRows={2}
         />
       </TableCell>
       <TableCell>
         <TextField
           id="precio"
           name="precio"
+          type="tel"
           value={values.precio}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -118,11 +114,14 @@ export const RowDetalle = ({ id }: props) => {
           fullWidth // Optional: makes the TextField take the full width of the cell
           slotProps={{
             input: {
-              style: { fontSize: "12px" }, // Styles the input element itself
+              style: { fontSize: "11px" },
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
             },
             // Or for the native HTML element
             htmlInput: {
-              style: { fontSize: "12px" },
+              style: { fontSize: "11px" },
             },
           }}
         />
@@ -134,16 +133,20 @@ export const RowDetalle = ({ id }: props) => {
           value={values.total}
           onChange={handleChange}
           onBlur={handleBlur}
+          type="tel"
           variant="outlined" // Use outlined for better visibility in a table
           size="small" // Make it less bulky
           fullWidth // Optional: makes the TextField take the full width of the cell
           slotProps={{
             input: {
-              style: { fontSize: "12px" }, // Styles the input element itself
+              style: { fontSize: "11px" },
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
             },
             // Or for the native HTML element
             htmlInput: {
-              style: { fontSize: "12px" },
+              style: { fontSize: "11px" },
             },
           }}
         />

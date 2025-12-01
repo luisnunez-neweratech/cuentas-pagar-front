@@ -5,7 +5,14 @@ import SaveIcon from "@mui/icons-material/Save";
 import { useFacturaFooter } from "./hooks/useFacturaFooter";
 
 export const FacturaFooter = () => {
-  const { handleFileChange, errors, disableButtons } = useFacturaFooter();
+  const {
+    handlePdfFileChange,
+    errors,
+    disableButtons,
+    pdfFileName,
+    xmlFileName,
+    handleXmlFileChange,
+  } = useFacturaFooter();
 
   return (
     <>
@@ -15,7 +22,7 @@ export const FacturaFooter = () => {
           type="file"
           id="facturaPDF"
           style={{ display: "none" }}
-          onChange={handleFileChange}
+          onChange={handlePdfFileChange}
           accept=".pdf"
         />
 
@@ -31,14 +38,21 @@ export const FacturaFooter = () => {
           </p>
         )}
       </Grid>
-      <Grid size={9} />
+      <Grid size={4} sx={{ marginTop: 2 }}>
+        {pdfFileName && (
+          <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
+            {`Nombre del Archivo: ${pdfFileName}`}
+          </p>
+        )}
+      </Grid>
+      <Grid size={5} />
 
       <Grid size={3}>
         <input
           type="file"
           id="facturaXML"
           style={{ display: "none" }}
-          onChange={handleFileChange}
+          onChange={handleXmlFileChange}
           accept=".xml"
         />
 
@@ -54,8 +68,15 @@ export const FacturaFooter = () => {
           </p>
         )}
       </Grid>
+      <Grid size={4} sx={{ marginTop: 2 }}>
+        {xmlFileName && (
+          <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
+            {`Nombre del Archivo: ${xmlFileName}`}
+          </p>
+        )}
+      </Grid>
 
-      <Grid size={7} />
+      <Grid size={3} />
       <Grid size={2}>
         <Button
           variant="contained"
