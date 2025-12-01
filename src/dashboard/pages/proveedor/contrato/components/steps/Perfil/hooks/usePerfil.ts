@@ -135,17 +135,6 @@ export const usePerfil = () => {
     enabled: !!id,
   });
 
-  // cargar documentos de contrato
-  /*   const {
-   
-    data: proveedorDocumentosContrato,
-  } = useQuery({
-    queryKey: ["ContractDocument", 'Contract', `${id}`, 'Grouped'],
-    queryFn: () => getProveedorDocumentosContrato(id || ""),
-    enabled: !!id,
-  });
- */
-
   // cargar colaboradores
   const {
     /* isError: isErrorGet,
