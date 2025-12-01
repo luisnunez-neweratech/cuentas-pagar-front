@@ -46,6 +46,6 @@ export interface ListaContratos {
   id: number;
   fechaInicio: string;
   fechaFin: string;
-  indeterminado: string;
+  indeterminado: boolean;
   nombreArchivo: string;
 }

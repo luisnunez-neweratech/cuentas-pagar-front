@@ -22,6 +22,7 @@ import {
 //import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 import { useParams } from "react-router";
 import { useDocumentoPrincipalStore } from "../store/DocumentoPrincipal.store";
+import { updateProveedorContratoInfo } from "../../../../services/proveedor.contrato.service";
 
 export const useNewContrato = () => {
   const { id: idParams } = useParams();
@@ -120,11 +121,25 @@ export const useNewContrato = () => {
     },
   });
 
+  const updateContratoInfo = useMutation({
+    mutationFn: updateProveedorContratoInfo,
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar la información de contrato");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
+
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
     onSuccess: (data, variables) => {
-      //toNextStep();
-
       // revisar si es moral y tiene colaboradores para guardarlo
       if (
         checkContractor &&
@@ -160,14 +175,13 @@ export const useNewContrato = () => {
           },
           contractId: data.id,
         });
-      }      
+      }
       // propuesta o anexo
       variables?.documentos &&
         variables?.documentos.map((documento) => {
-          console.log("documento", documento);
           if (documento.fileValue && documento.tipoDocumento > 3) {
             if (documento.perteneceContratoId === 0) {
-              //agregar propuesta o anexo a nuevo contrato
+              //agregar propuesta o anexo al nuevo contrato
               createDocumentoPrincipalMutation.mutate({
                 postDocumentoPrincipalProveedor: {
                   documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
@@ -309,7 +323,25 @@ export const useNewContrato = () => {
                 }
               }
             });
+
             if (clickedBy === 1) {
+              // actualizar datos de proveedor
+              // TODO revisar si es el contrato activo? o el ultimo
+              updateContratoInfo.mutate({
+                putContratoInfoPayload: {
+                  id: stepContrato.id!,
+                  supplierId: stateContrato.id!,
+                  startDate: stepContrato.listaContratos[0].fechaInicio,
+                  endDate: stepContrato.listaContratos[0].fechaFin,
+                  indefiniteEnd: stepContrato.listaContratos[0].indeterminado,
+                  isNEContractor: stepContrato?.noColaborador?.length
+                    ? true
+                    : false,
+                  nePersonType: TipoPersona.Fisica.label,
+                  neCollaboratorNumber: stepContrato?.noColaborador ?? "",
+                },
+              });
+
               toast.success("Información Actualizada");
             } else {
               toNextStep();
@@ -488,7 +520,6 @@ export const useNewContrato = () => {
           }
         }
       }
-      // TODO actualizar lista de documentos en historico
       setActualizarHistorial(true);
     },
   });
