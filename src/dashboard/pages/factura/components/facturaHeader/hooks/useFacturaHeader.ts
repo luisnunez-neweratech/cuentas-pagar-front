@@ -59,6 +59,20 @@ export const useFacturaHeader = () => {
       statusFacturaId: stateFactura.statusFacturaId,
       statusReembolsoId: stateFactura.statusReembolsoId,
       monedaId: stateFactura.monedaId,
+      noFactura: stateFactura.noFactura,
+      folioFiscal: stateFactura.folioFiscal,
+
+      fechaFactura: stateFactura.fechaFactura,
+      fechaProgramadaPago: stateFactura.programadaPago,
+      fechaPago: stateFactura.fechaPago,
+      fechaReembolso: stateFactura.fechaReembolso,
+
+      subtotal: stateFactura.subtotal,
+      descuento: stateFactura.descuento,
+      impuestos: stateFactura.impuestos,
+      ivaRetenido: stateFactura.ivaRetenido,
+      isrRetenido: stateFactura.isrRetenido,
+      total: stateFactura.total,
 
       productos: stateFactura.productos,
     };
@@ -94,5 +108,6 @@ export const useFacturaHeader = () => {
     handleBlur,
     touched,
     errors,
+    setFieldValue,
   };
 };

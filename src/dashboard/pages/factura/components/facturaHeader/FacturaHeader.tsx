@@ -21,6 +21,7 @@ export const FacturaHeader = () => {
     handleBlur,
     touched,
     errors,
+    setFieldValue,
   } = useFacturaHeader();
 
   console.log("values", values);
@@ -110,11 +111,21 @@ export const FacturaHeader = () => {
       </Grid>
 
       <Grid size={2}>
-        <TextFieldCommon id="noFactura" label="No Factura" />
+        <TextFieldCommon
+          id="noFactura"
+          label="No Factura"
+          value={values.noFactura}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="folioFiscal" label="Folio Fiscal" />
+        <TextFieldCommon
+          id="folioFiscal"
+          label="Folio Fiscal"
+          value={values.folioFiscal}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={2}>
@@ -129,48 +140,98 @@ export const FacturaHeader = () => {
       </Grid>
 
       <Grid size={2}>
-        <DatePickerCommon id="fechaDeFactura" label="Fecha de Factura" />
+        <DatePickerCommon
+          id="fechaFactura"
+          label="Fecha de Factura"
+          fechaValue={values.fechaFactura ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
 
       <Grid size={2}>
-        <DatePickerCommon id="fechaProgramadaPago" label="Programada Pago" />
+        <DatePickerCommon
+          id="fechaProgramadaPago"
+          label="Programada Pago"
+          fechaValue={values.fechaProgramadaPago ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
-        <TextFieldCommon id="subtotal" label="Subtotal" />
+        <TextFieldCommon
+          id="subtotal"
+          label="Subtotal"
+          value={values.subtotal}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={6} />
 
       <Grid size={2}>
-        <DatePickerCommon id="fechaPago" label="Fecha Pago" />
+        <DatePickerCommon
+          id="fechaPago"
+          label="Fecha Pago"
+          fechaValue={values.fechaPago ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
       <Grid size={2}>
-        <DatePickerCommon id="fechaReembolso" label="Fecha Reembolso" />
+        <DatePickerCommon
+          id="fechaReembolso"
+          label="Fecha Reembolso"
+          fechaValue={values.fechaReembolso ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="descuento" label="Descuento" />
-      </Grid>
-
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="impuestos" label="Impuestos" />
-      </Grid>
-
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="ivaRetenido" label="IVA Retenido" />
-      </Grid>
-
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="isrRetenido" label="ISR Retenido" />
+        <TextFieldCommon
+          id="descuento"
+          label="Descuento"
+          value={values.descuento}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="total" label="Total" />
+        <TextFieldCommon
+          id="impuestos"
+          label="Impuestos"
+          value={values.impuestos}
+          handleChange={handleChange}
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon
+          id="ivaRetenido"
+          label="IVA Retenido"
+          value={values.ivaRetenido}
+          handleChange={handleChange}
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon
+          id="isrRetenido"
+          label="ISR Retenido"
+          value={values.isrRetenido}
+          handleChange={handleChange}
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon
+          id="total"
+          label="Total"
+          value={values.total}
+          handleChange={handleChange}
+        />
       </Grid>
     </>
   );
