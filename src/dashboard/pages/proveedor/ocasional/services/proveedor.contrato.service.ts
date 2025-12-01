@@ -30,7 +30,6 @@ export const deleteProveedorOcasional = async (id: string): Promise<any> => {
 
 export const getProveedorOcasional = async (id: string): Promise<any> => {
   const { data } = await cuentasApi.get(`/Supplier/${id}/Details`);
-  console.log('data', data)
 
   return {
     id: data.id,

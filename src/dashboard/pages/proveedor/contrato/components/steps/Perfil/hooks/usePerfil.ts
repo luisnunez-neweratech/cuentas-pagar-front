@@ -245,8 +245,7 @@ export const usePerfil = () => {
         let listaContratos: ListaContratos[] = [];
 
         //proveedorDocumentosContrato
-
-        if (proveedorPerfil.proveedorDocumentosContrato) {
+        if (proveedorPerfil && proveedorPerfil.proveedorDocumentosContrato) {
           Object.entries(proveedorPerfil.proveedorDocumentosContrato).map(
             ([_key, value]: any) => {
               if (value.mainDocument) {
@@ -266,11 +265,11 @@ export const usePerfil = () => {
                   fechaInicio: value.mainDocument.fechaInicio,
                   fechaFin: value.mainDocument.fechaVencimiento,
                   indeterminado: value.mainDocument.esIndeterminado,
-                  nombreArchivo: value.mainDocument.fileName
+                  nombreArchivo: value.mainDocument.fileName,
                 });
                 //TODO agregar tipodocumento 6
               }
-              
+
               if (value.anexos && value.anexos.length > 0) {
                 value.anexos.map((anexo: any) => {
                   historialDocumentos.push({
@@ -289,17 +288,18 @@ export const usePerfil = () => {
         }
 
         // documentos normales
-        proveedorPerfil.proveedorDocumentos?.map((documento: any) => {
-          historialDocumentos.push({
-            id: documento.id,
-            fechaInicio: documento.startDate,
-            fechaFin: documento.endDate,
-            indeterminado: documento.indefiniteEnd,
-            fileUrl: documento.downloadUrl,
-            fileName: documento.fileName,
-            tipoDocumento: documento.documentType,
+        proveedorPerfil &&
+          proveedorPerfil.proveedorDocumentos?.map((documento: any) => {
+            historialDocumentos.push({
+              id: documento.id,
+              fechaInicio: documento.startDate,
+              fechaFin: documento.endDate,
+              indeterminado: documento.indefiniteEnd,
+              fileUrl: documento.downloadUrl,
+              fileName: documento.fileName,
+              tipoDocumento: documento.documentType,
+            });
           });
-        });
 
         // contrato es array, porque es historico
         let colaboradoresData = [];
@@ -372,6 +372,7 @@ export const usePerfil = () => {
         //cuentas bancarias
         let cuentasData = [];
         if (
+          proveedorPerfil &&
           proveedorPerfil.cuentasBancarias &&
           proveedorPerfil.cuentasBancarias.length > 0
         ) {
@@ -444,6 +445,7 @@ export const usePerfil = () => {
           handleNext();
         }
       } else {
+        // crear nuevo proveedor contrato
         createMutation.mutate({
           supplierTypeId: TipoProveedor.Contrato.value,
           originId: +values.tipoEntidad,
