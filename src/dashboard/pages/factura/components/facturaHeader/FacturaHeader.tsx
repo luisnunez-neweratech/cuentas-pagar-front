@@ -22,9 +22,7 @@ export const FacturaHeader = () => {
     touched,
     errors,
     setFieldValue,
-  } = useFacturaHeader();
-
-  console.log("values", values);
+  } = useFacturaHeader();  
 
   return (
     <>

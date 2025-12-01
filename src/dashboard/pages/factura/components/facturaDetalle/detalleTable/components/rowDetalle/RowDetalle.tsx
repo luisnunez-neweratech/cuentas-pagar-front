@@ -24,6 +24,8 @@ export const RowDetalle = ({ id }: props) => {
     >
       <TableCell component="th" scope="row">
         <TextField
+          id="cantidad"
+          name="cantidad"
           value={values.cantidad}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -43,6 +45,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="uMedida"
+          name="uMedida"
           value={values.uMedida}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -62,6 +66,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="codigo"
+          name="codigo"
           value={values.codigo}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -81,6 +87,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="concepto"
+          name="concepto"
           value={values.concepto}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -100,6 +108,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="precio"
+          name="precio"
           value={values.precio}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -119,6 +129,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="total"
+          name="total"
           value={values.total}
           onChange={handleChange}
           onBlur={handleBlur}
