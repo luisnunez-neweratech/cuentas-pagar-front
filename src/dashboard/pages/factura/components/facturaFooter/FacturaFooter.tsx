@@ -38,14 +38,14 @@ export const FacturaFooter = () => {
           </p>
         )}
       </Grid>
-      <Grid size={3} sx={{ marginTop: 2 }}>
+      <Grid size={4} sx={{ marginTop: 2 }}>
         {pdfFileName && (
           <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
             {`Nombre del Archivo: ${pdfFileName}`}
           </p>
         )}
       </Grid>
-      <Grid size={6} />
+      <Grid size={5} />
 
       <Grid size={3}>
         <input
@@ -68,7 +68,7 @@ export const FacturaFooter = () => {
           </p>
         )}
       </Grid>
-      <Grid size={3} sx={{ marginTop: 2 }}>
+      <Grid size={4} sx={{ marginTop: 2 }}>
         {xmlFileName && (
           <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
             {`Nombre del Archivo: ${xmlFileName}`}
@@ -76,7 +76,7 @@ export const FacturaFooter = () => {
         )}
       </Grid>
 
-      <Grid size={4} />
+      <Grid size={3} />
       <Grid size={2}>
         <Button
           variant="contained"
