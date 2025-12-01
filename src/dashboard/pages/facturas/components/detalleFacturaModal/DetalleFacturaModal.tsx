@@ -1,5 +1,6 @@
 import { Backdrop, Box, Paper } from "@mui/material";
 import { useDetalleFacturaModal } from "./hooks/useDetalleFacturaModal";
+import { DetalleFactura } from "./detalleFactura/DetalleFactura";
 
 export const DetalleFacturaModal = () => {
   const { openModal, handleClose } = useDetalleFacturaModal();
@@ -16,8 +17,8 @@ export const DetalleFacturaModal = () => {
           flexWrap: "wrap",
           "& > :not(style)": {
             m: 1,
-            width: '80vw',
-            height: '80vh',
+            width: "80vw",
+            height: "80vh",
           },
         }}
       >
@@ -25,7 +26,7 @@ export const DetalleFacturaModal = () => {
           sx={{ paddingTop: 4, paddingLeft: 1, paddingRight: 1 }}
           elevation={3}
         >
-          
+          <DetalleFactura />
         </Paper>
       </Box>
     </Backdrop>
