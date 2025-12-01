@@ -5,6 +5,7 @@ import { mainBackgroundColor } from "../../../lib/constants";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { Tooltip } from "@mui/material";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import { useDashboardLayoutStore } from "../../store/dashboardLayout.store";
 
 //const menuOptions = ["Proveedores", "Facturas", "Reportes", "Catálogos"];
 const menuOptions = ["Proveedores", "Facturas", "Catálogos"];
@@ -13,6 +14,8 @@ export const useDashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
+
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const checkPathname = () => {
     if (location.pathname.includes("/proveedor")) {
@@ -74,6 +77,7 @@ export const useDashboardLayout = () => {
   };
 
   const optionClicked = (index: number) => {
+    setIsLoading(false);
     switch (index) {
       case 0:
         navigate("/proveedor");
