@@ -13,10 +13,14 @@ export const UniqueFilters = () => {
   return (
     <>
       <Grid size={2}>
-        <TextFieldCommon id="noFactura" label="No. Factura" />
+        <TextFieldCommon
+          id="noFactura"
+          label="No. Factura"
+          typeMoneda={false}
+        />
       </Grid>
       <Grid size={2}>
-        <TextFieldCommon id="year" label="Año" />
+        <TextFieldCommon id="year" label="Año" typeMoneda={false} />
       </Grid>
       <Grid size={2}>
         <SelectCommon
