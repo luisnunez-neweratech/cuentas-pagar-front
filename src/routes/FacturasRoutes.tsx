@@ -37,6 +37,7 @@ export const FacturasRoutes = () => {
         <Route path="facturas">
           <Route index element={<FacturasPage />} />
            <Route path="nueva-factura" element={<FacturaPage />} />
+           <Route path=":id" element={<FacturaPage />} />
         </Route>
 
         <Route path="catalogos">

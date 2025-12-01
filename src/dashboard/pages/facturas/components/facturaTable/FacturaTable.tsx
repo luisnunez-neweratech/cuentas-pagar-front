@@ -12,8 +12,16 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Link, TableFooter, TablePagination, TablePaginationActions } from "@mui/material";
+import {
+  Link,
+  TableFooter,
+  TablePagination,
+  TablePaginationActions,
+  Tooltip,
+} from "@mui/material";
 import { useFacturaTable } from "./hooks/useFacturaTable";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { useNavigate } from "react-router";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -80,6 +88,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   const [open, setOpen] = React.useState(false);
 
   const { rowClick } = useFacturaTable();
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
@@ -150,6 +159,22 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           }}
         >
           {row.total}
+        </TableCell>
+        <TableCell>
+          <Tooltip title="Editar">
+            <IconButton
+              color="primary"
+              edge="start"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate("/facturas/0") // TODO agregar id
+                
+              }}
+              sx={{ marginRight: 3 }}
+            >
+              <ModeEditIcon style={{ width: 20, height: 20 }} />
+            </IconButton>
+          </Tooltip>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -413,6 +438,7 @@ export const FacturaTable = () => {
             <TableCell style={cellHeaderStyle}>Estatus Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Estatus Reembolso</TableCell>
             <TableCell style={cellHeaderStyle}>Total</TableCell>
+            <TableCell style={cellHeaderStyle}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
