@@ -13,8 +13,6 @@ import { converDateFormat } from "../../../../../../../../lib/dates";
 export const Historico = () => {
   const { rows, getNameTipoDocumento } = useHistorico();
 
-  console.log('rows', rows)
-
   return (
     <Grid container>
       <Grid size={12}>

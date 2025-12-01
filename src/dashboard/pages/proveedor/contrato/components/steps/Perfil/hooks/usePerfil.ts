@@ -269,7 +269,7 @@ export const usePerfil = () => {
                 });
                 //TODO agregar tipodocumento 6
               }
-              console.log("anexos", value.anexos);
+              
               if (value.anexos && value.anexos.length > 0) {
                 value.anexos.map((anexo: any) => {
                   historialDocumentos.push({
