@@ -4,6 +4,7 @@ import {
   TextField,
   Tooltip,
   IconButton,
+  TextareaAutosize,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRowDetalle } from "./hooks/useRowDetalle";
@@ -86,24 +87,16 @@ export const RowDetalle = ({ id }: props) => {
         />
       </TableCell>
       <TableCell>
-        <TextField
+        <TextareaAutosize
+          aria-label="minimum height"
           id="concepto"
           name="concepto"
           value={values.concepto}
           onChange={handleChange}
           onBlur={handleBlur}
-          variant="outlined" // Use outlined for better visibility in a table
-          size="small" // Make it less bulky
-          fullWidth // Optional: makes the TextField take the full width of the cell
-          slotProps={{
-            input: {
-              style: { fontSize: "12px" }, // Styles the input element itself
-            },
-            // Or for the native HTML element
-            htmlInput: {
-              style: { fontSize: "12px" },
-            },
-          }}
+          style={{ width: 250, marginTop: 4 }}
+          maxRows={4}
+          minRows={2}
         />
       </TableCell>
       <TableCell>
