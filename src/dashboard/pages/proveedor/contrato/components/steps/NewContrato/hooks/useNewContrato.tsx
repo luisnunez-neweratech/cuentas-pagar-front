@@ -160,8 +160,7 @@ export const useNewContrato = () => {
           },
           contractId: data.id,
         });
-      }
-      console.log("variables", variables);
+      }      
       // propuesta o anexo
       variables?.documentos &&
         variables?.documentos.map((documento) => {

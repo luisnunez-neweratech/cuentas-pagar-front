@@ -266,6 +266,7 @@ export const usePerfil = () => {
                   fechaInicio: value.mainDocument.fechaInicio,
                   fechaFin: value.mainDocument.fechaVencimiento,
                   indeterminado: value.mainDocument.esIndeterminado,
+                  nombreArchivo: value.mainDocument.fileName
                 });
                 //TODO agregar tipodocumento 6
               }
