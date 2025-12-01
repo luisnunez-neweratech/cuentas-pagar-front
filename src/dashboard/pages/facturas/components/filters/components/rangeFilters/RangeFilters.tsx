@@ -1,8 +1,7 @@
 import { Grid } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { useRangeFilters } from "./hooks/useRangeFilters";
+import { DateRangePicker } from "rsuite";
+import "rsuite/dist/rsuite.css";
 
 export const RangeFilters = () => {
   const {
@@ -19,140 +18,81 @@ export const RangeFilters = () => {
   return (
     <>
       <Grid size={3}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateRangePicker
-            sx={{ width: "100%" }}
-            label="Fecha de la Factura"
-            value={fechaFactura}
-            //value={fechaInicioContrato ? dayjs(fechaInicioContrato) : null}
-            onChange={(newValue) => setFechaFactura(newValue)}
-            /*  onChange={(newValue) =>
-                  onChangeFechaInicioContrato(
-                    convertDateToFilterFormat(newValue?.toDate())
-                  )
-                } */
-            format="DD-MM-YYYY"
-            slotProps={{
-              textField: {
-                name: "fechaFactura",
-                size: "small",
-                sx: {
-                  "& .MuiPickersInputBase-root": {
-                    fontSize: "14px", // Target the input text
-                  },
-                  "& .MuiInputLabel-root": {
-                    fontSize: "14px", // Target the label
-                  },
-                  fontSize: "14px",
-                  width: "100%",
-                },
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DateRangePicker
+          size="md"
+          placeholder="Fecha Factura"
+          value={
+            Array.isArray(fechaFactura) && fechaFactura.length === 2
+              ? [fechaFactura[0], fechaFactura[1]]
+              : undefined
+          }
+          onChange={(value) => {
+            if (Array.isArray(value) && value.length === 2) {
+              setFechaFactura(value as Date[]);
+            } else {
+              setFechaFactura([]);
+            }
+          }}
+          format="dd-MM-yyyy"
+        />
       </Grid>
       <Grid size={3}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateRangePicker
-            sx={{ width: "100%" }}
-            label="Fecha de Pago"
-            value={fechaPago}
-            //value={fechaInicioContrato ? dayjs(fechaInicioContrato) : null}
-            onChange={(newValue) => setFechaPago(newValue)}
-            /*  onChange={(newValue) =>
-                  onChangeFechaInicioContrato(
-                    convertDateToFilterFormat(newValue?.toDate())
-                  )
-                } */
-            format="DD-MM-YYYY"
-              slotProps={{
-              textField: {
-                name: "fechaPago",
-                size: "small",
-                sx: {
-                  "& .MuiPickersInputBase-root": {
-                    fontSize: "14px", // Target the input text
-                  },
-                  "& .MuiInputLabel-root": {
-                    fontSize: "14px", // Target the label
-                  },
-                  fontSize: "14px",
-                  width: "100%",
-                },
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DateRangePicker
+          size="md"
+          placeholder="Fecha Pago"
+          value={
+            Array.isArray(fechaPago) && fechaPago.length === 2
+              ? [fechaPago[0], fechaPago[1]]
+              : undefined
+          }
+          onChange={(value) => {
+            if (Array.isArray(value) && value.length === 2) {
+              setFechaPago(value as Date[]);
+            } else {
+              setFechaPago([]);
+            }
+          }}
+          format="dd-MM-yyyy"
+        />
       </Grid>
       <Grid size={3}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateRangePicker
-            sx={{ width: "100%" }}
-            label="Fecha Programada Pago"
-            value={fechaProgramadaPago}
-            //value={fechaInicioContrato ? dayjs(fechaInicioContrato) : null}
-            onChange={(newValue) => setFechaProgramadaPago(newValue)}
-            /*  onChange={(newValue) =>
-                  onChangeFechaInicioContrato(
-                    convertDateToFilterFormat(newValue?.toDate())
-                  )
-                } */
-            format="DD-MM-YYYY"
-              slotProps={{
-              textField: {
-                name: "fechaProgramadaPago",
-                size: "small",
-                sx: {
-                  "& .MuiPickersInputBase-root": {
-                    fontSize: "14px", // Target the input text
-                  },
-                  "& .MuiInputLabel-root": {
-                    fontSize: "14px", // Target the label
-                  },
-                  fontSize: "14px",
-                  width: "100%",
-                },
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DateRangePicker
+          size="md"
+          placeholder="Fecha Programada Pago"
+          value={
+            Array.isArray(fechaProgramadaPago) &&
+            fechaProgramadaPago.length === 2
+              ? [fechaProgramadaPago[0], fechaProgramadaPago[1]]
+              : undefined
+          }
+          onChange={(value) => {
+            if (Array.isArray(value) && value.length === 2) {
+              setFechaProgramadaPago(value as Date[]);
+            } else {
+              setFechaProgramadaPago([]);
+            }
+          }}
+          format="dd-MM-yyyy"
+        />
       </Grid>
       <Grid size={3}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateRangePicker
-            sx={{ width: "100%" }}
-            label="Fecha Reembolso"
-            value={fechaReembolso}
-            //value={fechaInicioContrato ? dayjs(fechaInicioContrato) : null}
-            onChange={(newValue) => setFechaReembolsa(newValue)}
-            /*  onChange={(newValue) =>
-                  onChangeFechaInicioContrato(
-                    convertDateToFilterFormat(newValue?.toDate())
-                  )
-                } */
-            format="DD-MM-YYYY"
-              slotProps={{
-              textField: {
-                name: "fechaReembolso",
-                size: "small",
-                sx: {
-                  "& .MuiPickersInputBase-root": {
-                    fontSize: "14px", // Target the input text
-                  },
-                  "& .MuiInputLabel-root": {
-                    fontSize: "14px", // Target the label
-                  },
-                  fontSize: "14px",
-                  width: "100%",
-                },
-              },
-              field: { clearable: true },
-            }}
-          />
-        </LocalizationProvider>
+        <DateRangePicker
+          size="md"
+          placeholder="Fecha Reembolso"
+          value={
+            Array.isArray(fechaReembolso) && fechaReembolso.length === 2
+              ? [fechaReembolso[0], fechaReembolso[1]]
+              : undefined
+          }
+          onChange={(value) => {
+            if (Array.isArray(value) && value.length === 2) {
+              setFechaReembolsa(value as Date[]);
+            } else {
+              setFechaReembolsa([]);
+            }
+          }}
+          format="dd-MM-yyyy"
+        />
       </Grid>
     </>
   );
