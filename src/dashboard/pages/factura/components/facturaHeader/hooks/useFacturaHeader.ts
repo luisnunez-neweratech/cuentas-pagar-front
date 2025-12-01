@@ -4,9 +4,14 @@ import type { Item } from "../../../../../../components/common/AutoComplete/inte
 import { getAllGiros } from "../../../../catalogos/services/giros.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 import { useEffect, useState } from "react";
+import { useFacturaStore } from "../../../store/Factura.store";
 
 export const useFacturaHeader = () => {
-  const [convertMonedas, setConvertMonedas] = useState<{ value: number; label: string }[]>([]);
+  const [convertMonedas, setConvertMonedas] = useState<
+    { value: number; label: string }[]
+  >([]);
+
+  const stateFactura = useFacturaStore((state) => state);
 
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
@@ -48,17 +53,38 @@ export const useFacturaHeader = () => {
       };
     } */
     return {
-      productos: [],
+      proveedorId: stateFactura.proveedorId,
+      colaboradorId: stateFactura.colaboradorId,
+      tipoDocumentoId: stateFactura.tipoDocumentoId,
+      statusFacturaId: stateFactura.statusFacturaId,
+      statusReembolsoId: stateFactura.statusReembolsoId,
+      monedaId: stateFactura.monedaId,
+      noFactura: stateFactura.noFactura,
+      folioFiscal: stateFactura.folioFiscal,
+
+      fechaFactura: stateFactura.fechaFactura,
+      fechaProgramadaPago: stateFactura.programadaPago,
+      fechaPago: stateFactura.fechaPago,
+      fechaReembolso: stateFactura.fechaReembolso,
+
+      subtotal: stateFactura.subtotal,
+      descuento: stateFactura.descuento,
+      impuestos: stateFactura.impuestos,
+      ivaRetenido: stateFactura.ivaRetenido,
+      isrRetenido: stateFactura.isrRetenido,
+      total: stateFactura.total,
+
+      productos: stateFactura.productos,
     };
   };
 
   const {
     //handleSubmit,
     values,
-    //handleChange,
-    //handleBlur,
-    //touched,
-    //errors,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
     setFieldValue,
   } = useFormik({
     enableReinitialize: true,
@@ -76,7 +102,12 @@ export const useFacturaHeader = () => {
   return {
     onChangeAutocomplete,
     values,
+    handleChange,
     giros,
     convertMonedas,
+    handleBlur,
+    touched,
+    errors,
+    setFieldValue,
   };
 };

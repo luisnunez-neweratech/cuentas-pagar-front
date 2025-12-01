@@ -12,7 +12,17 @@ import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export const FacturaHeader = () => {
-  const { onChangeAutocomplete, values, giros, convertMonedas } = useFacturaHeader();
+  const {
+    onChangeAutocomplete,
+    values,
+    giros,
+    convertMonedas,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    setFieldValue,
+  } = useFacturaHeader();  
 
   return (
     <>
@@ -21,6 +31,8 @@ export const FacturaHeader = () => {
           options={top100Films}
           label="Proveedor"
           id="proveedor"
+          value={values.proveedorId}
+          onChange={handleChange}
         />
       </Grid>
 
@@ -29,20 +41,27 @@ export const FacturaHeader = () => {
           options={top100Films}
           label="Colaborador"
           id="colaborador"
+          value={values.colaboradorId}
+          onChange={handleChange}
         />
       </Grid>
 
       <Grid size={2}>
         <SelectCommon
-          id={"documento"}
+          id={"tipoDocumentoId"}
           label={"Documento"}
           options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
+          value={values.tipoDocumentoId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
       <Grid size={2}>
         <SelectCommon
-          id={"statusFactura"}
+          id={"statusFacturaId"}
           label={"Estatus Factura"}
           options={[
             StatusFactura.Pendiente,
@@ -50,12 +69,17 @@ export const FacturaHeader = () => {
             StatusFactura.Cancelado,
             StatusFactura.EnRevision,
           ]}
+          value={values.statusFacturaId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
       <Grid size={2}>
         <SelectCommon
-          id={"statusReembolso"}
+          id={"statusReembolsoId"}
           label={"Estatus Reembolso"}
           options={[
             StatusReembolso.Pendiente,
@@ -63,25 +87,49 @@ export const FacturaHeader = () => {
             StatusReembolso.Cancelado,
             StatusReembolso.NoAplica,
           ]}
+          value={values.statusReembolsoId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
       <Grid size={2}>
-        <SelectCommon id={"moneda"} label={"Moneda"} options={convertMonedas} />
+        <SelectCommon
+          id={"monedaId"}
+          label={"Moneda"}
+          options={convertMonedas}
+          value={values.monedaId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
       </Grid>
 
       <Grid size={2}>
-        <TextFieldCommon id="noFactura" label="No Factura" />
+        <TextFieldCommon
+          id="noFactura"
+          label="No Factura"
+          value={values.noFactura}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="folioFiscal" label="Folio Fiscal" />
+        <TextFieldCommon
+          id="folioFiscal"
+          label="Folio Fiscal"
+          value={values.folioFiscal}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={2}>
         <AutoCompleteComponent
           onChange={(e) => onChangeAutocomplete(e, "productos")}
-          setValues={values.productos}
+          setValues={values.productos ?? []}
           itemsList={giros}
           maxItems={5}
           title="Productos o Servicios"
@@ -90,48 +138,98 @@ export const FacturaHeader = () => {
       </Grid>
 
       <Grid size={2}>
-        <DatePickerCommon id="fechaDeFactura" label="Fecha de Factura" />
+        <DatePickerCommon
+          id="fechaFactura"
+          label="Fecha de Factura"
+          fechaValue={values.fechaFactura ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
 
       <Grid size={2}>
-        <DatePickerCommon id="fechaProgramadaPago" label="Programada Pago" />
+        <DatePickerCommon
+          id="fechaProgramadaPago"
+          label="Programada Pago"
+          fechaValue={values.fechaProgramadaPago ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
-        <TextFieldCommon id="subtotal" label="Subtotal" />
+        <TextFieldCommon
+          id="subtotal"
+          label="Subtotal"
+          value={values.subtotal}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={6} />
 
       <Grid size={2}>
-        <DatePickerCommon id="fechaPago" label="Fecha Pago" />
+        <DatePickerCommon
+          id="fechaPago"
+          label="Fecha Pago"
+          fechaValue={values.fechaPago ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
       <Grid size={2}>
-        <DatePickerCommon id="fechaReembolso" label="Fecha Reembolso" />
+        <DatePickerCommon
+          id="fechaReembolso"
+          label="Fecha Reembolso"
+          fechaValue={values.fechaReembolso ?? ""}
+          setFieldValue={setFieldValue}
+        />
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="descuento" label="Descuento" />
-      </Grid>
-
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="impuestos" label="Impuestos" />
-      </Grid>
-
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="ivaRetenido" label="IVA Retenido" />
-      </Grid>
-
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="isrRetenido" label="ISR Retenido" />
+        <TextFieldCommon
+          id="descuento"
+          label="Descuento"
+          value={values.descuento}
+          handleChange={handleChange}
+        />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon id="total" label="Total" />
+        <TextFieldCommon
+          id="impuestos"
+          label="Impuestos"
+          value={values.impuestos}
+          handleChange={handleChange}
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon
+          id="ivaRetenido"
+          label="IVA Retenido"
+          value={values.ivaRetenido}
+          handleChange={handleChange}
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon
+          id="isrRetenido"
+          label="ISR Retenido"
+          value={values.isrRetenido}
+          handleChange={handleChange}
+        />
+      </Grid>
+
+      <Grid size={10} />
+      <Grid size={2} sx={{ marginTop: 0 }}>
+        <TextFieldCommon
+          id="total"
+          label="Total"
+          value={values.total}
+          handleChange={handleChange}
+        />
       </Grid>
     </>
   );

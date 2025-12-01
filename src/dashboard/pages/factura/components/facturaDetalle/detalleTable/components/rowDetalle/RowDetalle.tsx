@@ -24,11 +24,10 @@ export const RowDetalle = ({ id }: props) => {
     >
       <TableCell component="th" scope="row">
         <TextField
+          id="cantidad"
+          name="cantidad"
           value={values.cantidad}
-          onChange={(e) => {
-            console.log("here", e.target.value);
-            handleChange(e);
-          }}
+          onChange={handleChange}
           onBlur={handleBlur}
           variant="outlined"
           size="small"
@@ -46,11 +45,10 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="uMedida"
+          name="uMedida"
           value={values.uMedida}
-          onChange={(e) => {
-            console.log("here", e.target.value);
-            handleChange(e);
-          }}
+          onChange={handleChange}
           onBlur={handleBlur}
           variant="outlined" // Use outlined for better visibility in a table
           size="small" // Make it less bulky
@@ -68,6 +66,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="codigo"
+          name="codigo"
           value={values.codigo}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -87,6 +87,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="concepto"
+          name="concepto"
           value={values.concepto}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -106,6 +108,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="precio"
+          name="precio"
           value={values.precio}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -125,6 +129,8 @@ export const RowDetalle = ({ id }: props) => {
       </TableCell>
       <TableCell>
         <TextField
+          id="total"
+          name="total"
           value={values.total}
           onChange={handleChange}
           onBlur={handleBlur}

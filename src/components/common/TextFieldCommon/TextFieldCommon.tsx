@@ -3,9 +3,11 @@ import { TextField } from "@mui/material";
 interface props {
   id: string;
   label: string;
+  value?: any;
+  handleChange?: (value: any) => void;
 }
 
-export const TextFieldCommon = ({ id, label }: props) => {
+export const TextFieldCommon = ({ id, label, value, handleChange }: props) => {
   return (
     <TextField
       variant="outlined"
@@ -15,9 +17,9 @@ export const TextFieldCommon = ({ id, label }: props) => {
       id={id}
       label={label}
       name={id}
-      sx={{marginTop:0}}
-      /* value={noFactura}
-    onChange={(e) => onChangeNoFactura(e.target.value)} */
+      sx={{ marginTop: 0 }}
+      value={value}
+      onChange={handleChange}
     />
   );
 };

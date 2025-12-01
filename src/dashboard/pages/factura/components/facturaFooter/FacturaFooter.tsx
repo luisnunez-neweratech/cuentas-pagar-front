@@ -2,8 +2,11 @@ import { Button, Grid } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { mainBackgroundColor } from "../../../../../lib/constants";
 import SaveIcon from "@mui/icons-material/Save";
+import { useFacturaFooter } from "./hooks/useFacturaFooter";
 
 export const FacturaFooter = () => {
+  const { handleFileChange, errors, disableButtons } = useFacturaFooter();
+
   return (
     <>
       <Grid size={2} />
@@ -12,7 +15,7 @@ export const FacturaFooter = () => {
           type="file"
           id="facturaPDF"
           style={{ display: "none" }}
-          //onChange={handleFileChange}
+          onChange={handleFileChange}
           accept=".pdf"
         />
 
@@ -22,9 +25,11 @@ export const FacturaFooter = () => {
             <FileUploadIcon />
           </Button>
         </label>
-        {/* {errors[idInput] && (
-        <p style={{ color: "#d32f2f", fontSize: "12px" }}>Archivo requerido</p>
-      )} */}
+        {errors.facturaPDF && (
+          <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+            Archivo requerido
+          </p>
+        )}
       </Grid>
       <Grid size={9} />
 
@@ -33,7 +38,7 @@ export const FacturaFooter = () => {
           type="file"
           id="facturaXML"
           style={{ display: "none" }}
-          //onChange={handleFileChange}
+          onChange={handleFileChange}
           accept=".xml"
         />
 
@@ -43,9 +48,11 @@ export const FacturaFooter = () => {
             <FileUploadIcon />
           </Button>
         </label>
-        {/* {errors[idInput] && (
-        <p style={{ color: "#d32f2f", fontSize: "12px" }}>Archivo requerido</p>
-      )} */}
+        {errors.facturaXML && (
+          <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+            Archivo requerido
+          </p>
+        )}
       </Grid>
 
       <Grid size={7} />
@@ -55,7 +62,7 @@ export const FacturaFooter = () => {
           sx={{ backgroundColor: mainBackgroundColor }}
           fullWidth
           type="submit"
-          /* disabled={disableButtons} */
+          disabled={disableButtons}
         >
           Guardar
           <SaveIcon sx={{ marginLeft: 1 }} />

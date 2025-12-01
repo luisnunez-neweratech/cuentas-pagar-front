@@ -1,30 +1,33 @@
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-//import dayjs from "dayjs";
+import dayjs from "dayjs";
 
 interface props {
   id: string;
   label: string;
+  fechaValue: string;
+  setFieldValue: (field: any, value: any) => void;
 }
 
-export const DatePickerCommon = ({ label, id }: props) => {
+export const DatePickerCommon = ({
+  label,
+  id,
+  fechaValue,
+  setFieldValue,
+}: props) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         sx={{ width: "100%", marginTop: 0 }}
-        //value={fechaAlta ? dayjs(fechaAlta) : null}
+        value={fechaValue ? dayjs(fechaValue) : null}
         label={label}
-        /* onChange={(newValue) =>
-                      onChangeFechaAlta(
-                        convertDateToFilterFormat(newValue?.toDate())
-                      )
-                    } */
+        onChange={(newValue) => setFieldValue(id, newValue)}
         format="DD-MM-YYYY"
         slotProps={{
           textField: {
             name: id,
             size: "small",
-             sx: {
+            sx: {
               "& .MuiPickersInputBase-root": {
                 fontSize: "14px", // Target the input text
               },
@@ -32,8 +35,8 @@ export const DatePickerCommon = ({ label, id }: props) => {
                 fontSize: "14px", // Target the label
               },
               fontSize: "14px",
-              width: "100%"
-            }, 
+              width: "100%",
+            },
           },
           field: { clearable: true },
         }}
