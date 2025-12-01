@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export const useFacturaFooter = () => {
-  const [fileName, setFileName] = useState(
+  const [_fileName, setFileName] = useState(
     ""
     //getStepCuentaBancaria()?.find((item) => item.id === id)?.fileValue?.name
   );
