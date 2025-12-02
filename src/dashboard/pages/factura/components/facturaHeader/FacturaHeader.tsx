@@ -22,6 +22,7 @@ export const FacturaHeader = () => {
     touched,
     errors,
     setFieldValue,
+    convertColaboradores,
   } = useFacturaHeader();
 
   return (
@@ -38,7 +39,7 @@ export const FacturaHeader = () => {
 
       <Grid size={2}>
         <NormalAutocomplete
-          options={top100Films}
+          options={convertColaboradores}
           label="Colaborador"
           id="colaborador"
           value={values.colaboradorId}

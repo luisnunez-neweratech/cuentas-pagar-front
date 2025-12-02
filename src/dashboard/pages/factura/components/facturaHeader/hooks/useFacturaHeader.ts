@@ -11,6 +11,9 @@ export const useFacturaHeader = () => {
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
   >([]);
+  const [convertColaboradores, setConvertColaboradores] = useState<
+    { value: number; label: string }[]
+  >([]);
 
   const stateFactura = useFacturaStore((state) => state);
 
@@ -24,7 +27,7 @@ export const useFacturaHeader = () => {
     queryFn: () => getAllMonedaVentas(),
   });
 
-  const { data: _colaboradores } = useQuery({
+  const { data: colaboradores } = useQuery({
     queryKey: ["external","CuentasPorPagar", "GetColaboratorsVista", "EN"],
     queryFn: () => getColaboradoresSgpyon(),
   });
@@ -40,6 +43,18 @@ export const useFacturaHeader = () => {
 
     setConvertMonedas(newMonedas ?? []);
   }, [monedas]);
+
+
+   useEffect(() => {
+    const newColaboradores = colaboradores?.map((colaborador:any) => {
+      return {
+        value: colaborador.id,
+        label: colaborador.name,
+      };
+    });
+
+    setConvertColaboradores(newColaboradores ?? []);
+  }, [colaboradores]);
 
   const initialFormValues = () => {
     /*     if (proveedorOcasional) {
@@ -116,5 +131,6 @@ export const useFacturaHeader = () => {
     touched,
     errors,
     setFieldValue,
+    convertColaboradores
   };
 };
