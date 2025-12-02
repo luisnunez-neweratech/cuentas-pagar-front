@@ -5,10 +5,14 @@ import { getAllGiros } from "../../../../catalogos/services/giros.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
+import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 import { getProveedores } from "../../../../facturas/services/proveedor.service";
 
 export const useFacturaHeader = () => {
   const [convertMonedas, setConvertMonedas] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [convertColaboradores, setConvertColaboradores] = useState<
     { value: number; label: string }[]
   >([]);
   const [convertProveedores, setConvertProveedores] = useState<
@@ -26,6 +30,12 @@ export const useFacturaHeader = () => {
     queryKey: ["CatalogMaster", "GetAll", "Moneda"],
     queryFn: () => getAllMonedaVentas(),
   });
+
+  const { data: colaboradores } = useQuery({
+    queryKey: ["external","CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryFn: () => getColaboradoresSgpyon(),
+  });
+
 
   const { data: proveedores } = useQuery({
     queryKey: ["Supplier", "GetAll"],
@@ -53,6 +63,30 @@ export const useFacturaHeader = () => {
 
     setConvertProveedores(newProveedores ?? []);
   }, [proveedores]);
+
+
+   useEffect(() => {
+    const newColaboradores = colaboradores?.map((colaborador:any) => {
+      return {
+        value: colaborador.id,
+        label: colaborador.name,
+      };
+    });
+
+    setConvertColaboradores(newColaboradores ?? []);
+  }, [colaboradores]);
+
+
+   useEffect(() => {
+    const newColaboradores = colaboradores?.map((colaborador:any) => {
+      return {
+        value: colaborador.id,
+        label: colaborador.name,
+      };
+    });
+
+    setConvertColaboradores(newColaboradores ?? []);
+  }, [colaboradores]);
 
   const initialFormValues = () => {
     /*     if (proveedorOcasional) {
@@ -135,5 +169,6 @@ export const useFacturaHeader = () => {
     touched,
     errors,
     setFieldValue,
+    convertColaboradores
   };
 };

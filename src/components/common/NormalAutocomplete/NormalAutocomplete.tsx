@@ -5,10 +5,16 @@ interface props {
   label: string;
   id: string;
   value?: any;
-  onChange?: (any);
+  setFieldValue?: any;
 }
 
-export const NormalAutocomplete = ({ options, label, id, value, onChange }: props) => {
+export const NormalAutocomplete = ({
+  options,
+  label,
+  id,
+  value,
+  setFieldValue,
+}: props) => {
   return (
     <Autocomplete
       id={id}
@@ -17,7 +23,7 @@ export const NormalAutocomplete = ({ options, label, id, value, onChange }: prop
       options={options}
       renderInput={(params) => <TextField {...params} label={label} />}
       value={value}
-      onChange={onChange}
+      onChange={(_event, newValue) => setFieldValue(id, newValue)}
     />
   );
 };
