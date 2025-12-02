@@ -5,10 +5,14 @@ import { getAllGiros } from "../../../../catalogos/services/giros.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
+import { getProveedores } from "../../../../facturas/services/proveedor.service";
 
 export const useFacturaHeader = () => {
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
+  >([]);
+  const [convertProveedores, setConvertProveedores] = useState<
+    { label: string; id: number }[]
   >([]);
 
   const stateFactura = useFacturaStore((state) => state);
@@ -23,6 +27,11 @@ export const useFacturaHeader = () => {
     queryFn: () => getAllMonedaVentas(),
   });
 
+  const { data: proveedores } = useQuery({
+    queryKey: ["Supplier", "GetAll"],
+    queryFn: () => getProveedores(),
+  });
+
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
       return {
@@ -33,6 +42,17 @@ export const useFacturaHeader = () => {
 
     setConvertMonedas(newMonedas ?? []);
   }, [monedas]);
+
+  useEffect(() => {
+    const newProveedores = proveedores?.map((proveedor: any) => {
+      return {
+        label: proveedor.descripcion,
+        id: proveedor.id,
+      };
+    });
+
+    setConvertProveedores(newProveedores ?? []);
+  }, [proveedores]);
 
   const initialFormValues = () => {
     /*     if (proveedorOcasional) {
@@ -99,12 +119,18 @@ export const useFacturaHeader = () => {
     setFieldValue(fieldValue, newValues);
   };
 
+  const onChangeProveedor = (_event: any, newValue: any) => {
+    setFieldValue("proveedorId", newValue?.id ?? null);
+  };
+
   return {
     onChangeAutocomplete,
+    onChangeProveedor,
     values,
     handleChange,
     giros,
     convertMonedas,
+    convertProveedores,
     handleBlur,
     touched,
     errors,

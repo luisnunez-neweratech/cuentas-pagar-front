@@ -14,9 +14,11 @@ const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 export const FacturaHeader = () => {
   const {
     onChangeAutocomplete,
+    onChangeProveedor,
     values,
     giros,
     convertMonedas,
+    convertProveedores,
     handleChange,
     handleBlur,
     touched,
@@ -28,11 +30,11 @@ export const FacturaHeader = () => {
     <>
       <Grid size={2}>
         <NormalAutocomplete
-          options={top100Films}
+          options={convertProveedores}
           label="Proveedor"
           id="proveedor"
-          value={values.proveedorId}
-          onChange={handleChange}
+          value={convertProveedores.find((p) => p.id === values.proveedorId) || null}
+          onChange={onChangeProveedor}
         />
       </Grid>
 
