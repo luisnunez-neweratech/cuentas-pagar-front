@@ -24,7 +24,7 @@ export const useFacturaHeader = () => {
     queryFn: () => getAllMonedaVentas(),
   });
 
-  const { data: colaboradores } = useQuery({
+  const { data: _colaboradores } = useQuery({
     queryKey: ["external","CuentasPorPagar", "GetColaboratorsVista", "EN"],
     queryFn: () => getColaboradoresSgpyon(),
   });
