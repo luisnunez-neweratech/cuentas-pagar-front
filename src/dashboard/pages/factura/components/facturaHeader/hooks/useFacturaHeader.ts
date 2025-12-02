@@ -16,7 +16,7 @@ export const useFacturaHeader = () => {
     { value: number; label: string }[]
   >([]);
   const [convertProveedores, setConvertProveedores] = useState<
-    { label: string; id: number }[]
+    { value: number; label: string }[]
   >([]);
 
   const stateFactura = useFacturaStore((state) => state);
@@ -32,10 +32,9 @@ export const useFacturaHeader = () => {
   });
 
   const { data: colaboradores } = useQuery({
-    queryKey: ["external","CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
     queryFn: () => getColaboradoresSgpyon(),
   });
-
 
   const { data: proveedores } = useQuery({
     queryKey: ["Supplier", "GetAll"],
@@ -56,29 +55,16 @@ export const useFacturaHeader = () => {
   useEffect(() => {
     const newProveedores = proveedores?.map((proveedor: any) => {
       return {
+        value: proveedor.id,
         label: proveedor.descripcion,
-        id: proveedor.id,
       };
     });
 
     setConvertProveedores(newProveedores ?? []);
   }, [proveedores]);
 
-
-   useEffect(() => {
-    const newColaboradores = colaboradores?.map((colaborador:any) => {
-      return {
-        value: colaborador.id,
-        label: colaborador.name,
-      };
-    });
-
-    setConvertColaboradores(newColaboradores ?? []);
-  }, [colaboradores]);
-
-
-   useEffect(() => {
-    const newColaboradores = colaboradores?.map((colaborador:any) => {
+  useEffect(() => {
+    const newColaboradores = colaboradores?.map((colaborador: any) => {
       return {
         value: colaborador.id,
         label: colaborador.name,
@@ -153,22 +139,17 @@ export const useFacturaHeader = () => {
     setFieldValue(fieldValue, newValues);
   };
 
-  const onChangeProveedor = (_event: any, newValue: any) => {
-    setFieldValue("proveedorId", newValue?.id ?? null);
-  };
-
   return {
     onChangeAutocomplete,
-    onChangeProveedor,
     values,
     handleChange,
     giros,
     convertMonedas,
     convertProveedores,
+    convertColaboradores,
     handleBlur,
     touched,
     errors,
     setFieldValue,
-    convertColaboradores
   };
 };

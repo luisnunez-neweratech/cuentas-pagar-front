@@ -9,22 +9,19 @@ import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
 
-const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
-
 export const FacturaHeader = () => {
   const {
     onChangeAutocomplete,
-    onChangeProveedor,
     values,
     giros,
     convertMonedas,
     convertProveedores,
+    convertColaboradores,
     handleChange,
     handleBlur,
     touched,
     errors,
     setFieldValue,
-    convertColaboradores,
   } = useFacturaHeader();
 
   return (
@@ -33,9 +30,9 @@ export const FacturaHeader = () => {
         <NormalAutocomplete
           options={convertProveedores}
           label="Proveedor"
-          id="proveedor"
-          value={convertProveedores.find((p) => p.id === values.proveedorId) || null}
-          onChange={onChangeProveedor}
+          id="proveedorId"
+          value={values.proveedorId}
+          setFieldValue={setFieldValue}
         />
       </Grid>
 
