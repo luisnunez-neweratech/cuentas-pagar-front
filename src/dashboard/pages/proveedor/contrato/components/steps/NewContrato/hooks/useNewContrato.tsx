@@ -172,7 +172,7 @@ export const useNewContrato = () => {
           postDocumentoPrincipalProveedor: {
             documentType: stateArchivoPrincipal.tipoDocumento,
             isProposal:
-              stateArchivoPrincipal.tipoDocumento === 0 ? false : true,
+              stateArchivoPrincipal.tipoDocumento === 2 ? true : false,
             isMainDocument: true,
             fechaInicio: stateArchivoPrincipal.fechaInicio,
             fechaVencimiento: stateArchivoPrincipal.fechaFin ?? "",
@@ -191,7 +191,7 @@ export const useNewContrato = () => {
               createDocumentoPrincipalMutation.mutate({
                 postDocumentoPrincipalProveedor: {
                   documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
-                  isProposal: false,
+                  isProposal: documento.tipoDocumento === 4 ? true : false, // 4 propuesta, 1 anexo
                   isMainDocument: false,
                   fechaInicio: documento.fechaInicio,
                   fechaVencimiento: documento.fechaFin ?? "",
@@ -267,7 +267,6 @@ export const useNewContrato = () => {
                 indeterminado: value.mainDocument.esIndeterminado,
                 nombreArchivo: value.mainDocument.fileName,
               });
-              //TODO agregar tipodocumento 6
             }
 
             if (value.anexos && value.anexos.length > 0) {
@@ -281,6 +280,18 @@ export const useNewContrato = () => {
                   fileName: anexo.fileName,
                   tipoDocumento: 6, // anexo
                 });
+              });
+            }
+
+            if (value.proposal) {
+              historialDocumentos.push({
+                id: value.proposal.id,
+                fechaInicio: value.proposal.fechaInicio,
+                fechaFin: value.proposal.fechaVencimiento,
+                indeterminado: value.proposal.esIndeterminado,
+                fileUrl: value.proposal.downloadUrl,
+                fileName: value.proposal.fileName,
+                tipoDocumento: 5, // propuesta
               });
             }
           }
@@ -401,7 +412,7 @@ export const useNewContrato = () => {
                   createDocumentoPrincipalMutation.mutate({
                     postDocumentoPrincipalProveedor: {
                       documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
-                      isProposal: false,
+                      isProposal: documento.tipoDocumento === 4 ? true : false, // 2 propuesta, 1 anexo
                       isMainDocument: false,
                       fechaInicio: documento.fechaInicio,
                       fechaVencimiento: documento.fechaFin ?? "",
@@ -414,7 +425,7 @@ export const useNewContrato = () => {
               }
             });
 
-            if (clickedBy === 1) {              
+            if (clickedBy === 1) {
               // actualizar datos de proveedor
               // TODO revisar si es el contrato activo? o el ultimo
               if (
@@ -437,7 +448,7 @@ export const useNewContrato = () => {
                 });
               }
 
-              toast.success("Información Actualizada");              
+              toast.success("Información Actualizada");
             } else {
               toNextStep();
             }
@@ -514,7 +525,8 @@ export const useNewContrato = () => {
                     createDocumentoPrincipalMutation.mutate({
                       postDocumentoPrincipalProveedor: {
                         documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
-                        isProposal: false,
+                        isProposal:
+                          documento.tipoDocumento === 4 ? true : false, // 2 propuesta, 1 anexo
                         isMainDocument: false,
                         fechaInicio: documento.fechaInicio,
                         fechaVencimiento: documento.fechaFin ?? "",
@@ -590,7 +602,8 @@ export const useNewContrato = () => {
                       createDocumentoPrincipalMutation.mutate({
                         postDocumentoPrincipalProveedor: {
                           documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
-                          isProposal: false,
+                          isProposal:
+                            documento.tipoDocumento === 4 ? true : false, // 2 propuesta, 1 anexo
                           isMainDocument: false,
                           fechaInicio: documento.fechaInicio,
                           fechaVencimiento: documento.fechaFin ?? "",
@@ -614,7 +627,7 @@ export const useNewContrato = () => {
             }
           }
         }
-      }      
+      }
     },
   });
 

@@ -272,6 +272,18 @@ export const usePerfil = () => {
                   });
                 });
               }
+
+              if (value.proposal) {
+                historialDocumentos.push({
+                  id: value.proposal.id,
+                  fechaInicio: value.proposal.fechaInicio,
+                  fechaFin: value.proposal.fechaVencimiento,
+                  indeterminado: value.proposal.esIndeterminado,
+                  fileUrl: value.proposal.downloadUrl,
+                  fileName: value.proposal.fileName,
+                  tipoDocumento: 5, // propuesta
+                });
+              }
             }
           );
         }
