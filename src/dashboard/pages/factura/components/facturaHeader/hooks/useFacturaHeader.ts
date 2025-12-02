@@ -105,8 +105,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       };
     } */
     return {
-      proveedorId: stateFactura.proveedorId,
-      colaboradorId: null, //stateFactura.colaboradorId,
+      proveedorId: {value:0,label:''},//stateFactura.proveedorId,
+      colaboradorId: {value:0,label:''}, //stateFactura.colaboradorId,
       tipoDocumentoId: null, //stateFactura.tipoDocumentoId,
       statusFacturaId: 4, //en revision al crear //stateFactura.statusFacturaId,
       statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
