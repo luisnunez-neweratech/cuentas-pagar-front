@@ -33,7 +33,7 @@ export const FacturaHeader = () => {
           label="Proveedor"
           id="proveedor"
           value={values.proveedorId}
-          onChange={handleChange}
+          setFieldValue={setFieldValue}
         />
       </Grid>
 
@@ -41,9 +41,9 @@ export const FacturaHeader = () => {
         <NormalAutocomplete
           options={convertColaboradores}
           label="Colaborador"
-          id="colaborador"
+          id="colaboradorId"
           value={values.colaboradorId}
-          onChange={handleChange}
+          setFieldValue={setFieldValue}
         />
       </Grid>
 
