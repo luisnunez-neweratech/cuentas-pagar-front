@@ -1,9 +1,7 @@
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 
 export const useHistorico = () => {
-  const getNewStepContrato = useProveedorContratoStore(
-    (state) => state.getNewStepContrato
-  );
+  const proveedorState = useProveedorContratoStore((state) => state);
 
   const getNameTipoDocumento = (id: number) => {
     if (id === 0) return "CSF";
@@ -16,8 +14,9 @@ export const useHistorico = () => {
     return "";
   };
 
+  const newStepContrato = proveedorState.getNewStepContrato();
   return {
-    rows: getNewStepContrato()?.historialDocumentos,
+    rows: newStepContrato?.historialDocumentos ?? [],
     getNameTipoDocumento,
   };
 };
