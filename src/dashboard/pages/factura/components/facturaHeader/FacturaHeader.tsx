@@ -9,7 +9,6 @@ import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
 
-const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 interface props {
   onClickGuardar: number;
@@ -21,12 +20,13 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     values,
     giros,
     convertMonedas,
+    convertProveedores,
+    convertColaboradores,
     handleChange,
     handleBlur,
     touched,
     errors,
     setFieldValue,
-    convertColaboradores,
     id,
     setFieldTouched,
   } = useFacturaHeader({ onClickGuardar });
@@ -35,7 +35,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     <>
       <Grid size={2}>
         <NormalAutocomplete
-          options={top100Films}
+          options={convertProveedores}
           label="Proveedor"
           id="proveedorId"
           value={values.proveedorId}

@@ -8,6 +8,7 @@ import { useFacturaStore } from "../../../store/Factura.store";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 import { useParams } from "react-router";
 import { validationSchema } from "../../../Validations";
+import { getProveedores } from "../../../../facturas/services/proveedor.service";
 
 interface props {
   onClickGuardar: number;
@@ -20,6 +21,9 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     { value: number; label: string }[]
   >([]);
   const [convertColaboradores, setConvertColaboradores] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [convertProveedores, setConvertProveedores] = useState<
     { value: number; label: string }[]
   >([]);
 
@@ -40,6 +44,11 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     queryFn: () => getColaboradoresSgpyon(),
   });
 
+  const { data: proveedores } = useQuery({
+    queryKey: ["Supplier", "GetAll"],
+    queryFn: () => getProveedores(),
+  });
+
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
       return {
@@ -50,6 +59,17 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
     setConvertMonedas(newMonedas ?? []);
   }, [monedas]);
+
+  useEffect(() => {
+    const newProveedores = proveedores?.map((proveedor: any) => {
+      return {
+        value: proveedor.id,
+        label: proveedor.descripcion,
+      };
+    });
+
+    setConvertProveedores(newProveedores ?? []);
+  }, [proveedores]);
 
   useEffect(() => {
     const newColaboradores = colaboradores?.map((colaborador: any) => {
@@ -142,11 +162,12 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     handleChange,
     giros,
     convertMonedas,
+    convertProveedores,
+    convertColaboradores,
     handleBlur,
     touched,
     errors,
     setFieldValue,
-    convertColaboradores,
     id,
     setFieldTouched,
   };
