@@ -2,8 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllMonedaVentas } from "../../../../../../catalogos/services/monedaVenta.service";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
+import { getColaboradoresSgpyon } from "../../../../../../factura/services/colaborador.sgpyon.service";
 
 export const useUniqueFilters = () => {
+  const [convertColaboradores, setConvertColaboradores] = useState<
+    { value: number; label: string }[]
+  >([]);
+
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
   >([]);
@@ -24,7 +29,7 @@ export const useUniqueFilters = () => {
     setConvertMonedas(newMonedas ?? []);
   }, [monedas]);
 
-   const initialFormValues = () => {
+  const initialFormValues = () => {
     /*     if (proveedorOcasional) {
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
@@ -44,27 +49,45 @@ export const useUniqueFilters = () => {
     } */
     return {
       documentoId: null,
-      monedaId: null
+      monedaId: null,
+      noFactura: null,
+      year: null,
+      colaboradorId: null,
     };
   };
 
+  const {
+    //handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    setFieldValue,
+  } = useFormik({
+    enableReinitialize: true,
+    initialValues: initialFormValues(),
+    validationSchema: null, //validationSchema,
+    onSubmit: async (_values) => {
+      //handleDisableButtons(true);
+    },
+  });
 
-    const {
-      //handleSubmit,
-      values,
-      handleChange,
-      handleBlur,
-      touched,
-      errors,
-      //setFieldValue,
-    } = useFormik({
-      enableReinitialize: true,
-      initialValues: initialFormValues(),
-      validationSchema: null, //validationSchema,
-      onSubmit: async (_values) => {
-        //handleDisableButtons(true);
-      },
+  const { data: colaboradores } = useQuery({
+    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryFn: () => getColaboradoresSgpyon(),
+  });
+
+  useEffect(() => {
+    const newColaboradores = colaboradores?.map((colaborador: any) => {
+      return {
+        value: colaborador.id,
+        label: colaborador.name,
+      };
     });
+
+    setConvertColaboradores(newColaboradores ?? []);
+  }, [colaboradores]);
 
   return {
     convertMonedas,
@@ -72,6 +95,8 @@ export const useUniqueFilters = () => {
     handleChange,
     handleBlur,
     touched,
-    errors
+    errors,
+    convertColaboradores,
+    setFieldValue,
   };
 };

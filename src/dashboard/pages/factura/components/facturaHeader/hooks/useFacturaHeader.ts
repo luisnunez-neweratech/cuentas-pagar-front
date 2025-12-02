@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import type { Item } from "../../../../../../components/common/AutoComplete/interfaces/Item";
 import { getAllGiros } from "../../../../catalogos/services/giros.service";
@@ -6,9 +6,12 @@ import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.s
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { validationSchema } from "../../../Validations";
 import { getProveedores } from "../../../../facturas/services/proveedor.service";
+import { addFacturaHeader } from "../../../services/factura.service";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 interface props {
   onClickGuardar: number;
@@ -16,6 +19,7 @@ interface props {
 
 export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
@@ -126,6 +130,26 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     };
   };
 
+  const createMutation = useMutation({
+    mutationFn: addFacturaHeader,
+    onSuccess: () => {
+      toast.success("Factura creada correctamente");
+      navigate("/facturas");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al agregar el proveedor");
+      return;
+    },
+    onSettled: () => {
+      //handleDisableButtons(false);
+    },
+  });
+
   const {
     handleSubmit,
     values,
@@ -141,13 +165,36 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       //handleDisableButtons(true);
-      console.log("values bien", values);
+     // console.log('values', values)
+      /* createMutation.mutate({
+        id: 0,
+        supplierId: values.proveedorId!,
+        invoiceNumber: values.noFactura!,
+        fiscalFolio: values.folioFiscal!,
+        documentType: values.tipoDocumentoId!,
+        invoiceDate: values.fechaFactura!,
+        supplierProductService: values.productos![0].descripcion,
+        subtotal: values.subtotal!,
+        discount: values.descuento!,
+        taxIVA: values.impuestos!,
+        taxIVARetained: values.ivaRetenido!,
+        taxISRRetained: values.isrRetenido!,
+        total: values.total!,
+        currencyId: values.monedaId!,
+        exchangeRate: 0,
+        paymentForm: "string",
+        paymentTerms: "string",
+        scheduledPaymentDate: values.fechaProgramadaPago!,
+        paymentDate: values.fechaPago!,
+        reimbursementStatus: 1,
+        reimbursementDate: "2025-12-02T21:50:34.447Z",
+        reimbursementCollaboratorId: values.colaboradorId!,
+      }); */
     },
   });
 
   useEffect(() => {
     if (onClickGuardar > 0) {
-      console.log("call submit values", errors);
       handleSubmit();
     }
   }, [onClickGuardar]);
