@@ -4,7 +4,12 @@ import { mainBackgroundColor } from "../../../../../lib/constants";
 import SaveIcon from "@mui/icons-material/Save";
 import { useFacturaFooter } from "./hooks/useFacturaFooter";
 
-export const FacturaFooter = () => {
+interface props {
+  onClickGuardar: number;
+  setOnClickGuardar: (value: any) => void;
+}
+
+export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
   const {
     handlePdfFileChange,
     errors,
@@ -82,8 +87,10 @@ export const FacturaFooter = () => {
           variant="contained"
           sx={{ backgroundColor: mainBackgroundColor }}
           fullWidth
-          type="submit"
           disabled={disableButtons}
+          onClick={() => {
+            setOnClickGuardar(onClickGuardar + 1);
+          }}
         >
           Guardar
           <SaveIcon sx={{ marginLeft: 1 }} />

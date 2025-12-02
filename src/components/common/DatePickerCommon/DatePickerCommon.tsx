@@ -7,6 +7,9 @@ interface props {
   label: string;
   fechaValue: string;
   setFieldValue: (field: any, value: any) => void;
+  touched?: any;
+  errors?: any;
+  setFieldTouched?: any;
 }
 
 export const DatePickerCommon = ({
@@ -14,6 +17,9 @@ export const DatePickerCommon = ({
   id,
   fechaValue,
   setFieldValue,
+  touched,
+  errors,
+  setFieldTouched,
 }: props) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -26,6 +32,9 @@ export const DatePickerCommon = ({
         slotProps={{
           textField: {
             name: id,
+            error: touched[id] && Boolean(errors[id]),
+            helperText: touched[id] && errors[id],
+            onBlur: () => setFieldTouched(id, true),
             size: "small",
             sx: {
               "& .MuiPickersInputBase-root": {

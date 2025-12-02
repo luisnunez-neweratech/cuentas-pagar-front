@@ -6,9 +6,17 @@ import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.s
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
+import { useParams } from "react-router";
+import { validationSchema } from "../../../Validations";
 import { getProveedores } from "../../../../facturas/services/proveedor.service";
 
-export const useFacturaHeader = () => {
+interface props {
+  onClickGuardar: number;
+}
+
+export const useFacturaHeader = ({ onClickGuardar }: props) => {
+  const { id } = useParams();
+
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
   >([]);
@@ -96,8 +104,8 @@ export const useFacturaHeader = () => {
       proveedorId: stateFactura.proveedorId,
       colaboradorId: stateFactura.colaboradorId,
       tipoDocumentoId: stateFactura.tipoDocumentoId,
-      statusFacturaId: stateFactura.statusFacturaId,
-      statusReembolsoId: stateFactura.statusReembolsoId,
+      statusFacturaId: 4, //en revision al crear //stateFactura.statusFacturaId,
+      statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
       monedaId: stateFactura.monedaId,
       noFactura: stateFactura.noFactura,
       folioFiscal: stateFactura.folioFiscal,
@@ -119,21 +127,30 @@ export const useFacturaHeader = () => {
   };
 
   const {
-    //handleSubmit,
+    handleSubmit,
     values,
     handleChange,
     handleBlur,
     touched,
     errors,
     setFieldValue,
+    setFieldTouched,
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialFormValues(),
-    validationSchema: null, //validationSchema,
-    onSubmit: async (_values) => {
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
       //handleDisableButtons(true);
+      console.log("values bien", values);
     },
   });
+
+  useEffect(() => {
+    if (onClickGuardar > 0) {
+      console.log("call submit values", errors);
+      handleSubmit();
+    }
+  }, [onClickGuardar]);
 
   const onChangeAutocomplete = (newValues: Item[], fieldValue: string) => {
     setFieldValue(fieldValue, newValues);
@@ -151,5 +168,7 @@ export const useFacturaHeader = () => {
     touched,
     errors,
     setFieldValue,
+    id,
+    setFieldTouched,
   };
 };

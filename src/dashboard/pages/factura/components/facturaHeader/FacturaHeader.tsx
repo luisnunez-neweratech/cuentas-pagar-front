@@ -9,7 +9,12 @@ import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
 
-export const FacturaHeader = () => {
+
+interface props {
+  onClickGuardar: number;
+}
+
+export const FacturaHeader = ({ onClickGuardar }: props) => {
   const {
     onChangeAutocomplete,
     values,
@@ -22,7 +27,9 @@ export const FacturaHeader = () => {
     touched,
     errors,
     setFieldValue,
-  } = useFacturaHeader();
+    id,
+    setFieldTouched,
+  } = useFacturaHeader({ onClickGuardar });
 
   return (
     <>
@@ -33,6 +40,9 @@ export const FacturaHeader = () => {
           id="proveedorId"
           value={values.proveedorId}
           setFieldValue={setFieldValue}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -43,6 +53,9 @@ export const FacturaHeader = () => {
           id="colaboradorId"
           value={values.colaboradorId}
           setFieldValue={setFieldValue}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -74,6 +87,7 @@ export const FacturaHeader = () => {
           handleBlur={handleBlur}
           touched={touched}
           errors={errors}
+          disable={!id ? true : false}
         />
       </Grid>
 
@@ -92,6 +106,7 @@ export const FacturaHeader = () => {
           handleBlur={handleBlur}
           touched={touched}
           errors={errors}
+          disable={!id ? true : false}
         />
       </Grid>
 
@@ -115,6 +130,9 @@ export const FacturaHeader = () => {
           value={values.noFactura}
           handleChange={handleChange}
           typeMoneda={false}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -125,6 +143,9 @@ export const FacturaHeader = () => {
           value={values.folioFiscal}
           handleChange={handleChange}
           typeMoneda={false}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -133,7 +154,7 @@ export const FacturaHeader = () => {
           onChange={(e) => onChangeAutocomplete(e, "productos")}
           setValues={values.productos ?? []}
           itemsList={giros}
-          maxItems={5}
+          maxItems={2}
           title="Productos o Servicios"
           id="giros-autocomplete"
         />
@@ -145,6 +166,9 @@ export const FacturaHeader = () => {
           label="Fecha de Factura"
           fechaValue={values.fechaFactura ?? ""}
           setFieldValue={setFieldValue}
+          touched={touched}
+          errors={errors}
+          setFieldTouched={setFieldTouched}
         />
       </Grid>
 
@@ -154,6 +178,9 @@ export const FacturaHeader = () => {
           label="Programada Pago"
           fechaValue={values.fechaProgramadaPago ?? ""}
           setFieldValue={setFieldValue}
+          touched={touched}
+          errors={errors}
+          setFieldTouched={setFieldTouched}
         />
       </Grid>
 
@@ -164,6 +191,9 @@ export const FacturaHeader = () => {
           value={values.subtotal}
           handleChange={handleChange}
           typeMoneda={true}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -175,6 +205,9 @@ export const FacturaHeader = () => {
           label="Fecha Pago"
           fechaValue={values.fechaPago ?? ""}
           setFieldValue={setFieldValue}
+          touched={touched}
+          errors={errors}
+          setFieldTouched={setFieldTouched}
         />
       </Grid>
       <Grid size={2}>
@@ -183,6 +216,9 @@ export const FacturaHeader = () => {
           label="Fecha Reembolso"
           fechaValue={values.fechaReembolso ?? ""}
           setFieldValue={setFieldValue}
+          touched={touched}
+          errors={errors}
+          setFieldTouched={setFieldTouched}
         />
       </Grid>
 
@@ -193,6 +229,9 @@ export const FacturaHeader = () => {
           value={values.descuento}
           handleChange={handleChange}
           typeMoneda={true}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -204,6 +243,9 @@ export const FacturaHeader = () => {
           value={values.impuestos}
           handleChange={handleChange}
           typeMoneda={true}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -215,6 +257,9 @@ export const FacturaHeader = () => {
           value={values.ivaRetenido}
           handleChange={handleChange}
           typeMoneda={true}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -226,6 +271,9 @@ export const FacturaHeader = () => {
           value={values.isrRetenido}
           handleChange={handleChange}
           typeMoneda={true}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
 
@@ -237,6 +285,9 @@ export const FacturaHeader = () => {
           value={values.total}
           handleChange={handleChange}
           typeMoneda={true}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
     </>
