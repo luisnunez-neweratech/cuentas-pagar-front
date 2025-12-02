@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { useFormik } from "formik";
 import { validationFisicoSchema } from "../Validations";
-import type { NewStepContrato } from "../../../../interface/stepContrato";
+import type {
+  HistorialDocumentos,
+  ListaContratos,
+  NewStepContrato,
+} from "../../../../interface/stepContrato";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 import { useContratoStore } from "../store/Contrato.store";
@@ -101,6 +105,7 @@ export const useNewContrato = () => {
       return;
     },
     onSettled: () => {
+      setActualizarHistorial(true);
       handleDisableButtons(false);
     },
   });
@@ -117,6 +122,7 @@ export const useNewContrato = () => {
       return;
     },
     onSettled: () => {
+      setActualizarHistorial(true);
       handleDisableButtons(false);
     },
   });
@@ -235,6 +241,90 @@ export const useNewContrato = () => {
   useEffect(() => {
     setActualizarHistorial(false);
     if (proveedorPerfil && proveedorPerfil.proveedorDocumentosContrato) {
+      let historialDocumentos: HistorialDocumentos[] = [];
+      let listaContratos: ListaContratos[] = [];
+
+      //proveedorDocumentosContrato
+      if (proveedorPerfil && proveedorPerfil.proveedorDocumentosContrato) {
+        Object.entries(proveedorPerfil.proveedorDocumentosContrato).map(
+          ([_key, value]: any) => {
+            if (value.mainDocument) {
+              // main document
+              historialDocumentos.push({
+                id: value.mainDocument.id,
+                fechaInicio: value.mainDocument.fechaInicio,
+                fechaFin: value.mainDocument.fechaVencimiento,
+                indeterminado: value.mainDocument.esIndeterminado,
+                fileUrl: value.mainDocument.downloadUrl,
+                fileName: value.mainDocument.fileName,
+                tipoDocumento: value.mainDocument.documentType === 0 ? 4 : 5,
+              });
+
+              listaContratos.push({
+                id: value.mainDocument.contractId,
+                fechaInicio: value.mainDocument.fechaInicio,
+                fechaFin: value.mainDocument.fechaVencimiento,
+                indeterminado: value.mainDocument.esIndeterminado,
+                nombreArchivo: value.mainDocument.fileName,
+              });
+              //TODO agregar tipodocumento 6
+            }
+
+            if (value.anexos && value.anexos.length > 0) {
+              value.anexos.map((anexo: any) => {
+                historialDocumentos.push({
+                  id: anexo.id,
+                  fechaInicio: anexo.fechaInicio,
+                  fechaFin: anexo.fechaVencimiento,
+                  indeterminado: false, // no aplica
+                  fileUrl: anexo.downloadUrl,
+                  fileName: anexo.fileName,
+                  tipoDocumento: 6, // anexo
+                });
+              });
+            }
+          }
+        );
+      }
+
+      // documentos normales
+      proveedorPerfil &&
+        proveedorPerfil.proveedorDocumentos?.map((documento: any) => {
+          historialDocumentos.push({
+            id: documento.id,
+            fechaInicio: documento.startDate,
+            fechaFin: documento.endDate,
+            indeterminado: documento.indefiniteEnd,
+            fileUrl: documento.downloadUrl,
+            fileName: documento.fileName,
+            tipoDocumento: documento.documentType,
+          });
+        });
+
+      //TODO revisar si se actualiza colaboradores morales
+
+      setNewStepContrato({
+        ...getNewStepContrato(),
+        contractor: getNewStepContrato()?.contractor ?? false,
+        //contractor: proveedorPerfil.contratos[0].isNEContractor,
+        //noColaborador: proveedorPerfil.contratos[0].neCollaboratorNumber,
+        //colaboradores: colaboradoresData,
+        historialDocumentos: historialDocumentos,
+        listaContratos: listaContratos,
+        documentos: getNewStepContrato()?.documentos ?? [
+          {
+            id: 1,
+            fechaInicio: "",
+            fechaFin: "",
+            indeterminado: true,
+            fileValue: null,
+            addToContrato: false,
+            fileName: "",
+            tipoDocumento: 0,
+            newElement: true,
+          },
+        ],
+      });
     }
   }, [proveedorPerfil]);
 
@@ -324,25 +414,30 @@ export const useNewContrato = () => {
               }
             });
 
-            if (clickedBy === 1) {
+            if (clickedBy === 1) {              
               // actualizar datos de proveedor
               // TODO revisar si es el contrato activo? o el ultimo
-              updateContratoInfo.mutate({
-                putContratoInfoPayload: {
-                  id: stepContrato.id!,
-                  supplierId: stateContrato.id!,
-                  startDate: stepContrato.listaContratos[0].fechaInicio,
-                  endDate: stepContrato.listaContratos[0].fechaFin,
-                  indefiniteEnd: stepContrato.listaContratos[0].indeterminado,
-                  isNEContractor: stepContrato?.noColaborador?.length
-                    ? true
-                    : false,
-                  nePersonType: TipoPersona.Fisica.label,
-                  neCollaboratorNumber: stepContrato?.noColaborador ?? "",
-                },
-              });
+              if (
+                stepContrato.listaContratos &&
+                stepContrato.listaContratos.length > 0
+              ) {
+                updateContratoInfo.mutate({
+                  putContratoInfoPayload: {
+                    id: stepContrato.id!,
+                    supplierId: stateContrato.id!,
+                    startDate: stepContrato.listaContratos[0].fechaInicio,
+                    endDate: stepContrato.listaContratos[0].fechaFin,
+                    indefiniteEnd: stepContrato.listaContratos[0].indeterminado,
+                    isNEContractor: stepContrato?.noColaborador?.length
+                      ? true
+                      : false,
+                    nePersonType: TipoPersona.Fisica.label,
+                    neCollaboratorNumber: stepContrato?.noColaborador ?? "",
+                  },
+                });
+              }
 
-              toast.success("Información Actualizada");
+              toast.success("Información Actualizada");              
             } else {
               toNextStep();
             }
@@ -519,8 +614,7 @@ export const useNewContrato = () => {
             }
           }
         }
-      }
-      setActualizarHistorial(true);
+      }      
     },
   });
 
