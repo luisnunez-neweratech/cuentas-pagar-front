@@ -1,4 +1,4 @@
-import { /* useMutation, */ useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import type { Item } from "../../../../../../components/common/AutoComplete/interfaces/Item";
 import { getAllGiros } from "../../../../catalogos/services/giros.service";
@@ -6,12 +6,12 @@ import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.s
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
-import { /* useNavigate, */ useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { validationSchema } from "../../../Validations";
 import { getProveedores } from "../../../../facturas/services/proveedor.service";
-/* import { addFacturaHeader } from "../../../services/factura.service";
+import { addFacturaHeader } from "../../../services/factura.service";
 import { toast } from "sonner";
-import { AxiosError } from "axios"; */
+import { AxiosError } from "axios";
 
 interface props {
   onClickGuardar: number;
@@ -19,7 +19,7 @@ interface props {
 
 export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const { id } = useParams();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
@@ -87,7 +87,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   }, [colaboradores]);
 
   const initialFormValues = () => {
-    /*     if (proveedorOcasional) {
+    /*  if (proveedorOcasional) {
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
       }
@@ -106,8 +106,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     } */
     return {
       proveedorId: stateFactura.proveedorId,
-      colaboradorId: stateFactura.colaboradorId,
-      tipoDocumentoId: stateFactura.tipoDocumentoId,
+      colaboradorId: null, //stateFactura.colaboradorId,
+      tipoDocumentoId: null, //stateFactura.tipoDocumentoId,
       statusFacturaId: 4, //en revision al crear //stateFactura.statusFacturaId,
       statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
       monedaId: stateFactura.monedaId,
@@ -130,7 +130,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     };
   };
 
- /*  const createMutation = useMutation({
+  const createMutation = useMutation({
     mutationFn: addFacturaHeader,
     onSuccess: () => {
       toast.success("Factura creada correctamente");
@@ -148,7 +148,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     onSettled: () => {
       //handleDisableButtons(false);
     },
-  }); */
+  });
 
   const {
     handleSubmit,
@@ -163,12 +163,12 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     enableReinitialize: true,
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
-    onSubmit: async (_values) => {
+    onSubmit: async (values) => {
       //handleDisableButtons(true);
-     // console.log('values', values)
-      /* createMutation.mutate({
+      console.log("values", values);
+      createMutation.mutate({
         id: 0,
-        supplierId: values.proveedorId!,
+        supplierId: values.proveedorId!.value,
         invoiceNumber: values.noFactura!,
         fiscalFolio: values.folioFiscal!,
         documentType: values.tipoDocumentoId!,
@@ -179,7 +179,12 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         taxIVA: values.impuestos!,
         taxIVARetained: values.ivaRetenido!,
         taxISRRetained: values.isrRetenido!,
-        total: values.total!,
+        total:
+          values.subtotal! -
+          values.descuento! +
+          values.impuestos! -
+          values.ivaRetenido! -
+          values.isrRetenido!, // TODO cambiar esta formula
         currencyId: values.monedaId!,
         exchangeRate: 0,
         paymentForm: "string",
@@ -187,9 +192,9 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         scheduledPaymentDate: values.fechaProgramadaPago!,
         paymentDate: values.fechaPago!,
         reimbursementStatus: 1,
-        reimbursementDate: "2025-12-02T21:50:34.447Z",
-        reimbursementCollaboratorId: values.colaboradorId!,
-      }); */
+        reimbursementDate: values.fechaReembolso!,
+        reimbursementCollaboratorId: values.colaboradorId!.value,
+      });
     },
   });
 
