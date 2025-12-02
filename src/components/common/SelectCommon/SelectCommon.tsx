@@ -10,6 +10,7 @@ interface props {
   handleBlur?: (value: any) => void;
   touched?: any;
   errors?: any;
+  disable?: boolean;
 }
 
 export const SelectCommon = ({
@@ -21,6 +22,7 @@ export const SelectCommon = ({
   handleBlur,
   touched,
   errors,
+  disable = false,
 }: props) => {
   return (
     <FormControl
@@ -37,14 +39,13 @@ export const SelectCommon = ({
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
+        disabled={disable}
       >
         {options.map((option) => (
           <MenuItem value={option.value}>{option.label}</MenuItem>
         ))}
       </Select>
-      <FormHelperText>
-        {touched[id] && errors[id]?.toString()}
-      </FormHelperText>
+      <FormHelperText>{touched[id] && errors[id]?.toString()}</FormHelperText>
     </FormControl>
   );
 };

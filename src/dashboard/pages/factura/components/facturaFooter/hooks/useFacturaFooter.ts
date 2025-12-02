@@ -2,16 +2,11 @@ import { useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 
 export const useFacturaFooter = () => {
-
   const stateFactura = useFacturaStore((state) => state);
 
-  const [pdfFileName, setPdfFileName] = useState(
-    stateFactura.pdfFileValue
-  );
+  const [pdfFileName, setPdfFileName] = useState(stateFactura.pdfFileValue);
 
-  const [xmlFileName, setXmlFileName] = useState(
-    stateFactura.xmlFileValue
-  );
+  const [xmlFileName, setXmlFileName] = useState(stateFactura.xmlFileValue);
 
   const handlePdfFileChange = (event: any) => {
     if (event.target.files.length > 0) {
@@ -40,6 +35,6 @@ export const useFacturaFooter = () => {
     disableButtons,
     pdfFileName,
     xmlFileName,
-    handleXmlFileChange
+    handleXmlFileChange,
   };
 };
