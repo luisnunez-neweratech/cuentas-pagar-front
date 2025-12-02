@@ -134,7 +134,7 @@ export const FacturaHeader = () => {
           onChange={(e) => onChangeAutocomplete(e, "productos")}
           setValues={values.productos ?? []}
           itemsList={giros}
-          maxItems={5}
+          maxItems={2}
           title="Productos o Servicios"
           id="giros-autocomplete"
         />
