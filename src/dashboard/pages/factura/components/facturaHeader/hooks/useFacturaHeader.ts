@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { /* useMutation, */ useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import type { Item } from "../../../../../../components/common/AutoComplete/interfaces/Item";
 import { getAllGiros } from "../../../../catalogos/services/giros.service";
@@ -6,12 +6,12 @@ import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.s
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
-import { useNavigate, useParams } from "react-router";
+import { /* useNavigate, */ useParams } from "react-router";
 import { validationSchema } from "../../../Validations";
 import { getProveedores } from "../../../../facturas/services/proveedor.service";
-import { addFacturaHeader } from "../../../services/factura.service";
+/* import { addFacturaHeader } from "../../../services/factura.service";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { AxiosError } from "axios"; */
 
 interface props {
   onClickGuardar: number;
@@ -19,7 +19,7 @@ interface props {
 
 export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
@@ -130,7 +130,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     };
   };
 
-  const createMutation = useMutation({
+ /*  const createMutation = useMutation({
     mutationFn: addFacturaHeader,
     onSuccess: () => {
       toast.success("Factura creada correctamente");
@@ -148,7 +148,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     onSettled: () => {
       //handleDisableButtons(false);
     },
-  });
+  }); */
 
   const {
     handleSubmit,
@@ -163,7 +163,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     enableReinitialize: true,
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (_values) => {
       //handleDisableButtons(true);
      // console.log('values', values)
       /* createMutation.mutate({
