@@ -6,12 +6,16 @@ import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.s
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
+import { getProveedores } from "../../../../facturas/services/proveedor.service";
 
 export const useFacturaHeader = () => {
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
   >([]);
   const [convertColaboradores, setConvertColaboradores] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [convertProveedores, setConvertProveedores] = useState<
     { value: number; label: string }[]
   >([]);
 
@@ -28,10 +32,14 @@ export const useFacturaHeader = () => {
   });
 
   const { data: colaboradores } = useQuery({
-    queryKey: ["external","CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
     queryFn: () => getColaboradoresSgpyon(),
   });
 
+  const { data: proveedores } = useQuery({
+    queryKey: ["Supplier", "GetAll"],
+    queryFn: () => getProveedores(),
+  });
 
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
@@ -44,9 +52,19 @@ export const useFacturaHeader = () => {
     setConvertMonedas(newMonedas ?? []);
   }, [monedas]);
 
+  useEffect(() => {
+    const newProveedores = proveedores?.map((proveedor: any) => {
+      return {
+        value: proveedor.id,
+        label: proveedor.descripcion,
+      };
+    });
 
-   useEffect(() => {
-    const newColaboradores = colaboradores?.map((colaborador:any) => {
+    setConvertProveedores(newProveedores ?? []);
+  }, [proveedores]);
+
+  useEffect(() => {
+    const newColaboradores = colaboradores?.map((colaborador: any) => {
       return {
         value: colaborador.id,
         label: colaborador.name,
@@ -127,10 +145,11 @@ export const useFacturaHeader = () => {
     handleChange,
     giros,
     convertMonedas,
+    convertProveedores,
+    convertColaboradores,
     handleBlur,
     touched,
     errors,
     setFieldValue,
-    convertColaboradores
   };
 };
