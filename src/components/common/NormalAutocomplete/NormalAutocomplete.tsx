@@ -1,7 +1,6 @@
 import {
   Autocomplete,
   FormControl,
-  FormHelperText,
   TextField,
 } from "@mui/material";
 
@@ -37,12 +36,19 @@ export const NormalAutocomplete = ({
         size="small"
         disablePortal
         options={options}
-        renderInput={(params) => <TextField {...params} label={label} />}
         value={value}
         onChange={(_event, newValue) => setFieldValue(id, newValue)}
         onBlur={handleBlur}
-      />
-      <FormHelperText>{touched[id] && errors[id]?.toString()}</FormHelperText>
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            error={touched[id] && Boolean(errors[id])}
+            helperText={touched[id] && errors[id]?.toString()}
+            variant="outlined"
+          />
+        )}
+      />      
     </FormControl>
   );
 };
