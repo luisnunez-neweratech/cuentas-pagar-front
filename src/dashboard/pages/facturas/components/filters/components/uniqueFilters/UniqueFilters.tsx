@@ -5,11 +5,17 @@ import { SelectCommon } from "../../../../../../../components/common/SelectCommo
 import { TipoDocumento } from "../../../../interfaces/TipoDocumento";
 import { NormalAutocomplete } from "../../../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
 
-const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
-
 export const UniqueFilters = () => {
-  const { convertMonedas, values, handleChange, handleBlur, touched, errors } =
-    useUniqueFilters();
+  const {
+    convertMonedas,
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    convertColaboradores,
+    setFieldValue
+  } = useUniqueFilters();
 
   return (
     <>
@@ -18,10 +24,24 @@ export const UniqueFilters = () => {
           id="noFactura"
           label="No. Factura"
           typeMoneda={false}
+          value={values.noFactura}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
       <Grid size={2}>
-        <TextFieldCommon id="year" label="Año" typeMoneda={false} />
+        <TextFieldCommon
+          id="year"
+          label="Año"
+          typeMoneda={false}
+          value={values.year}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
       </Grid>
       <Grid size={2}>
         <SelectCommon
@@ -49,9 +69,14 @@ export const UniqueFilters = () => {
       </Grid>
       <Grid size={2}>
         <NormalAutocomplete
-          options={top100Films}
+          options={convertColaboradores}
           label="Colaborador"
-          id="colaborador"
+          id="colaboradorId"
+          value={values.colaboradorId}
+          setFieldValue={setFieldValue}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
         />
       </Grid>
     </>
