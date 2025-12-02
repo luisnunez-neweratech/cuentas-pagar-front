@@ -5,6 +5,7 @@ import { getAllGiros } from "../../../../catalogos/services/giros.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
+import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 
 export const useFacturaHeader = () => {
   const [convertMonedas, setConvertMonedas] = useState<
@@ -22,6 +23,12 @@ export const useFacturaHeader = () => {
     queryKey: ["CatalogMaster", "GetAll", "Moneda"],
     queryFn: () => getAllMonedaVentas(),
   });
+
+  const { data: colaboradores } = useQuery({
+    queryKey: ["external","CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryFn: () => getColaboradoresSgpyon(),
+  });
+
 
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
