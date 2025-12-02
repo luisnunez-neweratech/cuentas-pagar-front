@@ -13,8 +13,7 @@ interface props {
   onClickGuardar: number;
 }
 
-export const useFacturaHeader = ({onClickGuardar}:props) => {
-
+export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const { id } = useParams();
 
   const [convertMonedas, setConvertMonedas] = useState<
@@ -37,10 +36,9 @@ export const useFacturaHeader = ({onClickGuardar}:props) => {
   });
 
   const { data: colaboradores } = useQuery({
-    queryKey: ["external","CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
     queryFn: () => getColaboradoresSgpyon(),
   });
-
 
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
@@ -53,9 +51,8 @@ export const useFacturaHeader = ({onClickGuardar}:props) => {
     setConvertMonedas(newMonedas ?? []);
   }, [monedas]);
 
-
-   useEffect(() => {
-    const newColaboradores = colaboradores?.map((colaborador:any) => {
+  useEffect(() => {
+    const newColaboradores = colaboradores?.map((colaborador: any) => {
       return {
         value: colaborador.id,
         label: colaborador.name,
@@ -117,21 +114,23 @@ export const useFacturaHeader = ({onClickGuardar}:props) => {
     touched,
     errors,
     setFieldValue,
-    setFieldTouched
+    setFieldTouched,
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialFormValues(),
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       //handleDisableButtons(true);
-      console.log('values bien', values)
+      console.log("values bien", values);
     },
   });
 
   useEffect(() => {
-    console.log('call submit values', errors)
-    handleSubmit()
-  }, [onClickGuardar])
+    if (onClickGuardar > 0) {
+      console.log("call submit values", errors);
+      handleSubmit();
+    }
+  }, [onClickGuardar]);
 
   const onChangeAutocomplete = (newValues: Item[], fieldValue: string) => {
     setFieldValue(fieldValue, newValues);
@@ -149,6 +148,6 @@ export const useFacturaHeader = ({onClickGuardar}:props) => {
     setFieldValue,
     convertColaboradores,
     id,
-    setFieldTouched
+    setFieldTouched,
   };
 };
