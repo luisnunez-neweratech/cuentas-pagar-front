@@ -11,11 +11,12 @@ export const useFacturaDetalle = () => {
     addRowFacturaDetalle({
       id: (stateFactura.facturaDetalle?.length ?? 0) + 1,
       cantidad: 0,
-      uMedida: 0,
+      uMedida: '0',
       codigo: "",
       concepto: "",
       precio: 0,
       total: 0,
+      validado: false,
     });
   };
   return {

@@ -1,14 +1,20 @@
 import { useFormik } from "formik";
 import { useFacturaStore } from "../../../../../../store/Factura.store";
+import { useEffect } from "react";
+import { validationSchema } from "../Validations";
 
 interface props {
   id: number;
+  onClickGuardar: number;
 }
 
-export const useRowDetalle = ({ id }: props) => {
+export const useRowDetalle = ({ id, onClickGuardar }: props) => {
   const stateFactura = useFacturaStore((state) => state);
   const removeRowFacturaDetalle = useFacturaStore(
     (state) => state.removeRowFacturaDetalle
+  );
+  const updateRowFacturaDetalle = useFacturaStore(
+    (state) => state.updateRowFacturaDetalle
   );
 
   const getInitialValues = () => {
@@ -27,21 +33,61 @@ export const useRowDetalle = ({ id }: props) => {
   };
 
   const {
-    //handleSubmit,
+    handleSubmit,
     values,
     handleChange,
     handleBlur,
-    //touched,
-    //errors,
+    touched,
+    errors,
     //validateForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: getInitialValues(),
-    validationSchema: null, //validationSchema,
+    validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      // guardar en el estado
+      updateRowFacturaDetalle(id, {
+        id: id,
+        cantidad: values.cantidad!,
+        codigo: values.codigo!,
+        concepto: values.concepto!,
+        precio: values.precio!,
+        total: values.total!,
+        uMedida: values.uMedida!,
+        validado: true,
+      });
     },
   });
+
+  useEffect(() => {
+    handleSubmit();
+  }, [onClickGuardar]);
+
+  useEffect(() => {    
+    if (Object.keys(errors).length === 0) {
+      updateRowFacturaDetalle(id, {
+        id: id,
+        cantidad: values.cantidad!,
+        codigo: values.codigo!,
+        concepto: values.concepto!,
+        precio: values.precio!,
+        total: values.total!,
+        uMedida: values.uMedida!,
+        validado: true,
+      });
+    } else {
+      updateRowFacturaDetalle(id, {
+        id: id,
+        cantidad: values.cantidad!,
+        codigo: values.codigo!,
+        concepto: values.concepto!,
+        precio: values.precio!,
+        total: values.total!,
+        uMedida: values.uMedida!,
+        validado: false,
+      });
+    }
+  }, [errors]);
 
   const deleteRowFactura = (id: number) => {
     removeRowFacturaDetalle(id);
@@ -52,5 +98,8 @@ export const useRowDetalle = ({ id }: props) => {
     values,
     handleChange,
     handleBlur,
+    touched,
+    errors,
+    handleSubmit,
   };
 };

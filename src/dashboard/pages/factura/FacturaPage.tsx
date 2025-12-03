@@ -13,7 +13,7 @@ export const FacturaPage = () => {
     >
       <Grid container spacing={2}>
         <FacturaHeader  onClickGuardar={onClickGuardar} />
-        <FacturaDetalle />
+        <FacturaDetalle onClickGuardar={onClickGuardar} />
         <FacturaFooter setOnClickGuardar={setOnClickGuardar} onClickGuardar={onClickGuardar} />
       </Grid>
     </form>
