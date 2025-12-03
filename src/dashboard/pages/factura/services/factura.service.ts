@@ -26,3 +26,30 @@ export const addFacturaDetalle = async ({
   );
   return response;
 };
+
+interface uploadFacturaFilesProps {
+  facturaId: string;
+  pdf: any;
+  xml: any;
+}
+
+export const uploadFacturaFiles = async ({
+  facturaId,
+  pdf,
+  xml,
+}: uploadFacturaFilesProps): Promise<any> => {
+  const formData = new FormData();
+  formData.append("xmlFile", xml);
+  formData.append("pdfFile", pdf);
+
+  const { data } = await cuentasApi.post(
+    `/Invoice/${facturaId}/UploadDocuments`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return data;
+};
