@@ -3,6 +3,8 @@ import { useFacturaStore } from "../../../store/Factura.store";
 
 export const useFacturaFooter = () => {
   const stateFactura = useFacturaStore((state) => state);
+  const setPdfFile = useFacturaStore((state) => state.setPdfFile);
+  const setXmlFile = useFacturaStore((state) => state.setXmlFile);
 
   const [pdfFileName, setPdfFileName] = useState(stateFactura.pdfFileValue);
 
@@ -11,14 +13,14 @@ export const useFacturaFooter = () => {
   const handlePdfFileChange = (event: any) => {
     if (event.target.files.length > 0) {
       setPdfFileName(event.target.files[0].name);
-      //setFieldValue(idInput, event.target.files[0]);
+      setPdfFile(event.target.files[0]);
     }
   };
 
   const handleXmlFileChange = (event: any) => {
     if (event.target.files.length > 0) {
       setXmlFileName(event.target.files[0].name);
-      //setFieldValue(idInput, event.target.files[0]);
+      setXmlFile(event.target.files[0]);
     }
   };
 

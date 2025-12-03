@@ -12,6 +12,7 @@ import { getProveedores } from "../../../../facturas/services/proveedor.service"
 import {
   addFacturaDetalle,
   addFacturaHeader,
+  uploadFacturaFiles,
 } from "../../../services/factura.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -134,6 +135,22 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     };
   };
 
+  const uploadDocumentosMutation = useMutation({
+    mutationFn: uploadFacturaFiles,
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al subir los documentos");
+      return;
+    },
+    onSettled: () => {
+      //handleDisableButtons(false);
+    },
+  });
+
   const createMutationDetalle = useMutation({
     mutationFn: addFacturaDetalle,
     onSuccess: () => {
@@ -178,6 +195,12 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         invoiceId: data.data.id,
         postFacturaDetallePayload: newDetalles,
       });
+
+      uploadDocumentosMutation.mutate({
+        facturaId: data.data.id,
+        xml: stateFactura.xmlFileValue,
+        pdf: stateFactura.pdfFileValue,
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -212,10 +235,19 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       //handleDisableButtons(true);
-      console.log('values', values)
       if (!id) {
         // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {
+          // archivos cargados
+          if (!stateFactura.pdfFileValue) {
+            toast.warning("Cargar el archivo PDF");
+            return;
+          }
+          if (!stateFactura.xmlFileValue) {
+            toast.warning("Cargar el archivo XML");
+            return;
+          }
+
           let detallesValido = true;
           let sumaDetalle = 0;
           stateFactura.facturaDetalle?.map((detalle) => {
@@ -280,6 +312,11 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                 createMutationDetalle.mutate({
                   invoiceId: stateFactura.id!.toString(),
                   postFacturaDetallePayload: newDetalles,
+                });
+                uploadDocumentosMutation.mutate({
+                  facturaId: stateFactura.id!.toString(),
+                  xml: stateFactura.xmlFileValue,
+                  pdf: stateFactura.pdfFileValue,
                 });
               }
             }
