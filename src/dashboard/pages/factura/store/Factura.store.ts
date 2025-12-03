@@ -34,6 +34,7 @@ export interface FacturaState {
   facturaDetalle: FacturaDetalle[] | null;
 
   setFacturaId: (id: number) => void;
+  clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
   removeRowFacturaDetalle: (id: number) => void;
@@ -95,6 +96,39 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
       facturaDetalle: (state.facturaDetalle ?? []).map((item) =>
         item.id === id ? { ...facturaDetalle } : item
       ),
+    }));
+  },
+  clearState: () => {
+    set((_state) => ({
+      id: null,
+      proveedorId: null,
+      colaboradorId: null,
+      tipoDocumentoId: null,
+      statusFacturaId: null,
+      statusReembolsoId: null,
+      monedaId: null,
+      noFactura: null,
+      folioFiscal: null,
+      productos: [],
+
+      fechaFactura: null,
+      programadaPago: null,
+      fechaPago: null,
+      fechaReembolso: null,
+
+      subtotal: null,
+      descuento: null,
+      impuestos: null,
+      ivaRetenido: null,
+      isrRetenido: null,
+      total: null,
+
+      pdfFileValue: null,
+      pdfDownloadUrl: null,
+      xmlFileValue: null,
+      xmlDownloadUrl: null,
+
+      facturaDetalle: null,
     }));
   },
 });
