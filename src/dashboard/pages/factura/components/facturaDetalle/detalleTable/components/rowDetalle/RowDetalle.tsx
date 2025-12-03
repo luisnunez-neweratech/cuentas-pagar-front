@@ -23,7 +23,7 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
     touched,
     errors,
     handleSubmit,
-    setFieldValue,
+    setCorrectAmoutValue,
   } = useRowDetalle({
     id,
     onClickGuardar,
@@ -144,10 +144,9 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           size="small"
           id="precio"
           value={values.precio}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("precio", value);
-            handleSubmit();
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "precio");
           }}
           customInput={TextField}
           thousandSeparator
@@ -176,10 +175,9 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           size="small"
           id="total"
           value={values.total}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("total", value);
-            handleSubmit();
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "total");
           }}
           customInput={TextField}
           thousandSeparator
