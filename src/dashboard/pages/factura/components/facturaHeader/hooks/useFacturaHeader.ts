@@ -9,7 +9,10 @@ import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.ser
 import { useNavigate, useParams } from "react-router";
 import { validationSchema } from "../../../Validations";
 import { getProveedores } from "../../../../facturas/services/proveedor.service";
-import { addFacturaHeader } from "../../../services/factura.service";
+import {
+  addFacturaDetalle,
+  addFacturaHeader,
+} from "../../../services/factura.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 
@@ -105,8 +108,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       };
     } */
     return {
-      proveedorId: {value:0,label:''},//stateFactura.proveedorId,
-      colaboradorId: {value:0,label:''}, //stateFactura.colaboradorId,
+      proveedorId: { value: 0, label: "" }, //stateFactura.proveedorId,
+      colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
       tipoDocumentoId: null, //stateFactura.tipoDocumentoId,
       statusFacturaId: 4, //en revision al crear //stateFactura.statusFacturaId,
       statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
@@ -130,11 +133,45 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     };
   };
 
-  const createMutation = useMutation({
-    mutationFn: addFacturaHeader,
+  const createMutationDetalle = useMutation({
+    mutationFn: addFacturaDetalle,
     onSuccess: () => {
       toast.success("Factura creada correctamente");
       navigate("/facturas");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al agregar el proveedor");
+      return;
+    },
+    onSettled: () => {
+      //handleDisableButtons(false);
+    },
+  });
+
+  const createMutation = useMutation({
+    mutationFn: addFacturaHeader,
+    onSuccess: (data) => {
+      console.log('response data', data.data)
+      const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
+        return {
+          lineNumber: 0,
+          quantity: detalle.cantidad,
+          productServiceKey: detalle.codigo,
+          concept: detalle.concepto,
+          unitPrice: detalle.uMedida,
+          lineDiscount: 0,
+          lineTotal: detalle.total,
+        };
+      });
+      createMutationDetalle.mutate({
+        invoiceId: data.data.id,
+        postFacturaDetallePayload: newDetalles, //TODO agregar detalles
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -165,6 +202,10 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       //handleDisableButtons(true);
+
+      //TODO validar grid detalle
+      //stateFactura
+
       console.log("values", values);
       createMutation.mutate({
         id: 0,
