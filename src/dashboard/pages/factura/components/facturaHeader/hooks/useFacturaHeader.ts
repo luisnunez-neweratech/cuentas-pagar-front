@@ -155,8 +155,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
   const createMutation = useMutation({
     mutationFn: addFacturaHeader,
-    onSuccess: (data) => {
-      console.log('response data', data.data)
+    onSuccess: (data) => {      
       const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
         return {
           lineNumber: 0,
@@ -176,6 +175,10 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
+        if (error.response) {
+          toast.error(error.response.data);
+          return;
+        }
         toast.error(error.message);
         return;
       }
