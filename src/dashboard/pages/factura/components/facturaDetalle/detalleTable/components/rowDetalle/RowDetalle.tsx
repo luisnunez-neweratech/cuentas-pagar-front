@@ -22,6 +22,7 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
     handleBlur,
     touched,
     errors,
+    handleSubmit,
   } = useRowDetalle({
     id,
     onClickGuardar,
@@ -38,7 +39,10 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           name="cantidad"
           type="tel"
           value={values.cantidad}
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleSubmit();
+          }}
           onBlur={handleBlur}
           variant="outlined"
           size="small"
@@ -61,7 +65,10 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           name="uMedida"
           type="tel"
           value={values.uMedida}
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleSubmit();
+          }}
           onBlur={handleBlur}
           variant="outlined" // Use outlined for better visibility in a table
           size="small" // Make it less bulky
@@ -83,7 +90,10 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           id="codigo"
           name="codigo"
           value={values.codigo}
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleSubmit();
+          }}
           onBlur={handleBlur}
           variant="outlined" // Use outlined for better visibility in a table
           size="small" // Make it less bulky
@@ -105,7 +115,10 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           id="concepto"
           name="concepto"
           value={values.concepto}
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleSubmit();
+          }}
           onBlur={handleBlur}
           style={{ width: 250, marginTop: 4 }}
           error={touched.concepto && Boolean(errors.concepto)}
@@ -128,7 +141,10 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           name="precio"
           type="tel"
           value={values.precio}
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleSubmit();
+          }}
           onBlur={handleBlur}
           variant="outlined" // Use outlined for better visibility in a table
           size="small" // Make it less bulky
@@ -153,7 +169,10 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
           id="total"
           name="total"
           value={values.total}
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            handleSubmit();
+          }}
           onBlur={handleBlur}
           type="tel"
           variant="outlined" // Use outlined for better visibility in a table

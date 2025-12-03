@@ -16,6 +16,7 @@ export const useFacturaDetalle = () => {
       concepto: "",
       precio: 0,
       total: 0,
+      validado: false,
     });
   };
   return {

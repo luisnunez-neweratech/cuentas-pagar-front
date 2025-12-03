@@ -13,6 +13,9 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
   const removeRowFacturaDetalle = useFacturaStore(
     (state) => state.removeRowFacturaDetalle
   );
+  const updateRowFacturaDetalle = useFacturaStore(
+    (state) => state.updateRowFacturaDetalle
+  );
 
   const getInitialValues = () => {
     const rowDetalleFactura = (stateFactura.facturaDetalle ?? []).find(
@@ -36,20 +39,55 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     handleBlur,
     touched,
     errors,
-    validateForm,
+    //validateForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: getInitialValues(),
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log('valores bien? de rows', values);
       // guardar en el estado
+      updateRowFacturaDetalle(id, {
+        id: id,
+        cantidad: values.cantidad!,
+        codigo: values.codigo!,
+        concepto: values.concepto!,
+        precio: values.precio!,
+        total: values.total!,
+        uMedida: values.uMedida!,
+        validado: true,
+      });
     },
   });
 
   useEffect(() => {
-    handleSubmit()
-  }, [onClickGuardar])
+    handleSubmit();
+  }, [onClickGuardar]);
+
+  useEffect(() => {    
+    if (Object.keys(errors).length === 0) {
+      updateRowFacturaDetalle(id, {
+        id: id,
+        cantidad: values.cantidad!,
+        codigo: values.codigo!,
+        concepto: values.concepto!,
+        precio: values.precio!,
+        total: values.total!,
+        uMedida: values.uMedida!,
+        validado: true,
+      });
+    } else {
+      updateRowFacturaDetalle(id, {
+        id: id,
+        cantidad: values.cantidad!,
+        codigo: values.codigo!,
+        concepto: values.concepto!,
+        precio: values.precio!,
+        total: values.total!,
+        uMedida: values.uMedida!,
+        validado: false,
+      });
+    }
+  }, [errors]);
 
   const deleteRowFactura = (id: number) => {
     removeRowFacturaDetalle(id);
@@ -62,5 +100,6 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     handleBlur,
     touched,
     errors,
+    handleSubmit,
   };
 };

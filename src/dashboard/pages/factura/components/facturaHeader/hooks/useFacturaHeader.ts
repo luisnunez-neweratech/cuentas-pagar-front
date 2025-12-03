@@ -142,10 +142,14 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
+        if (error.response) {
+          toast.error(error.response.data);
+          return;
+        }
         toast.error(error.message);
         return;
       }
-      toast.error("Error al agregar el proveedor");
+      toast.error("Error al agregar la factura");
       return;
     },
     onSettled: () => {
@@ -155,21 +159,23 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
   const createMutation = useMutation({
     mutationFn: addFacturaHeader,
-    onSuccess: (data) => {      
+    onSuccess: (data) => {
       const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
+        
         return {
           lineNumber: 0,
-          quantity: detalle.cantidad,
-          productServiceKey: detalle.codigo,
-          concept: detalle.concepto,
-          unitPrice: detalle.uMedida,
+          quantity: +detalle.cantidad,
+          productServiceKey: detalle.codigo.toString(),
+          concept: detalle.concepto.toString(),
+          unitPrice: 0,
           lineDiscount: 0,
-          lineTotal: detalle.total,
+          lineTotal: +detalle.total,
+          unitOfMeasure: detalle.uMedida.toString(),
         };
       });
       createMutationDetalle.mutate({
         invoiceId: data.data.id,
-        postFacturaDetallePayload: newDetalles, //TODO agregar detalles
+        postFacturaDetallePayload: newDetalles,
       });
     },
     onError: (error) => {
@@ -182,7 +188,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         toast.error(error.message);
         return;
       }
-      toast.error("Error al agregar el proveedor");
+      toast.error("Error al agregar la factura");
       return;
     },
     onSettled: () => {
@@ -206,38 +212,52 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     onSubmit: async (values) => {
       //handleDisableButtons(true);
 
-      //TODO validar grid detalle
-      //stateFactura
-      
-      /* createMutation.mutate({
-        id: 0,
-        supplierId: values.proveedorId!.value,
-        invoiceNumber: values.noFactura!,
-        fiscalFolio: values.folioFiscal!,
-        documentType: values.tipoDocumentoId!,
-        invoiceDate: values.fechaFactura!,
-        supplierProductService: values.productos![0].descripcion,
-        subtotal: values.subtotal!,
-        discount: values.descuento!,
-        taxIVA: values.impuestos!,
-        taxIVARetained: values.ivaRetenido!,
-        taxISRRetained: values.isrRetenido!,
-        total:
-          values.subtotal! -
-          values.descuento! +
-          values.impuestos! -
-          values.ivaRetenido! -
-          values.isrRetenido!, // TODO cambiar esta formula
-        currencyId: values.monedaId!,
-        exchangeRate: 0,
-        paymentForm: "string",
-        paymentTerms: "string",
-        scheduledPaymentDate: values.fechaProgramadaPago!,
-        paymentDate: values.fechaPago!,
-        reimbursementStatus: 1,
-        reimbursementDate: values.fechaReembolso!,
-        reimbursementCollaboratorId: values.colaboradorId!.value,
-      }); */
+      if ((stateFactura.facturaDetalle ?? []).length > 0) {
+        console.log("factura detalle", stateFactura.facturaDetalle);
+
+        let detallesValido = true;
+        stateFactura.facturaDetalle?.map((detalle) => {
+          if (!detalle.validado) {
+            detallesValido = false;
+          }
+        });
+
+        if (detallesValido) {
+          createMutation.mutate({
+            id: 0,
+            supplierId: values.proveedorId!.value,
+            invoiceNumber: values.noFactura!,
+            fiscalFolio: values.folioFiscal!,
+            documentType: values.tipoDocumentoId!,
+            invoiceDate: values.fechaFactura!,
+            supplierProductService: values.productos![0].descripcion,
+            subtotal: values.subtotal!,
+            discount: values.descuento!,
+            taxIVA: values.impuestos!,
+            taxIVARetained: values.ivaRetenido!,
+            taxISRRetained: values.isrRetenido!,
+            total:
+              values.subtotal! -
+              values.descuento! +
+              values.impuestos! -
+              values.ivaRetenido! -
+              values.isrRetenido!, // TODO cambiar esta formula
+            currencyId: values.monedaId!,
+            exchangeRate: 0,
+            paymentForm: "string",
+            paymentTerms: "string",
+            scheduledPaymentDate: values.fechaProgramadaPago!,
+            paymentDate: values.fechaPago!,
+            reimbursementStatus: 1,
+            reimbursementDate: values.fechaReembolso!,
+            reimbursementCollaboratorId: values.colaboradorId!.value,
+          });
+        } else {
+          toast.error("Los Detalles no son validos");
+        }
+      } else {
+        toast.error("La Factura no tiene detalles");
+      }
     },
   });
 
