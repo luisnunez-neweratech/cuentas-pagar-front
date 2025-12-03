@@ -29,7 +29,7 @@ function createData(
   proveedor: string,
   noFactura: string,
   tipoDocumento: string,
-  folioFiscal: string,
+  productoServicio: string,
   fechaFactura: string,
   statusFacturas: string,
   statusReembolso: string,
@@ -42,15 +42,17 @@ function createData(
   impuestos: number,
   ivaRetenido: number,
   isrRetenido: number,
+  folioFiscal: string,
   moneda: string,
   colaborador: string,
-  documento: string
+  documento: string,
+  archivoXml: string
 ) {
   return {
     proveedor,
     noFactura,
     tipoDocumento,
-    folioFiscal,
+    productoServicio,
     fechaFactura,
     statusFacturas,
     statusReembolso,
@@ -66,20 +68,11 @@ function createData(
     ivaRetenido,
     isrRetenido,
 
+    folioFiscal,
     moneda,
     colaborador,
     documento,
-
-    productos: [
-      {
-        id: 0,
-        nombre: "producto 1",
-      },
-      {
-        id: 1,
-        nombre: "servicio 2",
-      },
-    ],
+    archivoXml,
   };
 }
 
@@ -130,7 +123,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             rowClick(row);
           }}
         >
-          {row.folioFiscal}
+          {row.productoServicio}
         </TableCell>
         <TableCell
           onClick={(_e) => {
@@ -151,7 +144,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             rowClick(row);
           }}
         >
-          {row.statusReembolso}
+          {row.fechaProximoPago}
         </TableCell>
         <TableCell
           onClick={(_e) => {
@@ -159,6 +152,13 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           }}
         >
           {row.total}
+        </TableCell>
+        <TableCell
+          onClick={(_e) => {
+            rowClick(row);
+          }}
+        >
+          {row.statusReembolso}
         </TableCell>
         <TableCell>
           <Tooltip title="Editar">
@@ -198,7 +198,6 @@ function Row(props: { row: ReturnType<typeof createData> }) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Próximo Pago</TableCell>
                     <TableCell>Pago</TableCell>
                     <TableCell>Reembolso</TableCell>
                   </TableRow>
@@ -206,9 +205,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                 <TableBody>
                   <TableRow key={"fecha-row-0"}>
                     <TableCell component="th" scope="row">
-                      {row.fechaProximoPago}
+                      {row.fechaPago}
                     </TableCell>
-                    <TableCell>{row.fechaPago}</TableCell>
                     <TableCell>{row.fechaReembolso}</TableCell>
                   </TableRow>
                 </TableBody>
@@ -262,49 +260,27 @@ function Row(props: { row: ReturnType<typeof createData> }) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
+                    <TableCell>Folio Fiscal</TableCell>
                     <TableCell>Moneda</TableCell>
                     <TableCell>Colaborador</TableCell>
-                    <TableCell>Documento</TableCell>
+                    <TableCell>PDF</TableCell>
+                    <TableCell>XML</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow key={"fecha-row-0"}>
                     <TableCell component="th" scope="row">
-                      {row.moneda}
+                      {row.folioFiscal}
                     </TableCell>
+                    <TableCell>{row.moneda}</TableCell>
                     <TableCell>{row.colaborador}</TableCell>
                     <TableCell>
                       <Link href="#">{row.documento}</Link>
                     </TableCell>
+                    <TableCell>
+                      <Link href="#">{row.archivoXml}</Link>
+                    </TableCell>
                   </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-
-            <Box sx={{ margin: 1 }}>
-              <Typography
-                variant="body1"
-                gutterBottom
-                component="div"
-                style={{ fontWeight: "bold" }}
-              >
-                Productos o Servicios
-              </Typography>
-
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.productos.map((producto) => (
-                    <TableRow key={producto.id}>
-                      <TableCell component="th" scope="row">
-                        {producto.nombre}
-                      </TableCell>
-                    </TableRow>
-                  ))}
                 </TableBody>
               </Table>
             </Box>
@@ -319,7 +295,7 @@ const rows = [
     "Office Depot",
     "159",
     "Factura",
-    "01010101",
+    "Papelería",
     "25/11/2026",
     "Pendiente",
     "Pendiente",
@@ -332,16 +308,17 @@ const rows = [
     12,
     1,
     0,
+    "01010101",
     "MXN",
-
     "Luis Nuñez",
-    "archivo1.pdf"
+    "archivo1.pdf",
+    "archivo1.xml"
   ),
   createData(
     "Ice cream sandwich",
     "237",
     "Nota Credito",
-    "01010101",
+    "Producto 1",
     "26/11/2026",
     "Pagada",
     "Pagada",
@@ -354,15 +331,17 @@ const rows = [
     23,
     2,
     9,
+    "01010101",
     "MXN",
     "Luis Nuñez",
-    "archivo1.pdf"
+    "archivo1.pdf",
+    "archivo2.xml"
   ),
   createData(
     "Eclair",
     "262",
     "Factura",
-    "01010101",
+    "Servicio de limpieza",
     "27/11/2026",
     "Cancelada",
     "Cancelada",
@@ -375,15 +354,17 @@ const rows = [
     34,
     3,
     8,
+    "01010101",
     "MXN",
     "Luis Nuñez",
-    "archivo1.pdf"
+    "archivo1.pdf",
+    "archivo3.xml"
   ),
   createData(
     "Cupcake",
     "305",
     "Factura",
-    "01010101",
+    "Mantenimiento",
     "28/11/2026",
     "En Revision",
     "N/A",
@@ -396,15 +377,17 @@ const rows = [
     45,
     4,
     7,
+    "01010101",
     "MXN",
     "Luis Nuñez",
-    "archivo1.pdf"
+    "archivo1.pdf",
+    "archivo4.xml"
   ),
   createData(
     "Gingerbread",
     "356",
     "Nota Credito",
-    "01010101",
+    "Insumos",
     "29/11/2026",
     "Pendiente",
     "Pendiente",
@@ -417,9 +400,11 @@ const rows = [
     56,
     5,
     6,
+    "01010101",
     "MXN",
     "Luis Nuñez",
-    "archivo1.pdf"
+    "archivo1.pdf",
+    "archivo5.xml"
   ),
 ];
 
@@ -433,11 +418,12 @@ export const FacturaTable = () => {
             <TableCell style={cellHeaderStyle}>Proveedor</TableCell>
             <TableCell style={cellHeaderStyle}>No. Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Tipo</TableCell>
-            <TableCell style={cellHeaderStyle}>Folio Fiscal</TableCell>
+            <TableCell style={cellHeaderStyle}>Producto/Servicio</TableCell>
             <TableCell style={cellHeaderStyle}>Fecha Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Estatus Factura</TableCell>
-            <TableCell style={cellHeaderStyle}>Estatus Reembolso</TableCell>
+            <TableCell style={cellHeaderStyle}>Fecha Próximo Pago</TableCell>
             <TableCell style={cellHeaderStyle}>Total</TableCell>
+            <TableCell style={cellHeaderStyle}>Estatus Reembolso</TableCell>
             <TableCell style={cellHeaderStyle}></TableCell>
           </TableRow>
         </TableHead>
