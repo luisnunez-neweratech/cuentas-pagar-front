@@ -8,7 +8,6 @@ import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { useHeaderButtons } from "./hooks/useHeaderButtons";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import { useNavigate } from "react-router";
 
 interface HeaderButtonsProps {
   showFilter: boolean;
@@ -19,15 +18,15 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-  const { clearFiltros, downloadFile, hasActiveFiltres } = useHeaderButtons();
-  const navigate = useNavigate();
+  const { clearFiltros, downloadFile, hasActiveFiltres, onClickNewFactura } = useHeaderButtons();
+  
   return (
     <>
       <Grid size={1}>
         <Tooltip title="Nueva Factura">
           <IconButton
             sx={{ color: mainBackgroundColor }}
-            onClick={() => navigate("/facturas/nueva-factura")}
+            onClick={onClickNewFactura}
           >
             <AddCircleIcon
               style={{
