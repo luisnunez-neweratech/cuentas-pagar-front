@@ -14,7 +14,7 @@ export const UniqueFilters = () => {
     touched,
     errors,
     convertColaboradores,
-    setFieldValue
+    setFieldValue,
   } = useUniqueFilters();
 
   return (
@@ -75,8 +75,8 @@ export const UniqueFilters = () => {
           value={values.colaboradorId}
           setFieldValue={setFieldValue}
           handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          touched={touched.colaboradorId?.value}
+          errors={errors.colaboradorId?.value}
         />
       </Grid>
     </>

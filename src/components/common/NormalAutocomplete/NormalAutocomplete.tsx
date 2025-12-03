@@ -1,8 +1,4 @@
-import {
-  Autocomplete,
-  FormControl,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, FormControl, TextField } from "@mui/material";
 
 interface props {
   options: any[];
@@ -26,11 +22,7 @@ export const NormalAutocomplete = ({
   errors,
 }: props) => {
   return (
-    <FormControl
-      fullWidth
-      size="small"
-      error={touched[id] && Boolean(errors[id])}
-    >
+    <FormControl fullWidth size="small" error={touched && Boolean(errors)}>
       <Autocomplete
         id={id}
         size="small"
@@ -43,12 +35,12 @@ export const NormalAutocomplete = ({
           <TextField
             {...params}
             label={label}
-            error={touched[id] && Boolean(errors[id])}
-            helperText={touched[id] && errors[id]?.toString()}
+            error={touched && Boolean(errors)}
+            helperText={touched && errors?.toString()}
             variant="outlined"
           />
         )}
-      />      
+      />
     </FormControl>
   );
 };

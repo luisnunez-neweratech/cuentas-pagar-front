@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { FormControl, FormHelperText, Grid } from "@mui/material";
 import { AutoCompleteComponent } from "../../../../../components/common/AutoComplete/AutoComplete";
 import { useFacturaHeader } from "./hooks/useFacturaHeader";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
@@ -8,7 +8,6 @@ import { NormalAutocomplete } from "../../../../../components/common/NormalAutoc
 import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
-
 
 interface props {
   onClickGuardar: number;
@@ -41,8 +40,8 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           value={values.proveedorId}
           setFieldValue={setFieldValue}
           handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          touched={touched.proveedorId?.value}
+          errors={errors.proveedorId?.value}
         />
       </Grid>
 
@@ -54,8 +53,8 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           value={values.colaboradorId}
           setFieldValue={setFieldValue}
           handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          touched={touched.colaboradorId?.value}
+          errors={errors.colaboradorId?.value}
         />
       </Grid>
 
@@ -150,14 +149,23 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
       </Grid>
 
       <Grid size={2}>
-        <AutoCompleteComponent
-          onChange={(e) => onChangeAutocomplete(e, "productos")}
-          setValues={values.productos ?? []}
-          itemsList={giros}
-          maxItems={2}
-          title="Productos o Servicios"
-          id="giros-autocomplete"
-        />
+        <FormControl
+          fullWidth
+          size="small"
+          error={touched.productos && Boolean(errors.productos)}
+        >
+          <AutoCompleteComponent
+            onChange={(e) => onChangeAutocomplete(e, "productos")}
+            setValues={values.productos ?? []}
+            itemsList={giros}
+            maxItems={2}
+            title="Productos o Servicios"
+            id="giros-autocomplete"
+          />
+          <FormHelperText>
+            {touched.productos && errors.productos?.toString()}
+          </FormHelperText>
+        </FormControl>
       </Grid>
 
       <Grid size={2}>

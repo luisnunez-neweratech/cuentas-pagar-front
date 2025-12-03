@@ -52,7 +52,7 @@ export const useUniqueFilters = () => {
       monedaId: null,
       noFactura: null,
       year: null,
-      colaboradorId: null,
+      colaboradorId: { value: 0, label: "" },
     };
   };
 
