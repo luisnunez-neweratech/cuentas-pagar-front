@@ -8,8 +8,11 @@ import Paper from "@mui/material/Paper";
 import { useDetalleTable } from "./hooks/useDetalleTable";
 import { RowDetalle } from "./components/rowDetalle/RowDetalle";
 
+interface props {
+  onClickGuardar: number;
+}
 
-export const DetalleTable = () => {
+export const DetalleTable = ({onClickGuardar}:props) => {
   const { rows } = useDetalleTable();
 
   return (
@@ -40,7 +43,7 @@ export const DetalleTable = () => {
         </TableHead>
         <TableBody>
           {(rows ?? []).map((row) => (
-            <RowDetalle key={row.id} id={row.id} />
+            <RowDetalle key={row.id} id={row.id} onClickGuardar={onClickGuardar} />
           ))}
         </TableBody>
       </Table>

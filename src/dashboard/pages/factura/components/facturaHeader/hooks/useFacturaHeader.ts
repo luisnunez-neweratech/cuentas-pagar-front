@@ -208,9 +208,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
       //TODO validar grid detalle
       //stateFactura
-
-      console.log("values", values);
-      createMutation.mutate({
+      
+      /* createMutation.mutate({
         id: 0,
         supplierId: values.proveedorId!.value,
         invoiceNumber: values.noFactura!,
@@ -238,7 +237,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         reimbursementStatus: 1,
         reimbursementDate: values.fechaReembolso!,
         reimbursementCollaboratorId: values.colaboradorId!.value,
-      });
+      }); */
     },
   });
 

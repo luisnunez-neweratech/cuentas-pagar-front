@@ -4,7 +4,11 @@ import { mainBackgroundColor } from "../../../../../lib/constants";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useFacturaDetalle } from "./hooks/useFacturaDetalle";
 
-export const FacturaDetalle = () => {
+interface props {
+  onClickGuardar: number;
+}
+
+export const FacturaDetalle = ({ onClickGuardar }: props) => {
   const { clickAddRowDetalle } = useFacturaDetalle();
 
   return (
@@ -26,7 +30,7 @@ export const FacturaDetalle = () => {
       </Grid>
       <Grid size={8} />
       <Grid size={10} sx={{ marginTop: -25 }}>
-        <DetalleTable />
+        <DetalleTable onClickGuardar={onClickGuardar} />
       </Grid>
     </>
   );

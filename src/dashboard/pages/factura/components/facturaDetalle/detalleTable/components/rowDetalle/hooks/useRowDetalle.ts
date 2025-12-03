@@ -1,11 +1,14 @@
 import { useFormik } from "formik";
 import { useFacturaStore } from "../../../../../../store/Factura.store";
+import { useEffect } from "react";
+import { validationSchema } from "../Validations";
 
 interface props {
   id: number;
+  onClickGuardar: number;
 }
 
-export const useRowDetalle = ({ id }: props) => {
+export const useRowDetalle = ({ id, onClickGuardar }: props) => {
   const stateFactura = useFacturaStore((state) => state);
   const removeRowFacturaDetalle = useFacturaStore(
     (state) => state.removeRowFacturaDetalle
@@ -27,21 +30,26 @@ export const useRowDetalle = ({ id }: props) => {
   };
 
   const {
-    //handleSubmit,
+    handleSubmit,
     values,
     handleChange,
     handleBlur,
-    //touched,
-    //errors,
-    //validateForm,
+    touched,
+    errors,
+    validateForm,
   } = useFormik({
     enableReinitialize: true,
     initialValues: getInitialValues(),
-    validationSchema: null, //validationSchema,
+    validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      console.log('valores bien? de rows', values);
+      // guardar en el estado
     },
   });
+
+  useEffect(() => {
+    handleSubmit()
+  }, [onClickGuardar])
 
   const deleteRowFactura = (id: number) => {
     removeRowFacturaDetalle(id);
@@ -52,5 +60,7 @@ export const useRowDetalle = ({ id }: props) => {
     values,
     handleChange,
     handleBlur,
+    touched,
+    errors,
   };
 };
