@@ -4,10 +4,10 @@ import {
   TextField,
   Tooltip,
   IconButton,
-  InputAdornment,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRowDetalle } from "./hooks/useRowDetalle";
+import { NumericFormat } from "react-number-format";
 
 interface props {
   id: number;
@@ -23,6 +23,7 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
     touched,
     errors,
     handleSubmit,
+    setFieldValue,
   } = useRowDetalle({
     id,
     onClickGuardar,
@@ -136,61 +137,67 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
         />
       </TableCell>
       <TableCell>
-        <TextField
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="precio"
-          name="precio"
-          type="tel"
           value={values.precio}
-          onChange={(e) => {
-            handleChange(e);
+          onValueChange={(values) => {
+            const { value } = values;
+            setFieldValue("precio", value);
             handleSubmit();
           }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
           onBlur={handleBlur}
-          variant="outlined" // Use outlined for better visibility in a table
-          size="small" // Make it less bulky
-          fullWidth // Optional: makes the TextField take the full width of the cell
+          error={touched.precio && Boolean(errors.precio)}
+          helperText={touched.precio && errors.precio?.toString()}
+          allowNegative
+          decimalScale={2}
           slotProps={{
             input: {
               style: { fontSize: "11px", textAlign: "right" },
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
             },
-            // Or for the native HTML element
             htmlInput: {
               style: { fontSize: "11px", textAlign: "right" },
             },
           }}
-          error={touched.precio && Boolean(errors.precio)}
         />
       </TableCell>
       <TableCell>
-        <TextField
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="total"
-          name="total"
           value={values.total}
-          onChange={(e) => {
-            handleChange(e);
+          onValueChange={(values) => {
+            const { value } = values;
+            setFieldValue("total", value);
             handleSubmit();
           }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
           onBlur={handleBlur}
-          type="tel"
-          variant="outlined" // Use outlined for better visibility in a table
-          size="small" // Make it less bulky
-          fullWidth // Optional: makes the TextField take the full width of the cell
+          error={touched.total && Boolean(errors.total)}
+          helperText={touched.total && errors.total?.toString()}
+          allowNegative
+          decimalScale={2}
           slotProps={{
             input: {
               style: { fontSize: "11px", textAlign: "right" },
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
             },
-            // Or for the native HTML element
             htmlInput: {
               style: { fontSize: "11px", textAlign: "right" },
             },
           }}
-          error={touched.total && Boolean(errors.total)}
         />
       </TableCell>
       <TableCell>
