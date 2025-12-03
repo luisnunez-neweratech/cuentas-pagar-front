@@ -33,6 +33,8 @@ export interface FacturaState {
 
   facturaDetalle: FacturaDetalle[] | null;
 
+  setFacturaId: (id: number) => void;
+
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
   removeRowFacturaDetalle: (id: number) => void;
   updateRowFacturaDetalle: (id: number, facturaDetalle: FacturaDetalle) => void;
@@ -68,6 +70,13 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   xmlDownloadUrl: null,
 
   facturaDetalle: null,
+
+  setFacturaId: (id: number) => {
+    set((state) => ({
+      ...state,
+      id,
+    }));
+  },
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => {
     set((state) => ({

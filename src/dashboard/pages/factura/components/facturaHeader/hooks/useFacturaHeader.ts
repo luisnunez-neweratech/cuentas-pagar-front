@@ -35,6 +35,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   >([]);
 
   const stateFactura = useFacturaStore((state) => state);
+  const setFacturaId = useFacturaStore((state) => state.setFacturaId);
 
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
@@ -160,8 +161,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const createMutation = useMutation({
     mutationFn: addFacturaHeader,
     onSuccess: (data) => {
+      setFacturaId(data.data.id); //id header creado, por si falla el detalle usar este id
       const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
-        
         return {
           lineNumber: 0,
           quantity: +detalle.cantidad,
@@ -211,52 +212,75 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       //handleDisableButtons(true);
-
-      if ((stateFactura.facturaDetalle ?? []).length > 0) {
-        console.log("factura detalle", stateFactura.facturaDetalle);
-
-        let detallesValido = true;
-        stateFactura.facturaDetalle?.map((detalle) => {
-          if (!detalle.validado) {
-            detallesValido = false;
-          }
-        });
-
-        if (detallesValido) {
-          createMutation.mutate({
-            id: 0,
-            supplierId: values.proveedorId!.value,
-            invoiceNumber: values.noFactura!,
-            fiscalFolio: values.folioFiscal!,
-            documentType: values.tipoDocumentoId!,
-            invoiceDate: values.fechaFactura!,
-            supplierProductService: values.productos![0].descripcion,
-            subtotal: values.subtotal!,
-            discount: values.descuento!,
-            taxIVA: values.impuestos!,
-            taxIVARetained: values.ivaRetenido!,
-            taxISRRetained: values.isrRetenido!,
-            total:
-              values.subtotal! -
-              values.descuento! +
-              values.impuestos! -
-              values.ivaRetenido! -
-              values.isrRetenido!, // TODO cambiar esta formula
-            currencyId: values.monedaId!,
-            exchangeRate: 0,
-            paymentForm: "string",
-            paymentTerms: "string",
-            scheduledPaymentDate: values.fechaProgramadaPago!,
-            paymentDate: values.fechaPago!,
-            reimbursementStatus: 1,
-            reimbursementDate: values.fechaReembolso!,
-            reimbursementCollaboratorId: values.colaboradorId!.value,
+      if (!id) { // nueva factura
+        if ((stateFactura.facturaDetalle ?? []).length > 0) {
+          let detallesValido = true;
+          stateFactura.facturaDetalle?.map((detalle) => {
+            if (!detalle.validado) {
+              detallesValido = false;
+            }
           });
+
+          if (detallesValido) {
+            if (!stateFactura.id) {
+              // crea header y despues detalle
+              createMutation.mutate({
+                id: 0,
+                supplierId: values.proveedorId!.value,
+                invoiceNumber: values.noFactura!,
+                fiscalFolio: values.folioFiscal!,
+                documentType: values.tipoDocumentoId!,
+                invoiceDate: values.fechaFactura!,
+                supplierProductService: values.productos![0].descripcion,
+                subtotal: values.subtotal!,
+                discount: values.descuento!,
+                taxIVA: values.impuestos!,
+                taxIVARetained: values.ivaRetenido!,
+                taxISRRetained: values.isrRetenido!,
+                total:
+                  values.subtotal! -
+                  values.descuento! +
+                  values.impuestos! -
+                  values.ivaRetenido! -
+                  values.isrRetenido!, // TODO cambiar esta formula
+                currencyId: values.monedaId!,
+                exchangeRate: 0,
+                paymentForm: "string",
+                paymentTerms: "string",
+                scheduledPaymentDate: values.fechaProgramadaPago!,
+                paymentDate: values.fechaPago!,
+                reimbursementStatus: 1,
+                reimbursementDate: values.fechaReembolso!,
+                reimbursementCollaboratorId: values.colaboradorId!.value,
+              });
+            }
+            {
+              // crea solo detalles
+              const newDetalles = (stateFactura.facturaDetalle ?? []).map(
+                (detalle) => {
+                  return {
+                    lineNumber: 0,
+                    quantity: +detalle.cantidad,
+                    productServiceKey: detalle.codigo.toString(),
+                    concept: detalle.concepto.toString(),
+                    unitPrice: 0,
+                    lineDiscount: 0,
+                    lineTotal: +detalle.total,
+                    unitOfMeasure: detalle.uMedida.toString(),
+                  };
+                }
+              );
+              createMutationDetalle.mutate({
+                invoiceId: stateFactura.id!.toString(),
+                postFacturaDetallePayload: newDetalles,
+              });
+            }
+          } else {
+            toast.error("Los Detalles no son validos");
+          }
         } else {
-          toast.error("Los Detalles no son validos");
+          toast.error("La Factura no tiene detalles");
         }
-      } else {
-        toast.error("La Factura no tiene detalles");
       }
     },
   });
