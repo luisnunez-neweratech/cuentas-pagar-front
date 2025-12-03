@@ -50,6 +50,7 @@ export const RowDetalle = ({ id }: props) => {
         <TextField
           id="uMedida"
           name="uMedida"
+          type="tel"
           value={values.uMedida}
           onChange={handleChange}
           onBlur={handleBlur}
