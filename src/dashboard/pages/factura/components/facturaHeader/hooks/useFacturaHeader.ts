@@ -68,8 +68,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setConvertMonedas(newMonedas ?? []);
   }, [monedas]);
 
-  console.log("proveedores", proveedores);
-
   useEffect(() => {
     const newProveedores = proveedores?.map((proveedor: any) => {
       return {
@@ -170,7 +168,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
           quantity: +detalle.cantidad,
           productServiceKey: detalle.codigo.toString(),
           concept: detalle.concepto.toString(),
-          unitPrice: 0,
+          unitPrice: +detalle.precio,
           lineDiscount: 0,
           lineTotal: +detalle.total,
           unitOfMeasure: detalle.uMedida.toString(),
@@ -214,6 +212,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       //handleDisableButtons(true);
+      console.log('values', values)
       if (!id) {
         // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {
@@ -247,11 +246,11 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                   taxIVARetained: values.ivaRetenido!,
                   taxISRRetained: values.isrRetenido!,
                   total:
-                    values.subtotal! -
-                    values.descuento! +
-                    values.impuestos! -
-                    values.ivaRetenido! -
-                    values.isrRetenido!, // TODO cambiar esta formula
+                    +values.subtotal! -
+                    +values.descuento! +
+                    +values.impuestos! -
+                    +values.ivaRetenido! -
+                    +values.isrRetenido!, // TODO cambiar esta formula
                   currencyId: values.monedaId!,
                   exchangeRate: 0,
                   paymentForm: "string",
@@ -271,7 +270,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                       quantity: +detalle.cantidad,
                       productServiceKey: detalle.codigo.toString(),
                       concept: detalle.concepto.toString(),
-                      unitPrice: 0,
+                      unitPrice: +detalle.precio,
                       lineDiscount: 0,
                       lineTotal: +detalle.total,
                       unitOfMeasure: detalle.uMedida.toString(),
