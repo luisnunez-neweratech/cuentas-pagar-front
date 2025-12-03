@@ -37,6 +37,9 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
   const stateFactura = useFacturaStore((state) => state);
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
+  const setTipoDocumentoId = useFacturaStore(
+    (state) => state.setTipoDocumentoId
+  );
 
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
@@ -167,7 +170,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         toast.error(error.message);
         return;
       }
-      toast.error("Error al agregar la factura");
+      toast.error("Error al agregar el detalle de la factura");
       return;
     },
     onSettled: () => {
@@ -340,6 +343,62 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setFieldValue(fieldValue, newValues);
   };
 
+  const setCorrectAmoutValue = (
+    value: string,
+    field: string,
+    tipoDocId?: number
+  ) => {
+    const valueDocumentoId = tipoDocId ?? values.tipoDocumentoId;
+    if (valueDocumentoId === 2) {
+      // nota de credito
+      if (+value > 0) {
+        value = (+value * -1).toString();
+      }
+    } else {
+      // factura
+      if (+value < 0) {
+        value = (+value * -1).toString();
+      }
+    }
+    console.log(field, value);
+    setFieldValue(field, value);
+  };
+
+  const handleChangeTipoDocumento = (e: any) => {
+    setTipoDocumentoId(e.target.value);
+    handleChange(e);
+    setCorrectAmoutValue(
+      values.subtotal?.toString() ?? "",
+      "subtotal",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.descuento?.toString() ?? "",
+      "descuento",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.impuestos?.toString() ?? "",
+      "impuestos",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.ivaRetenido?.toString() ?? "",
+      "ivaRetenido",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.isrRetenido?.toString() ?? "",
+      "isrRetenido",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.total?.toString() ?? "",
+      "total",
+      e.target.value
+    );    
+  };
+
   return {
     onChangeAutocomplete,
     values,
@@ -354,5 +413,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setFieldValue,
     id,
     setFieldTouched,
+    handleChangeTipoDocumento,
+    setCorrectAmoutValue,
   };
 };

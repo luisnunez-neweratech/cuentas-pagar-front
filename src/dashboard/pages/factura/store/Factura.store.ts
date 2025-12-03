@@ -33,6 +33,7 @@ export interface FacturaState {
 
   facturaDetalle: FacturaDetalle[] | null;
 
+  setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
   setXmlFile: (xmlFileValue: File) => void;
   setFacturaId: (id: number) => void;
@@ -73,6 +74,13 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   xmlDownloadUrl: null,
 
   facturaDetalle: null,
+
+  setTipoDocumentoId: (tipoDocumentoId: number) => {
+    set((state) => ({
+      ...state,
+      tipoDocumentoId,
+    }));
+  },
 
   setPdfFile: (pdfFileValue: File) => {
     set((state) => ({

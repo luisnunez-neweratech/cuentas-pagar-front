@@ -29,6 +29,8 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     setFieldValue,
     id,
     setFieldTouched,
+    handleChangeTipoDocumento,
+    setCorrectAmoutValue,
   } = useFacturaHeader({ onClickGuardar });
 
   return (
@@ -65,7 +67,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           label={"Documento"}
           options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
           value={values.tipoDocumentoId}
-          handleChange={handleChange}
+          handleChange={handleChangeTipoDocumento}
           handleBlur={handleBlur}
           touched={touched}
           errors={errors}
@@ -202,9 +204,9 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id="subtotal"
           label="Subtotal"
           value={values.subtotal}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("subtotal", value);
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "subtotal");
           }}
           customInput={TextField}
           thousandSeparator
@@ -260,9 +262,9 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id="descuento"
           label="Descuento"
           value={values.descuento}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("descuento", value);
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "descuento");
           }}
           customInput={TextField}
           thousandSeparator
@@ -294,9 +296,9 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id="impuestos"
           label="Impuestos"
           value={values.impuestos}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("impuestos", value);
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "impuestos");
           }}
           customInput={TextField}
           thousandSeparator
@@ -328,9 +330,9 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id="ivaRetenido"
           label="IVA Retenido"
           value={values.ivaRetenido}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("ivaRetenido", value);
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "ivaRetenido");
           }}
           customInput={TextField}
           thousandSeparator
@@ -362,9 +364,9 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id="isrRetenido"
           label="ISR Retenido"
           value={values.isrRetenido}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("isrRetenido", value);
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "isrRetenido");
           }}
           customInput={TextField}
           thousandSeparator
@@ -396,9 +398,9 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id="total"
           label="Total"
           value={values.total}
-          onValueChange={(values) => {
-            const { value } = values;
-            setFieldValue("total", value);
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "total");
           }}
           customInput={TextField}
           thousandSeparator
