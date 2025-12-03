@@ -39,6 +39,7 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     handleBlur,
     touched,
     errors,
+    setFieldValue,
     //validateForm,
   } = useFormik({
     enableReinitialize: true,
@@ -101,5 +102,6 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     touched,
     errors,
     handleSubmit,
+    setFieldValue
   };
 };

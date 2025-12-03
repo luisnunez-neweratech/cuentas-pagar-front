@@ -20,8 +20,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
   } = useFacturaFooter();
 
   return (
-    <>
-      <Grid size={2} />
+    <>      
       <Grid size={3}>
         <input
           type="file"
