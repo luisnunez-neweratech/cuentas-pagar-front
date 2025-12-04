@@ -1,6 +1,7 @@
 import { cuentasApi } from "../../../../api/cuentasApi";
 import type { PostFacturaDetallePayload } from "../interfaces/PostFacturaDetallePayload";
 import type { PostFacturaHeaderPayload } from "../interfaces/PostFacturaHeaderPayload";
+import type { PutFacturaHeaderPayload } from "../interfaces/PutFacturaHeaderPayload";
 
 export const addFacturaHeader = async (
   postFacturaHeaderPayload: PostFacturaHeaderPayload
@@ -23,6 +24,72 @@ export const addFacturaDetalle = async ({
   const response = await cuentasApi.post(
     `/Invoice/DetailsCreate/${invoiceId}`,
     postFacturaDetallePayload
+  );
+  return response;
+};
+
+interface uploadFacturaFilesProps {
+  facturaId: string;
+  pdf: any;
+  xml: any;
+}
+
+export const uploadFacturaFiles = async ({
+  facturaId,
+  pdf,
+  xml,
+}: uploadFacturaFilesProps): Promise<any> => {
+  const formData = new FormData();
+  formData.append("xmlFile", xml);
+  formData.append("pdfFile", pdf);
+
+  const { data } = await cuentasApi.post(
+    `/Invoice/${facturaId}/UploadDocuments`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return data;
+};
+
+export const getFactura = async (id: string): Promise<any> => {
+  const { data } = await cuentasApi.get(`/Invoice/${id}`);
+
+  return {
+    proveedorId: data.supplierId,
+    noFactura: data.invoiceNumber,
+    tipoDocumentoId: data.documentType,
+    folioFiscal: data.fiscalFolio,
+    fechaFactura: data.invoiceDate,
+    productos: data.supplierProductService,
+    subtotal: data.subtotal,
+    descuento: data.discount,
+    impuestos: data.taxIVA,
+    ivaRetenido: data.taxIVARetained,
+    isrRetenido: data.taxISRRetained,
+    total: data.total,
+    monedaId: data.currencyId,
+    fechaProgramadaPago: data.scheduledPaymentDate,
+    statusFacturaId: data.invoiceStatusId,
+    fechaPago: data.paymentDate,
+    fechaReembolso: data.reimbursementDate,
+    statusReembolso: data.reimbursementStatus,
+    colaboradorId: data.reimbursementCollaboratorId,
+  };
+};
+
+
+export const updateFacturaHeader = async (
+  putFacturaHeaderPayload: PutFacturaHeaderPayload
+): Promise<any> => {
+  const response = await cuentasApi.put(
+    `/Invoice/${putFacturaHeaderPayload.id}`,
+    {
+      ...putFacturaHeaderPayload,
+    }
   );
   return response;
 };

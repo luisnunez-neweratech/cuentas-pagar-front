@@ -13,7 +13,11 @@ export const FacturaDetalle = ({ onClickGuardar }: props) => {
 
   return (
     <>
-      <Grid size={1} sx={{ marginTop: -30 }}>
+      <Grid size={10} sx={{ marginTop: -30 }}>
+        <DetalleTable onClickGuardar={onClickGuardar} />
+      </Grid>
+      <Grid size={10} />
+      <Grid size={1} >
         <Tooltip title="Agregar Detalle">
           <IconButton
             sx={{ color: mainBackgroundColor }}
@@ -27,10 +31,6 @@ export const FacturaDetalle = ({ onClickGuardar }: props) => {
             />
           </IconButton>
         </Tooltip>
-      </Grid>
-      <Grid size={8} />
-      <Grid size={10} sx={{ marginTop: -25 }}>
-        <DetalleTable onClickGuardar={onClickGuardar} />
       </Grid>
     </>
   );

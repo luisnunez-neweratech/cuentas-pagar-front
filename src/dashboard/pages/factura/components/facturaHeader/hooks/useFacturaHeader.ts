@@ -12,9 +12,13 @@ import { getProveedores } from "../../../../facturas/services/proveedor.service"
 import {
   addFacturaDetalle,
   addFacturaHeader,
+  getFactura,
+  updateFacturaHeader,
+  uploadFacturaFiles,
 } from "../../../services/factura.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 
 interface props {
   onClickGuardar: number;
@@ -34,8 +38,14 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     { value: number; label: string }[]
   >([]);
 
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+
   const stateFactura = useFacturaStore((state) => state);
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
+  const setTipoDocumentoId = useFacturaStore(
+    (state) => state.setTipoDocumentoId
+  );
+  const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
 
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
@@ -73,6 +83,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       return {
         value: proveedor.id,
         label: proveedor.descripcion,
+        tipoEntidadId: proveedor.tipoEntidadId,
       };
     });
 
@@ -90,28 +101,51 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setConvertColaboradores(newColaboradores ?? []);
   }, [colaboradores]);
 
+  const {
+    isLoading,
+    isError: isErrorGet,
+    error: errorGet,
+    data: facturaBD,
+  } = useQuery({
+    queryKey: ["Invoice", `${id}`],
+    queryFn: () => getFactura(id || ""),
+    enabled: !!id,
+  });
+
   const initialFormValues = () => {
-    /*  if (proveedorOcasional) {
-      if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
-        navigate(`/proveedor/contrato/${id}`);
-      }
-      const productos = giros?.filter((obj) =>
+    if (id && facturaBD) {
+      /*  const productos = giros?.filter((obj) =>
         proveedorOcasional.productos.includes(obj.id)
-      );
+      ); */
       return {
-        tipoEntidad: proveedorOcasional.tipoEntidad,
-        tipoPersona: proveedorOcasional.tipoPersona,
-        rfc: proveedorOcasional.rfc,
-        razonSocial: proveedorOcasional.razonSocial,
-        alias: proveedorOcasional.alias ?? "",
-        email: proveedorOcasional.email,
-        productos: productos,
+        proveedorId: { value: 0, label: "" },
+        colaboradorId: { value: 0, label: "" },
+        tipoDocumentoId: 1,
+        statusFacturaId: 4, //TODO lo regresa mal
+        statusReembolsoId: 4,
+        monedaId: facturaBD.monedaId,
+        noFactura: facturaBD.noFactura,
+        folioFiscal: facturaBD.folioFiscal,
+
+        fechaFactura: facturaBD.fechaFactura,
+        fechaProgramadaPago: facturaBD.fechaProgramadaPago,
+        fechaPago: facturaBD.fechaPago,
+        fechaReembolso: facturaBD.fechaReembolso,
+
+        subtotal: facturaBD.subtotal,
+        descuento: facturaBD.descuento,
+        impuestos: facturaBD.impuestos,
+        ivaRetenido: facturaBD.ivaRetenido,
+        isrRetenido: facturaBD.isrRetenido,
+        total: facturaBD.total,
+
+        //productos: stateFactura.productos,
       };
-    } */
+    }
     return {
       proveedorId: { value: 0, label: "" }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
-      tipoDocumentoId: null, //stateFactura.tipoDocumentoId,
+      tipoDocumentoId: 1, // por default factura en nuevo//stateFactura.tipoDocumentoId,
       statusFacturaId: 4, //en revision al crear //stateFactura.statusFacturaId,
       statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
       monedaId: stateFactura.monedaId,
@@ -134,11 +168,72 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     };
   };
 
+  const uploadDocumentosMutation = useMutation({
+    mutationFn: uploadFacturaFiles,
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al subir los documentos");
+      return;
+    },
+    onSettled: () => {
+      //handleDisableButtons(false);
+    },
+  });
+
   const createMutationDetalle = useMutation({
     mutationFn: addFacturaDetalle,
     onSuccess: () => {
       toast.success("Factura creada correctamente");
       navigate("/facturas");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          toast.error(error.response.data);
+          return;
+        }
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al agregar el detalle de la factura");
+      return;
+    },
+    onSettled: () => {
+      //handleDisableButtons(false);
+    },
+  });
+
+  const createMutation = useMutation({
+    mutationFn: addFacturaHeader,
+    onSuccess: (data) => {
+      setFacturaId(data.data.id); //id header creado, por si falla el detalle usar este id
+      const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
+        return {
+          lineNumber: 0,
+          quantity: +detalle.cantidad,
+          productServiceKey: detalle.codigo.toString(),
+          concept: detalle.concepto.toString(),
+          unitPrice: +detalle.precio,
+          lineDiscount: 0,
+          lineTotal: +detalle.total,
+          unitOfMeasure: detalle.uMedida.toString(),
+        };
+      });
+      createMutationDetalle.mutate({
+        invoiceId: data.data.id,
+        postFacturaDetallePayload: newDetalles,
+      });
+
+      uploadDocumentosMutation.mutate({
+        facturaId: data.data.id,
+        xml: stateFactura.xmlFileValue,
+        pdf: stateFactura.pdfFileValue,
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -158,38 +253,18 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     },
   });
 
-  const createMutation = useMutation({
-    mutationFn: addFacturaHeader,
-    onSuccess: (data) => {
-      setFacturaId(data.data.id); //id header creado, por si falla el detalle usar este id
-      const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
-        return {
-          lineNumber: 0,
-          quantity: +detalle.cantidad,
-          productServiceKey: detalle.codigo.toString(),
-          concept: detalle.concepto.toString(),
-          unitPrice: 0,
-          lineDiscount: 0,
-          lineTotal: +detalle.total,
-          unitOfMeasure: detalle.uMedida.toString(),
-        };
-      });
-      createMutationDetalle.mutate({
-        invoiceId: data.data.id,
-        postFacturaDetallePayload: newDetalles,
-      });
+  const updateHeaderMutation = useMutation({
+    mutationFn: updateFacturaHeader,
+    onSuccess: () => {
+      //toast.success("Factura actualizada correctamente");
     },
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        if (error.response) {
-          toast.error(error.response.data);
-          return;
-        }
         toast.error(error.message);
         return;
       }
-      toast.error("Error al agregar la factura");
+      toast.error("Error al actualizar la factura");
       return;
     },
     onSettled: () => {
@@ -209,70 +284,158 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialFormValues(),
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(stateFactura.tipoEntidadId),
     onSubmit: async (values) => {
       //handleDisableButtons(true);
-      if (!id) { // nueva factura
+      if (!id) {
+        // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {
+          // archivos cargados
+          if (!stateFactura.pdfFileValue) {
+            toast.warning("Cargar el archivo PDF");
+            return;
+          }
+          if (stateFactura.tipoEntidadId === 0) {
+            // si es nacional no revisamos xml
+            if (!stateFactura.xmlFileValue) {
+              toast.warning("Cargar el archivo XML");
+              return;
+            }
+          }
+
           let detallesValido = true;
+          let sumaDetalle = 0;
           stateFactura.facturaDetalle?.map((detalle) => {
             if (!detalle.validado) {
               detallesValido = false;
             }
+            sumaDetalle = sumaDetalle + +detalle.total;
           });
 
           if (detallesValido) {
-            if (!stateFactura.id) {
-              // crea header y despues detalle
-              createMutation.mutate({
-                id: 0,
+            //validar suma de totales
+            if (sumaDetalle !== +(values.subtotal ?? 0)) {
+              toast.error("El total de los detalles no es igual al subtotal");
+            } else {
+              if (!stateFactura.id) {
+                // crea header y despues detalle
+                createMutation.mutate({
+                  id: 0,
+                  supplierId: values.proveedorId!.value,
+                  invoiceNumber: values.noFactura!,
+                  fiscalFolio: values.folioFiscal ?? "",
+                  documentType: values.tipoDocumentoId!,
+                  invoiceDate: values.fechaFactura!,
+                  supplierProductService: values.productos![0].descripcion,
+                  subtotal: values.subtotal!,
+                  discount: values.descuento!,
+                  taxIVA: values.impuestos!,
+                  taxIVARetained: values.ivaRetenido ?? 0,
+                  taxISRRetained: values.isrRetenido ?? 0,
+                  total:
+                    +values.subtotal! -
+                    +values.descuento! +
+                    +values.impuestos! -
+                    +values.ivaRetenido! -
+                    +values.isrRetenido!,
+                  currencyId: values.monedaId!,
+                  exchangeRate: 0,
+                  paymentForm: "string",
+                  paymentTerms: "string",
+                  scheduledPaymentDate: values.fechaProgramadaPago!,
+                  paymentDate: values.fechaPago!,
+                  reimbursementStatus: 1,
+                  reimbursementDate: values.fechaReembolso!,
+                  reimbursementCollaboratorId: values.colaboradorId!.value,
+                });
+              } else {
+                // crea solo detalles
+                const newDetalles = (stateFactura.facturaDetalle ?? []).map(
+                  (detalle) => {
+                    return {
+                      lineNumber: 0,
+                      quantity: +detalle.cantidad,
+                      productServiceKey: detalle.codigo.toString(),
+                      concept: detalle.concepto.toString(),
+                      unitPrice: +detalle.precio,
+                      lineDiscount: 0,
+                      lineTotal: +detalle.total,
+                      unitOfMeasure: detalle.uMedida.toString(),
+                    };
+                  }
+                );
+                createMutationDetalle.mutate({
+                  invoiceId: stateFactura.id!.toString(),
+                  postFacturaDetallePayload: newDetalles,
+                });
+                uploadDocumentosMutation.mutate({
+                  facturaId: stateFactura.id!.toString(),
+                  xml: stateFactura.xmlFileValue,
+                  pdf: stateFactura.pdfFileValue,
+                });
+              }
+            }
+          } else {
+            toast.error("Los Detalles no son validos");
+          }
+        } else {
+          toast.error("La Factura no tiene detalles");
+        }
+      } else {
+        //modificar
+        if ((stateFactura.facturaDetalle ?? []).length > 0) {
+          // cargar nuevos archivos  si es que hay
+          // xml solo para nacional === 0
+
+          let detallesValido = true;
+          let sumaDetalle = 0;
+          stateFactura.facturaDetalle?.map((detalle) => {
+            if (!detalle.validado) {
+              detallesValido = false;
+            }
+            sumaDetalle = sumaDetalle + +detalle.total;
+          });
+
+          if (detallesValido) {
+            if (sumaDetalle !== +(values.subtotal ?? 0)) {
+              toast.error("El total de los detalles no es igual al subtotal");
+            } else {
+              //call endpoint actualizar
+              updateHeaderMutation.mutate({
+                id: +id,
                 supplierId: values.proveedorId!.value,
                 invoiceNumber: values.noFactura!,
-                fiscalFolio: values.folioFiscal!,
-                documentType: values.tipoDocumentoId!,
+                documentType: values.tipoDocumentoId!.toString(), //TODO el back pide string
+                cfdiType: 0,
+                serie: "",
+                folio: "",
+                fiscalFolio: values.folioFiscal ?? "",
                 invoiceDate: values.fechaFactura!,
                 supplierProductService: values.productos![0].descripcion,
                 subtotal: values.subtotal!,
                 discount: values.descuento!,
                 taxIVA: values.impuestos!,
-                taxIVARetained: values.ivaRetenido!,
-                taxISRRetained: values.isrRetenido!,
+                taxIVARetained: values.ivaRetenido ?? 0,
+                taxISRRetained: values.isrRetenido ?? 0,
                 total:
-                  values.subtotal! -
-                  values.descuento! +
-                  values.impuestos! -
-                  values.ivaRetenido! -
-                  values.isrRetenido!, // TODO cambiar esta formula
+                  +values.subtotal! -
+                  +values.descuento! +
+                  +values.impuestos! -
+                  +values.ivaRetenido! -
+                  +values.isrRetenido!,
                 currencyId: values.monedaId!,
                 exchangeRate: 0,
-                paymentForm: "string",
-                paymentTerms: "string",
+                paymentMethod: 0,
+                paymentForm: "",
+                paymentTerms: "",
                 scheduledPaymentDate: values.fechaProgramadaPago!,
                 paymentDate: values.fechaPago!,
-                reimbursementStatus: 1,
                 reimbursementDate: values.fechaReembolso!,
                 reimbursementCollaboratorId: values.colaboradorId!.value,
-              });
-            }
-            {
-              // crea solo detalles
-              const newDetalles = (stateFactura.facturaDetalle ?? []).map(
-                (detalle) => {
-                  return {
-                    lineNumber: 0,
-                    quantity: +detalle.cantidad,
-                    productServiceKey: detalle.codigo.toString(),
-                    concept: detalle.concepto.toString(),
-                    unitPrice: 0,
-                    lineDiscount: 0,
-                    lineTotal: +detalle.total,
-                    unitOfMeasure: detalle.uMedida.toString(),
-                  };
-                }
-              );
-              createMutationDetalle.mutate({
-                invoiceId: stateFactura.id!.toString(),
-                postFacturaDetallePayload: newDetalles,
+                invoiceStatusId: values.statusFacturaId,
+                reimbursementStatus: values.statusReembolsoId.toString(), //TODO status reembolso tipo mal
+                isActive: true,
+                isDeleted: false,
               });
             }
           } else {
@@ -295,6 +458,79 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setFieldValue(fieldValue, newValues);
   };
 
+  const setCorrectAmoutValue = (
+    value: string,
+    field: string,
+    tipoDocId?: number
+  ) => {
+    const valueDocumentoId = tipoDocId ?? values.tipoDocumentoId;
+    if (valueDocumentoId === 2) {
+      // nota de credito
+      if (+value > 0) {
+        value = (+value * -1).toString();
+      }
+    } else {
+      // factura
+      if (+value < 0) {
+        value = (+value * -1).toString();
+      }
+    }
+    setFieldValue(field, value);
+  };
+
+  const handleChangeTipoDocumento = (e: any) => {
+    setTipoDocumentoId(e.target.value);
+    handleChange(e);
+    setCorrectAmoutValue(
+      values.subtotal?.toString() ?? "",
+      "subtotal",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.descuento?.toString() ?? "",
+      "descuento",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.impuestos?.toString() ?? "",
+      "impuestos",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.ivaRetenido?.toString() ?? "",
+      "ivaRetenido",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.isrRetenido?.toString() ?? "",
+      "isrRetenido",
+      e.target.value
+    );
+    setCorrectAmoutValue(
+      values.total?.toString() ?? "",
+      "total",
+      e.target.value
+    );
+  };
+
+  const setTipoEntidad = (tipoEntidadId: number) => {
+    setTipoEntidadId(tipoEntidadId);
+  };
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isErrorGet) {
+      if (errorGet instanceof AxiosError) {
+        toast.error(errorGet.response?.data ?? errorGet.message);
+        return;
+      }
+      toast.error("Error al obtener la factura");
+    }
+  }, [isErrorGet]);
+
   return {
     onChangeAutocomplete,
     values,
@@ -309,5 +545,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setFieldValue,
     id,
     setFieldTouched,
+    handleChangeTipoDocumento,
+    setCorrectAmoutValue,
+    setTipoEntidad,
   };
 };

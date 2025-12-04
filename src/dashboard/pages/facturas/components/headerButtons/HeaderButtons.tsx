@@ -18,15 +18,15 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-  const { clearFiltros, downloadFile } = useHeaderButtons();
-  const navigate = useNavigate();
+  const { clearFiltros, downloadFile, hasActiveFiltres, onClickNewFactura } = useHeaderButtons();
+  
   return (
     <>
       <Grid size={1}>
         <Tooltip title="Nueva Factura">
           <IconButton
             sx={{ color: mainBackgroundColor }}
-            onClick={() => navigate("/facturas/nueva-factura")}
+            onClick={onClickNewFactura}
           >
             <AddCircleIcon
               style={{

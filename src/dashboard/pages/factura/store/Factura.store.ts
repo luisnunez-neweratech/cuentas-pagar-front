@@ -13,6 +13,7 @@ export interface FacturaState {
   noFactura: string | null;
   folioFiscal: string | null;
   productos: Item[] | null;
+  tipoEntidadId: number | null;
 
   fechaFactura: string | null;
   programadaPago: string | null;
@@ -33,7 +34,12 @@ export interface FacturaState {
 
   facturaDetalle: FacturaDetalle[] | null;
 
+  setTipoDocumentoId: (tipoDocumentoId: number) => void;
+  setPdfFile: (pdfFileValue: File) => void;
+  setXmlFile: (xmlFileValue: File) => void;
   setFacturaId: (id: number) => void;
+  setTipoEntidadId: (tipoEntidadId: number) => void;
+  clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
   removeRowFacturaDetalle: (id: number) => void;
@@ -51,18 +57,19 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   noFactura: null,
   folioFiscal: null,
   productos: [],
+  tipoEntidadId: null,
 
   fechaFactura: null,
   programadaPago: null,
   fechaPago: null,
   fechaReembolso: null,
 
-  subtotal: null,
-  descuento: null,
-  impuestos: null,
-  ivaRetenido: null,
-  isrRetenido: null,
-  total: null,
+  subtotal: 0,
+  descuento: 0,
+  impuestos: 0,
+  ivaRetenido: 0,
+  isrRetenido: 0,
+  total: 0,
 
   pdfFileValue: null,
   pdfDownloadUrl: null,
@@ -70,6 +77,27 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   xmlDownloadUrl: null,
 
   facturaDetalle: null,
+
+  setTipoDocumentoId: (tipoDocumentoId: number) => {
+    set((state) => ({
+      ...state,
+      tipoDocumentoId,
+    }));
+  },
+
+  setPdfFile: (pdfFileValue: File) => {
+    set((state) => ({
+      ...state,
+      pdfFileValue,
+    }));
+  },
+
+  setXmlFile: (xmlFileValue: File) => {
+    set((state) => ({
+      ...state,
+      xmlFileValue,
+    }));
+  },
 
   setFacturaId: (id: number) => {
     set((state) => ({
@@ -95,6 +123,46 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
       facturaDetalle: (state.facturaDetalle ?? []).map((item) =>
         item.id === id ? { ...facturaDetalle } : item
       ),
+    }));
+  },
+  setTipoEntidadId: (tipoEntidadId: number) => {
+    set((state) => ({
+      ...state,
+      tipoEntidadId,
+    }));
+  },
+  clearState: () => {
+    set((_state) => ({
+      id: null,
+      proveedorId: null,
+      colaboradorId: null,
+      tipoDocumentoId: null,
+      statusFacturaId: null,
+      statusReembolsoId: null,
+      monedaId: null,
+      noFactura: null,
+      folioFiscal: null,
+      productos: [],
+      tipoEntidadId: null,
+
+      fechaFactura: null,
+      programadaPago: null,
+      fechaPago: null,
+      fechaReembolso: null,
+
+      subtotal: 0,
+      descuento: 0,
+      impuestos: 0,
+      ivaRetenido: 0,
+      isrRetenido: 0,
+      total: 0,
+
+      pdfFileValue: null,
+      pdfDownloadUrl: null,
+      xmlFileValue: null,
+      xmlDownloadUrl: null,
+
+      facturaDetalle: null,
     }));
   },
 });

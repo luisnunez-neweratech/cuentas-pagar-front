@@ -71,7 +71,7 @@ export const useCuentasBancariasData = ({
     validateForm,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationSchema(idInput, downloadUrl),
+    validationSchema: validationSchema(idInput, downloadUrl ?? null, getStepPerfil()?.tipoEntidad!),
     onSubmit: (_values) => {},
   });
 

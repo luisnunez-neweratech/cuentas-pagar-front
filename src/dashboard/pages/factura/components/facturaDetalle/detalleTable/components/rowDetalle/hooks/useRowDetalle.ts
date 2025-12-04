@@ -39,6 +39,7 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     handleBlur,
     touched,
     errors,
+    setFieldValue,
     //validateForm,
   } = useFormik({
     enableReinitialize: true,
@@ -63,7 +64,7 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     handleSubmit();
   }, [onClickGuardar]);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (Object.keys(errors).length === 0) {
       updateRowFacturaDetalle(id, {
         id: id,
@@ -93,6 +94,41 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     removeRowFacturaDetalle(id);
   };
 
+  const setCorrectAmoutValue = (
+    value: string,
+    field: string,
+    tipoDocId?: number
+  ) => {
+    const valueDocumentoId = tipoDocId ?? stateFactura.tipoDocumentoId;
+    if (valueDocumentoId === 2) {
+      // nota de credito
+      if (+value > 0) {
+        value = (+value * -1).toString();
+      }
+    } else {
+      // factura
+      if (+value < 0) {
+        value = (+value * -1).toString();
+      }
+    }
+    console.log(field, value);
+    setFieldValue(field, value);
+    handleSubmit();
+  };
+
+  useEffect(() => {
+    setCorrectAmoutValue(
+      values.precio?.toString() ?? "",
+      "precio",
+      stateFactura.tipoDocumentoId!
+    );
+    setCorrectAmoutValue(
+      values.total?.toString() ?? "",
+      "total",
+      stateFactura.tipoDocumentoId!
+    );
+  }, [stateFactura.tipoDocumentoId]);
+
   return {
     deleteRowFactura,
     values,
@@ -101,5 +137,7 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     touched,
     errors,
     handleSubmit,
+    setFieldValue,
+    setCorrectAmoutValue,
   };
 };

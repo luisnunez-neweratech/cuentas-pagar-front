@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, Grid } from "@mui/material";
+import { FormControl, FormHelperText, Grid, TextField } from "@mui/material";
 import { AutoCompleteComponent } from "../../../../../components/common/AutoComplete/AutoComplete";
 import { useFacturaHeader } from "./hooks/useFacturaHeader";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
@@ -8,6 +8,7 @@ import { NormalAutocomplete } from "../../../../../components/common/NormalAutoc
 import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
+import { NumericFormat } from "react-number-format";
 
 interface props {
   onClickGuardar: number;
@@ -28,6 +29,9 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     setFieldValue,
     id,
     setFieldTouched,
+    handleChangeTipoDocumento,
+    setCorrectAmoutValue,
+    setTipoEntidad
   } = useFacturaHeader({ onClickGuardar });
 
   return (
@@ -42,6 +46,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           handleBlur={handleBlur}
           touched={touched.proveedorId?.value}
           errors={errors.proveedorId?.value}
+          setTipoEntidad={setTipoEntidad}
         />
       </Grid>
 
@@ -64,7 +69,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           label={"Documento"}
           options={[TipoDocumento.Factura, TipoDocumento.NotaCredito]}
           value={values.tipoDocumentoId}
-          handleChange={handleChange}
+          handleChange={handleChangeTipoDocumento}
           handleBlur={handleBlur}
           touched={touched}
           errors={errors}
@@ -114,7 +119,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id={"monedaId"}
           label={"Moneda"}
           options={convertMonedas}
-          value={values.monedaId}
+          value={values.monedaId || ""}
           handleChange={handleChange}
           handleBlur={handleBlur}
           touched={touched}
@@ -126,7 +131,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
         <TextFieldCommon
           id="noFactura"
           label="No Factura"
-          value={values.noFactura}
+          value={values.noFactura || ""}
           handleChange={handleChange}
           typeMoneda={false}
           handleBlur={handleBlur}
@@ -139,7 +144,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
         <TextFieldCommon
           id="folioFiscal"
           label="Folio Fiscal"
-          value={values.folioFiscal}
+          value={values.folioFiscal || ""}
           handleChange={handleChange}
           typeMoneda={false}
           handleBlur={handleBlur}
@@ -193,15 +198,35 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
-        <TextFieldCommon
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="subtotal"
           label="Subtotal"
           value={values.subtotal}
-          handleChange={handleChange}
-          typeMoneda={true}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "subtotal");
+          }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
+          onBlur={handleBlur}
+          error={touched.subtotal && Boolean(errors.subtotal)}
+          helperText={touched.subtotal && errors.subtotal?.toString()}
+          allowNegative
+          decimalScale={2}
+          slotProps={{
+            input: {
+              style: { textAlign: "right" },
+            },
+            htmlInput: {
+              style: { textAlign: "right" },
+            },
+          }}
         />
       </Grid>
 
@@ -231,71 +256,171 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
       </Grid>
 
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="descuento"
           label="Descuento"
           value={values.descuento}
-          handleChange={handleChange}
-          typeMoneda={true}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "descuento");
+          }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
+          onBlur={handleBlur}
+          error={touched.descuento && Boolean(errors.descuento)}
+          helperText={touched.descuento && errors.descuento?.toString()}
+          allowNegative
+          decimalScale={2}
+          slotProps={{
+            input: {
+              style: { textAlign: "right" },
+            },
+            htmlInput: {
+              style: { textAlign: "right" },
+            },
+          }}
         />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="impuestos"
           label="Impuestos"
           value={values.impuestos}
-          handleChange={handleChange}
-          typeMoneda={true}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "impuestos");
+          }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
+          onBlur={handleBlur}
+          error={touched.impuestos && Boolean(errors.impuestos)}
+          helperText={touched.impuestos && errors.impuestos?.toString()}
+          allowNegative
+          decimalScale={2}
+          slotProps={{
+            input: {
+              style: { textAlign: "right" },
+            },
+            htmlInput: {
+              style: { textAlign: "right" },
+            },
+          }}
         />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="ivaRetenido"
           label="IVA Retenido"
           value={values.ivaRetenido}
-          handleChange={handleChange}
-          typeMoneda={true}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "ivaRetenido");
+          }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
+          onBlur={handleBlur}
+          error={touched.ivaRetenido && Boolean(errors.ivaRetenido)}
+          helperText={touched.ivaRetenido && errors.ivaRetenido?.toString()}
+          allowNegative
+          decimalScale={2}
+          slotProps={{
+            input: {
+              style: { textAlign: "right" },
+            },
+            htmlInput: {
+              style: { textAlign: "right" },
+            },
+          }}
         />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="isrRetenido"
           label="ISR Retenido"
           value={values.isrRetenido}
-          handleChange={handleChange}
-          typeMoneda={true}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "isrRetenido");
+          }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
+          onBlur={handleBlur}
+          error={touched.isrRetenido && Boolean(errors.isrRetenido)}
+          helperText={touched.isrRetenido && errors.isrRetenido?.toString()}
+          allowNegative
+          decimalScale={2}
+          slotProps={{
+            input: {
+              style: { textAlign: "right" },
+            },
+            htmlInput: {
+              style: { textAlign: "right" },
+            },
+          }}
         />
       </Grid>
 
       <Grid size={10} />
       <Grid size={2} sx={{ marginTop: 0 }}>
-        <TextFieldCommon
+        <NumericFormat
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          size="small"
           id="total"
           label="Total"
           value={values.total}
-          handleChange={handleChange}
-          typeMoneda={true}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
+          onValueChange={(newValues) => {
+            let { value } = newValues;
+            setCorrectAmoutValue(value, "total");
+          }}
+          customInput={TextField}
+          thousandSeparator
+          valueIsNumericString
+          prefix="$"
+          onBlur={handleBlur}
+          error={touched.total && Boolean(errors.total)}
+          helperText={touched.total && errors.total?.toString()}
+          allowNegative
+          decimalScale={2}
+          slotProps={{
+            input: {
+              style: { textAlign: "right" },
+            },
+            htmlInput: {
+              style: { textAlign: "right" },
+            },
+          }}
         />
       </Grid>
     </>
