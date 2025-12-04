@@ -5,14 +5,14 @@ import "rsuite/dist/rsuite.css";
 
 export const RangeFilters = () => {
   const {
-    //fechaFactura,
-    //setFechaFactura,
-   /*  fechaPago,
+    fechaFactura,
+    setFechaFactura,
+    fechaPago,
     setFechaPago,
     fechaProgramadaPago,
     setFechaProgramadaPago,
     fechaReembolso,
-    setFechaReembolsa, */
+    setFechaReembolsa,
   } = useRangeFilters();
 
   return (
@@ -20,75 +20,48 @@ export const RangeFilters = () => {
       <Grid size={3}>
         <DateRangePicker
           size="md"
-          placeholder="Fecha Factura"
-         /*  value={fechaFactura}
+          label="Fecha Factura"
+          value={fechaFactura}
+          showOneCalendar
           onChange={(value) => {
-            if (Array.isArray(value) && value.length === 2) {
-              setFechaFactura(value as Date[]);
-            } else {
-              setFechaFactura([]);
-            }
-          }} */
+            setFechaFactura(value);
+          }}
           format="dd-MM-yyyy"
         />
       </Grid>
       <Grid size={3}>
         <DateRangePicker
           size="md"
-          placeholder="Fecha Pago"
-         /*  value={
-            Array.isArray(fechaPago) && fechaPago.length === 2 && fechaPago[0] instanceof Date && fechaPago[1] instanceof Date
-              ? [fechaPago[0], fechaPago[1]]
-              : undefined
-          }
+          label="Fecha Pago"
+          value={fechaPago}
+          showOneCalendar
           onChange={(value) => {
-            if (Array.isArray(value) && value.length === 2) {
-              setFechaPago(value as Date[]);
-            } else {
-              setFechaPago([]);
-            }
-          }} */
+            setFechaPago(value);
+          }}
           format="dd-MM-yyyy"
         />
       </Grid>
       <Grid size={3}>
         <DateRangePicker
           size="md"
-          placeholder="Fecha Programada Pago"
-         /*  value={
-            Array.isArray(fechaProgramadaPago) &&
-            fechaProgramadaPago.length === 2 &&
-            fechaProgramadaPago[0] instanceof Date &&
-            fechaProgramadaPago[1] instanceof Date
-              ? [fechaProgramadaPago[0], fechaProgramadaPago[1]]
-              : undefined
-          }
+          label="Fecha Programada Pago"
+          value={fechaProgramadaPago}
+          showOneCalendar
           onChange={(value) => {
-            if (Array.isArray(value) && value.length === 2) {
-              setFechaProgramadaPago(value as Date[]);
-            } else {
-              setFechaProgramadaPago([]);
-            }
-          }} */
+            setFechaProgramadaPago(value);
+          }}
           format="dd-MM-yyyy"
         />
       </Grid>
       <Grid size={3}>
         <DateRangePicker
-         /*  value={
-            Array.isArray(fechaReembolso) && fechaReembolso.length === 2 && fechaReembolso[0] instanceof Date && fechaReembolso[1] instanceof Date
-              ? [fechaReembolso[0], fechaReembolso[1]]
-              : undefined
-          }
-              : undefined
-          }
+          size="md"
+          label="Fecha Reembolso"
+          showOneCalendar
+          value={fechaReembolso}
           onChange={(value) => {
-            if (Array.isArray(value) && value.length === 2) {
-              setFechaReembolsa(value as Date[]);
-            } else {
-              setFechaReembolsa([]);
-            }
-          }} */
+            setFechaReembolsa(value);
+          }}
           format="dd-MM-yyyy"
         />
       </Grid>

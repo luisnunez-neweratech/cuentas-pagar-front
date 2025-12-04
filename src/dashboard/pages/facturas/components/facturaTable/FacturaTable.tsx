@@ -21,67 +21,47 @@ import {
 } from "@mui/material";
 import { useFacturaTable } from "./hooks/useFacturaTable";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { useNavigate } from "react-router";
+import type { InvoiceListResponse } from "../../interfaces/InvoiceListResponse";
+import dayjs from "dayjs";
+import { CircularLoading } from "../../../../../components/common/CircularLoading";
+import { TipoDocumento } from "../../interfaces/TipoDocumento";
+import { StatusReembolso } from "../../interfaces/StatusReembolso";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
-function createData(
-  proveedor: string,
-  noFactura: string,
-  tipoDocumento: string,
-  productoServicio: string,
-  fechaFactura: string,
-  statusFacturas: string,
-  statusReembolso: string,
-  total: number,
-  fechaProximoPago: string,
-  fechaPago: string,
-  fechaReembolso: string,
-  subtotal: number,
-  descuento: number,
-  impuestos: number,
-  ivaRetenido: number,
-  isrRetenido: number,
-  folioFiscal: string,
-  moneda: string,
-  colaborador: string,
-  documento: string,
-  archivoXml: string
-) {
-  return {
-    proveedor,
-    noFactura,
-    tipoDocumento,
-    productoServicio,
-    fechaFactura,
-    statusFacturas,
-    statusReembolso,
-    total,
-
-    fechaProximoPago,
-    fechaPago,
-    fechaReembolso,
-
-    subtotal,
-    descuento,
-    impuestos,
-    ivaRetenido,
-    isrRetenido,
-
-    folioFiscal,
-    moneda,
-    colaborador,
-    documento,
-    archivoXml,
-  };
+interface props {
+  invoice: InvoiceListResponse;
+  onEdit: (id: number) => void;
+  onRowClick: (invoice: InvoiceListResponse) => void;
 }
 
-function Row(props: { row: ReturnType<typeof createData> }) {
-  const { row } = props;
+function Row({ invoice, onEdit, onRowClick }: props) {
   const [open, setOpen] = React.useState(false);
 
-  const { rowClick } = useFacturaTable();
-  const navigate = useNavigate();
+  const formatDate = (date: string | null) => {
+    if (!date) return "N/A";
+    return dayjs(date).format("DD/MM/YYYY");
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("es-MX", {
+      style: "currency",
+      currency: invoice.currencyCode || "MXN",
+    }).format(amount);
+  };
+
+  const getDocumentTypeLabel = (type: number) => {
+    return type === TipoDocumento.Factura.value
+      ? TipoDocumento.Factura.label
+      : TipoDocumento.NotaCredito.label;
+  };
+
+  const getReimbursementStatusLabel = (status: number) => {
+    const statusObj = Object.values(StatusReembolso).find(
+      (s) => s.value === status
+    );
+    return statusObj?.label || "N/A";
+  };
 
   return (
     <React.Fragment>
@@ -98,67 +78,33 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell
           component="th"
           scope="row"
-          onClick={(_e) => {
-            rowClick(row);
-          }}
+          onClick={() => onRowClick(invoice)}
         >
-          {row.proveedor}
+          {invoice.supplierAlias || "N/A"}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.noFactura}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {invoice.invoiceNumber || "N/A"}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.tipoDocumento}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {getDocumentTypeLabel(invoice.documentType)}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.productoServicio}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {invoice.supplierProductService || "N/A"}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.fechaFactura}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {formatDate(invoice.invoiceDate)}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.statusFacturas}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {invoice.invoiceStatusName || "N/A"}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.fechaProximoPago}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {formatDate(invoice.scheduledPaymentDate)}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.total}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {formatCurrency(invoice.total)}
         </TableCell>
-        <TableCell
-          onClick={(_e) => {
-            rowClick(row);
-          }}
-        >
-          {row.statusReembolso}
+        <TableCell onClick={() => onRowClick(invoice)}>
+          {getReimbursementStatusLabel(invoice.reimbursementStatus)}
         </TableCell>
         <TableCell>
           <Tooltip title="Editar">
@@ -167,8 +113,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
               edge="start"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate("/facturas/0") // TODO agregar id
-                
+                onEdit(invoice.id);
               }}
               sx={{ marginRight: 3 }}
             >
@@ -178,7 +123,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={11}>
           <Collapse
             in={open}
             timeout="auto"
@@ -195,7 +140,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                 Fechas
               </Typography>
 
-              <Table size="small" aria-label="purchases">
+              <Table size="small" aria-label="fechas">
                 <TableHead>
                   <TableRow>
                     <TableCell>Pago</TableCell>
@@ -203,11 +148,11 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow key={"fecha-row-0"}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
-                      {row.fechaPago}
+                      {formatDate(invoice.paymentDate)}
                     </TableCell>
-                    <TableCell>{row.fechaReembolso}</TableCell>
+                    <TableCell>{formatDate(invoice.reimbursementDate)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -223,25 +168,29 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                 Importes
               </Typography>
 
-              <Table size="small" aria-label="purchases">
+              <Table size="small" aria-label="importes">
                 <TableHead>
                   <TableRow>
                     <TableCell>Subtotal</TableCell>
                     <TableCell>Descuento</TableCell>
-                    <TableCell>Impuestos</TableCell>
+                    <TableCell>IVA</TableCell>
                     <TableCell>IVA Retenido</TableCell>
                     <TableCell>ISR Retenido</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow key={"fecha-row-0"}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
-                      {row.subtotal}
+                      {formatCurrency(invoice.subtotal)}
                     </TableCell>
-                    <TableCell>{row.descuento}</TableCell>
-                    <TableCell>{row.impuestos}</TableCell>
-                    <TableCell>{row.ivaRetenido}</TableCell>
-                    <TableCell>{row.isrRetenido}</TableCell>
+                    <TableCell>{formatCurrency(invoice.discount)}</TableCell>
+                    <TableCell>{formatCurrency(invoice.taxIVA)}</TableCell>
+                    <TableCell>
+                      {formatCurrency(invoice.taxIVARetained)}
+                    </TableCell>
+                    <TableCell>
+                      {formatCurrency(invoice.taxISRRetained)}
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -257,7 +206,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                 Información
               </Typography>
 
-              <Table size="small" aria-label="purchases">
+              <Table size="small" aria-label="informacion">
                 <TableHead>
                   <TableRow>
                     <TableCell>Folio Fiscal</TableCell>
@@ -268,17 +217,41 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow key={"fecha-row-0"}>
+                  <TableRow>
                     <TableCell component="th" scope="row">
-                      {row.folioFiscal}
-                    </TableCell>
-                    <TableCell>{row.moneda}</TableCell>
-                    <TableCell>{row.colaborador}</TableCell>
-                    <TableCell>
-                      <Link href="#">{row.documento}</Link>
+                      {invoice.fiscalFolio || "N/A"}
                     </TableCell>
                     <TableCell>
-                      <Link href="#">{row.archivoXml}</Link>
+                      {invoice.currencyName || invoice.currencyCode || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      {invoice.reimbursementCollaboratorName || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      {invoice.hasPdf && invoice.pdfDownloadUrl ? (
+                        <Link
+                          href={invoice.pdfDownloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Descargar PDF
+                        </Link>
+                      ) : (
+                        "N/A"
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {invoice.hasXml && invoice.xmlDownloadUrl ? (
+                        <Link
+                          href={invoice.xmlDownloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Descargar XML
+                        </Link>
+                      ) : (
+                        "N/A"
+                      )}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -290,125 +263,23 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     </React.Fragment>
   );
 }
-const rows = [
-  createData(
-    "Office Depot",
-    "159",
-    "Factura",
-    "Papelería",
-    "25/11/2026",
-    "Pendiente",
-    "Pendiente",
-    3.99,
-    "26/01/2026",
-    "26/01/2026",
-    "26/01/2026",
-    100,
-    0,
-    12,
-    1,
-    0,
-    "01010101",
-    "MXN",
-    "Luis Nuñez",
-    "archivo1.pdf",
-    "archivo1.xml"
-  ),
-  createData(
-    "Ice cream sandwich",
-    "237",
-    "Nota Credito",
-    "Producto 1",
-    "26/11/2026",
-    "Pagada",
-    "Pagada",
-    4.99,
-    "26/11/2026",
-    "26/11/2026",
-    "26/11/2026",
-    102,
-    1,
-    23,
-    2,
-    9,
-    "01010101",
-    "MXN",
-    "Luis Nuñez",
-    "archivo1.pdf",
-    "archivo2.xml"
-  ),
-  createData(
-    "Eclair",
-    "262",
-    "Factura",
-    "Servicio de limpieza",
-    "27/11/2026",
-    "Cancelada",
-    "Cancelada",
-    3.79,
-    "29/11/2026",
-    "29/11/2026",
-    "29/11/2026",
-    203,
-    2,
-    34,
-    3,
-    8,
-    "01010101",
-    "MXN",
-    "Luis Nuñez",
-    "archivo1.pdf",
-    "archivo3.xml"
-  ),
-  createData(
-    "Cupcake",
-    "305",
-    "Factura",
-    "Mantenimiento",
-    "28/11/2026",
-    "En Revision",
-    "N/A",
-    2.5,
-    "26/11/2026",
-    "26/11/2026",
-    "26/11/2026",
-    987,
-    3,
-    45,
-    4,
-    7,
-    "01010101",
-    "MXN",
-    "Luis Nuñez",
-    "archivo1.pdf",
-    "archivo4.xml"
-  ),
-  createData(
-    "Gingerbread",
-    "356",
-    "Nota Credito",
-    "Insumos",
-    "29/11/2026",
-    "Pendiente",
-    "Pendiente",
-    1.5,
-    "26/12/2026",
-    "26/12/2026",
-    "26/12/2026",
-    987,
-    4,
-    56,
-    5,
-    6,
-    "01010101",
-    "MXN",
-    "Luis Nuñez",
-    "archivo1.pdf",
-    "archivo5.xml"
-  ),
-];
 
 export const FacturaTable = () => {
+  const {
+    data,
+    isLoading,
+    page,
+    rowsPerPage,
+    rowClick,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    handleEdit,
+  } = useFacturaTable();
+
+  if (isLoading) {
+    return <CircularLoading />;
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -428,28 +299,29 @@ export const FacturaTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.proveedor} row={row} />
+          {data?.items.map((invoice) => (
+            <Row
+              key={invoice.id}
+              invoice={invoice}
+              onEdit={handleEdit}
+              onRowClick={rowClick}
+            />
           ))}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              colSpan={12}
-              //count={totalRows}
-              count={10}
-              //rowsPerPage={rowsPerPage}
-              rowsPerPage={5}
-              //page={page}
-              page={0}
+              rowsPerPageOptions={[5, 10, 25, 50]}
+              colSpan={11}
+              count={data?.totalCount || 0}
+              rowsPerPage={rowsPerPage}
+              page={page}
               labelRowsPerPage="Filas por página:"
               labelDisplayedRows={({ from, to, count }) =>
                 `${from}–${to} de ${count !== -1 ? count : `más de ${to}`}`
               }
-              //onPageChange={handleChangePage}
-              onPageChange={() => {}}
-              //onRowsPerPageChange={handleChangeRowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
             />
           </TableRow>
