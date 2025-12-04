@@ -6,7 +6,6 @@ import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import { mainBackgroundColor } from "../../../../../lib/constants";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { useHeaderButtons } from "./hooks/useHeaderButtons";
-import { useNavigate } from "react-router";
 import { ActiveFilters } from "../activeFilters/ActiveFilters";
 
 interface HeaderButtonsProps {
@@ -18,7 +17,7 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-  const { clearFiltros, downloadFile, hasActiveFiltres, onClickNewFactura } = useHeaderButtons();
+  const { clearFiltros, downloadFile, onClickNewFactura } = useHeaderButtons();
   
   return (
     <>
