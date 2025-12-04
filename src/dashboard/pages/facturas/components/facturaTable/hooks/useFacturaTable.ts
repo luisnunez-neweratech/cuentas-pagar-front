@@ -5,7 +5,6 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useFacturasPageStore } from "../../../store/FacturasPage.store";
 import { getInvoicesPaged } from "../../../services/invoice.service";
-import type { InvoiceListResponse } from "../../../interfaces/InvoiceListResponse";
 
 export const useFacturaTable = () => {
   const [page, setPage] = useState(0);
@@ -68,7 +67,7 @@ export const useFacturaTable = () => {
       }),
   });
 
-  const rowClick = (invoice: InvoiceListResponse) => {
+  const rowClick = () => {
     handleOpenModal();
   };
 
