@@ -53,3 +53,29 @@ export const uploadFacturaFiles = async ({
   );
   return data;
 };
+
+export const getFactura = async (id: string): Promise<any> => {
+  const { data } = await cuentasApi.get(`/Invoice/${id}`);
+
+  return {
+    proveedorId: data.supplierId,
+    noFactura: data.invoiceNumber,
+    tipoDocumentoId: data.documentType,
+    folioFiscal: data.fiscalFolio,
+    fechaFactura: data.invoiceDate,
+    productos: data.supplierProductService,
+    subtotal: data.subtotal,
+    descuento: data.discount,
+    impuestos: data.taxIVA,
+    ivaRetenido: data.taxIVARetained,
+    isrRetenido: data.taxISRRetained,
+    total: data.total,
+    monedaId: data.currencyId,
+    fechaProgramadaPago: data.scheduledPaymentDate,
+    statusFacturaId: data.invoiceStatusId,
+    fechaPago: data.paymentDate,
+    fechaReembolso: data.reimbursementDate,
+    statusReembolso: data.reimbursementStatus,
+    colaboradorId: data.reimbursementCollaboratorId,
+  };
+};

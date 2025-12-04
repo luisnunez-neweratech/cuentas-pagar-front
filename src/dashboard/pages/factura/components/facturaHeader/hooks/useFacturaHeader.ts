@@ -12,10 +12,12 @@ import { getProveedores } from "../../../../facturas/services/proveedor.service"
 import {
   addFacturaDetalle,
   addFacturaHeader,
+  getFactura,
   uploadFacturaFiles,
 } from "../../../services/factura.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 
 interface props {
   onClickGuardar: number;
@@ -34,6 +36,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const [convertProveedores, setConvertProveedores] = useState<
     { value: number; label: string }[]
   >([]);
+
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const stateFactura = useFacturaStore((state) => state);
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
@@ -96,24 +100,47 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setConvertColaboradores(newColaboradores ?? []);
   }, [colaboradores]);
 
+  const {
+    isLoading,
+    isError: isErrorGet,
+    error: errorGet,
+    data: facturaBD,
+  } = useQuery({
+    queryKey: ["Invoice", `${id}`],
+    queryFn: () => getFactura(id || ""),
+    enabled: !!id,
+  });  
+
   const initialFormValues = () => {
-    /*  if (proveedorOcasional) {
-      if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
-        navigate(`/proveedor/contrato/${id}`);
-      }
-      const productos = giros?.filter((obj) =>
+    if (id && facturaBD) {
+      /*  const productos = giros?.filter((obj) =>
         proveedorOcasional.productos.includes(obj.id)
-      );
+      ); */      
       return {
-        tipoEntidad: proveedorOcasional.tipoEntidad,
-        tipoPersona: proveedorOcasional.tipoPersona,
-        rfc: proveedorOcasional.rfc,
-        razonSocial: proveedorOcasional.razonSocial,
-        alias: proveedorOcasional.alias ?? "",
-        email: proveedorOcasional.email,
-        productos: productos,
+        proveedorId: { value: 0, label: "" }, 
+        colaboradorId: { value: 0, label: "" }, 
+        tipoDocumentoId: 1,
+        statusFacturaId: 4, //TODO lo regresa mal
+        statusReembolsoId: 4, 
+        monedaId: facturaBD.monedaId,
+        noFactura: facturaBD.noFactura,
+        folioFiscal: facturaBD.folioFiscal,
+
+        fechaFactura: facturaBD.fechaFactura,
+        fechaProgramadaPago: facturaBD.fechaProgramadaPago,
+        fechaPago: facturaBD.fechaPago,
+        fechaReembolso: facturaBD.fechaReembolso,
+
+        subtotal: facturaBD.subtotal,
+        descuento: facturaBD.descuento,
+        impuestos: facturaBD.impuestos,
+        ivaRetenido: facturaBD.ivaRetenido,
+        isrRetenido: facturaBD.isrRetenido,
+        total: facturaBD.total,
+
+        //productos: stateFactura.productos,
       };
-    } */
+    }
     return {
       proveedorId: { value: 0, label: "" }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
@@ -407,6 +434,20 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const setTipoEntidad = (tipoEntidadId: number) => {
     setTipoEntidadId(tipoEntidadId);
   };
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isErrorGet) {
+      if (errorGet instanceof AxiosError) {
+        toast.error(errorGet.response?.data ?? errorGet.message);
+        return;
+      }
+      toast.error("Error al obtener la factura");
+    }
+  }, [isErrorGet]);
 
   return {
     onChangeAutocomplete,

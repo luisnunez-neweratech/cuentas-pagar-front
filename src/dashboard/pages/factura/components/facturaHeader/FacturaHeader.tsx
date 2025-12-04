@@ -119,7 +119,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           id={"monedaId"}
           label={"Moneda"}
           options={convertMonedas}
-          value={values.monedaId}
+          value={values.monedaId || ""}
           handleChange={handleChange}
           handleBlur={handleBlur}
           touched={touched}
@@ -131,7 +131,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
         <TextFieldCommon
           id="noFactura"
           label="No Factura"
-          value={values.noFactura}
+          value={values.noFactura || ""}
           handleChange={handleChange}
           typeMoneda={false}
           handleBlur={handleBlur}
@@ -144,7 +144,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
         <TextFieldCommon
           id="folioFiscal"
           label="Folio Fiscal"
-          value={values.folioFiscal}
+          value={values.folioFiscal || ""}
           handleChange={handleChange}
           typeMoneda={false}
           handleBlur={handleBlur}
