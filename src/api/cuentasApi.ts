@@ -2,6 +2,9 @@ import axios from "axios";
 
 const cuentasApi = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  paramsSerializer: {
+    indexes: null, 
+  },
 });
 
 cuentasApi.interceptors.request.use((config) => {

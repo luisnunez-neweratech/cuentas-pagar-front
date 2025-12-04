@@ -25,7 +25,7 @@ export const useFilters = () => {
       ...prev,
       invoiceNumber,
     }));
-    setQuery("invoiceNumber:" + invoiceNumber);
+    setQuery("invoiceNumber:" + invoiceNumber + ":" + Date.now());
   };
 
   const onChangeFiscalFolio = (fiscalFolio: string) => {
@@ -33,7 +33,7 @@ export const useFilters = () => {
       ...prev,
       fiscalFolio,
     }));
-    setQuery("fiscalFolio:" + fiscalFolio);
+    setQuery("fiscalFolio:" + fiscalFolio + ":" + Date.now());
   };
 
   const onChangeCollaboratorName = (collaboratorName: string) => {
@@ -41,7 +41,7 @@ export const useFilters = () => {
       ...prev,
       collaboratorName,
     }));
-    setQuery("collaboratorName:" + collaboratorName);
+    setQuery("collaboratorName:" + collaboratorName + ":" + Date.now());
   };
 
   const onChangeInvoiceYear = (invoiceYear?: number) => {
@@ -49,7 +49,7 @@ export const useFilters = () => {
       ...prev,
       invoiceYear,
     }));
-    setQuery("invoiceYear:" + invoiceYear);
+    setQuery("invoiceYear:" + invoiceYear + ":" + Date.now());
   };
 
   const onChangeDocumentType = (documentType?: number) => {
@@ -57,7 +57,7 @@ export const useFilters = () => {
       ...prev,
       documentType,
     }));
-    setQuery("documentType:" + documentType);
+    setQuery("documentType:" + documentType + ":" + Date.now());
   };
 
   const onChangeCurrencyId = (currencyId?: number) => {
@@ -65,7 +65,7 @@ export const useFilters = () => {
       ...prev,
       currencyId,
     }));
-    setQuery("currencyId:" + currencyId);
+    setQuery("currencyId:" + currencyId + ":" + Date.now());
   };
 
   const onChangeInvoiceDateFrom = (invoiceDateFrom: string) => {
@@ -73,7 +73,7 @@ export const useFilters = () => {
       ...prev,
       invoiceDateFrom,
     }));
-    setQuery("invoiceDateFrom:" + invoiceDateFrom);
+    setQuery("invoiceDateFrom:" + invoiceDateFrom + ":" + Date.now());
   };
 
   const onChangeInvoiceDateTo = (invoiceDateTo: string) => {
@@ -81,7 +81,7 @@ export const useFilters = () => {
       ...prev,
       invoiceDateTo,
     }));
-    setQuery("invoiceDateTo:" + invoiceDateTo);
+    setQuery("invoiceDateTo:" + invoiceDateTo + ":" + Date.now());
   };
 
   const onChangeScheduledPaymentFrom = (scheduledPaymentFrom: string) => {
@@ -89,7 +89,7 @@ export const useFilters = () => {
       ...prev,
       scheduledPaymentFrom,
     }));
-    setQuery("scheduledPaymentFrom:" + scheduledPaymentFrom);
+    setQuery("scheduledPaymentFrom:" + scheduledPaymentFrom + ":" + Date.now());
   };
 
   const onChangeScheduledPaymentTo = (scheduledPaymentTo: string) => {
@@ -97,7 +97,7 @@ export const useFilters = () => {
       ...prev,
       scheduledPaymentTo,
     }));
-    setQuery("scheduledPaymentTo:" + scheduledPaymentTo);
+    setQuery("scheduledPaymentTo:" + scheduledPaymentTo + ":" + Date.now());
   };
 
   const onChangePaymentDateFrom = (paymentDateFrom: string) => {
@@ -105,7 +105,7 @@ export const useFilters = () => {
       ...prev,
       paymentDateFrom,
     }));
-    setQuery("paymentDateFrom:" + paymentDateFrom);
+    setQuery("paymentDateFrom:" + paymentDateFrom + ":" + Date.now());
   };
 
   const onChangePaymentDateTo = (paymentDateTo: string) => {
@@ -113,7 +113,7 @@ export const useFilters = () => {
       ...prev,
       paymentDateTo,
     }));
-    setQuery("paymentDateTo:" + paymentDateTo);
+    setQuery("paymentDateTo:" + paymentDateTo + ":" + Date.now());
   };
 
   const onChangeReimbursementDateFrom = (reimbursementDateFrom: string) => {
@@ -121,7 +121,7 @@ export const useFilters = () => {
       ...prev,
       reimbursementDateFrom,
     }));
-    setQuery("reimbursementDateFrom:" + reimbursementDateFrom);
+    setQuery("reimbursementDateFrom:" + reimbursementDateFrom + ":" + Date.now());
   };
 
   const onChangeReimbursementDateTo = (reimbursementDateTo: string) => {
@@ -129,7 +129,7 @@ export const useFilters = () => {
       ...prev,
       reimbursementDateTo,
     }));
-    setQuery("reimbursementDateTo:" + reimbursementDateTo);
+    setQuery("reimbursementDateTo:" + reimbursementDateTo + ":" + Date.now());
   };
 
   const onChangeSupplierAliases = (supplierAliases: string[]) => {
@@ -137,7 +137,7 @@ export const useFilters = () => {
       ...prev,
       supplierAliases,
     }));
-    setQuery("supplierAliases:" + supplierAliases.join(","));
+    setQuery("supplierAliases:" + supplierAliases.join(",") + ":" + Date.now());
   };
 
   const onChangeProductServices = (productServices: string[]) => {
@@ -145,7 +145,7 @@ export const useFilters = () => {
       ...prev,
       productServices,
     }));
-    setQuery("productServices:" + productServices.join(","));
+    setQuery("productServices:" + productServices.join(",") + ":" + Date.now());
   };
 
   const onChangeMonths = (months: number[]) => {
@@ -153,7 +153,7 @@ export const useFilters = () => {
       ...prev,
       months,
     }));
-    setQuery("months:" + months.join(","));
+    setQuery("months:" + months.join(",") + ":" + Date.now());
   };
 
   const onChangeInvoiceStatusIds = (invoiceStatusIds: number[]) => {
@@ -161,7 +161,7 @@ export const useFilters = () => {
       ...prev,
       invoiceStatusIds,
     }));
-    setQuery("invoiceStatusIds:" + invoiceStatusIds.join(","));
+    setQuery("invoiceStatusIds:" + invoiceStatusIds.join(",") + ":" + Date.now());
   };
 
   const onChangeReimbursementStatuses = (reimbursementStatuses: number[]) => {
@@ -169,7 +169,7 @@ export const useFilters = () => {
       ...prev,
       reimbursementStatuses,
     }));
-    setQuery("reimbursementStatuses:" + reimbursementStatuses.join(","));
+    setQuery("reimbursementStatuses:" + reimbursementStatuses.join(",") + ":" + Date.now());
   };
 
   return {
