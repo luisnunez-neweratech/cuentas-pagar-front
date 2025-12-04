@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { Item } from "../../../../../../../../components/common/AutoComplete/interfaces/Item";
 import { getProveedores } from "../../../../../services/proveedor.service";
-import { useFormik } from "formik";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
+import { useFilters } from "../../../hooks/useFilters";
+import { StatusFactura } from "../../../../../interfaces/StatusFactura";
+import { StatusReembolso } from "../../../../../interfaces/StatusReembolso";
 
 const meses = [
   { id: 1, descripcion: "Enero" },
@@ -20,20 +23,37 @@ const meses = [
 ];
 
 const estatusReembolso = [
-  { id: 1, descripcion: "Pendiente" },
-  { id: 2, descripcion: "Pagado" },
-  { id: 3, descripcion: "Cancelado" },
-  { id: 3, descripcion: "N/A" },
+  { id: StatusReembolso.Pendiente.value, descripcion: StatusReembolso.Pendiente.label },
+  { id: StatusReembolso.Pagado.value, descripcion: StatusReembolso.Pagado.label },
+  { id: StatusReembolso.Cancelado.value, descripcion: StatusReembolso.Cancelado.label },
+  { id: StatusReembolso.NoAplica.value, descripcion: StatusReembolso.NoAplica.label },
 ];
 
 const estatusFactura = [
-  { id: 1, descripcion: "Pendiente" },
-  { id: 2, descripcion: "Pagado" },
-  { id: 3, descripcion: "Cancelada" },
-  { id: 3, descripcion: "En Revision" },
+  { id: StatusFactura.Pendiente.value, descripcion: StatusFactura.Pendiente.label },
+  { id: StatusFactura.Pagado.value, descripcion: StatusFactura.Pagado.label },
+  { id: StatusFactura.Cancelado.value, descripcion: StatusFactura.Cancelado.label },
+  { id: StatusFactura.EnRevision.value, descripcion: StatusFactura.EnRevision.label },
 ];
 
 export const useAutocompleteFilters = () => {
+  const {
+    filtrosFacturas,
+    onChangeSupplierAliases,
+    onChangeProductServices,
+    onChangeMonths,
+    onChangeInvoiceStatusIds,
+    onChangeReimbursementStatuses,
+  } = useFilters();
+
+  const [values, setValues] = useState({
+    proveedores: [] as Item[],
+    productos: [] as Item[],
+    meses: [] as Item[],
+    estatusReembolso: [] as Item[],
+    estatusFactura: [] as Item[],
+  });
+
   const { data: proveedores } = useQuery({
     queryKey: ["Supplier", "GetAll"],
     queryFn: () => getProveedores(),
@@ -44,53 +64,50 @@ export const useAutocompleteFilters = () => {
     queryFn: () => getAllGiros(),
   });
 
-  const initialFormValues = () => {
-    /*     if (proveedorOcasional) {
-      if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
-        navigate(`/proveedor/contrato/${id}`);
-      }
-      const productos = giros?.filter((obj) =>
-        proveedorOcasional.productos.includes(obj.id)
-      );
-      return {
-        tipoEntidad: proveedorOcasional.tipoEntidad,
-        tipoPersona: proveedorOcasional.tipoPersona,
-        rfc: proveedorOcasional.rfc,
-        razonSocial: proveedorOcasional.razonSocial,
-        alias: proveedorOcasional.alias ?? "",
-        email: proveedorOcasional.email,
-        productos: productos,
-      };
-    } */
-    return {
-      proveedores: [],
-      productos: [],
-      meses: [],
-      estatusReembolso: [],
-      estatusFactura: [],
-    };
-  };
-
-  const {
-    //handleSubmit,
-    values,
-    //handleChange,
-    //handleBlur,
-    //touched,
-    //errors,
-    setFieldValue,
-  } = useFormik({
-    enableReinitialize: true,
-    initialValues: initialFormValues(),
-    validationSchema: null, //validationSchema,
-    onSubmit: async (_values) => {
-      //handleDisableButtons(true);
-    },
-  });
-
   const onChangeAutocomplete = (newValues: Item[], fieldValue: string) => {
-    setFieldValue(fieldValue, newValues);
+    setValues((prev) => ({
+      ...prev,
+      [fieldValue]: newValues,
+    }));
+
+    switch (fieldValue) {
+      case "proveedores":
+        onChangeSupplierAliases(newValues.map((item) => item.descripcion));
+        break;
+      case "productos":
+        onChangeProductServices(newValues.map((item) => item.descripcion));
+        break;
+      case "meses":
+        onChangeMonths(newValues.map((item) => item.id));
+        break;
+      case "estatusReembolso":
+        onChangeReimbursementStatuses(newValues.map((item) => item.id));
+        break;
+      case "estatusFactura":
+        onChangeInvoiceStatusIds(newValues.map((item) => item.id));
+        break;
+    }
   };
+
+  useEffect(() => {
+    if (!filtrosFacturas) return;
+    
+    if (filtrosFacturas.supplierAliases?.length === 0) {
+      setValues((prev) => ({ ...prev, proveedores: [] }));
+    }
+    if (filtrosFacturas.productServices?.length === 0) {
+      setValues((prev) => ({ ...prev, productos: [] }));
+    }
+    if (filtrosFacturas.months?.length === 0) {
+      setValues((prev) => ({ ...prev, meses: [] }));
+    }
+    if (filtrosFacturas.invoiceStatusIds?.length === 0) {
+      setValues((prev) => ({ ...prev, estatusFactura: [] }));
+    }
+    if (filtrosFacturas.reimbursementStatuses?.length === 0) {
+      setValues((prev) => ({ ...prev, estatusReembolso: [] }));
+    }
+  }, [filtrosFacturas]);
 
   return {
     proveedores,

@@ -33,6 +33,18 @@ export const UniqueFilters = () => {
       </Grid>
       <Grid size={2}>
         <TextFieldCommon
+          id="folioFiscal"
+          label="Folio Fiscal"
+          typeMoneda={false}
+          value={values.folioFiscal}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
+      </Grid>
+      <Grid size={2}>
+        <TextFieldCommon
           id="year"
           label="Año"
           typeMoneda={false}
@@ -69,6 +81,7 @@ export const UniqueFilters = () => {
       </Grid>
       <Grid size={2}>
         <NormalAutocomplete
+          key={values.colaboradorId?.value || 0}
           options={convertColaboradores}
           label="Colaborador"
           id="colaboradorId"
