@@ -17,10 +17,11 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
     pdfFileName,
     xmlFileName,
     handleXmlFileChange,
+    tipoEntidadId,
   } = useFacturaFooter();
 
   return (
-    <>      
+    <>
       <Grid size={3}>
         <input
           type="file"
@@ -52,20 +53,29 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
       <Grid size={5} />
 
       <Grid size={3}>
-        <input
-          type="file"
-          id="facturaXML"
-          style={{ display: "none" }}
-          onChange={handleXmlFileChange}
-          accept=".xml"
-        />
+        {tipoEntidadId === 0 && (
+          <>
+            <input
+              type="file"
+              id="facturaXML"
+              style={{ display: "none" }}
+              onChange={handleXmlFileChange}
+              accept=".xml"
+            />
 
-        <label htmlFor="facturaXML">
-          <Button variant="outlined" component="span" style={{ marginTop: 14 }}>
-            Cargar Factura XML
-            <FileUploadIcon />
-          </Button>
-        </label>
+            <label htmlFor="facturaXML">
+              <Button
+                variant="outlined"
+                component="span"
+                style={{ marginTop: 14 }}
+              >
+                Cargar Factura XML
+                <FileUploadIcon />
+              </Button>
+            </label>
+          </>
+        )}
+
         {errors.facturaXML && (
           <p style={{ color: "#d32f2f", fontSize: "12px" }}>
             Archivo requerido

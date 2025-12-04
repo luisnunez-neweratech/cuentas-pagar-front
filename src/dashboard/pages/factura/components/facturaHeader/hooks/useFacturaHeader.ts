@@ -40,6 +40,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   const setTipoDocumentoId = useFacturaStore(
     (state) => state.setTipoDocumentoId
   );
+  const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
 
   const { data: giros } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Giros"],
@@ -77,6 +78,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       return {
         value: proveedor.id,
         label: proveedor.descripcion,
+        tipoEntidadId: proveedor.tipoEntidadId,
       };
     });
 
@@ -235,7 +237,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialFormValues(),
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(stateFactura.tipoEntidadId),
     onSubmit: async (values) => {
       //handleDisableButtons(true);
       if (!id) {
@@ -246,9 +248,12 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
             toast.warning("Cargar el archivo PDF");
             return;
           }
-          if (!stateFactura.xmlFileValue) {
-            toast.warning("Cargar el archivo XML");
-            return;
+          if (stateFactura.tipoEntidadId === 0) {
+            // si es nacional no revisamos xml
+            if (!stateFactura.xmlFileValue) {
+              toast.warning("Cargar el archivo XML");
+              return;
+            }
           }
 
           let detallesValido = true;
@@ -271,15 +276,15 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                   id: 0,
                   supplierId: values.proveedorId!.value,
                   invoiceNumber: values.noFactura!,
-                  fiscalFolio: values.folioFiscal!,
+                  fiscalFolio: values.folioFiscal ?? "",
                   documentType: values.tipoDocumentoId!,
                   invoiceDate: values.fechaFactura!,
                   supplierProductService: values.productos![0].descripcion,
                   subtotal: values.subtotal!,
                   discount: values.descuento!,
                   taxIVA: values.impuestos!,
-                  taxIVARetained: values.ivaRetenido!,
-                  taxISRRetained: values.isrRetenido!,
+                  taxIVARetained: values.ivaRetenido ?? 0,
+                  taxISRRetained: values.isrRetenido ?? 0,
                   total:
                     +values.subtotal! -
                     +values.descuento! +
@@ -396,7 +401,11 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       values.total?.toString() ?? "",
       "total",
       e.target.value
-    );    
+    );
+  };
+
+  const setTipoEntidad = (tipoEntidadId: number) => {
+    setTipoEntidadId(tipoEntidadId);
   };
 
   return {
@@ -415,5 +424,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setFieldTouched,
     handleChangeTipoDocumento,
     setCorrectAmoutValue,
+    setTipoEntidad,
   };
 };

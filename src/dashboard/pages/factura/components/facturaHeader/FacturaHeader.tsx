@@ -31,6 +31,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     setFieldTouched,
     handleChangeTipoDocumento,
     setCorrectAmoutValue,
+    setTipoEntidad
   } = useFacturaHeader({ onClickGuardar });
 
   return (
@@ -45,6 +46,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           handleBlur={handleBlur}
           touched={touched.proveedorId?.value}
           errors={errors.proveedorId?.value}
+          setTipoEntidad={setTipoEntidad}
         />
       </Grid>
 
