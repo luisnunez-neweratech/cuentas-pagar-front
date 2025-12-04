@@ -13,6 +13,7 @@ import {
   addFacturaDetalle,
   addFacturaHeader,
   getFactura,
+  updateFacturaHeader,
   uploadFacturaFiles,
 } from "../../../services/factura.service";
 import { toast } from "sonner";
@@ -109,19 +110,19 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     queryKey: ["Invoice", `${id}`],
     queryFn: () => getFactura(id || ""),
     enabled: !!id,
-  });  
+  });
 
   const initialFormValues = () => {
     if (id && facturaBD) {
       /*  const productos = giros?.filter((obj) =>
         proveedorOcasional.productos.includes(obj.id)
-      ); */      
+      ); */
       return {
-        proveedorId: { value: 0, label: "" }, 
-        colaboradorId: { value: 0, label: "" }, 
+        proveedorId: { value: 0, label: "" },
+        colaboradorId: { value: 0, label: "" },
         tipoDocumentoId: 1,
         statusFacturaId: 4, //TODO lo regresa mal
-        statusReembolsoId: 4, 
+        statusReembolsoId: 4,
         monedaId: facturaBD.monedaId,
         noFactura: facturaBD.noFactura,
         folioFiscal: facturaBD.folioFiscal,
@@ -252,6 +253,25 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     },
   });
 
+  const updateHeaderMutation = useMutation({
+    mutationFn: updateFacturaHeader,
+    onSuccess: () => {
+      //toast.success("Factura actualizada correctamente");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al actualizar la factura");
+      return;
+    },
+    onSettled: () => {
+      //handleDisableButtons(false);
+    },
+  });
+
   const {
     handleSubmit,
     values,
@@ -317,7 +337,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                     +values.descuento! +
                     +values.impuestos! -
                     +values.ivaRetenido! -
-                    +values.isrRetenido!, // TODO cambiar esta formula
+                    +values.isrRetenido!,
                   currencyId: values.monedaId!,
                   exchangeRate: 0,
                   paymentForm: "string",
@@ -361,6 +381,69 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         } else {
           toast.error("La Factura no tiene detalles");
         }
+      } else {
+        //modificar
+        if ((stateFactura.facturaDetalle ?? []).length > 0) {
+          // cargar nuevos archivos  si es que hay
+          // xml solo para nacional === 0
+
+          let detallesValido = true;
+          let sumaDetalle = 0;
+          stateFactura.facturaDetalle?.map((detalle) => {
+            if (!detalle.validado) {
+              detallesValido = false;
+            }
+            sumaDetalle = sumaDetalle + +detalle.total;
+          });
+
+          if (detallesValido) {
+            if (sumaDetalle !== +(values.subtotal ?? 0)) {
+              toast.error("El total de los detalles no es igual al subtotal");
+            } else {
+              //call endpoint actualizar
+              updateHeaderMutation.mutate({
+                id: +id,
+                supplierId: values.proveedorId!.value,
+                invoiceNumber: values.noFactura!,
+                documentType: values.tipoDocumentoId!.toString(), //TODO el back pide string
+                cfdiType: 0,
+                serie: "",
+                folio: "",
+                fiscalFolio: values.folioFiscal ?? "",
+                invoiceDate: values.fechaFactura!,
+                supplierProductService: values.productos![0].descripcion,
+                subtotal: values.subtotal!,
+                discount: values.descuento!,
+                taxIVA: values.impuestos!,
+                taxIVARetained: values.ivaRetenido ?? 0,
+                taxISRRetained: values.isrRetenido ?? 0,
+                total:
+                  +values.subtotal! -
+                  +values.descuento! +
+                  +values.impuestos! -
+                  +values.ivaRetenido! -
+                  +values.isrRetenido!,
+                currencyId: values.monedaId!,
+                exchangeRate: 0,
+                paymentMethod: 0,
+                paymentForm: "",
+                paymentTerms: "",
+                scheduledPaymentDate: values.fechaProgramadaPago!,
+                paymentDate: values.fechaPago!,
+                reimbursementDate: values.fechaReembolso!,
+                reimbursementCollaboratorId: values.colaboradorId!.value,
+                invoiceStatusId: values.statusFacturaId,
+                reimbursementStatus: values.statusReembolsoId.toString(), //TODO status reembolso tipo mal
+                isActive: true,
+                isDeleted: false,
+              });
+            }
+          } else {
+            toast.error("Los Detalles no son validos");
+          }
+        } else {
+          toast.error("La Factura no tiene detalles");
+        }
       }
     },
   });
@@ -392,7 +475,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         value = (+value * -1).toString();
       }
     }
-    console.log(field, value);
     setFieldValue(field, value);
   };
 
