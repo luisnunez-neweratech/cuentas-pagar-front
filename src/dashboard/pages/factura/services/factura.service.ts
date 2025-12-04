@@ -1,6 +1,7 @@
 import { cuentasApi } from "../../../../api/cuentasApi";
 import type { PostFacturaDetallePayload } from "../interfaces/PostFacturaDetallePayload";
 import type { PostFacturaHeaderPayload } from "../interfaces/PostFacturaHeaderPayload";
+import type { PutFacturaHeaderPayload } from "../interfaces/PutFacturaHeaderPayload";
 
 export const addFacturaHeader = async (
   postFacturaHeaderPayload: PostFacturaHeaderPayload
@@ -78,4 +79,17 @@ export const getFactura = async (id: string): Promise<any> => {
     statusReembolso: data.reimbursementStatus,
     colaboradorId: data.reimbursementCollaboratorId,
   };
+};
+
+
+export const updateFacturaHeader = async (
+  putFacturaHeaderPayload: PutFacturaHeaderPayload
+): Promise<any> => {
+  const response = await cuentasApi.put(
+    `/Invoice/${putFacturaHeaderPayload.id}`,
+    {
+      ...putFacturaHeaderPayload,
+    }
+  );
+  return response;
 };

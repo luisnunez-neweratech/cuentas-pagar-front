@@ -54,21 +54,6 @@ export const CargaArchivos = ({ validateDocuments }: myProps) => {
           </IconButton>
         </Tooltip>
       </Grid>
-      {/*  <Grid size={1}>
-        <Tooltip title="Cargar Documentos">
-          <IconButton
-            sx={{ color: mainBackgroundColor }}
-            onClick={() => enviarArchivos()}
-          >
-            <CloudUploadIcon
-              style={{
-                height: "36px",
-                width: "36px",
-              }}
-            />
-          </IconButton>
-        </Tooltip>
-      </Grid> */}
     </Grid>
   );
 };

@@ -13,13 +13,13 @@ export const useCargaArchivos = () => {
     (state) => state.removeNewDocumento
   );
 
-  const deleteDocumento = (id: number) => {
+  const deleteDocumento = (id: number) => {  
     removeNewDocumento(id);
   };
 
   const clickAddArchivo = () => {
     addNewDocument({
-      id: (newStepContrato?.documentos?.length ?? 0) + 1,
+      id: Math.max(...newStepContrato!.documentos.map((o) => o.id!)) + 1,
       fechaInicio: "",
       fechaFin: "",
       indeterminado: true,
@@ -31,18 +31,16 @@ export const useCargaArchivos = () => {
   };
 
   const enviarArchivos = () => {
-    console.log('here?', newStepContrato?.documentos)
-     newStepContrato?.documentos.map((documento) => {
-        if(documento.fileValue){
-          console.log('enviar archivo')
-        }
-     })
-  }
+    newStepContrato?.documentos.map((documento) => {
+      if (documento.fileValue) {
+      }
+    });
+  };
 
   return {
     newStepContrato,
     clickAddArchivo,
     deleteDocumento,
-    enviarArchivos
+    enviarArchivos,
   };
 };
