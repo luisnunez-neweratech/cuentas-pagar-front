@@ -9,6 +9,7 @@ interface props {
   handleBlur?: (value: any) => void;
   touched?: any;
   errors?: any;
+  setTipoEntidad?: (tipoEntidadId: number) => void;
 }
 
 export const NormalAutocomplete = ({
@@ -20,6 +21,7 @@ export const NormalAutocomplete = ({
   handleBlur,
   touched,
   errors,
+  setTipoEntidad,
 }: props) => {
   return (
     <FormControl fullWidth size="small" error={touched && Boolean(errors)}>
@@ -29,7 +31,12 @@ export const NormalAutocomplete = ({
         disablePortal
         options={options}
         value={value}
-        onChange={(_event, newValue) => setFieldValue(id, newValue)}
+        onChange={(_event, newValue) => {
+          setFieldValue(id, newValue);
+          if (setTipoEntidad) {
+            setTipoEntidad(newValue.tipoEntidadId);
+          }
+        }}
         onBlur={handleBlur}
         renderInput={(params) => (
           <TextField

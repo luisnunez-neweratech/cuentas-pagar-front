@@ -13,6 +13,7 @@ export interface FacturaState {
   noFactura: string | null;
   folioFiscal: string | null;
   productos: Item[] | null;
+  tipoEntidadId: number | null;
 
   fechaFactura: string | null;
   programadaPago: string | null;
@@ -37,6 +38,7 @@ export interface FacturaState {
   setPdfFile: (pdfFileValue: File) => void;
   setXmlFile: (xmlFileValue: File) => void;
   setFacturaId: (id: number) => void;
+  setTipoEntidadId: (tipoEntidadId: number) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
@@ -55,6 +57,7 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   noFactura: null,
   folioFiscal: null,
   productos: [],
+  tipoEntidadId: null,
 
   fechaFactura: null,
   programadaPago: null,
@@ -122,6 +125,12 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
       ),
     }));
   },
+  setTipoEntidadId: (tipoEntidadId: number) => {
+    set((state) => ({
+      ...state,
+      tipoEntidadId,
+    }));
+  },
   clearState: () => {
     set((_state) => ({
       id: null,
@@ -134,6 +143,7 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
       noFactura: null,
       folioFiscal: null,
       productos: [],
+      tipoEntidadId: null,
 
       fechaFactura: null,
       programadaPago: null,

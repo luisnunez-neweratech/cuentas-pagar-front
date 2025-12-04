@@ -38,5 +38,6 @@ export const useFacturaFooter = () => {
     pdfFileName,
     xmlFileName,
     handleXmlFileChange,
+    tipoEntidadId: stateFactura.tipoEntidadId
   };
 };

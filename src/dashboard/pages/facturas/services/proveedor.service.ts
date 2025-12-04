@@ -6,6 +6,7 @@ export const getProveedores = async (): Promise<any> => {
   const basicList = data.map((proveedor: any) => ({
     id: proveedor.id,
     descripcion: proveedor.tradeName,
+    tipoEntidadId: proveedor.originId
   }));
 
   const distProveedores = basicList.reduce((acc: any, obj: any) => {
