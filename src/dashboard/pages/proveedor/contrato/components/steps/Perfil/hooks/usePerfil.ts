@@ -238,17 +238,6 @@ export const usePerfil = () => {
           Object.entries(proveedorPerfil.proveedorDocumentosContrato).map(
             ([_key, value]: any) => {
               if (value.mainDocument) {
-                // main document
-                historialDocumentos.push({
-                  id: value.mainDocument.id,
-                  fechaInicio: value.mainDocument.fechaInicio,
-                  fechaFin: value.mainDocument.fechaVencimiento,
-                  indeterminado: value.mainDocument.esIndeterminado,
-                  fileUrl: value.mainDocument.downloadUrl,
-                  fileName: value.mainDocument.fileName,
-                  tipoDocumento: value.mainDocument.documentType === 0 ? 4 : 5,
-                });
-
                 listaContratos.push({
                   id: value.mainDocument.contractId,
                   fechaInicio: value.mainDocument.fechaInicio,
@@ -259,49 +248,27 @@ export const usePerfil = () => {
                 //TODO agregar tipodocumento 6
               }
 
-              if (value.anexos && value.anexos.length > 0) {
-                value.anexos.map((anexo: any) => {
-                  historialDocumentos.push({
-                    id: anexo.id,
-                    fechaInicio: anexo.fechaInicio,
-                    fechaFin: anexo.fechaVencimiento,
-                    indeterminado: false, // no aplica
-                    fileUrl: anexo.downloadUrl,
-                    fileName: anexo.fileName,
-                    tipoDocumento: 6, // anexo
-                  });
-                });
-              }
-
-              if (value.proposal) {
-                historialDocumentos.push({
-                  id: value.proposal.id,
-                  fechaInicio: value.proposal.fechaInicio,
-                  fechaFin: value.proposal.fechaVencimiento,
-                  indeterminado: value.proposal.esIndeterminado,
-                  fileUrl: value.proposal.downloadUrl,
-                  fileName: value.proposal.fileName,
-                  tipoDocumento: 5, // propuesta
-                });
-              }
             }
           );
         }
 
         // documentos normales
         proveedorPerfil &&
-          proveedorPerfil.proveedorDocumentos?.map((documento: any) => {
+          proveedorPerfil.proveedorDocumentos?.map((documento: any, index: number) => {
             historialDocumentos.push({
-              id: documento.id,
-              fechaInicio: documento.startDate,
-              fechaFin: documento.endDate,
-              indeterminado: documento.indefiniteEnd,
+              id: index,
+              fechaInicio: documento.fechaInicio,
+              fechaFin: documento.fechaVencimiento,
+              indeterminado: documento.esIndeterminado,
               fileUrl: documento.downloadUrl,
               fileName: documento.fileName,
-              tipoDocumento: documento.documentType,
+              tipoDocumento:
+                documento.contractDocumentType ?? documento.profileDocumentType,
             });
           });
 
+
+          console.log('historialDocumentos', historialDocumentos)
         // contrato es array, porque es historico
         let colaboradoresData = [];
         if (proveedorColaboradores && proveedorColaboradores.length > 0) {

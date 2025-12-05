@@ -15,6 +15,7 @@ import {
   getFactura,
   updateFacturaHeader,
   uploadFacturaFiles,
+  updateFacturaDetalle,
 } from "../../../services/factura.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -214,6 +215,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       setFacturaId(data.data.id); //id header creado, por si falla el detalle usar este id
       const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
         return {
+          id: 0,
           lineNumber: 0,
           quantity: +detalle.cantidad,
           productServiceKey: detalle.codigo.toString(),
@@ -265,6 +267,30 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         return;
       }
       toast.error("Error al actualizar la factura");
+      return;
+    },
+    onSettled: () => {
+      //handleDisableButtons(false);
+    },
+  });
+
+  const updateMutationDetalle = useMutation({
+    mutationFn: updateFacturaDetalle,
+    onSuccess: () => {
+      toast.success("Factura actualizada correctamente");
+      navigate("/facturas");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          toast.error(error.response.data);
+          return;
+        }
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al agregar el detalle de la factura");
       return;
     },
     onSettled: () => {
@@ -353,6 +379,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                 const newDetalles = (stateFactura.facturaDetalle ?? []).map(
                   (detalle) => {
                     return {
+                      id: 0,
                       lineNumber: 0,
                       quantity: +detalle.cantidad,
                       productServiceKey: detalle.codigo.toString(),
@@ -400,42 +427,60 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
             if (sumaDetalle !== +(values.subtotal ?? 0)) {
               toast.error("El total de los detalles no es igual al subtotal");
             } else {
-              //call endpoint actualizar
+              //call endpoint actualizar header
               updateHeaderMutation.mutate({
-                id: +id,
-                supplierId: values.proveedorId!.value,
-                invoiceNumber: values.noFactura!,
-                documentType: values.tipoDocumentoId!.toString(), //TODO el back pide string
-                cfdiType: 0,
-                serie: "",
-                folio: "",
-                fiscalFolio: values.folioFiscal ?? "",
-                invoiceDate: values.fechaFactura!,
-                supplierProductService: values.productos![0].descripcion,
-                subtotal: values.subtotal!,
-                discount: values.descuento!,
-                taxIVA: values.impuestos!,
-                taxIVARetained: values.ivaRetenido ?? 0,
-                taxISRRetained: values.isrRetenido ?? 0,
-                total:
-                  +values.subtotal! -
-                  +values.descuento! +
-                  +values.impuestos! -
-                  +values.ivaRetenido! -
-                  +values.isrRetenido!,
-                currencyId: values.monedaId!,
-                exchangeRate: 0,
-                paymentMethod: 0,
-                paymentForm: "",
-                paymentTerms: "",
-                scheduledPaymentDate: values.fechaProgramadaPago!,
-                paymentDate: values.fechaPago!,
-                reimbursementDate: values.fechaReembolso!,
-                reimbursementCollaboratorId: values.colaboradorId!.value,
-                invoiceStatusId: values.statusFacturaId,
-                reimbursementStatus: values.statusReembolsoId.toString(), //TODO status reembolso tipo mal
-                isActive: true,
-                isDeleted: false,
+                invoiceId: id,
+                putFacturaHeaderPayload: {
+                  supplierId: values.proveedorId!.value,
+                  invoiceNumber: values.noFactura!,
+                  documentType: values.tipoDocumentoId!.toString(), //TODO el back pide string
+                  cfdiType: 0,
+                  serie: "",
+                  folio: "",
+                  fiscalFolio: values.folioFiscal ?? "",
+                  invoiceDate: values.fechaFactura!,
+                  supplierProductService: values.productos![0].descripcion,
+                  subtotal: values.subtotal!,
+                  discount: values.descuento!,
+                  taxIVA: values.impuestos!,
+                  taxIVARetained: values.ivaRetenido ?? 0,
+                  taxISRRetained: values.isrRetenido ?? 0,
+                  total:
+                    +values.subtotal! -
+                    +values.descuento! +
+                    +values.impuestos! -
+                    +values.ivaRetenido! -
+                    +values.isrRetenido!,
+                  currencyId: values.monedaId!,
+                  scheduledPaymentDate: values.fechaProgramadaPago!,
+                  paymentDate: values.fechaPago!,
+                  reimbursementDate: values.fechaReembolso!,
+                  reimbursementCollaboratorId: values.colaboradorId!.value,
+                  invoiceStatusId: values.statusFacturaId,
+                  reimbursementStatus: values.statusReembolsoId.toString(), //TODO status reembolso tipo mal
+                },
+              });
+
+              const newDetalles = (stateFactura.facturaDetalle ?? []).map(
+                (detalle) => {
+                  return {
+                    id: +detalle.id,
+                    lineNumber: 0,
+                    quantity: +detalle.cantidad,
+                    productServiceKey: detalle.codigo.toString(),
+                    concept: detalle.concepto.toString(),
+                    unitPrice: +detalle.precio,
+                    lineDiscount: 0,
+                    lineTotal: +detalle.total,
+                    unitOfMeasure: detalle.uMedida.toString(),
+                  };
+                }
+              );
+
+              // call endpoint actualizar detalle
+              updateMutationDetalle.mutate({
+                invoiceId: id,
+                putFacturaDetallePayload: newDetalles,
               });
             }
           } else {
