@@ -17,8 +17,8 @@ export interface PutFacturaHeaderPayload {
   currencyId: number;
   scheduledPaymentDate: string;
   invoiceStatusId: number;
-  paymentDate: string;
+  paymentDate: string | null;
   reimbursementStatus: string;
-  reimbursementDate: string;
+  reimbursementDate: string | null;
   reimbursementCollaboratorId: number;
 }

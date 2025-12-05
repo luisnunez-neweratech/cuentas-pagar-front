@@ -27,7 +27,6 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     touched,
     errors,
     setFieldValue,
-    id,
     setFieldTouched,
     handleChangeTipoDocumento,
     setCorrectAmoutValue,
@@ -90,8 +89,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           handleChange={handleChange}
           handleBlur={handleBlur}
           touched={touched}
-          errors={errors}
-          disable={!id ? true : false}
+          errors={errors}          
         />
       </Grid>
 
@@ -109,8 +107,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           handleChange={handleChange}
           handleBlur={handleBlur}
           touched={touched}
-          errors={errors}
-          disable={!id ? true : false}
+          errors={errors}          
         />
       </Grid>
 
