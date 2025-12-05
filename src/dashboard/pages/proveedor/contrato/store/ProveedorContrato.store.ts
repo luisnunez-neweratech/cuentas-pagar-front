@@ -227,6 +227,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   },
   handleReset: () => {
     set({
+      id: null,
       activeStep: 0,
       stepPerfil: null,
       stepContrato: initialStepContrato,
