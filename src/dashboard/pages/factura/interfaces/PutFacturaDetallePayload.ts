@@ -1,4 +1,4 @@
-export interface PostFacturaDetallePayload {
+export interface PutFacturaDetallePayload {
   id: number;
   lineNumber: number;
   quantity: number;

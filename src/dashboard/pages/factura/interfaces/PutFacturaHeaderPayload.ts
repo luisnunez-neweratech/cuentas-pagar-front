@@ -1,5 +1,4 @@
 export interface PutFacturaHeaderPayload {
-  id: number;
   supplierId: number;
   invoiceNumber: string;
   documentType: string;
@@ -16,16 +15,10 @@ export interface PutFacturaHeaderPayload {
   taxISRRetained: number;
   total: number;
   currencyId: number;
-  exchangeRate: number;
-  paymentMethod: number;
-  paymentForm: string;
-  paymentTerms: string;
   scheduledPaymentDate: string;
   invoiceStatusId: number;
   paymentDate: string;
   reimbursementStatus: string;
   reimbursementDate: string;
   reimbursementCollaboratorId: number;
-  isActive: boolean;
-  isDeleted: boolean;
 }

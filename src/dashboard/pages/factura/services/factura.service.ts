@@ -1,6 +1,7 @@
 import { cuentasApi } from "../../../../api/cuentasApi";
 import type { PostFacturaDetallePayload } from "../interfaces/PostFacturaDetallePayload";
 import type { PostFacturaHeaderPayload } from "../interfaces/PostFacturaHeaderPayload";
+import type { PutFacturaDetallePayload } from "../interfaces/PutFacturaDetallePayload";
 import type { PutFacturaHeaderPayload } from "../interfaces/PutFacturaHeaderPayload";
 
 export const addFacturaHeader = async (
@@ -81,15 +82,33 @@ export const getFactura = async (id: string): Promise<any> => {
   };
 };
 
+interface updateFacturaHeaderProps {
+  putFacturaHeaderPayload: PutFacturaHeaderPayload;
+  invoiceId: string;
+}
+export const updateFacturaHeader = async ({
+  putFacturaHeaderPayload,
+  invoiceId,
+}: updateFacturaHeaderProps): Promise<any> => {
+  const response = await cuentasApi.put(`/Invoice/HeaderUpdate/${invoiceId}`, {
+    ...putFacturaHeaderPayload,
+  });
+  return response;
+};
 
-export const updateFacturaHeader = async (
-  putFacturaHeaderPayload: PutFacturaHeaderPayload
-): Promise<any> => {
-  const response = await cuentasApi.put(
-    `/Invoice/${putFacturaHeaderPayload.id}`,
-    {
-      ...putFacturaHeaderPayload,
-    }
+
+interface putFacturaDetalleProps {
+  putFacturaDetallePayload: PutFacturaDetallePayload[];
+  invoiceId: string;
+}
+
+export const updateFacturaDetalle = async ({
+  putFacturaDetallePayload,
+  invoiceId,
+}: putFacturaDetalleProps): Promise<any> => {
+  const response = await cuentasApi.post(
+    `/Invoice/DetailsUpdate/${invoiceId}`,
+    putFacturaDetallePayload
   );
   return response;
 };
