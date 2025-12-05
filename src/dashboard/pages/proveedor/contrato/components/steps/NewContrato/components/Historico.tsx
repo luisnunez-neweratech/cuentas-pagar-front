@@ -11,7 +11,7 @@ import { useHistorico } from "../hooks/useHistorico";
 import { converDateFormat } from "../../../../../../../../lib/dates";
 
 export const Historico = () => {
-  const { rows, getNameTipoDocumento } = useHistorico();
+  const { rows } = useHistorico();
 
   return (
     <Grid container>
@@ -40,7 +40,7 @@ export const Historico = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {getNameTipoDocumento(row.tipoDocumento)}
+                    {row.tipoDocumento}
                   </TableCell>
                   <TableCell>
                     <Link href={row.fileUrl}> {row.fileName}</Link>

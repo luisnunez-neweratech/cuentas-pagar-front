@@ -158,7 +158,7 @@ export const getProveedorPerfil = async (id: string): Promise<any> => {
     cuentasBancarias: data.bankDetails,
 
     //documentos
-    proveedorDocumentos: data.profileDocuments,
+    proveedorDocumentos: data.allDocuments,
 
     // contracto documents
     proveedorDocumentosContrato: data.contractDocuments,
