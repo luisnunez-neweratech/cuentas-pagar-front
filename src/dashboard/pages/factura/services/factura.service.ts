@@ -79,7 +79,7 @@ export const getFactura = async (id: string): Promise<any> => {
     fechaReembolso: data.reimbursementDate,
     statusReembolso: data.reimbursementStatus,
     colaboradorId: data.reimbursementCollaboratorId,
-    details: data.invoiceDetails
+    details: data.invoiceDetails,
   };
 };
 
@@ -97,7 +97,6 @@ export const updateFacturaHeader = async ({
   return response;
 };
 
-
 interface putFacturaDetalleProps {
   putFacturaDetallePayload: PutFacturaDetallePayload[];
   invoiceId: string;
@@ -112,4 +111,10 @@ export const updateFacturaDetalle = async ({
     putFacturaDetallePayload
   );
   return response;
+};
+
+export const getStatusFactura = async (): Promise<any> => {
+  const { data } = await cuentasApi.get(`/CatalogMaster/GetAll/InvoiceStatus`);
+
+  return data;
 };
