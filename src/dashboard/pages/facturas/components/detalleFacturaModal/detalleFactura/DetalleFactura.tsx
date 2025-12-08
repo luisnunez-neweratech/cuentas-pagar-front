@@ -8,8 +8,11 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { useDetalleFactura } from "./hooks/useDetalleFactura";
 
 export const DetalleFactura = () => {
+  const { rows } = useDetalleFactura();
+
   return (
     <Grid container spacing={2}>
       <Grid size={2}>
@@ -42,22 +45,21 @@ export const DetalleFactura = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {(rows ?? []).map((row) => (
-                <RowDetalle key={row.id} id={row.id} />
-              ))} */}
-              <TableRow
-                // key={id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  1
-                </TableCell>
-                <TableCell>Lg</TableCell>
-                <TableCell>AA-B</TableCell>
-                <TableCell>lsadlfjlsdf</TableCell>
-                <TableCell>$300.00</TableCell>
-                <TableCell>$300.00</TableCell>
-              </TableRow>
+              {(rows ?? []).map((row: any) => (
+                <TableRow
+                  key={row.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.quantity}
+                  </TableCell>
+                  <TableCell>{row.unitOfMeasure}</TableCell>
+                  <TableCell>{row.productServiceKey}</TableCell>
+                  <TableCell>{row.concept}</TableCell>
+                  <TableCell>{row.unitPrice}</TableCell>
+                  <TableCell>{row.lineTotal}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

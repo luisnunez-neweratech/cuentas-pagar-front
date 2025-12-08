@@ -57,7 +57,7 @@ export const uploadFacturaFiles = async ({
 };
 
 export const getFactura = async (id: string): Promise<any> => {
-  const { data } = await cuentasApi.get(`/Invoice/${id}`);
+  const { data } = await cuentasApi.get(`/Invoice/${id}/Details`);
 
   return {
     proveedorId: data.supplierId,
@@ -79,6 +79,7 @@ export const getFactura = async (id: string): Promise<any> => {
     fechaReembolso: data.reimbursementDate,
     statusReembolso: data.reimbursementStatus,
     colaboradorId: data.reimbursementCollaboratorId,
+    details: data.invoiceDetails
   };
 };
 

@@ -15,6 +15,9 @@ export const useFacturaTable = () => {
   const handleOpenModal = useFacturasPageStore(
     (state) => state.handleOpenModal
   );
+  const setIdSelected = useFacturasPageStore(
+    (state) => state.setIdSelected
+  );
   const callApi = useFacturasPageStore((state) => state.callApi);
   const filtrosFacturas = useFacturasPageStore(
     (state) => state.filtrosFacturas
@@ -67,7 +70,8 @@ export const useFacturaTable = () => {
       }),
   });
 
-  const rowClick = () => {
+  const rowClick = (invoice:any) => {    
+    setIdSelected(invoice.id);
     handleOpenModal();
   };
 
