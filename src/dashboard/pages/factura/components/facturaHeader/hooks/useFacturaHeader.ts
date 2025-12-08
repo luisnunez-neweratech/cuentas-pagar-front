@@ -1,14 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import type { Item } from "../../../../../../components/common/AutoComplete/interfaces/Item";
-import { getAllGiros } from "../../../../catalogos/services/giros.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 import { useNavigate, useParams } from "react-router";
 import { validationSchema } from "../../../Validations";
-import { getProveedores } from "../../../../facturas/services/proveedor.service";
+import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
 import {
   addFacturaDetalle,
   addFacturaHeader,
@@ -43,6 +42,10 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     { value: number; label: string }[]
   >([]);
 
+  const [listaProductos, setListaProductos] = useState<
+    { id: number; descripcion: string }[]
+  >([]);
+
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const stateFactura = useFacturaStore((state) => state);
@@ -51,11 +54,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     (state) => state.setTipoDocumentoId
   );
   const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
-
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
 
   const { data: monedas } = useQuery({
     queryKey: ["CatalogMaster", "GetAll", "Moneda"],
@@ -69,7 +67,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
   const { data: proveedores } = useQuery({
     queryKey: ["Supplier", "GetAll"],
-    queryFn: () => getProveedores(),
+    queryFn: () => getProveedoresAutoComplete(),
   });
 
   const { data: statusFacturaData } = useQuery({
@@ -94,6 +92,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         value: proveedor.id,
         label: proveedor.descripcion,
         tipoEntidadId: proveedor.tipoEntidadId,
+        productos: proveedor.productos,
       };
     });
 
@@ -141,9 +140,9 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
   const initialFormValues = () => {
     if (id && facturaBD) {
-      const productos = giros?.filter((obj) =>
+      /* const productos = giros?.filter((obj) =>
         obj.descripcion.includes(facturaBD.productos)
-      );
+      ); */
 
       facturaBD?.details.map((detail: any) => {
         addRowFacturaDetalle({
@@ -159,10 +158,10 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       });
 
       return {
-        proveedorId: { value: 0, label: "" },
+        proveedorId: { value: 0, label: "", productos: [] },
         colaboradorId: { value: 0, label: "" },
-        tipoDocumentoId: facturaBD.documentType,
-        statusFacturaId: facturaBD.invoiceStatusId,
+        tipoDocumentoId: facturaBD.tipoDocumentoId,
+        statusFacturaId: facturaBD.statusFacturaId,
         statusReembolsoId: 4,
         monedaId: facturaBD.monedaId,
         noFactura: facturaBD.noFactura,
@@ -180,11 +179,11 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         isrRetenido: facturaBD.isrRetenido,
         total: facturaBD.total,
 
-        productos: productos,
+        productos: [], //productos,
       };
     }
     return {
-      proveedorId: { value: 0, label: "" }, //stateFactura.proveedorId,
+      proveedorId: { value: 0, label: "", productos: [] }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
       tipoDocumentoId: 1, // por default factura en nuevo//stateFactura.tipoDocumentoId,
       statusFacturaId: 51, //en revision al crear //stateFactura.statusFacturaId,
@@ -617,13 +616,35 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     }
   }, [isErrorGet]);
 
+  useEffect(() => {
+    if (values.proveedorId.value > 0) {
+      const newListaProductos = values.proveedorId.productos?.map(
+        (producto: any) => {
+          return {
+            id: producto.id,
+            descripcion: producto.itemValue,
+            //value: null
+          };
+        }
+      );
+      setListaProductos(newListaProductos);
+      if (newListaProductos.length > 0) {
+        setFieldValue("productos", [newListaProductos[0]]);
+      } else {
+        setFieldValue("productos", []);
+      }
+    } else {
+      setListaProductos([]);
+    }
+  }, [values.proveedorId]);
+
   return {
     onChangeAutocomplete,
     values,
     handleChange,
-    giros,
     convertMonedas,
     convertProveedores,
+    giros: listaProductos,
     convertColaboradores,
     handleBlur,
     touched,
