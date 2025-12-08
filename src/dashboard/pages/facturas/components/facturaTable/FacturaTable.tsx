@@ -304,7 +304,7 @@ export const FacturaTable = () => {
               key={invoice.id}
               invoice={invoice}
               onEdit={handleEdit}
-              onRowClick={rowClick}
+              onRowClick={() => rowClick(invoice)}
             />
           ))}
         </TableBody>

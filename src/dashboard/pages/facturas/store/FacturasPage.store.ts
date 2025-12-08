@@ -27,6 +27,7 @@ interface IFacturasPage {
   openModal: boolean;
   filtrosFacturas: FiltrosFacturas;
   callApi: number;
+  idSelected: string;
 
   handleOpenModal: () => void;
   handleClose: () => void;
@@ -35,12 +36,14 @@ interface IFacturasPage {
   ) => void;
   clearFiltros: () => void;
   setCallApi: () => void;
+  setIdSelected: (id:string) => void;
 }
 
 export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
   openModal: false,
   filtrosFacturas: initFiltros,
   callApi: 0,
+  idSelected: '',
 
   handleOpenModal: () => {
     set({
@@ -69,6 +72,11 @@ export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
   setCallApi: () => {
     set({
       callApi: get().callApi + 1,
+    });
+  },
+  setIdSelected:(id:string) => {
+    set({
+      idSelected: id,
     });
   },
 }));
