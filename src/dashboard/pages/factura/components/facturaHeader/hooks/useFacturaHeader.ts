@@ -359,9 +359,12 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                   paymentTerms: "string",
                   scheduledPaymentDate: values.fechaProgramadaPago!,
                   paymentDate: values.fechaPago ?? null,
-                  reimbursementStatus: 1,
+                  reimbursementStatus: values.statusReembolsoId,
                   reimbursementDate: values.fechaReembolso ?? null,
-                  reimbursementCollaboratorId: values.colaboradorId!.value,
+                  reimbursementCollaboratorId:
+                    values.statusReembolsoId !== 4
+                      ? values.colaboradorId!.value
+                      : null,
                 });
               } else {
                 // crea solo detalles
@@ -486,6 +489,13 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
   useEffect(() => {
     if (onClickGuardar > 0) {
+      if (values.statusReembolsoId === 4) {
+        // no aplica
+        setFieldValue("colaboradorId", {
+          value: 1,
+          label: "x",
+        });
+      }
       handleSubmit();
     }
   }, [onClickGuardar]);
