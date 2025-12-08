@@ -7,7 +7,6 @@ import { DatePickerCommon } from "../../../../../components/common/DatePickerCom
 import { NormalAutocomplete } from "../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
 import { TipoDocumento } from "../../../facturas/interfaces/TipoDocumento";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
-import { StatusFactura } from "../../../facturas/interfaces/StatusFactura";
 import { NumericFormat } from "react-number-format";
 
 interface props {
@@ -31,7 +30,8 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     handleChangeTipoDocumento,
     setCorrectAmoutValue,
     setTipoEntidad,
-  } = useFacturaHeader({ onClickGuardar });
+    convertStatusFactura
+  } = useFacturaHeader({ onClickGuardar });    
 
   return (
     <>
@@ -66,12 +66,7 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
         <SelectCommon
           id={"statusFacturaId"}
           label={"Estatus Factura"}
-          options={[
-            StatusFactura.Pendiente,
-            StatusFactura.Pagado,
-            StatusFactura.Cancelado,
-            StatusFactura.EnRevision,
-          ]}
+          options={convertStatusFactura}
           value={values.statusFacturaId}
           handleChange={handleChange}
           handleBlur={handleBlur}

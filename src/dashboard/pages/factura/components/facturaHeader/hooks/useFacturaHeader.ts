@@ -16,6 +16,7 @@ import {
   updateFacturaHeader,
   uploadFacturaFiles,
   updateFacturaDetalle,
+  getStatusFactura,
 } from "../../../services/factura.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
@@ -36,6 +37,9 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     { value: number; label: string }[]
   >([]);
   const [convertProveedores, setConvertProveedores] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [convertStatusFactura, setConvertStatusFactura] = useState<
     { value: number; label: string }[]
   >([]);
 
@@ -68,6 +72,11 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     queryFn: () => getProveedores(),
   });
 
+  const { data: statusFacturaData } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "InvoiceStatus"],
+    queryFn: () => getStatusFactura(),
+  });
+
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
       return {
@@ -92,6 +101,17 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
   }, [proveedores]);
 
   useEffect(() => {
+    const newStatusFactura = statusFacturaData?.map((status: any) => {
+      return {
+        value: status.id,
+        label: status.itemName,
+      };
+    });
+
+    setConvertStatusFactura(newStatusFactura ?? []);
+  }, [statusFacturaData]);
+
+  useEffect(() => {
     const newColaboradores = colaboradores?.map((colaborador: any) => {
       return {
         value: colaborador.id,
@@ -101,6 +121,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
     setConvertColaboradores(newColaboradores ?? []);
   }, [colaboradores]);
+
+  getStatusFactura;
 
   const {
     isLoading,
@@ -113,16 +135,34 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     enabled: !!id,
   });
 
+  const addRowFacturaDetalle = useFacturaStore(
+    (state) => state.addRowFacturaDetalle
+  );
+
   const initialFormValues = () => {
     if (id && facturaBD) {
-      /*  const productos = giros?.filter((obj) =>
-        proveedorOcasional.productos.includes(obj.id)
-      ); */
+      const productos = giros?.filter((obj) =>
+        obj.descripcion.includes(facturaBD.productos)
+      );
+
+      facturaBD?.details.map((detail: any) => {
+        addRowFacturaDetalle({
+          id: detail.id,
+          cantidad: detail.quantity,
+          uMedida: detail.unitOfMeasure,
+          codigo: detail.productServiceKey,
+          concepto: detail.concept,
+          precio: detail.unitPrice,
+          total: detail.lineTotal,
+          validado: true,
+        });
+      });
+
       return {
         proveedorId: { value: 0, label: "" },
         colaboradorId: { value: 0, label: "" },
-        tipoDocumentoId: 1,
-        statusFacturaId: 4, //TODO lo regresa mal
+        tipoDocumentoId: facturaBD.documentType,
+        statusFacturaId: facturaBD.invoiceStatusId,
         statusReembolsoId: 4,
         monedaId: facturaBD.monedaId,
         noFactura: facturaBD.noFactura,
@@ -140,14 +180,14 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         isrRetenido: facturaBD.isrRetenido,
         total: facturaBD.total,
 
-        //productos: stateFactura.productos,
+        productos: productos,
       };
     }
     return {
       proveedorId: { value: 0, label: "" }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
       tipoDocumentoId: 1, // por default factura en nuevo//stateFactura.tipoDocumentoId,
-      statusFacturaId: 4, //en revision al crear //stateFactura.statusFacturaId,
+      statusFacturaId: 51, //en revision al crear //stateFactura.statusFacturaId,
       statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
       monedaId: stateFactura.monedaId,
       noFactura: stateFactura.noFactura,
@@ -593,5 +633,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     handleChangeTipoDocumento,
     setCorrectAmoutValue,
     setTipoEntidad,
+    convertStatusFactura,
   };
 };
