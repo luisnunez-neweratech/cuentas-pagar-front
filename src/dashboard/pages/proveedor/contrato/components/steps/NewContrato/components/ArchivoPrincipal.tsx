@@ -33,7 +33,7 @@ export const ArchivoPrincipal = ({ validateDocuments }: props) => {
     handleFileChange,
     fileName,
     updateTipoDocumento,
-  } = useArchivoPrincipal({ idInput: "filePrincipal", validateDocuments });
+  } = useArchivoPrincipal({  validateDocuments });
 
   return (
     <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
