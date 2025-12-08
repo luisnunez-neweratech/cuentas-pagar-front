@@ -7,6 +7,7 @@ interface IContrato {
   indeterminado: boolean;
   file: any | null;
   isPrincipal: boolean;
+  valid: boolean;
 
   updateTipoDocumento: (tipoDocumento: number) => void;
 
@@ -16,7 +17,8 @@ interface IContrato {
     indeterminado: boolean,
     file: any,
     isPrincipal: boolean,
-    fechaFin?: string
+    valid: boolean,
+    fechaFin?: string,
   ) => void;
 
   clearData: () => void;
@@ -29,6 +31,7 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
   indeterminado: true,
   file: null,
   isPrincipal: false,
+  valid: false,
 
   updateTipoDocumento: (tipoDocumento: number) => {
     set({ tipoDocumento });
@@ -40,7 +43,8 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
     indeterminado: boolean,
     file: any,
     isPrincipal: boolean,
-    fechaFin?: string
+    valid: boolean,
+    fechaFin?: string,
   ) => {
     set({
       tipoDocumento,
@@ -49,6 +53,7 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
       file,
       isPrincipal,
       fechaFin,
+      valid
     });
   },
   clearData: () => {
@@ -59,6 +64,7 @@ export const useDocumentoPrincipalStore = create<IContrato>()((set) => ({
       indeterminado: true,
       file: null,
       isPrincipal: false,
+      valid: false,
     });
   },
 }));

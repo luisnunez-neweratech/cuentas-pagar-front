@@ -59,7 +59,7 @@ export const useArchivoElement = ({
     handleBlur,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationArchivoschema(idInput),
+    validationSchema: validationArchivoschema(),
     onSubmit: (values) => {
       console.log(values);
     },

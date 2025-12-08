@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { validationArchivoschema } from "../components/ArchivosValidation";
 import { useDocumentoPrincipalStore } from "../store/DocumentoPrincipal.store";
 
-interface props {
-  idInput: string;
+interface props {  
   validateDocuments: number;
 }
 
-export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
+export const useArchivoPrincipal = ({  validateDocuments }: props) => {
   useEffect(() => {
     validateArchivoPrincipal(); //children function of interest
   }, [validateDocuments]);
@@ -31,7 +30,7 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
       fechaInicio: stateArchivoPrincipal.fechaInicio,
       fechaFin: stateArchivoPrincipal.fechaFin,
       indeterminado: stateArchivoPrincipal.indeterminado,
-      [idInput]: stateArchivoPrincipal.file,
+      filePrincipal: stateArchivoPrincipal.file,
     };
   };
 
@@ -47,7 +46,7 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
     handleBlur,
   } = useFormik({
     initialValues: getInitialValues(),
-    validationSchema: validationArchivoschema(idInput),
+    validationSchema: validationArchivoschema(),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -60,7 +59,7 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
       const files = event.target.files; // Get the FileList object
       const fileNames = Array.from(files).map((file: any) => file.name);
       setFileName(fileNames.join(" "));
-      setFieldValue(idInput, event.target.files[0]);
+      setFieldValue('filePrincipal', event.target.files[0]);
     }
   };
 
@@ -72,31 +71,29 @@ export const useArchivoPrincipal = ({ idInput, validateDocuments }: props) => {
     validateArchivoPrincipal();
   }, [values]);
 
-  const validateArchivoPrincipal = () => {
+  const validateArchivoPrincipal = () => {    
     handleSubmit();
-    validateForm().then((errors) => {
+    validateForm().then((errors) => {      
       if (Object.keys(errors).length === 0) {
         updateArchivoPrincipal(
           values.tipoDocumento,
           values.fechaInicio,
           values.indeterminado,
-          values[idInput],
+          values.filePrincipal,
           true,
-          values.fechaFin ?? ""
+          true,
+          values.fechaFin ?? "",
         );
       } else {
-        /* if (tipoDocumento === TipoDocumento.principal) {
-          setValidArchivoPrincipal(false);
-        }
-        if (tipoDocumento === TipoDocumento.csf) {
-          setValidArchivoCSF(false);
-        }
-        if (tipoDocumento === TipoDocumento.idRepLegal) {
-          setValidIdRepLegal(false);
-        }
-        if (tipoDocumento === TipoDocumento.compDomicilio) {
-          setValidCompDomicilio(false);
-        } */
+         updateArchivoPrincipal(
+          values.tipoDocumento,
+          values.fechaInicio,
+          values.indeterminado,
+          values.filePrincipal,
+          true,
+          false,
+          values.fechaFin ?? "",
+        );       
       }
     });
   };

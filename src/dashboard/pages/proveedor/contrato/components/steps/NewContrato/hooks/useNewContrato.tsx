@@ -322,9 +322,9 @@ export const useNewContrato = () => {
     onSubmit: async (values) => {
       //validate files
       doValidateColaboradores(validateColaboradores + 1);
-      doValidateDocuments(validateDocuments + 1);
+      doValidateDocuments(validateDocuments + 1);      
 
-      if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
+       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
         //type fisico
         const prevStepContrato = getNewStepContrato();
         const stepContrato: NewStepContrato = {
@@ -338,8 +338,8 @@ export const useNewContrato = () => {
         setNewStepContrato(stepContrato);
         if (getValidScreen()) {
           if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
-            if (stateArchivoPrincipal.file) {
-              // crear contrato
+            if (stateArchivoPrincipal.file && stateArchivoPrincipal.valid) {
+              // crear contrato             
               createMutation.mutate({
                 postContratoPayload: {
                   startDate: new Date(stateArchivoPrincipal.fechaInicio),
@@ -357,10 +357,10 @@ export const useNewContrato = () => {
                 documentos: stepContrato.documentos,
               });
             }
-
+            
             //agrega documentos
-            stepContrato.documentos.map((documento) => {
-              if (documento.fileValue) {
+            stepContrato.documentos.map((documento) => {              
+              if (documento.fileValue && typeof documento.fileValue === 'object') {
                 if (documento.tipoDocumento < 4) {
                   createDocumentoMutation.mutate({
                     postDocumentoProveedor: {
@@ -451,7 +451,7 @@ export const useNewContrato = () => {
           if (getValidScreen()) {
             if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
               // moral sin colaboradores
-              if (stateArchivoPrincipal.file) {
+              if (stateArchivoPrincipal.file && stateArchivoPrincipal.valid) {
                 createMutation.mutate({
                   postContratoPayload: {
                     startDate: new Date(stateArchivoPrincipal.fechaInicio),
@@ -473,7 +473,7 @@ export const useNewContrato = () => {
 
               //agrega documentos
               newStepContrato.documentos.map((documento) => {
-                if (documento.fileValue) {
+                if (documento.fileValue && typeof documento.fileValue === 'object') {
                   if (documento.tipoDocumento < 4) {
                     createDocumentoMutation.mutate({
                       postDocumentoProveedor: {
@@ -530,7 +530,7 @@ export const useNewContrato = () => {
             if (getValidScreen()) {
               if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
                 // moral con colaboradores
-                if (stateArchivoPrincipal.file) {
+                if (stateArchivoPrincipal.file && stateArchivoPrincipal.valid) {
                   createMutation.mutate({
                     postContratoPayload: {
                       startDate: new Date(stateArchivoPrincipal.fechaInicio),
@@ -550,7 +550,7 @@ export const useNewContrato = () => {
 
                 //agrega documentos
                 newStepContrato?.documentos.map((documento) => {
-                  if (documento.fileValue) {
+                  if (documento.fileValue && typeof documento.fileValue === 'object') {
                     if (documento.tipoDocumento < 4) {
                       createDocumentoMutation.mutate({
                         postDocumentoProveedor: {
@@ -593,7 +593,7 @@ export const useNewContrato = () => {
             }
           }
         }
-      }
+      } 
     },
   });
 
