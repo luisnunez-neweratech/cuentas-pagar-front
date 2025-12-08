@@ -27,11 +27,10 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
     touched,
     errors,
     setFieldValue,
-    id,
     setFieldTouched,
     handleChangeTipoDocumento,
     setCorrectAmoutValue,
-    setTipoEntidad
+    setTipoEntidad,
   } = useFacturaHeader({ onClickGuardar });
 
   return (
@@ -47,19 +46,6 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           touched={touched.proveedorId?.value}
           errors={errors.proveedorId?.value}
           setTipoEntidad={setTipoEntidad}
-        />
-      </Grid>
-
-      <Grid size={2}>
-        <NormalAutocomplete
-          options={convertColaboradores}
-          label="Colaborador"
-          id="colaboradorId"
-          value={values.colaboradorId}
-          setFieldValue={setFieldValue}
-          handleBlur={handleBlur}
-          touched={touched.colaboradorId?.value}
-          errors={errors.colaboradorId?.value}
         />
       </Grid>
 
@@ -91,7 +77,6 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           handleBlur={handleBlur}
           touched={touched}
           errors={errors}
-          disable={!id ? true : false}
         />
       </Grid>
 
@@ -110,7 +95,18 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           handleBlur={handleBlur}
           touched={touched}
           errors={errors}
-          disable={!id ? true : false}
+        />
+      </Grid>
+
+      <Grid size={2}>
+        <DatePickerCommon
+          id="fechaFactura"
+          label="Fecha de Factura"
+          fechaValue={values.fechaFactura ?? ""}
+          setFieldValue={setFieldValue}
+          touched={touched}
+          errors={errors}
+          setFieldTouched={setFieldTouched}
         />
       </Grid>
 
@@ -125,6 +121,21 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
           touched={touched}
           errors={errors}
         />
+      </Grid>
+
+      <Grid size={2}>
+        {values.statusReembolsoId !== 4 && (
+          <NormalAutocomplete
+            options={convertColaboradores}
+            label="Colaborador"
+            id="colaboradorId"
+            value={values.colaboradorId}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            touched={touched.colaboradorId?.value}
+            errors={errors.colaboradorId?.value}
+          />
+        )}
       </Grid>
 
       <Grid size={2}>
@@ -175,18 +186,6 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
 
       <Grid size={2}>
         <DatePickerCommon
-          id="fechaFactura"
-          label="Fecha de Factura"
-          fechaValue={values.fechaFactura ?? ""}
-          setFieldValue={setFieldValue}
-          touched={touched}
-          errors={errors}
-          setFieldTouched={setFieldTouched}
-        />
-      </Grid>
-
-      <Grid size={2}>
-        <DatePickerCommon
           id="fechaProgramadaPago"
           label="Programada Pago"
           fechaValue={values.fechaProgramadaPago ?? ""}
@@ -233,21 +232,24 @@ export const FacturaHeader = ({ onClickGuardar }: props) => {
       <Grid size={6} />
 
       <Grid size={2}>
+        {values.statusReembolsoId !== 4 && (
+          <DatePickerCommon
+            id="fechaReembolso"
+            label="Fecha Reembolso"
+            fechaValue={values.fechaReembolso ?? ""}
+            setFieldValue={setFieldValue}
+            touched={touched}
+            errors={errors}
+            setFieldTouched={setFieldTouched}
+          />
+        )}
+      </Grid>
+
+      <Grid size={2}>
         <DatePickerCommon
           id="fechaPago"
           label="Fecha Pago"
           fechaValue={values.fechaPago ?? ""}
-          setFieldValue={setFieldValue}
-          touched={touched}
-          errors={errors}
-          setFieldTouched={setFieldTouched}
-        />
-      </Grid>
-      <Grid size={2}>
-        <DatePickerCommon
-          id="fechaReembolso"
-          label="Fecha Reembolso"
-          fechaValue={values.fechaReembolso ?? ""}
           setFieldValue={setFieldValue}
           touched={touched}
           errors={errors}

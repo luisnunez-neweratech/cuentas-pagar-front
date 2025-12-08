@@ -231,11 +231,13 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
         postFacturaDetallePayload: newDetalles,
       });
 
-      uploadDocumentosMutation.mutate({
-        facturaId: data.data.id,
-        xml: stateFactura.xmlFileValue,
-        pdf: stateFactura.pdfFileValue,
-      });
+      if (stateFactura.xmlFileValue || stateFactura.pdfFileValue) {
+        uploadDocumentosMutation.mutate({
+          facturaId: data.data.id,
+          xml: stateFactura.xmlFileValue,
+          pdf: stateFactura.pdfFileValue,
+        });
+      }
     },
     onError: (error) => {
       console.log(error);
@@ -316,19 +318,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
       if (!id) {
         // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {
-          // archivos cargados
-          if (!stateFactura.pdfFileValue) {
-            toast.warning("Cargar el archivo PDF");
-            return;
-          }
-          if (stateFactura.tipoEntidadId === 0) {
-            // si es nacional no revisamos xml
-            if (!stateFactura.xmlFileValue) {
-              toast.warning("Cargar el archivo XML");
-              return;
-            }
-          }
-
           let detallesValido = true;
           let sumaDetalle = 0;
           stateFactura.facturaDetalle?.map((detalle) => {
@@ -369,10 +358,13 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                   paymentForm: "string",
                   paymentTerms: "string",
                   scheduledPaymentDate: values.fechaProgramadaPago!,
-                  paymentDate: values.fechaPago!,
-                  reimbursementStatus: 1,
-                  reimbursementDate: values.fechaReembolso!,
-                  reimbursementCollaboratorId: values.colaboradorId!.value,
+                  paymentDate: values.fechaPago ?? null,
+                  reimbursementStatus: values.statusReembolsoId,
+                  reimbursementDate: values.fechaReembolso ?? null,
+                  reimbursementCollaboratorId:
+                    values.statusReembolsoId !== 4
+                      ? values.colaboradorId!.value
+                      : null,
                 });
               } else {
                 // crea solo detalles
@@ -395,11 +387,13 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                   invoiceId: stateFactura.id!.toString(),
                   postFacturaDetallePayload: newDetalles,
                 });
-                uploadDocumentosMutation.mutate({
-                  facturaId: stateFactura.id!.toString(),
-                  xml: stateFactura.xmlFileValue,
-                  pdf: stateFactura.pdfFileValue,
-                });
+                if (stateFactura.xmlFileValue || stateFactura.pdfFileValue) {
+                  uploadDocumentosMutation.mutate({
+                    facturaId: stateFactura.id!.toString(),
+                    xml: stateFactura.xmlFileValue,
+                    pdf: stateFactura.pdfFileValue,
+                  });
+                }
               }
             }
           } else {
@@ -453,8 +447,8 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
-                  paymentDate: values.fechaPago!,
-                  reimbursementDate: values.fechaReembolso!,
+                  paymentDate: values.fechaPago ?? null,
+                  reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId: values.colaboradorId!.value,
                   invoiceStatusId: values.statusFacturaId,
                   reimbursementStatus: values.statusReembolsoId.toString(), //TODO status reembolso tipo mal
@@ -495,6 +489,13 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
 
   useEffect(() => {
     if (onClickGuardar > 0) {
+      if (values.statusReembolsoId === 4) {
+        // no aplica
+        setFieldValue("colaboradorId", {
+          value: 1,
+          label: "x",
+        });
+      }
       handleSubmit();
     }
   }, [onClickGuardar]);
@@ -588,7 +589,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     touched,
     errors,
     setFieldValue,
-    id,
     setFieldTouched,
     handleChangeTipoDocumento,
     setCorrectAmoutValue,
