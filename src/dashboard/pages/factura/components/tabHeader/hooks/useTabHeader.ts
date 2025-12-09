@@ -553,6 +553,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         tipoEntidadId: proveedor.tipoEntidadId,
         productos: proveedor.productos,
         condicionesPagoId: proveedor.condicionesPagoId,
+        condicionesPagoLabel: proveedor.condicionesPagoLabel,
       };
     });
 
@@ -609,7 +610,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           label: "x",
         });
       }
-      console.log("values", values);
       handleSubmit();
     }
   }, [onClickGuardar]);
