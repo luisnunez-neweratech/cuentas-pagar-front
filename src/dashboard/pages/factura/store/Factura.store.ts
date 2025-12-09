@@ -14,6 +14,8 @@ export interface FacturaState {
   folioFiscal: string | null;
   productos: Item[] | null;
   tipoEntidadId: number | null;
+  condicionesPagoId: number | null;
+  condicionesPagoLabel: string | null;
 
   fechaFactura: string | null;
   programadaPago: string | null;
@@ -65,6 +67,8 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   folioFiscal: null,
   productos: [],
   tipoEntidadId: null,
+  condicionesPagoId: null,
+  condicionesPagoLabel: null,
 
   fechaFactura: null,
   programadaPago: null,
@@ -173,6 +177,8 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
       folioFiscal: null,
       productos: [],
       tipoEntidadId: null,
+      condicionesPagoId: null,
+      condicionesPagoLabel: null,
 
       fechaFactura: null,
       programadaPago: null,
