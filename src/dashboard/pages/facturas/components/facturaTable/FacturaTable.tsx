@@ -152,44 +152,8 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell component="th" scope="row">
                       {formatDate(invoice.paymentDate)}
                     </TableCell>
-                    <TableCell>{formatDate(invoice.reimbursementDate)}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-
-            <Box sx={{ margin: 1 }}>
-              <Typography
-                variant="body1"
-                gutterBottom
-                component="div"
-                style={{ fontWeight: "bold" }}
-              >
-                Importes
-              </Typography>
-
-              <Table size="small" aria-label="importes">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Subtotal</TableCell>
-                    <TableCell>Descuento</TableCell>
-                    <TableCell>IVA</TableCell>
-                    <TableCell>IVA Retenido</TableCell>
-                    <TableCell>ISR Retenido</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell component="th" scope="row">
-                      {formatCurrency(invoice.subtotal)}
-                    </TableCell>
-                    <TableCell>{formatCurrency(invoice.discount)}</TableCell>
-                    <TableCell>{formatCurrency(invoice.taxIVA)}</TableCell>
                     <TableCell>
-                      {formatCurrency(invoice.taxIVARetained)}
-                    </TableCell>
-                    <TableCell>
-                      {formatCurrency(invoice.taxISRRetained)}
+                      {formatDate(invoice.reimbursementDate)}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -252,6 +216,62 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                       ) : (
                         "N/A"
                       )}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+
+            <Box sx={{ margin: 1 }}>
+              <Typography
+                variant="body1"
+                gutterBottom
+                component="div"
+                style={{ fontWeight: "bold" }}
+              >
+                Importes
+              </Typography>
+
+              <Table size="small" aria-label="importes">
+                <TableHead>
+                  <TableRow>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Subtotal
+                    </TableCell>
+                    <TableCell>{formatCurrency(invoice.subtotal)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      Descuento
+                    </TableCell>
+                    <TableCell>{formatCurrency(invoice.discount)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      IVA
+                    </TableCell>
+                    <TableCell>{formatCurrency(invoice.taxIVA)}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      IVA Retenido
+                    </TableCell>
+                    <TableCell>
+                      {formatCurrency(invoice.taxIVARetained)}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      ISR Retenido
+                    </TableCell>
+                    <TableCell>
+                      {formatCurrency(invoice.taxISRRetained)}
                     </TableCell>
                   </TableRow>
                 </TableBody>
