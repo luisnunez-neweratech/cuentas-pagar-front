@@ -210,10 +210,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
   const initialFormValues = () => {
     if (id && facturaBD) {
-      /* const productos = giros?.filter((obj) =>
-        obj.descripcion.includes(facturaBD.productos)
-      ); */
-
       facturaBD?.details.map((detail: any) => {
         addRowFacturaDetalle({
           id: detail.id,
@@ -227,13 +223,17 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         });
       });
 
+      const proveedorBD = proveedores.find((proveedor: any) => {
+        return proveedor.id === facturaBD.proveedorId;
+      });
+
       return {
         proveedorId: {
-          value: 0,
-          label: "",
-          productos: [],
-          condicionesPagoId: 0,
-          condicionesPagoLabel: "",
+          value: proveedorBD.id,
+          label: proveedorBD.descripcion,
+          productos: proveedorBD.productos,
+          condicionesPagoId: proveedorBD.condicionesPagoId,
+          condicionesPagoLabel: proveedorBD.condicionesPagoLabel,
         },
         colaboradorId: { value: 0, label: "" },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
@@ -255,9 +255,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         isrRetenido: facturaBD.isrRetenido,
         total: facturaBD.total,
 
-        productos: [], //productos,
-        condicionesPagoId: "", //stateFactura.condicionesPagoId,
-        condicionesPagoLabel: "", //stateFactura.condicionesPagoLabel,
+        productos: proveedorBD.productos,
+        condicionesPagoId: proveedorBD.condicionesPagoId,
+        condicionesPagoLabel: proveedorBD.condicionesPagoLabel,
       };
     }
     return {
