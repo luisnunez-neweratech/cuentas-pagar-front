@@ -402,6 +402,7 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
                     values.statusReembolsoId !== 4
                       ? values.colaboradorId!.value
                       : null,
+                      invoiceStatusId: 1,
                 });
               } else {
                 // crea solo detalles

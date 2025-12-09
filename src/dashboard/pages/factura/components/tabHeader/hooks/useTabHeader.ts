@@ -32,8 +32,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     (state) => state.addRowFacturaDetalle
   );
 
-  const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
-  const setValidTabDetail = useFacturaStore((state) => state.setValidTabDetail);
+  /* const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
+  const setValidTabDetail = useFacturaStore((state) => state.setValidTabDetail); */
 
   const setTipoDocumentoId = useFacturaStore(
     (state) => state.setTipoDocumentoId
@@ -67,9 +67,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   });
 
   const {
-    isLoading,
-    isError: isErrorGet,
-    error: errorGet,
+    //isLoading,
+    //isError: isErrorGet,
+    //error: errorGet,
     data: facturaBD,
   } = useQuery({
     queryKey: ["Invoice", `${id}`],
@@ -592,7 +592,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     }
   }, [onClickGuardar]);
 
-  const onValidateTabHeader = () => {
+  /* const onValidateTabHeader = () => {
     if (
       values.tipoDocumentoId &&
       values.proveedorId.value > 0 &&
@@ -604,7 +604,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     } else {
       setValidTabHeader(false);
     }
-  };
+  }; */
 
 /*   useEffect(() => {
     onValidateTabHeader();
@@ -615,7 +615,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     values.fechaFactura,
   ]);
  */
-  const onValidateTabDetail = () => {
+ /*  const onValidateTabDetail = () => {
     if (
       values.monedaId &&
       stateFactura.facturaDetalle &&
@@ -625,7 +625,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     } else {
       setValidTabDetail(false);
     }
-  };
+  }; */
 /* 
   useEffect(() => {
     onValidateTabDetail();
