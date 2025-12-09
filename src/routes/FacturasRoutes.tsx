@@ -15,7 +15,6 @@ import { Moneda } from "../dashboard/pages/catalogos/monedaVenta/moneda/Moneda";
 import { PlazoPagoListPage } from "../dashboard/pages/catalogos/plazoPago/PlazoPago";
 import { Plazo } from "../dashboard/pages/catalogos/plazoPago/plazo/Plazo";
 import { FacturasPage } from "../dashboard/pages/facturas/FacturasPage";
-import { FacturaPage } from "../dashboard/pages/factura/FacturaPage";
 import { NewFacturaPage } from "../dashboard/pages/factura/NewFacturaPage";
 
 const AuthLayout = lazy(() => import("../auth/layouts/AuthLayout"));
@@ -37,9 +36,8 @@ export const FacturasRoutes = () => {
         </Route>
         <Route path="facturas">
           <Route index element={<FacturasPage />} />
-           <Route path="nueva-factura" element={<FacturaPage />} />
-           <Route path="nueva-factura-new" element={<NewFacturaPage />} />
-           <Route path=":id" element={<FacturaPage />} />
+          <Route path="nueva-factura" element={<NewFacturaPage />} />
+          <Route path=":id" element={<NewFacturaPage />} />
         </Route>
 
         <Route path="catalogos">
