@@ -43,7 +43,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           </p>
         )}
       </Grid>
-      <Grid size={4} sx={{ marginTop: 2 }}>
+      <Grid size={4} sx={{ marginTop: 3 }}>
         {pdfFileName && (
           <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
             {`Nombre del Archivo: ${pdfFileName}`}
@@ -52,7 +52,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
       </Grid>
       <Grid size={5} />
 
-      <Grid size={3}>
+      <Grid size={3} sx={{marginTop:-5}}>
         {tipoEntidadId === 0 && (
           <>
             <input
@@ -82,7 +82,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           </p>
         )}
       </Grid>
-      <Grid size={4} sx={{ marginTop: 2 }}>
+      <Grid size={3} sx={{ marginTop: -1 }}>
         {xmlFileName && (
           <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
             {`Nombre del Archivo: ${xmlFileName}`}
@@ -90,8 +90,8 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
         )}
       </Grid>
 
-      <Grid size={3} />
-      <Grid size={2}>
+      
+      <Grid size={2} sx={{marginTop: -3}}>
         <Button
           variant="contained"
           sx={{ backgroundColor: mainBackgroundColor }}
