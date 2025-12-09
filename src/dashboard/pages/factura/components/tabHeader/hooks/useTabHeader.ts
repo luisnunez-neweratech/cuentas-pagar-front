@@ -564,7 +564,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     } else {
       setListaProductos([]);
     }
-    onValidateTabHeader();
+    //onValidateTabHeader();
   }, [values.proveedorId]);
 
   useEffect(() => {
@@ -645,7 +645,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     handleChangeTipoDocumento,
     setTipoEntidad,
     setCorrectAmoutValue,
-    convertStatusFactura,
-    onValidateTabHeader,
+    convertStatusFactura,    
   };
 };

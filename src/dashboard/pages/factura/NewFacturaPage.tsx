@@ -3,7 +3,6 @@ import { useState } from "react";
 import { TabHeader } from "./components/tabHeader/TabHeader";
 import { useNewFacturaPage } from "./hooks/useNewFacturaPage";
 
-
 export const NewFacturaPage = () => {
   const [value, setValue] = useState(0);
 
@@ -11,10 +10,13 @@ export const NewFacturaPage = () => {
     setValue(newValue);
   };
 
-
-const { onClickGuardar, setOnClickGuardar, validTabHeader } = useNewFacturaPage();
-
-console.log('validTabHeader', validTabHeader)
+  const {
+    onClickGuardar,
+    setOnClickGuardar,
+    /* validTabHeader,
+    validTabDetail,
+    validTabTotal, */
+  } = useNewFacturaPage();
 
   return (
     <>
@@ -24,9 +26,9 @@ console.log('validTabHeader', validTabHeader)
         aria-label="disabled tabs example"
       >
         <Tab label="Header" />
-        <Tab label="Details"  disabled={!validTabHeader} />
-        <Tab label="Total" /* disabled */ />
-        <Tab label="Pago" /* disabled */ />
+        <Tab label="Details"/*  disabled={!validTabHeader}  *//>
+        <Tab label="Total" /* disabled={!validTabDetail} */ />
+        <Tab label="Pago" /* disabled={!validTabTotal} */ />
       </Tabs>
       <TabHeader
         tabIndex={value}
