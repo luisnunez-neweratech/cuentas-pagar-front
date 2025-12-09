@@ -121,8 +121,6 @@ export const useFacturaHeader = ({ onClickGuardar }: props) => {
     setConvertColaboradores(newColaboradores ?? []);
   }, [colaboradores]);
 
-  getStatusFactura;
-
   const {
     isLoading,
     isError: isErrorGet,
