@@ -81,3 +81,22 @@ export const getProveedorCuentas = async (id: string): Promise<any> => {
   // array con CSF, IdRepLegal, CompDom, PoderRep
   return data;
 };
+
+interface updateCondicionesPagoProps {
+  proveedorId: string;
+  condicionesPagoId: number;
+}
+
+export const updateCondicionesPago = async ({
+  proveedorId,
+  condicionesPagoId,
+}: updateCondicionesPagoProps): Promise<any> => {
+  const { data } = await cuentasApi.put(
+    `/Proveedor/ActualizarCondicionesPago`,
+    {
+      proveedorId,
+      condicionesPagoId,
+    }
+  );
+  return data;
+};

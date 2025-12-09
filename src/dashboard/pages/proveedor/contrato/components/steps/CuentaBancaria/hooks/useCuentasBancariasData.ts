@@ -52,7 +52,6 @@ export const useCuentasBancariasData = ({
       clabe: cuentaBancaria?.clabe,
       swift: cuentaBancaria?.swift,
       status: cuentaBancaria?.status,
-      condicionesPago: cuentaBancaria?.condicionesPago,
       [idInput]: cuentaBancaria?.fileValue,
       newElement: cuentaBancaria?.newElement,
       noCuenta: cuentaBancaria?.noCuenta,
@@ -104,7 +103,6 @@ export const useCuentasBancariasData = ({
           monedaVenta: values.monedaVenta!,
           clabe: values.clabe!,
           swift: values.swift,
-          condicionesPago: values.condicionesPago!,
           status: values.status!,
           fileValue:
             typeof values[idInput] === "object" &&

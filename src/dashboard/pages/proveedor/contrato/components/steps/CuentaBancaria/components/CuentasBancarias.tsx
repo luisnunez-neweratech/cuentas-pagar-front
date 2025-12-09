@@ -18,7 +18,6 @@ export const CuentasBancarias = ({
     isValidForm,
     setCuentasValidos,
     monedas,
-    plazoPagos,
   } = useCuentasBancarias();
 
   const stepCuentaBancaria = useProveedorContratoStore(
@@ -39,10 +38,9 @@ export const CuentasBancarias = ({
           idInput={`caratulaBancaria-${item.id}`}
           isValidForm={isValidForm}
           monedas={monedas ?? []}
-          plazoPagos={plazoPagos ?? []}
           downloadUrl={item.downloadUrl}
           validateCuentas={validateCuentas}
-          total={stepCuentaBancaria?.length!}
+          total={stepCuentaBancaria?.length ?? 0}
         />
       ))}
 

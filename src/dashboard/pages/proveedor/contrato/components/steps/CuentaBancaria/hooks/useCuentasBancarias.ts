@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useCuentaBancariaStore } from "../store/CuentaBancaria";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { getAllMonedaVentas } from "../../../../../../catalogos/services/monedaVenta.service";
-import { getAllPlazoPagos } from "../../../../../../catalogos/services/plazoPago.service";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProveedorCuenta } from "../../../../services/proveedor.cuentaBancaria.service";
 import { AxiosError } from "axios";
@@ -37,17 +36,6 @@ export const useCuentasBancarias = () => {
     queryFn: () => getAllMonedaVentas(),
   });
 
-  const {
-    //isLoading,
-    //isError,
-    //error,
-    data: plazoPagos,
-    //refetch,
-  } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
-    queryFn: () => getAllPlazoPagos(),
-  });
-
   const addCuenta = () => {
     addCuentaBancaria({
       id: (stepCuentaBancaria?.length ?? 0) + 1,
@@ -56,7 +44,6 @@ export const useCuentasBancarias = () => {
       monedaVenta: "",
       clabe: "",
       swift: "",
-      condicionesPago: "",
       status: true,
       fileValue: undefined,
       newElement: true,
@@ -114,6 +101,5 @@ export const useCuentasBancarias = () => {
     isValidForm,
     setCuentasValidos,
     monedas,
-    plazoPagos,
   };
 };

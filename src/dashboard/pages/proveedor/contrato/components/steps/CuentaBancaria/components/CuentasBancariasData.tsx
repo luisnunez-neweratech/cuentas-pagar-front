@@ -20,7 +20,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { TipoEntidad } from "../../../../../interfaces/TipoEntidad";
 import type { MonedaVenta } from "../../../../../../catalogos/monedaVenta/interface/MonedaVenta";
-import type { PlazoPago } from "../../../../../../catalogos/plazoPago/interface/PlazoPago";
 
 interface props {
   id: number;
@@ -28,7 +27,6 @@ interface props {
   idInput: string;
   isValidForm: (id: number, valid: boolean) => void;
   monedas: MonedaVenta[];
-  plazoPagos: PlazoPago[];
   downloadUrl?: string | null;
   validateCuentas: number;
   total: number;
@@ -40,7 +38,6 @@ export const CuentasBancariasData = ({
   idInput,
   isValidForm,
   monedas,
-  plazoPagos,
   downloadUrl,
   validateCuentas,
   total,
@@ -141,37 +138,6 @@ export const CuentasBancariasData = ({
                 <FormHelperText>
                   {touched.monedaVenta && errors.monedaVenta
                     ? errors.monedaVenta
-                    : ""}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-
-            <Grid size={4} sx={{ marginTop: 1 }}>
-              <FormControl
-                fullWidth
-                error={
-                  touched.condicionesPago && Boolean(errors.condicionesPago)
-                }
-              >
-                <InputLabel id="condiciones-pago-label">
-                  *Condiciones de Pago
-                </InputLabel>
-                <Select
-                  labelId="condiciones-pago-label"
-                  id="condicionesPago"
-                  name="condicionesPago"
-                  label="Condiciones de Pago"
-                  value={values.condicionesPago}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                >
-                  {plazoPagos.map((plazo) => (
-                    <MenuItem value={plazo.id}>{plazo.descripcion}</MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>
-                  {touched.condicionesPago && errors.condicionesPago
-                    ? errors.condicionesPago
                     : ""}
                 </FormHelperText>
               </FormControl>

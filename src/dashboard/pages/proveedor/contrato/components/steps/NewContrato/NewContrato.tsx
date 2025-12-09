@@ -2,8 +2,13 @@ import {
   Box,
   Button,
   Checkbox,
+  FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -33,6 +38,7 @@ export const NewContrato = () => {
     setClickedBy,
     validateColaboradores,
     validateDocuments,
+    plazoPagos,
   } = useNewContrato();
 
   return (
@@ -79,6 +85,39 @@ export const NewContrato = () => {
             <ColaboradorMoral validateColaboradores={validateColaboradores} />
           )}
         {!checkContractor && <Grid size={10} />}
+
+        <Grid size={4} sx={{ marginTop: 2 }}>
+          <FormControl
+            fullWidth
+            error={touched.condicionesPago && Boolean(errors.condicionesPago)}
+          >
+            <InputLabel id="condiciones-pago-label">
+              *Condiciones de Pago
+            </InputLabel>
+            <Select
+              labelId="condiciones-pago-label"
+              id="condicionesPago"
+              name="condicionesPago"
+              label="Condiciones de Pago"
+              value={values.condicionesPago}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              {plazoPagos?.map((plazo) => (
+                <MenuItem key={plazo.id} value={plazo.id}>
+                  {plazo.descripcion}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>
+              {touched.condicionesPago && errors.condicionesPago
+                ? errors.condicionesPago.toString()
+                : "Seleccione el plazo de pago para este proveedor"}
+            </FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid size={8} />
+
         <Grid size={12} sx={{ marginTop: 1 }}>
           <Typography variant="h5" component="div">
             Documentos
