@@ -228,7 +228,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       });
 
       return {
-        proveedorId: { value: 0, label: "", productos: [] },
+        proveedorId: {
+          value: 0,
+          label: "",
+          productos: [],
+          condicionesPagoId: 0,
+        },
         colaboradorId: { value: 0, label: "" },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
         statusFacturaId: facturaBD.statusFacturaId,
@@ -255,7 +260,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       };
     }
     return {
-      proveedorId: { value: 0, label: "", productos: [] }, //stateFactura.proveedorId,
+      proveedorId: { value: 0, label: "", productos: [], condicionesPagoId: 0 }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
       tipoDocumentoId: 1, // por default factura en nuevo//stateFactura.tipoDocumentoId,
       statusFacturaId: 51, //en revision al crear //stateFactura.statusFacturaId,
@@ -538,6 +543,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         label: proveedor.descripcion,
         tipoEntidadId: proveedor.tipoEntidadId,
         productos: proveedor.productos,
+        condicionesPagoId: proveedor.condicionesPagoId,
       };
     });
 
@@ -561,10 +567,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       } else {
         setFieldValue("productos", []);
       }
+
+      setFieldValue("condicionesPagoId", values.proveedorId.condicionesPagoId);
     } else {
       setListaProductos([]);
+      setFieldValue("condicionesPagoId", 0);
     }
-    //onValidateTabHeader();
   }, [values.proveedorId]);
 
   useEffect(() => {
@@ -606,7 +614,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     }
   }; */
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     onValidateTabHeader();
   }, [
     values.tipoDocumentoId,
@@ -615,7 +623,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     values.fechaFactura,
   ]);
  */
- /*  const onValidateTabDetail = () => {
+  /*  const onValidateTabDetail = () => {
     if (
       values.monedaId &&
       stateFactura.facturaDetalle &&
@@ -626,7 +634,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       setValidTabDetail(false);
     }
   }; */
-/* 
+  /* 
   useEffect(() => {
     onValidateTabDetail();
   }, [values.monedaId, stateFactura.facturaDetalle]);
@@ -645,6 +653,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     handleChangeTipoDocumento,
     setTipoEntidad,
     setCorrectAmoutValue,
-    convertStatusFactura,    
+    convertStatusFactura,
   };
 };

@@ -31,7 +31,7 @@ export const TabPago = ({
   setFieldValue,
   setFieldTouched,
 }: props) => {
-  const { convertColaboradores } = useTabPago();
+  const { convertColaboradores, convertPlazoPagos } = useTabPago();
 
   return (
     <Grid container spacing={2} sx={{ marginTop: -58 }}>
@@ -39,7 +39,7 @@ export const TabPago = ({
         <SelectCommon
           id={"condicionesPagoId"}
           label={"Condiciones de Pago"}
-          options={convertStatusFactura}
+          options={convertPlazoPagos}
           value={values.condicionesPagoId}
           handleChange={handleChange}
           handleBlur={handleBlur}
@@ -90,7 +90,7 @@ export const TabPago = ({
 
       <Grid size={4} />
 
-      <Grid size={2} sx={{marginTop:-7}}>
+      <Grid size={2} sx={{ marginTop: -7 }}>
         {values.statusReembolsoId !== 4 && (
           <NormalAutocomplete
             options={convertColaboradores}
@@ -105,9 +105,9 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2}  sx={{marginTop:-7}} />
+      <Grid size={2} sx={{ marginTop: -7 }} />
 
-      <Grid size={2}  sx={{marginTop:-7}}>
+      <Grid size={2} sx={{ marginTop: -7 }}>
         {values.statusReembolsoId !== 4 && (
           <DatePickerCommon
             id="fechaReembolso"
@@ -121,7 +121,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2}  sx={{marginTop:-7}}>
+      <Grid size={2} sx={{ marginTop: -7 }}>
         <DatePickerCommon
           id="fechaPago"
           label="Fecha Pago"
@@ -133,7 +133,7 @@ export const TabPago = ({
         />
       </Grid>
 
-      <Grid size={2}  sx={{marginTop:-7}} />
+      <Grid size={2} sx={{ marginTop: -7 }} />
 
       <FacturaFooter
         setOnClickGuardar={setOnClickGuardar}
