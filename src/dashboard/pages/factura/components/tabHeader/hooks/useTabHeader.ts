@@ -32,6 +32,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     (state) => state.addRowFacturaDetalle
   );
 
+  const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
+
   const setTipoDocumentoId = useFacturaStore(
     (state) => state.setTipoDocumentoId
   );
@@ -467,7 +469,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     },
   });
 
-  console.log('errors', errors)
+  console.log("errors", errors);
 
   const setCorrectAmoutValue = (
     value: string,
@@ -561,6 +563,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     } else {
       setListaProductos([]);
     }
+    onValidateTabHeader();
   }, [values.proveedorId]);
 
   useEffect(() => {
@@ -575,7 +578,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   }, [statusFacturaData]);
 
   useEffect(() => {
-    if (onClickGuardar > 0) {      
+    if (onClickGuardar > 0) {
       if (values.statusReembolsoId === 4) {
         // no aplica
         setFieldValue("colaboradorId", {
@@ -583,9 +586,33 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           label: "x",
         });
       }
+      console.log("values", values);
       handleSubmit();
     }
   }, [onClickGuardar]);
+
+  const onValidateTabHeader = () => {
+    if (
+      values.tipoDocumentoId &&
+      values.proveedorId.value > 0 &&
+      values.noFactura &&
+      values.folioFiscal &&
+      values.fechaFactura
+    ) {
+      setValidTabHeader(true);
+    } else {
+      setValidTabHeader(false);
+    }
+  };
+
+  useEffect(() => {
+    onValidateTabHeader();
+  }, [
+    values.tipoDocumentoId,
+    values.noFactura,
+    values.folioFiscal,
+    values.fechaFactura,
+  ]);
 
   return {
     onChangeAutocomplete,
@@ -601,7 +628,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     handleChangeTipoDocumento,
     setTipoEntidad,
     setCorrectAmoutValue,
-
     convertStatusFactura,
+    onValidateTabHeader,
   };
 };

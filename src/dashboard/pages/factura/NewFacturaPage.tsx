@@ -7,12 +7,14 @@ import { useNewFacturaPage } from "./hooks/useNewFacturaPage";
 export const NewFacturaPage = () => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
 
-const { onClickGuardar, setOnClickGuardar } = useNewFacturaPage();
+const { onClickGuardar, setOnClickGuardar, validTabHeader } = useNewFacturaPage();
+
+console.log('validTabHeader', validTabHeader)
 
   return (
     <>
@@ -22,7 +24,7 @@ const { onClickGuardar, setOnClickGuardar } = useNewFacturaPage();
         aria-label="disabled tabs example"
       >
         <Tab label="Header" />
-        <Tab label="Details" /* disabled */ />
+        <Tab label="Details"  disabled={!validTabHeader} />
         <Tab label="Total" /* disabled */ />
         <Tab label="Pago" /* disabled */ />
       </Tabs>

@@ -34,11 +34,14 @@ export interface FacturaState {
 
   facturaDetalle: FacturaDetalle[] | null;
 
+  validTabHeader: boolean;
+
   setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
   setXmlFile: (xmlFileValue: File) => void;
   setFacturaId: (id: number) => void;
   setTipoEntidadId: (tipoEntidadId: number) => void;
+  setValidTabHeader: (validTabHeader: boolean) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
@@ -77,6 +80,8 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   xmlDownloadUrl: null,
 
   facturaDetalle: null,
+
+  validTabHeader: false,
 
   setTipoDocumentoId: (tipoDocumentoId: number) => {
     set((state) => ({
@@ -129,6 +134,12 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
     set((state) => ({
       ...state,
       tipoEntidadId,
+    }));
+  },
+  setValidTabHeader: (validTabHeader: boolean) => {
+    set((state) => ({
+      ...state,
+      validTabHeader,
     }));
   },
   clearState: () => {
