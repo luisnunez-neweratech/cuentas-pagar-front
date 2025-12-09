@@ -13,7 +13,7 @@ import { TabPago } from "../tabPago/TabPago";
 interface props {
   tabIndex: number;
   setOnClickGuardar: any;
-  onClickGuardar: any;
+  onClickGuardar: number;
 }
 
 export const TabHeader = ({
@@ -36,7 +36,7 @@ export const TabHeader = ({
     setTipoEntidad,
     setCorrectAmoutValue,
     convertStatusFactura,
-  } = useTabHeader();
+  } = useTabHeader({onClickGuardar});
 
   return (
     <Grid container spacing={2} sx={{ marginTop: 4 }}>
