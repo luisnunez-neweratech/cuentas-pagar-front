@@ -49,8 +49,6 @@ export const useTabPago = () => {
     setConvertPlazoPagos(newPlazoPagos ?? []);
   }, [plazoPagos]);
 
-console.log('plazoPagos', plazoPagos)
-
   return {
     convertColaboradores,
     convertPlazoPagos

@@ -233,6 +233,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           label: "",
           productos: [],
           condicionesPagoId: 0,
+          condicionesPagoLabel: "",
         },
         colaboradorId: { value: 0, label: "" },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
@@ -255,12 +256,18 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         total: facturaBD.total,
 
         productos: [], //productos,
-
-        condicionesPagoId: 0,
+        condicionesPagoId: "", //stateFactura.condicionesPagoId,
+        condicionesPagoLabel: "", //stateFactura.condicionesPagoLabel,
       };
     }
     return {
-      proveedorId: { value: 0, label: "", productos: [], condicionesPagoId: 0 }, //stateFactura.proveedorId,
+      proveedorId: {
+        value: 0,
+        label: "",
+        productos: [],
+        condicionesPagoId: 0,
+        condicionesPagoLabel: "",
+      }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
       tipoDocumentoId: 1, // por default factura en nuevo//stateFactura.tipoDocumentoId,
       statusFacturaId: 51, //en revision al crear //stateFactura.statusFacturaId,
@@ -282,8 +289,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       total: stateFactura.total,
 
       productos: stateFactura.productos,
-
-      condicionesPagoId: 0,
+      condicionesPagoId: stateFactura.condicionesPagoId,
+      condicionesPagoLabel: stateFactura.condicionesPagoLabel,
     };
   };
 
@@ -302,6 +309,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     validationSchema: validationSchema(stateFactura.tipoEntidadId),
     onSubmit: async (values) => {
       //handleDisableButtons(true);
+
       if (!id) {
         // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {
@@ -343,7 +351,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   currencyId: values.monedaId!,
                   exchangeRate: 0,
                   paymentForm: "string",
-                  paymentTerms: "string",
+                  paymentTerms: values.condicionesPagoLabel!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
                   paymentDate: values.fechaPago ?? null,
                   reimbursementStatus: values.statusReembolsoId,
@@ -417,6 +425,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   invoiceNumber: values.noFactura!,
                   documentType: values.tipoDocumentoId!.toString(), //TODO el back pide string
                   cfdiType: 0,
+                  paymentTerms: values.condicionesPagoLabel!,
                   serie: "",
                   folio: "",
                   fiscalFolio: values.folioFiscal ?? "",
@@ -569,9 +578,14 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       }
 
       setFieldValue("condicionesPagoId", values.proveedorId.condicionesPagoId);
+      setFieldValue(
+        "condicionesPagoLabel",
+        values.proveedorId.condicionesPagoLabel
+      );
     } else {
       setListaProductos([]);
       setFieldValue("condicionesPagoId", 0);
+      setFieldValue("condicionesPagoLabel", "");
     }
   }, [values.proveedorId]);
 
