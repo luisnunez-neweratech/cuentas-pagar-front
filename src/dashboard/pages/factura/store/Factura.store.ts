@@ -35,6 +35,8 @@ export interface FacturaState {
   facturaDetalle: FacturaDetalle[] | null;
 
   validTabHeader: boolean;
+  validTabDetail: boolean;
+  validTabTotal: boolean;
 
   setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
@@ -42,6 +44,8 @@ export interface FacturaState {
   setFacturaId: (id: number) => void;
   setTipoEntidadId: (tipoEntidadId: number) => void;
   setValidTabHeader: (validTabHeader: boolean) => void;
+  setValidTabDetail: (validTabDetail: boolean) => void;
+  setValidTabTotal: (validTabTotal: boolean) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
@@ -82,6 +86,8 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   facturaDetalle: null,
 
   validTabHeader: false,
+  validTabDetail: false,
+  validTabTotal: false,
 
   setTipoDocumentoId: (tipoDocumentoId: number) => {
     set((state) => ({
@@ -140,6 +146,18 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
     set((state) => ({
       ...state,
       validTabHeader,
+    }));
+  },
+  setValidTabDetail: (validTabDetail: boolean) => {
+    set((state) => ({
+      ...state,
+      validTabDetail,
+    }));
+  },
+  setValidTabTotal: (validTabTotal: boolean) => {
+    set((state) => ({
+      ...state,
+      validTabTotal,
     }));
   },
   clearState: () => {

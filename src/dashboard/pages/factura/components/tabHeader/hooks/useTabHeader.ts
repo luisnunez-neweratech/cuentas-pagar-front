@@ -33,6 +33,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   );
 
   const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
+  const setValidTabDetail = useFacturaStore((state) => state.setValidTabDetail);
 
   const setTipoDocumentoId = useFacturaStore(
     (state) => state.setTipoDocumentoId
@@ -605,7 +606,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     }
   };
 
-  useEffect(() => {
+/*   useEffect(() => {
     onValidateTabHeader();
   }, [
     values.tipoDocumentoId,
@@ -613,7 +614,23 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     values.folioFiscal,
     values.fechaFactura,
   ]);
-
+ */
+  const onValidateTabDetail = () => {
+    if (
+      values.monedaId &&
+      stateFactura.facturaDetalle &&
+      stateFactura.facturaDetalle?.length > 0
+    ) {
+      setValidTabDetail(true);
+    } else {
+      setValidTabDetail(false);
+    }
+  };
+/* 
+  useEffect(() => {
+    onValidateTabDetail();
+  }, [values.monedaId, stateFactura.facturaDetalle]);
+ */
   return {
     onChangeAutocomplete,
     values,
