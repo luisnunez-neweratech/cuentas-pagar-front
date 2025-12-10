@@ -40,6 +40,8 @@ export interface FacturaState {
   validTabDetail: boolean;
   validTabTotal: boolean;
 
+  disableButtons: boolean;
+
   setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
   setXmlFile: (xmlFileValue: File) => void;
@@ -48,6 +50,9 @@ export interface FacturaState {
   setValidTabHeader: (validTabHeader: boolean) => void;
   setValidTabDetail: (validTabDetail: boolean) => void;
   setValidTabTotal: (validTabTotal: boolean) => void;
+  setDisableButtons: (disableButtons: boolean) => void;
+  setPdfDownloadUrl: (pdfDownloadUrl: string) => void;
+  setXmlDownloadUrl: (xmlDownloadUrl: string) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
@@ -92,6 +97,7 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   validTabHeader: false,
   validTabDetail: false,
   validTabTotal: false,
+  disableButtons: false,
 
   setTipoDocumentoId: (tipoDocumentoId: number) => {
     set((state) => ({
@@ -164,6 +170,24 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
       validTabTotal,
     }));
   },
+  setDisableButtons: (disableButtons: boolean) => {
+    set((state) => ({
+      ...state,
+      disableButtons,
+    }));
+  },
+  setPdfDownloadUrl: (pdfDownloadUrl: string) => {
+    set((state) => ({
+      ...state,
+      pdfDownloadUrl,
+    }));
+  },
+  setXmlDownloadUrl: (xmlDownloadUrl: string) => {
+    set((state) => ({
+      ...state,
+      xmlDownloadUrl,
+    }));
+  },
   clearState: () => {
     set((_state) => ({
       id: null,
@@ -198,6 +222,7 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
       xmlDownloadUrl: null,
 
       facturaDetalle: null,
+      disableButtons: false,
     }));
   },
 });

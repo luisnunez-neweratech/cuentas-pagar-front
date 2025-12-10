@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 
 interface props {
   onClickGuardar: number;
@@ -41,6 +42,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
   const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
+  const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
+  const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
+  const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+
+  const handleDisableButtons = (state: boolean) => {
+    setDisableButtons(state);
+    setIsLoading(state);
+  };
 
   const [listaProductos, setListaProductos] = useState<
     { id: number; descripcion: string }[]
@@ -67,7 +77,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   });
 
   const {
-    //isLoading,
+    isLoading,
     //isError: isErrorGet,
     //error: errorGet,
     data: facturaBD,
@@ -81,6 +91,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     mutationFn: addFacturaDetalle,
     onSuccess: () => {
       toast.success("Factura creada correctamente");
+      handleDisableButtons(false);
       navigate("/facturas");
     },
     onError: (error) => {
@@ -204,12 +215,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       return;
     },
     onSettled: () => {
-      //handleDisableButtons(false);
+      handleDisableButtons(false);
     },
   });
 
   const initialFormValues = () => {
-    if (id && facturaBD) {
+    if (id && facturaBD && proveedores) {
       facturaBD?.details.map((detail: any) => {
         addRowFacturaDetalle({
           id: detail.id,
@@ -226,6 +237,14 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       const proveedorBD = proveedores.find((proveedor: any) => {
         return proveedor.id === facturaBD.proveedorId;
       });
+
+      if (facturaBD.pdfFile) {
+        setPdfDownloadUrl(facturaBD.pdfFile);
+      }
+
+      if(facturaBD.xmlFile) {
+        setXmlDownloadUrl(facturaBD.xmlFile)
+      }
 
       return {
         proveedorId: {
@@ -308,8 +327,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema(stateFactura.tipoEntidadId),
     onSubmit: async (values) => {
-      //handleDisableButtons(true);
-
+      handleDisableButtons(true);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       if (!id) {
         // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {
@@ -423,12 +446,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                 putFacturaHeaderPayload: {
                   supplierId: values.proveedorId!.value,
                   invoiceNumber: values.noFactura!,
-                  documentType: values.tipoDocumentoId!.toString(), //TODO el back pide string
-                  cfdiType: 0,
-                  paymentTerms: values.condicionesPagoLabel!,
-                  serie: "",
-                  folio: "",
+                  invoiceStatusId: values.statusFacturaId,
                   fiscalFolio: values.folioFiscal ?? "",
+                  documentType: values.tipoDocumentoId!,
                   invoiceDate: values.fechaFactura!,
                   supplierProductService: values.productos![0].descripcion,
                   subtotal: values.subtotal!,
@@ -445,10 +465,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   currencyId: values.monedaId!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
                   paymentDate: values.fechaPago ?? null,
+                  reimbursementStatus: values.statusReembolsoId,
                   reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId: values.colaboradorId!.value,
-                  invoiceStatusId: values.statusFacturaId,
-                  reimbursementStatus: values.statusReembolsoId.toString(), //TODO status reembolso tipo mal
                 },
               });
 
@@ -613,6 +632,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       handleSubmit();
     }
   }, [onClickGuardar]);
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading]);
 
   /* const onValidateTabHeader = () => {
     if (

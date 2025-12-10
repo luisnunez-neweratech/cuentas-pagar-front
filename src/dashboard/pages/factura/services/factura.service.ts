@@ -80,6 +80,10 @@ export const getFactura = async (id: string): Promise<any> => {
     statusReembolso: data.reimbursementStatus,
     colaboradorId: data.reimbursementCollaboratorId,
     details: data.invoiceDetails,
+    xmlName: data.invoiceDocument?.xmlFileName ?? null,
+    xmlFile: data.invoiceDocument?.xmlFilePath ?? null,
+    pdfName: data.invoiceDocument?.pdfFileName ?? null,
+    pdfFile: data.invoiceDocument?.pdfFilePath ?? null,
   };
 };
 
@@ -106,7 +110,7 @@ export const updateFacturaDetalle = async ({
   putFacturaDetallePayload,
   invoiceId,
 }: putFacturaDetalleProps): Promise<any> => {
-  const response = await cuentasApi.post(
+  const response = await cuentasApi.put(
     `/Invoice/DetailsUpdate/${invoiceId}`,
     putFacturaDetallePayload
   );
