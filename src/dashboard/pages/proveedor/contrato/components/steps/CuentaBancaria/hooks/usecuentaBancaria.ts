@@ -108,7 +108,6 @@ export const useCuentaBancaria = () => {
                 saleCurrencyId: +cuenta.monedaVenta,
                 clabe: cuenta.clabe.toString(),
                 swiftCode: cuenta.swift ?? "",
-                paymentTermsId: 0, // Este campo se maneja ahora a nivel de proveedor
                 accountNumber: cuenta.noCuenta ?? "",
               },
               supplierId: stateProveedor.id!.toString(),
@@ -122,7 +121,6 @@ export const useCuentaBancaria = () => {
                 saleCurrencyId: +cuenta.monedaVenta,
                 clabe: cuenta.clabe.toString(),
                 swiftCode: cuenta.swift ?? "",
-                paymentTermsId: 0, // Este campo se maneja ahora a nivel de proveedor
                 isActive: cuenta.status,
                 accountNumber: cuenta.noCuenta ?? "",
               },

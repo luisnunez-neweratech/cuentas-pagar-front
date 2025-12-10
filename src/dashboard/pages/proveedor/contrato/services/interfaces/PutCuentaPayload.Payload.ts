@@ -4,7 +4,6 @@ export interface PutCuentaPayload {
   saleCurrencyId: number;
   clabe: string;
   swiftCode?: string | null;
-  paymentTermsId: number;
   isActive: boolean;
   accountNumber?: string | null;
 }
