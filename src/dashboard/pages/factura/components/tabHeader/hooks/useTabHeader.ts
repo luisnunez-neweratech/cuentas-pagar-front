@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 
 interface props {
   onClickGuardar: number;
@@ -41,6 +42,13 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
   const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
+  const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+
+  const handleDisableButtons = (state: boolean) => {
+    setDisableButtons(state);
+    setIsLoading(state);
+  };
 
   const [listaProductos, setListaProductos] = useState<
     { id: number; descripcion: string }[]
@@ -67,7 +75,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   });
 
   const {
-    //isLoading,
+    isLoading,
     //isError: isErrorGet,
     //error: errorGet,
     data: facturaBD,
@@ -204,12 +212,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       return;
     },
     onSettled: () => {
-      //handleDisableButtons(false);
+      handleDisableButtons(false);
     },
   });
 
   const initialFormValues = () => {
-    if (id && facturaBD) {
+    if (id && facturaBD && proveedores) {
       facturaBD?.details.map((detail: any) => {
         addRowFacturaDetalle({
           id: detail.id,
@@ -308,8 +316,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     initialValues: initialFormValues(),
     validationSchema: validationSchema(stateFactura.tipoEntidadId),
     onSubmit: async (values) => {
-      //handleDisableButtons(true);
-
+      handleDisableButtons(true);
       if (!id) {
         // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {
@@ -613,6 +620,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       handleSubmit();
     }
   }, [onClickGuardar]);
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading]);
 
   /* const onValidateTabHeader = () => {
     if (

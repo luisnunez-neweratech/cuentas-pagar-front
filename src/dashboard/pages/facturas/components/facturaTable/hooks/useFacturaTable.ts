@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useFacturasPageStore } from "../../../store/FacturasPage.store";
 import { getInvoicesPaged } from "../../../services/invoice.service";
+import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 
 export const useFacturaTable = () => {
   const [page, setPage] = useState(0);
@@ -15,13 +16,12 @@ export const useFacturaTable = () => {
   const handleOpenModal = useFacturasPageStore(
     (state) => state.handleOpenModal
   );
-  const setIdSelected = useFacturasPageStore(
-    (state) => state.setIdSelected
-  );
+  const setIdSelected = useFacturasPageStore((state) => state.setIdSelected);
   const callApi = useFacturasPageStore((state) => state.callApi);
   const filtrosFacturas = useFacturasPageStore(
     (state) => state.filtrosFacturas
   );
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ["invoices", page, rowsPerPage, callApi],
@@ -59,7 +59,8 @@ export const useFacturaTable = () => {
           paymentDateTo: filtrosFacturas?.paymentDateTo || undefined,
           reimbursementDateFrom:
             filtrosFacturas?.reimbursementDateFrom || undefined,
-          reimbursementDateTo: filtrosFacturas?.reimbursementDateTo || undefined,
+          reimbursementDateTo:
+            filtrosFacturas?.reimbursementDateTo || undefined,
           invoiceNumber: filtrosFacturas?.invoiceNumber || undefined,
           documentType: filtrosFacturas?.documentType,
           invoiceYear: filtrosFacturas?.invoiceYear,
@@ -70,7 +71,7 @@ export const useFacturaTable = () => {
       }),
   });
 
-  const rowClick = (invoice:any) => {    
+  const rowClick = (invoice: any) => {
     setIdSelected(invoice.id);
     handleOpenModal();
   };
@@ -90,6 +91,7 @@ export const useFacturaTable = () => {
   };
 
   const handleEdit = (invoiceId: number) => {
+    setIsLoading(true);
     navigate(`/facturas/${invoiceId}`);
   };
 

@@ -29,15 +29,13 @@ export const useFacturaFooter = () => {
     facturaXML: "",
   };
 
-  const disableButtons = false;
-
   return {
     handlePdfFileChange,
-    errors,
-    disableButtons,
+    errors,    
     pdfFileName,
     xmlFileName,
     handleXmlFileChange,
-    tipoEntidadId: stateFactura.tipoEntidadId
+    tipoEntidadId: stateFactura.tipoEntidadId,
+    disableButtons: stateFactura.disableButtons
   };
 };
