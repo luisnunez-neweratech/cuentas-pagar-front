@@ -42,5 +42,6 @@ export const getProveedorOcasional = async (id: string): Promise<any> => {
     email: data.email,
     giroPrincipal: data.supplierActivity ? data.supplierActivity.id : null,
     productos: data.productServices.map((producto: any) => producto.id),
+    paymentTermsId: data.paymentTermsId,
   };
 };

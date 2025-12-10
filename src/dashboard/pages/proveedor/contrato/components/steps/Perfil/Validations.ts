@@ -19,4 +19,8 @@ export const validationSchema = yup.object().shape({
       then: (schema) => schema.required("RFC es requerido"),
     }),
   email: yup.string().email("Email no es válido"),
+  condicionesPago: yup
+    .number()
+    .required("Condiciones de Pago es requerido")
+    .typeError("Condiciones de Pago es requerido"),
 });

@@ -8,4 +8,5 @@ export interface PostPerfilPayload {
   email: string;
   supplierActivity: string | null;
   productServiceIds: number[];
+  paymentTermsId: number;
 }

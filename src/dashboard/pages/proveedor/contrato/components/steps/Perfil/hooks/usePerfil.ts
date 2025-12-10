@@ -9,6 +9,7 @@ import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.s
 import type { StepPerfil } from "../../../../interface/stepPerfil";
 import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
+import { getAllPlazoPagos } from "../../../../../../catalogos/services/plazoPago.service";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import {
@@ -77,6 +78,7 @@ export const usePerfil = () => {
       email: values.email,
       giroPrincipal: values.giroPrincipal,
       productos: values.productos,
+      condicionesPago: values.condicionesPago,
     };
     setStepPerfil(pasoPerfil);
     setProveedorId(proveedorId);
@@ -164,6 +166,11 @@ export const usePerfil = () => {
     queryFn: () => getAllGiros(),
   });
 
+  const { data: plazoPagos } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
+    queryFn: () => getAllPlazoPagos(),
+  });
+
   const initialFormValues = () => {
     if (proveedorPerfil) {
       if (proveedorPerfil.tipoProveedor === TipoProveedor.Ocasional.value) {
@@ -183,9 +190,15 @@ export const usePerfil = () => {
         email: proveedorPerfil.email,
         giroPrincipal: proveedorPerfil?.giroPrincipal ?? "",
         productos: productos,
+        condicionesPago: proveedorPerfil.paymentTermsId ?? "",
       };
     }
     const stepPerfil = getStepPerfil();
+
+    // Buscar el ID de "Inmediato" en plazoPagos para establecerlo por defecto
+    const inmediatoId = plazoPagos?.find(
+      (plazo) => plazo.descripcion.toLowerCase() === "inmediato"
+    )?.id ?? "";
 
     return {
       tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
@@ -196,6 +209,7 @@ export const usePerfil = () => {
       email: stepPerfil ? stepPerfil.email : "",
       giroPrincipal: stepPerfil ? stepPerfil.giroPrincipal : "",
       productos: stepPerfil ? stepPerfil.productos : [],
+      condicionesPago: stepPerfil?.condicionesPago ?? inmediatoId,
     };
   };
 
@@ -381,6 +395,7 @@ export const usePerfil = () => {
                 : "",
               productServiceIds:
                 values.productos?.map((producto: any) => producto.id) ?? [],
+              paymentTermsId: Number(values.condicionesPago),
 
               // si tiene domicilio actulizarlo
               country: proveedorPerfil.pais ?? "",
@@ -407,6 +422,7 @@ export const usePerfil = () => {
             email: values.email,
             giroPrincipal: values.giroPrincipal,
             productos: values.productos,
+            condicionesPago: values.condicionesPago,
           };
           setStepPerfil(pasoPerfil);
           handleDisableButtons(false);
@@ -427,6 +443,7 @@ export const usePerfil = () => {
             : "",
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
+          paymentTermsId: Number(values.condicionesPago),
         });
       }
     },
@@ -462,5 +479,6 @@ export const usePerfil = () => {
     id,
     setClickedBy,
     giros,
+    plazoPagos,
   };
 };

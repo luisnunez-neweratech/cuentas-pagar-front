@@ -10,6 +10,7 @@ export interface PutContratoPayload {
   email: string;
   supplierActivity: string | null;
   productServiceIds: number[];
+  paymentTermsId: number;
   //stepDomicilio
   country?: string | null;
   postalCode?: string | null;

@@ -23,14 +23,10 @@ import {
   getProveedorPerfil,
   //addColaboradoresProveedor,
 } from "../../../../services/proveedor.perfil.service";
-import { getAllPlazoPagos } from "../../../../../../catalogos/services/plazoPago.service";
 //import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 import { useParams } from "react-router";
 import { useDocumentoPrincipalStore } from "../store/DocumentoPrincipal.store";
-import {
-  updateProveedorContratoInfo,
-  updateCondicionesPago,
-} from "../../../../services/proveedor.contrato.service";
+import { updateProveedorContratoInfo } from "../../../../services/proveedor.contrato.service";
 
 export const useNewContrato = () => {
   const { id: idParams } = useParams();
@@ -70,11 +66,6 @@ export const useNewContrato = () => {
   const [validateColaboradores, doValidateColaboradores] = useState<number>(0);
   const [actualizarHistorial, setActualizarHistorial] =
     useState<boolean>(false);
-
-  const { data: plazoPagos } = useQuery({
-    queryKey: ["plazoPagos"],
-    queryFn: getAllPlazoPagos,
-  });
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -152,34 +143,9 @@ export const useNewContrato = () => {
     },
   });
 
-  const updateCondicionesPagoMutation = useMutation({
-    mutationFn: updateCondicionesPago,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar las condiciones de pago");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
   const createMutation = useMutation({
     mutationFn: addProveedorContrato,
     onSuccess: (data, variables) => {
-      // Actualizar condiciones de pago del proveedor
-      const condicionesPagoId = getNewStepContrato()?.condicionesPago;
-      if (condicionesPagoId && typeof condicionesPagoId === "number") {
-        updateCondicionesPagoMutation.mutate({
-          proveedorId: stateContrato.id!.toString(),
-          condicionesPagoId: condicionesPagoId,
-        });
-      }
-
       // revisar si es moral y tiene colaboradores para guardarlo
       if (
         checkContractor &&
@@ -369,7 +335,6 @@ export const useNewContrato = () => {
           documentos: prevStepContrato?.documentos!,
           historialDocumentos: prevStepContrato?.historialDocumentos!,
           listaContratos: prevStepContrato?.listaContratos ?? [],
-          condicionesPago: values.condicionesPago,
         };
         setNewStepContrato(stepContrato);
         if (getValidScreen()) {
@@ -482,7 +447,6 @@ export const useNewContrato = () => {
             documentos: prevStepContrato?.documentos!,
             historialDocumentos: prevStepContrato?.historialDocumentos!,
             listaContratos: prevStepContrato?.listaContratos ?? [],
-            condicionesPago: values.condicionesPago,
           };
           setNewStepContrato(newStepContrato);
           if (getValidScreen()) {
@@ -562,7 +526,6 @@ export const useNewContrato = () => {
               documentos: prevStepContrato?.documentos!,
               historialDocumentos: prevStepContrato?.historialDocumentos!,
               listaContratos: prevStepContrato?.listaContratos ?? [],
-              condicionesPago: values.condicionesPago,
             };
             setNewStepContrato(_newStepContrato);
             if (getValidScreen()) {
@@ -665,6 +628,5 @@ export const useNewContrato = () => {
     setClickedBy,
     validateColaboradores,
     validateDocuments,
-    plazoPagos,
   };
 };
