@@ -395,7 +395,6 @@ export const usePerfil = () => {
                 : "",
               productServiceIds:
                 values.productos?.map((producto: any) => producto.id) ?? [],
-              paymentTermsId: Number(values.condicionesPago),
 
               // si tiene domicilio actulizarlo
               country: proveedorPerfil.pais ?? "",
