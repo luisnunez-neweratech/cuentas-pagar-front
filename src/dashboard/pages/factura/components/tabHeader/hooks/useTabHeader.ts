@@ -242,8 +242,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         setPdfDownloadUrl(facturaBD.pdfFile);
       }
 
-      if(facturaBD.xmlFile) {
-        setXmlDownloadUrl(facturaBD.xmlFile)
+      if (facturaBD.xmlFile) {
+        setXmlDownloadUrl(facturaBD.xmlFile);
       }
 
       return {
@@ -627,9 +627,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         setFieldValue("colaboradorId", {
           value: 1,
           label: "x",
+        }).then(() => {          
+          handleSubmit();
         });
+      } else {
+        handleSubmit();
       }
-      handleSubmit();
     }
   }, [onClickGuardar]);
 
