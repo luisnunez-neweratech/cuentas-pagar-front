@@ -29,6 +29,7 @@ export const Perfil = () => {
     id,
     setClickedBy,
     giros,
+    plazoPagos,
   } = usePerfil();
 
   return (
@@ -178,6 +179,37 @@ export const Perfil = () => {
             title="Productos o Servicios"
             id="giros-autocomplete"
           />
+        </Grid>
+
+        <Grid size={4} sx={{ marginTop: 4 }}>
+          <FormControl
+            fullWidth
+            error={touched.condicionesPago && Boolean(errors.condicionesPago)}
+          >
+            <InputLabel id="condiciones-pago-label">
+              *Condiciones de Pago
+            </InputLabel>
+            <Select
+              labelId="condiciones-pago-label"
+              id="condicionesPago"
+              name="condicionesPago"
+              label="Condiciones de Pago"
+              value={values.condicionesPago}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              {plazoPagos?.map((plazo) => (
+                <MenuItem key={plazo.id} value={plazo.id}>
+                  {plazo.descripcion}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>
+              {touched.condicionesPago && errors.condicionesPago
+                ? errors.condicionesPago.toString()
+                : "Seleccione el plazo de pago para este proveedor"}
+            </FormHelperText>
+          </FormControl>
         </Grid>
 
         <Grid size={12}>

@@ -8,4 +8,5 @@ export interface PutOcasionalPayload {
   rfc: string;
   email: string;
   productServiceIds: number[];
+  paymentTermsId: number;
 }

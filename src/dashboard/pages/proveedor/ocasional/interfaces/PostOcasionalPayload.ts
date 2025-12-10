@@ -7,4 +7,5 @@ export interface PostOcasionalPayload {
   rfc: string;
   email: string;
   productServiceIds: number[];
+  paymentTermsId: number;
 }

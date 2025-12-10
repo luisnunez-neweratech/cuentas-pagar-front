@@ -4,6 +4,5 @@ export interface PostCuentaPayload {
   saleCurrencyId: number;
   clabe: string;
   swiftCode?: string | null;
-  paymentTermsId: number;
   accountNumber?: string | null;
 }

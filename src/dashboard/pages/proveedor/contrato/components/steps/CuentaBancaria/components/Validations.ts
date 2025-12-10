@@ -18,9 +18,6 @@ export const validationSchema = (
           .required("CLABE Interbancaria es requerido")
           .min(18, "Debe ser 18 digitos")
           .max(18, "Debe ser 18 digitos"),
-        condicionesPago: yup
-          .string()
-          .required("Condiciones de Pago es requerido"),
         noCuenta: yup.string().notRequired(),
       });
     }
@@ -34,9 +31,6 @@ export const validationSchema = (
         .required("CLABE Interbancaria es requerido")
         .min(18, "Debe ser 18 digitos")
         .max(18, "Debe ser 18 digitos"),
-      condicionesPago: yup
-        .string()
-        .required("Condiciones de Pago es requerido"),
       swift: yup
         .string()
         .required("Swift es requerido")
@@ -57,9 +51,6 @@ export const validationSchema = (
         .required("CLABE Interbancaria es requerido")
         .min(18, "Debe ser 18 digitos")
         .max(18, "Debe ser 18 digitos"),
-      condicionesPago: yup
-        .string()
-        .required("Condiciones de Pago es requerido"),
       [idInput]: yup
         .mixed()
         .required("A file is required")
@@ -80,7 +71,6 @@ export const validationSchema = (
       .required("CLABE Interbancaria es requerido")
       .min(18, "Debe ser 18 digitos")
       .max(18, "Debe ser 18 digitos"),
-    condicionesPago: yup.string().required("Condiciones de Pago es requerido"),
     [idInput]: yup
       .mixed()
       .required("A file is required")

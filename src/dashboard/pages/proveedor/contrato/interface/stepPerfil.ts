@@ -9,4 +9,5 @@ export interface StepPerfil {
   email?: string;
   giroPrincipal?: string;
   productos?: Giro[];
+  condicionesPago?: number | string;
 }

@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { validationSchema } from "../Validations";
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
 import { getAllGiros } from "../../../catalogos/services/giros.service";
+import { getAllPlazoPagos } from "../../../catalogos/services/plazoPago.service";
 import { useProveedorContratoStore } from "../../contrato/store/ProveedorContrato.store";
 import { TipoProveedor } from "../../interfaces/TipoProveedor";
 import {
@@ -114,6 +115,7 @@ export const useProveedorOcasional = () => {
         alias: values.alias,
         email: values.email,
         productos: values.productos,
+        condicionesPago: values.condicionesPago,
       });
       navigate(`/proveedor/nuevo-contrato`);
     },
@@ -142,6 +144,16 @@ export const useProveedorOcasional = () => {
     enabled: !!id,
   });
 
+  const { data: giros } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "Giros"],
+    queryFn: () => getAllGiros(),
+  });
+
+  const { data: plazoPagos } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
+    queryFn: () => getAllPlazoPagos(),
+  });
+
   const initialFormValues = () => {
     if (proveedorOcasional) {
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
@@ -158,8 +170,14 @@ export const useProveedorOcasional = () => {
         alias: proveedorOcasional.alias ?? "",
         email: proveedorOcasional.email,
         productos: productos,
+        condicionesPago: proveedorOcasional.paymentTermsId ?? "",
       };
     }
+    // Buscar el ID del plazo con value 0 (Pago Inmediato) para establecerlo por defecto
+    const pagoInmediatoId = plazoPagos?.find(
+      (plazo) => plazo.value === 0
+    )?.id ?? "";
+
     return {
       tipoEntidad: "",
       tipoPersona: "",
@@ -168,13 +186,9 @@ export const useProveedorOcasional = () => {
       alias: "",
       email: "",
       productos: [],
+      condicionesPago: pagoInmediatoId,
     };
   };
-
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
 
   const {
     handleSubmit,
@@ -202,6 +216,7 @@ export const useProveedorOcasional = () => {
           email: values.email.trim(),
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
+          paymentTermsId: Number(values.condicionesPago),
         });
       } else {
         createMutation.mutate({
@@ -214,6 +229,7 @@ export const useProveedorOcasional = () => {
           email: values.email.trim(),
           productServiceIds:
             values.productos?.map((producto: any) => producto.id) ?? [],
+          paymentTermsId: Number(values.condicionesPago),
         });
       }
     },
@@ -250,6 +266,7 @@ export const useProveedorOcasional = () => {
         email: values.email.trim(),
         productServiceIds:
           values.productos?.map((producto: any) => producto.id) ?? [],
+        paymentTermsId: Number(values.condicionesPago),
       });
     }
   };
@@ -284,6 +301,7 @@ export const useProveedorOcasional = () => {
     onClickEliminar,
     onChangeAutocomplete,
     giros: giros ?? [],
+    plazoPagos,
     disableButtons,
     openModal,
     actualizarProveedor,

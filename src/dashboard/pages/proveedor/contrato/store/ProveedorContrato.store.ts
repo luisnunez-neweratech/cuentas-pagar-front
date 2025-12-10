@@ -158,6 +158,7 @@ export interface AuthState {
   handleNext: () => void;
   handleBack: () => void;
   handleReset: () => void;
+  setActiveStep: (step: number) => void;
   setProveedorId: (id: number) => void;
 
   setStepPerfil: (stepPerfil: StepPerfil) => void;
@@ -224,6 +225,9 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
     set({
       activeStep: get().activeStep - 1,
     });
+  },
+  setActiveStep: (step: number) => {
+    set({ activeStep: step });
   },
   handleReset: () => {
     set({

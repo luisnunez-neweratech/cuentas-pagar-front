@@ -5,7 +5,6 @@ export interface StepCuentaBancaria {
   monedaVenta: string;
   clabe: string;
   swift?: string;
-  condicionesPago: string;
   status: boolean;
   fileValue?: File;
   newElement?: boolean;

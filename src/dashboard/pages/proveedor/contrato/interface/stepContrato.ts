@@ -17,6 +17,7 @@ export interface NewStepContrato {
   documentos: NewDocumento[];
   historialDocumentos: HistorialDocumentos[] | [];
   listaContratos: ListaContratos[] | [];
+  condicionesPago?: number | string;
 }
 
 export interface NewDocumento {

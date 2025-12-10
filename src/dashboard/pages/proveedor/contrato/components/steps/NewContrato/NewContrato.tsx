@@ -79,6 +79,7 @@ export const NewContrato = () => {
             <ColaboradorMoral validateColaboradores={validateColaboradores} />
           )}
         {!checkContractor && <Grid size={10} />}
+
         <Grid size={12} sx={{ marginTop: 1 }}>
           <Typography variant="h5" component="div">
             Documentos

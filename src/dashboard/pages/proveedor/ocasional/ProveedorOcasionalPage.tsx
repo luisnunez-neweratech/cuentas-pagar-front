@@ -33,6 +33,7 @@ export const ProveedorOcasionalPage = () => {
     disableButtons,
     actualizarProveedor,
     giros,
+    plazoPagos,
   } = useProveedorOcasional();
 
   return (
@@ -170,7 +171,39 @@ export const ProveedorOcasionalPage = () => {
             id="giros-autocomplete"
           />
         </Grid>
-        <Grid size={8} />
+
+        <Grid size={4}>
+          <FormControl
+            fullWidth
+            error={touched.condicionesPago && Boolean(errors.condicionesPago)}
+          >
+            <InputLabel id="condiciones-pago-label">
+              *Condiciones de Pago
+            </InputLabel>
+            <Select
+              labelId="condiciones-pago-label"
+              id="condicionesPago"
+              name="condicionesPago"
+              label="Condiciones de Pago"
+              value={values.condicionesPago}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              {plazoPagos?.map((plazo) => (
+                <MenuItem key={plazo.id} value={plazo.id}>
+                  {plazo.descripcion}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>
+              {touched.condicionesPago && errors.condicionesPago
+                ? errors.condicionesPago.toString()
+                : "Seleccione el plazo de pago para este proveedor"}
+            </FormHelperText>
+          </FormControl>
+        </Grid>
+
+        <Grid size={4} />
         <Grid size={id ? 4 : 10} />
         {id ? (
           <>

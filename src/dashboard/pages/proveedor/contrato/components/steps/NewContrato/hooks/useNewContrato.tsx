@@ -228,6 +228,7 @@ export const useNewContrato = () => {
       contractor: stepContrato?.contractor,
       colaboradores: stepContrato?.colaboradores,
       documentos: stepContrato?.documentos,
+      condicionesPago: stepContrato?.condicionesPago ?? "",
     };
   };
 
