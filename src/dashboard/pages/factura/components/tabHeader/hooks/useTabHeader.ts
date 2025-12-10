@@ -44,7 +44,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
   const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
-  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);  
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -236,9 +236,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       const proveedorBD = proveedores.find((proveedor: any) => {
         return proveedor.id === facturaBD.proveedorId;
       });
-      
-      if(facturaBD.pdfFile){
-        setPdfDownloadUrl(facturaBD.pdfFile)
+
+      if (facturaBD.pdfFile) {
+        setPdfDownloadUrl(facturaBD.pdfFile);
       }
 
       return {
@@ -441,12 +441,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                 putFacturaHeaderPayload: {
                   supplierId: values.proveedorId!.value,
                   invoiceNumber: values.noFactura!,
-                  documentType: values.tipoDocumentoId!.toString(), //TODO el back pide string
-                  cfdiType: 0,
-                  paymentTerms: values.condicionesPagoLabel!,
-                  serie: "",
-                  folio: "",
+                  invoiceStatusId: values.statusFacturaId,
                   fiscalFolio: values.folioFiscal ?? "",
+                  documentType: values.tipoDocumentoId!,
                   invoiceDate: values.fechaFactura!,
                   supplierProductService: values.productos![0].descripcion,
                   subtotal: values.subtotal!,
@@ -463,10 +460,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   currencyId: values.monedaId!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
                   paymentDate: values.fechaPago ?? null,
+                  reimbursementStatus: values.statusReembolsoId,
                   reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId: values.colaboradorId!.value,
-                  invoiceStatusId: values.statusFacturaId,
-                  reimbursementStatus: values.statusReembolsoId.toString(), //TODO status reembolso tipo mal
                 },
               });
 
