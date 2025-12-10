@@ -63,6 +63,7 @@ export const validationSchema = (
     });
   }
 
+  // extranjero - carátula es opcional
   return yup.object().shape({
     banco: yup.string().required("Banco es requerido"),
     monedaVenta: yup.string().required("Moneda de Venta es requerido"),
@@ -73,11 +74,11 @@ export const validationSchema = (
       .max(18, "Debe ser 18 digitos"),
     [idInput]: yup
       .mixed()
-      .required("A file is required")
+      .notRequired()
       .test(
         "fileType",
         "Solo archivos con formato .pdf",
-        (value: any) => value && SUPPORTED_FORMATS.includes(value.type)
+        (value: any) => !value || SUPPORTED_FORMATS.includes(value.type)
       ),
     swift: yup
       .string()
