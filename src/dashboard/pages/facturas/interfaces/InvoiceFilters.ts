@@ -1,8 +1,6 @@
 import type { InvoiceDocumentType, ReimbursementStatus } from "./InvoiceListResponse";
 
 export interface InvoiceFilters {
-  pageNumber: number;
-  pageSize: number;
   supplierAliases?: string[];
   productServices?: string[];
   months?: number[];

@@ -21,4 +21,5 @@ export interface PostFacturaHeaderPayload {
   reimbursementStatus: number;
   reimbursementDate: string | null;
   reimbursementCollaboratorId: number | null;
+  invoiceStatusId: number | null;  
 }

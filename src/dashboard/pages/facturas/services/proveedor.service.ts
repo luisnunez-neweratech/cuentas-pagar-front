@@ -26,7 +26,9 @@ export const getProveedoresAutoComplete = async (): Promise<any> => {
     id: proveedor.id,
     descripcion: proveedor.name,
     tipoEntidadId: proveedor.origin,
-    productos: proveedor.products
+    productos: proveedor.products,
+    condicionesPagoId: proveedor.paymentTermsId,
+    condicionesPagoLabel: proveedor.paymentTermsName,
   }));
 
   const distProveedores = basicList.reduce((acc: any, obj: any) => {
