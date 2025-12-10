@@ -51,6 +51,7 @@ export interface FacturaState {
   setValidTabDetail: (validTabDetail: boolean) => void;
   setValidTabTotal: (validTabTotal: boolean) => void;
   setDisableButtons: (disableButtons: boolean) => void;
+  setPdfDownloadUrl: (pdfDownloadUrl: string) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
@@ -172,6 +173,12 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
     set((state) => ({
       ...state,
       disableButtons,
+    }));
+  },
+  setPdfDownloadUrl: (pdfDownloadUrl: string) => {
+    set((state) => ({
+      ...state,
+      pdfDownloadUrl,
     }));
   },
   clearState: () => {

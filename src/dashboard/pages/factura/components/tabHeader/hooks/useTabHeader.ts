@@ -43,7 +43,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
   const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
-  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
+  const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);  
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -89,6 +90,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     mutationFn: addFacturaDetalle,
     onSuccess: () => {
       toast.success("Factura creada correctamente");
+      handleDisableButtons(false);
       navigate("/facturas");
     },
     onError: (error) => {
@@ -234,6 +236,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       const proveedorBD = proveedores.find((proveedor: any) => {
         return proveedor.id === facturaBD.proveedorId;
       });
+      
+      if(facturaBD.pdfFile){
+        setPdfDownloadUrl(facturaBD.pdfFile)
+      }
 
       return {
         proveedorId: {
@@ -317,6 +323,11 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     validationSchema: validationSchema(stateFactura.tipoEntidadId),
     onSubmit: async (values) => {
       handleDisableButtons(true);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       if (!id) {
         // nueva factura
         if ((stateFactura.facturaDetalle ?? []).length > 0) {

@@ -36,6 +36,7 @@ export const useFacturaFooter = () => {
     xmlFileName,
     handleXmlFileChange,
     tipoEntidadId: stateFactura.tipoEntidadId,
-    disableButtons: stateFactura.disableButtons
+    disableButtons: stateFactura.disableButtons,
+    pdfDownloadUrl: stateFactura.pdfDownloadUrl,
   };
 };
