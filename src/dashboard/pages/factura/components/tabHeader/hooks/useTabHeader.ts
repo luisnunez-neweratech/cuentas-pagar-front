@@ -44,6 +44,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setFacturaId = useFacturaStore((state) => state.setFacturaId);
   const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
+  const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
 
   const handleDisableButtons = (state: boolean) => {
@@ -239,6 +240,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
       if (facturaBD.pdfFile) {
         setPdfDownloadUrl(facturaBD.pdfFile);
+      }
+
+      if(facturaBD.xmlFile) {
+        setXmlDownloadUrl(facturaBD.xmlFile)
       }
 
       return {

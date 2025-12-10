@@ -52,6 +52,7 @@ export interface FacturaState {
   setValidTabTotal: (validTabTotal: boolean) => void;
   setDisableButtons: (disableButtons: boolean) => void;
   setPdfDownloadUrl: (pdfDownloadUrl: string) => void;
+  setXmlDownloadUrl: (xmlDownloadUrl: string) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
@@ -179,6 +180,12 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
     set((state) => ({
       ...state,
       pdfDownloadUrl,
+    }));
+  },
+  setXmlDownloadUrl: (xmlDownloadUrl: string) => {
+    set((state) => ({
+      ...state,
+      xmlDownloadUrl,
     }));
   },
   clearState: () => {

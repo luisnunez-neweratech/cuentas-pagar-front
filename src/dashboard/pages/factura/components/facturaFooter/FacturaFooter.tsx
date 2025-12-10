@@ -19,6 +19,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
     handleXmlFileChange,
     tipoEntidadId,
     pdfDownloadUrl,
+    xmlDownloadUrl,
   } = useFacturaFooter();
 
   return (
@@ -68,43 +69,53 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
 
       <Grid size={5} />
 
-      <Grid size={3} sx={{ marginTop: -5 }}>
-        {tipoEntidadId === 0 && (
-          <>
-            <input
-              type="file"
-              id="facturaXML"
-              style={{ display: "none" }}
-              onChange={handleXmlFileChange}
-              accept=".xml"
-            />
+      {!xmlDownloadUrl ? (
+        <>
+          <Grid size={3} sx={{ marginTop: -5 }}>
+            {tipoEntidadId === 0 && (
+              <>
+                <input
+                  type="file"
+                  id="facturaXML"
+                  style={{ display: "none" }}
+                  onChange={handleXmlFileChange}
+                  accept=".xml"
+                />
 
-            <label htmlFor="facturaXML">
-              <Button
-                variant="outlined"
-                component="span"
-                style={{ marginTop: 14 }}
-              >
-                Cargar Factura XML
-                <FileUploadIcon />
-              </Button>
-            </label>
-          </>
-        )}
+                <label htmlFor="facturaXML">
+                  <Button
+                    variant="outlined"
+                    component="span"
+                    style={{ marginTop: 14 }}
+                  >
+                    Cargar Factura XML
+                    <FileUploadIcon />
+                  </Button>
+                </label>
+              </>
+            )}
 
-        {errors.facturaXML && (
-          <p style={{ color: "#d32f2f", fontSize: "12px" }}>
-            Archivo requerido
-          </p>
-        )}
-      </Grid>
-      <Grid size={3} sx={{ marginTop: -1 }}>
-        {xmlFileName && (
-          <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
-            {`Nombre del Archivo: ${xmlFileName}`}
-          </p>
-        )}
-      </Grid>
+            {errors.facturaXML && (
+              <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+                Archivo requerido
+              </p>
+            )}
+          </Grid>
+          <Grid size={3} sx={{ marginTop: -1 }}>
+            {xmlFileName && (
+              <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
+                {`Nombre del Archivo: ${xmlFileName}`}
+              </p>
+            )}
+          </Grid>
+        </>
+      ) : (
+        <Grid size={6} sx={{ marginTop: -1 }}>
+          <Link href={xmlDownloadUrl} target="_blank" rel="noopener noreferrer">
+            Descargar XML
+          </Link>
+        </Grid>
+      )}
 
       <Grid size={2} sx={{ marginTop: -3 }}>
         <Button

@@ -38,5 +38,6 @@ export const useFacturaFooter = () => {
     tipoEntidadId: stateFactura.tipoEntidadId,
     disableButtons: stateFactura.disableButtons,
     pdfDownloadUrl: stateFactura.pdfDownloadUrl,
+    xmlDownloadUrl: stateFactura.xmlDownloadUrl,
   };
 };
