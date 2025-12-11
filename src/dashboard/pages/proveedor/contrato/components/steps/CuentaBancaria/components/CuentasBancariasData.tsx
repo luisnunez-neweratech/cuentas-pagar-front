@@ -61,6 +61,11 @@ export const CuentasBancariasData = ({
     validateCuentas,
   });
 
+  const handleClabeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "");
+    setFieldValue("clabe", value);
+  };
+
   return (
     <Grid size={12}>
       <Paper sx={{ padding: 2 }} elevation={3}>
@@ -90,15 +95,14 @@ export const CuentasBancariasData = ({
               label="*CLABE Interbancaria"
               name="clabe"
               value={values.clabe}
-              onChange={handleChange}
+              onChange={handleClabeChange}
               onBlur={handleBlur}
               error={touched.clabe && Boolean(errors.clabe)}
               helperText={touched.clabe && errors.clabe}
-              type="number"
               sx={{ marginTop: 0 }}
-                slotProps={{
-                  htmlInput: { maxLength: 18 },
-                }}
+              slotProps={{
+                htmlInput: { maxLength: 18, inputMode: "numeric", pattern: "[0-9]*" },
+              }}
             />
           </Grid>
           <Grid size={4}>
