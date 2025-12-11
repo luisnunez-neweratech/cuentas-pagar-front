@@ -34,10 +34,12 @@ export const addPlazoPago = async ({
   let dataSend: {
     catalogName: string;
     item: string;
-    itemValue?: number | null;
+    catalogId: number;
+    itemValue?: number | null;    
   } = {
     catalogName: "PlazoPago",
     item: descripcion,
+    catalogId: 103,
   };
 
   if (value) {

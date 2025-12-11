@@ -63,107 +63,90 @@ export const CuentasBancariasData = ({
 
   return (
     <Grid size={12}>
-      <div>
-        <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
-          <Grid container spacing={2}>
-            <Grid size={4}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="banco"
-                label="*Banco"
-                name="banco"
-                value={values.banco?.toUpperCase()}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.banco && Boolean(errors.banco)}
-                helperText={touched.banco && errors.banco}
-              />
-            </Grid>
-            <Grid size={4}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="clabe"
-                label="*CLABE Interbancaria"
-                name="clabe"
-                value={values.clabe}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.clabe && Boolean(errors.clabe)}
-                helperText={touched.clabe && errors.clabe}
-                type="number"
+      <Paper sx={{ padding: 2 }} elevation={3}>
+        <Grid container spacing={2}>
+          <Grid size={4}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="banco"
+              label="*Banco"
+              name="banco"
+              value={values.banco?.toUpperCase()}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.banco && Boolean(errors.banco)}
+              helperText={touched.banco && errors.banco}
+              sx={{ marginTop: 0 }}
+            />
+          </Grid>
+          <Grid size={4}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="clabe"
+              label="*CLABE Interbancaria"
+              name="clabe"
+              value={values.clabe}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.clabe && Boolean(errors.clabe)}
+              helperText={touched.clabe && errors.clabe}
+              type="number"
+              sx={{ marginTop: 0 }}
                 slotProps={{
                   htmlInput: { maxLength: 18 },
                 }}
-              />
-            </Grid>
-            <Grid size={3}>
-              <FormGroup sx={{ marginTop: 3 }}>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={values.status}
-                      value={values.status}
-                      onChange={() => setFieldValue("status", !values.status)}
-                      //disabled={true} // solo admin lo cambia
-                      disabled={currentPath.includes("nuevo-contrato")}
-                    />
-                  }
-                  label={values.status ? "Activo" : "Inactivo"}
-                />
-              </FormGroup>
-            </Grid>
-
-            <Grid size={4} sx={{ marginTop: 1 }}>
-              <FormControl
-                fullWidth
-                error={touched.monedaVenta && Boolean(errors.monedaVenta)}
+            />
+          </Grid>
+          <Grid size={4}>
+            <FormControl
+              fullWidth
+              error={touched.monedaVenta && Boolean(errors.monedaVenta)}
+            >
+              <InputLabel id="moneda-venta-label">
+                *Moneda de Venta
+              </InputLabel>
+              <Select
+                labelId="moneda-venta-label"
+                id="monedaVenta"
+                name="monedaVenta"
+                label="Moneda de Venta"
+                value={values.monedaVenta}
+                onChange={handleChange}
+                onBlur={handleBlur}
               >
-                <InputLabel id="moneda-venta-label">
-                  *Moneda de Venta
-                </InputLabel>
-                <Select
-                  labelId="moneda-venta-label"
-                  id="monedaVenta"
-                  name="monedaVenta"
-                  label="Moneda de Venta"
-                  value={values.monedaVenta}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                >
-                  {monedas.map((moneda) => (
-                    <MenuItem value={moneda.id}>{moneda.descripcion}</MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>
-                  {touched.monedaVenta && errors.monedaVenta
-                    ? errors.monedaVenta
-                    : ""}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid size={4}>
-              {tipoEntidad === TipoEntidad.Extranjero.value && (
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="swift"
-                  label="Codigo Swift"
-                  name="swift"
-                  value={values.swift?.toUpperCase()}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.swift && Boolean(errors.swift)}
-                  helperText={touched.swift && errors.swift}
-                  sx={{ marginTop: 1 }}
-                />
-              )}
-            </Grid>
-            <Grid size={4}>
+                {monedas.map((moneda) => (
+                  <MenuItem value={moneda.id}>{moneda.descripcion}</MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>
+                {touched.monedaVenta && errors.monedaVenta
+                  ? errors.monedaVenta
+                  : ""}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+
+          <Grid size={4}>
+            {tipoEntidad === TipoEntidad.Extranjero.value ? (
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="swift"
+                label="*Codigo Swift"
+                name="swift"
+                value={values.swift?.toUpperCase()}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.swift && Boolean(errors.swift)}
+                helperText={touched.swift && errors.swift}
+                sx={{ marginTop: 0 }}
+              />
+            ) : (
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -176,72 +159,87 @@ export const CuentasBancariasData = ({
                 onBlur={handleBlur}
                 error={touched.noCuenta && Boolean(errors.noCuenta)}
                 helperText={touched.noCuenta && errors.noCuenta}
-                sx={{ marginTop: 1 }}
+                sx={{ marginTop: 0 }}
               />
-            </Grid>
-            <Grid size={3}>
-              {!downloadUrl && (
-                <>
-                  <input
-                    type="file"
-                    id={idInput}
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                    accept=".pdf"
-                  />
-
-                  <label htmlFor={idInput}>
-                    <Button
-                      variant="outlined"
-                      component="span"
-                      style={{ marginTop: 14 }}
-                    >
-                      *Carátula Bancaria
-                      <FileUploadIcon />
-                    </Button>
-                  </label>
-                  {errors[idInput] && (
-                    <p style={{ color: "#d32f2f", fontSize: "12px" }}>
-                      Archivo requerido
-                    </p>
-                  )}
-                </>
-              )}
-            </Grid>
-
-            <Grid size={3} sx={{ marginTop: 2 }}>
-              {fileName && (
-                <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
-                  {`Nombre del Archivo: ${fileName}`}
-                </p>
-              )}
-            </Grid>
-            <Grid size={2} sx={{ marginTop: 2 }}>
-              {downloadUrl && (
-                <Link href={downloadUrl}>Descargar Carátula</Link>
-              )}
-            </Grid>
-            <Grid size={11} />
-
-            <Grid size={1}>
-              <Tooltip title="Eliminar Cuenta">
-                <IconButton
-                  sx={{ color: "red" }}
-                  onClick={() => deleteCuenta(id)}
-                  disabled={total === 1}
-                >
-                  <DeleteIcon
-                    style={{
-                      height: "36px",
-                      width: "36px",
-                    }}
-                  />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+            )}
           </Grid>
-        </Paper>
-      </div>
+          <Grid size={4}>
+            {!downloadUrl ? (
+              <>
+                <input
+                  type="file"
+                  id={idInput}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                  accept=".pdf"
+                />
+                <label htmlFor={idInput}>
+                  <Button
+                    variant="outlined"
+                    component="span"
+                    fullWidth
+                    sx={{ height: "56px" }}
+                  >
+                    {tipoEntidad === TipoEntidad.Extranjero.value
+                      ? "Carátula Bancaria"
+                      : "*Carátula Bancaria"}
+                    <FileUploadIcon sx={{ marginLeft: 1 }} />
+                  </Button>
+                </label>
+                {errors[idInput] && (
+                  <p style={{ color: "#d32f2f", fontSize: "12px", margin: "4px 0 0 0" }}>
+                    Archivo requerido
+                  </p>
+                )}
+                {fileName && (
+                  <p
+                    style={{
+                      margin: "4px 0 0 0",
+                      color: "rgba(0, 0, 0, 0.6)",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {fileName}
+                  </p>
+                )}
+              </>
+            ) : (
+              <Link href={downloadUrl} sx={{ display: "block", lineHeight: "56px" }}>
+                Descargar Carátula
+              </Link>
+            )}
+          </Grid>
+          <Grid size={4} sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={values.status}
+                    value={values.status}
+                    onChange={() => setFieldValue("status", !values.status)}
+                    disabled={currentPath.includes("nuevo-contrato")}
+                  />
+                }
+                label={values.status ? "Activo" : "Inactivo"}
+              />
+            </FormGroup>
+            <Tooltip title="Eliminar Cuenta">
+              <IconButton
+                sx={{ color: "red" }}
+                onClick={() => deleteCuenta(id)}
+                disabled={total === 1}
+              >
+                <DeleteIcon
+                  style={{
+                    height: "36px",
+                    width: "36px",
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
+      </Paper>
     </Grid>
   );
 };

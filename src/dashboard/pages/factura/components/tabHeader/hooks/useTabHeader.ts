@@ -12,6 +12,7 @@ import {
   updateFacturaDetalle,
   updateFacturaHeader,
   uploadFacturaFiles,
+  getCheckDuplicate,
 } from "../../../services/factura.service";
 import { useEffect, useState } from "react";
 import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
@@ -33,8 +34,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     (state) => state.addRowFacturaDetalle
   );
 
-  /* const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
-  const setValidTabDetail = useFacturaStore((state) => state.setValidTabDetail); */
+   const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
+  const setValidTabDetail = useFacturaStore((state) => state.setValidTabDetail);
+  const setValidTabTotal = useFacturaStore((state) => state.setValidTabTotal);
 
   const setTipoDocumentoId = useFacturaStore(
     (state) => state.setTipoDocumentoId
@@ -65,6 +67,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const onChangeAutocomplete = (newValues: Item[], fieldValue: string) => {
     setFieldValue(fieldValue, newValues);
   };
+
+  const [callCheckDuplicateFactura, setCallCheckDuplicateFactura] =
+    useState<boolean>(false);
 
   const { data: proveedores } = useQuery({
     queryKey: ["Supplier", "GetAll"],
@@ -252,7 +257,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           label: proveedorBD.descripcion,
           productos: proveedorBD.productos,
           condicionesPagoId: facturaBD.condicionesPagoId,
-          condicionesPagoLabel: ''//proveedorBD.condicionesPagoLabel,
+          condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         },
         colaboradorId: { value: 0, label: "" },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
@@ -504,6 +509,47 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       }
     },
   });
+
+  const { data: isDuplicateFactura } = useQuery({
+    queryKey: [
+      "Invoice",
+      "CheckDuplicate",
+      values.noFactura,
+      values.folioFiscal,
+    ],
+    queryFn: () => getCheckDuplicate(values.noFactura, values.folioFiscal),
+    enabled: callCheckDuplicateFactura,
+  });  
+
+  useEffect(() => {
+    if (isDuplicateFactura) {
+      if (isDuplicateFactura?.exists) {
+        toast.warning(isDuplicateFactura.message);
+        setValidTabHeader(false);
+        setValidTabDetail(false);
+        setValidTabTotal(false);
+        
+      } else {
+        setValidTabHeader(true);
+        setValidTabDetail(true);
+        setValidTabTotal(true);
+      }
+    }
+  }, [isDuplicateFactura]);
+
+  useEffect(() => {
+    if (
+      !id &&
+      values.noFactura &&
+      values.noFactura.length > 0 &&
+      values.folioFiscal &&
+      values.folioFiscal.length > 0
+    ) {
+      setCallCheckDuplicateFactura(true);
+    } else {
+      setCallCheckDuplicateFactura(false);
+    }
+  }, [values.noFactura, values.folioFiscal]);
 
   const setCorrectAmoutValue = (
     value: string,

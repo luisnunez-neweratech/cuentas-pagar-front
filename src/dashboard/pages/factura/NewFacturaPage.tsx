@@ -8,9 +8,9 @@ export const NewFacturaPage = () => {
     setOnClickGuardar,
     value,
     handleChange,
-    /* validTabHeader,
+    validTabHeader,
     validTabDetail,
-    validTabTotal, */
+    validTabTotal,
   } = useNewFacturaPage();
 
   return (
@@ -21,9 +21,9 @@ export const NewFacturaPage = () => {
         aria-label="disabled tabs example"
       >
         <Tab label="Header" />
-        <Tab label="Details" /*  disabled={!validTabHeader}  */ />
-        <Tab label="Total" /* disabled={!validTabDetail} */ />
-        <Tab label="Pago" /* disabled={!validTabTotal} */ />
+        <Tab label="Details" disabled={!validTabHeader} />
+        <Tab label="Total" disabled={!validTabDetail} />
+        <Tab label="Pago" disabled={!validTabTotal} />
       </Tabs>
       <TabHeader
         tabIndex={value}
