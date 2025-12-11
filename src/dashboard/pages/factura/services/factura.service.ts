@@ -139,3 +139,14 @@ export const deleteFacturaArchivo = async ({
 
   return data;
 };
+
+export const getCheckDuplicate = async (
+  invoiceNumber: string,
+  fiscalFolio: string
+): Promise<any> => {
+  const { data } = await cuentasApi.get(
+    `/Invoice/CheckDuplicate?invoiceNumber=${invoiceNumber}&fiscalFolio=${fiscalFolio}`
+  );
+
+  return data;
+};
