@@ -71,7 +71,7 @@ export const useProveedorOcasional = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data);
         return;
       }
       toast.error("Error al agregar el proveedor");
