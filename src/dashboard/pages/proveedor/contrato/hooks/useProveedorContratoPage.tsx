@@ -25,6 +25,16 @@ export const useProveedorContratoPage = () => {
   const isStepSkipped = useProveedorContratoStore(
     (state) => state.isStepSkipped
   );
+  const stepPerfil = useProveedorContratoStore((state) => state.stepPerfil);
+  const openDeleteModal = useProveedorContratoStore(
+    (state) => state.openDeleteModal
+  );
+  const handleOpenDeleteModal = useProveedorContratoStore(
+    (state) => state.handleOpenDeleteModal
+  );
+  const handleCloseDeleteModal = useProveedorContratoStore(
+    (state) => state.handleCloseDeleteModal
+  );
 
   const navigate = useNavigate();
 
@@ -65,6 +75,10 @@ export const useProveedorContratoPage = () => {
   });
 
   const onClickEliminar = () => {
+    handleOpenDeleteModal();
+  };
+
+  const confirmarEliminar = () => {
     deleteMutation.mutate(id!);
   };
 
@@ -76,5 +90,9 @@ export const useProveedorContratoPage = () => {
     onClickBack,
     id,
     onClickEliminar,
+    openDeleteModal,
+    handleCloseDeleteModal,
+    confirmarEliminar,
+    proveedorNombre: stepPerfil?.razonSocial || stepPerfil?.alias || "",
   };
 };

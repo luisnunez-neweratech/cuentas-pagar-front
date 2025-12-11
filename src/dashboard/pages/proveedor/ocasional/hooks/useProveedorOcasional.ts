@@ -36,6 +36,15 @@ export const useProveedorOcasional = () => {
   const handleOpenModal = useProveedorOcasionalStore(
     (state) => state.handleOpenModal
   );
+  const openDeleteModal = useProveedorOcasionalStore(
+    (state) => state.openDeleteModal
+  );
+  const handleOpenDeleteModal = useProveedorOcasionalStore(
+    (state) => state.handleOpenDeleteModal
+  );
+  const handleCloseDeleteModal = useProveedorOcasionalStore(
+    (state) => state.handleCloseDeleteModal
+  );
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -240,6 +249,10 @@ export const useProveedorOcasional = () => {
   };
 
   const onClickEliminar = () => {
+    handleOpenDeleteModal();
+  };
+
+  const confirmarEliminar = () => {
     handleDisableButtons(true);
     deleteMutation.mutate(id!);
   };
@@ -305,5 +318,8 @@ export const useProveedorOcasional = () => {
     disableButtons,
     openModal,
     actualizarProveedor,
+    openDeleteModal,
+    handleCloseDeleteModal,
+    confirmarEliminar,
   };
 };

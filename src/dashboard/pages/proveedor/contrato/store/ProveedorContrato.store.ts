@@ -153,6 +153,7 @@ export interface AuthState {
   stepDomicilio?: StepDomicilio | null;
   stepCuentaBancaria?: StepCuentaBancaria[] | null;
   stepContacto?: StepContacto[] | null;
+  openDeleteModal: boolean;
 
   isStepSkipped: (step: number) => boolean;
   handleNext: () => void;
@@ -197,6 +198,9 @@ export interface AuthState {
   addContacto: (contacto: StepContacto) => void;
   removeContacto: (id: number) => void;
   updateContacto: (id: number, contacto: StepContacto) => void;
+
+  handleOpenDeleteModal: () => void;
+  handleCloseDeleteModal: () => void;
 }
 
 const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
@@ -209,6 +213,7 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
   stepDomicilio: initialStepDomicilio,
   stepCuentaBancaria: initialStepCuentBancaria,
   stepContacto: initialStepContacto,
+  openDeleteModal: false,
 
   isStepSkipped: (step: number) => {
     return get().skipped.has(step);
@@ -426,6 +431,13 @@ const storeProveedorContrato: StateCreator<AuthState> = (set, get) => ({
         item.id === id ? { ...contacto } : item
       ),
     }));
+  },
+
+  handleOpenDeleteModal: () => {
+    set({ openDeleteModal: true });
+  },
+  handleCloseDeleteModal: () => {
+    set({ openDeleteModal: false });
   },
 });
 

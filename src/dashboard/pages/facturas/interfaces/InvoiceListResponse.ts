@@ -9,6 +9,7 @@ export interface InvoiceListResponse {
   invoiceMonth: number;
   invoiceYear: number;
   supplierProductService: string | null;
+  paymentTerms: string | null;
   subtotal: number;
   discount: number;
   taxIVA: number;
