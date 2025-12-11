@@ -84,6 +84,7 @@ export const getFactura = async (id: string): Promise<any> => {
     xmlFile: data.invoiceDocument?.xmlFilePath ?? null,
     pdfName: data.invoiceDocument?.pdfFileName ?? null,
     pdfFile: data.invoiceDocument?.pdfFilePath ?? null,
+    condicionesPagoId: data.paymentTermId,
   };
 };
 

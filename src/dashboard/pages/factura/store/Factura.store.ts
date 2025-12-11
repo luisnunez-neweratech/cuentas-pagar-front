@@ -60,7 +60,7 @@ export interface FacturaState {
   updateRowFacturaDetalle: (id: number, facturaDetalle: FacturaDetalle) => void;
 }
 
-const storeFactura: StateCreator<FacturaState> = (set) => ({
+const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   id: null,
   proveedorId: null,
   colaboradorId: null,
@@ -128,9 +128,14 @@ const storeFactura: StateCreator<FacturaState> = (set) => ({
   },
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => {
-    set((state) => ({
-      facturaDetalle: [...(state.facturaDetalle ?? []), facturaDetalle],
-    }));
+    const idFound = get().facturaDetalle?.find(
+      (factura) => factura.id === facturaDetalle.id
+    );
+    if (!idFound) {
+      set((state) => ({
+        facturaDetalle: [...(state.facturaDetalle ?? []), facturaDetalle],
+      }));
+    }
   },
   removeRowFacturaDetalle: (id: number) => {
     set((state) => ({

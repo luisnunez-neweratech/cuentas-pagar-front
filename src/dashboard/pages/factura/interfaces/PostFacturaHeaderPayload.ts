@@ -16,6 +16,7 @@ export interface PostFacturaHeaderPayload {
   exchangeRate: number;
   paymentForm: string;
   paymentTerms: string;
+  paymentTermId: number;
   scheduledPaymentDate: string;
   paymentDate: string | null;
   reimbursementStatus: number;
