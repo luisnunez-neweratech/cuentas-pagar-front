@@ -503,8 +503,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     },
   });
 
-  console.log("errors", errors);
-
   const setCorrectAmoutValue = (
     value: string,
     field: string,
@@ -627,7 +625,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         setFieldValue("colaboradorId", {
           value: 1,
           label: "x",
-        }).then(() => {          
+        }).then(() => {
           handleSubmit();
         });
       } else {

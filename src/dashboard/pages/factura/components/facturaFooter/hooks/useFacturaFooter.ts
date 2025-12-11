@@ -62,6 +62,6 @@ export const useFacturaFooter = () => {
     pdfDownloadUrl: stateFactura.pdfDownloadUrl,
     xmlDownloadUrl: stateFactura.xmlDownloadUrl,
     deleteFacturaDocumentoMutation,
-    id
+    id,
   };
 };

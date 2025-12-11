@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useFacturasPageStore } from "../../../store/FacturasPage.store";
 import { getInvoicesPaged } from "../../../services/invoice.service";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
+import { useFacturaStore } from "../../../../factura/store/Factura.store";
 
 export const useFacturaTable = () => {
   const [page, setPage] = useState(0);
@@ -22,6 +23,7 @@ export const useFacturaTable = () => {
     (state) => state.filtrosFacturas
   );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const clearState = useFacturaStore((state) => state.clearState);
 
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ["invoices", page, rowsPerPage, callApi],
@@ -91,6 +93,7 @@ export const useFacturaTable = () => {
   };
 
   const handleEdit = (invoiceId: number) => {
+    clearState();
     setIsLoading(true);
     navigate(`/facturas/${invoiceId}`);
   };
