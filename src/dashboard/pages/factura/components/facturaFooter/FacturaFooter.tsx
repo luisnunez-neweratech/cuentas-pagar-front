@@ -1,8 +1,9 @@
-import { Button, Grid, Link } from "@mui/material";
+import { Button, Grid, IconButton, Link, Tooltip } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { mainBackgroundColor } from "../../../../../lib/constants";
 import SaveIcon from "@mui/icons-material/Save";
 import { useFacturaFooter } from "./hooks/useFacturaFooter";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface props {
   onClickGuardar: number;
@@ -20,6 +21,8 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
     tipoEntidadId,
     pdfDownloadUrl,
     xmlDownloadUrl,
+    deleteFacturaDocumentoMutation,
+    id,
   } = useFacturaFooter();
 
   return (
@@ -60,11 +63,35 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           </Grid>
         </>
       ) : (
-        <Grid size={7} sx={{ marginTop: 3 }}>
-          <Link href={pdfDownloadUrl} target="_blank" rel="noopener noreferrer">
-            Descargar PDF
-          </Link>
-        </Grid>
+        <>
+          <Grid size={3} sx={{ marginTop: 3 }}>
+            <Link
+              href={pdfDownloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Descargar PDF
+            </Link>
+          </Grid>
+          <Grid size={4}>
+            <Tooltip title="Eliminar PDF">
+              <IconButton
+                color="error"
+                edge="start"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteFacturaDocumentoMutation.mutate({
+                    fileType: "pdf",
+                    invoiceId: id!.toString(),
+                  });
+                }}
+                sx={{ marginLeft: 3 }}
+              >
+                <DeleteIcon style={{ width: 32, height: 32 }} />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </>
       )}
 
       <Grid size={5} />
@@ -110,11 +137,35 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           </Grid>
         </>
       ) : (
-        <Grid size={6} sx={{ marginTop: -1 }}>
-          <Link href={xmlDownloadUrl} target="_blank" rel="noopener noreferrer">
-            Descargar XML
-          </Link>
-        </Grid>
+        <>
+          <Grid size={3} sx={{ marginTop: -1 }}>
+            <Link
+              href={xmlDownloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Descargar XML
+            </Link>
+          </Grid>
+          <Grid size={3} sx={{ marginTop: -3 }}>
+            <Tooltip title="Eliminar XML">
+              <IconButton
+                color="error"
+                edge="start"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteFacturaDocumentoMutation.mutate({
+                    fileType: "xml",
+                    invoiceId: id!.toString(),
+                  });
+                }}
+                sx={{ marginLeft: 3 }}
+              >
+                <DeleteIcon style={{ width: 32, height: 32 }} />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </>
       )}
 
       <Grid size={2} sx={{ marginTop: -3 }}>
