@@ -26,6 +26,7 @@ export const addMonedaVenta = async (descripcion: string): Promise<any> => {
   const response = await cuentasApi.post("/CatalogMaster/CreateItem", {
     catalogName: "Moneda",
     item: descripcion,
+    catalogId: 102
   });
   return response;
 };

@@ -26,6 +26,7 @@ export const addGiro = async (descripcion: string): Promise<any> => {
   const response = await cuentasApi.post("/CatalogMaster/CreateItem", {
     catalogName: "Giros",
     item: descripcion.toUpperCase(),
+    catalogId: 101
   });
   return response;
 };
