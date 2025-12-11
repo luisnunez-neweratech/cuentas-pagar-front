@@ -122,3 +122,19 @@ export const getStatusFactura = async (): Promise<any> => {
 
   return data;
 };
+
+interface deleteFacturaArchivoProps {
+  invoiceId: string;
+  fileType: string;
+}
+
+export const deleteFacturaArchivo = async ({
+  invoiceId,
+  fileType,
+}: deleteFacturaArchivoProps): Promise<any> => {
+  const { data } = await cuentasApi.delete(
+    `/Invoice/${invoiceId}/Document/${fileType}`
+  );
+
+  return data;
+};
