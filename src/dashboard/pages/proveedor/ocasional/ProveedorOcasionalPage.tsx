@@ -17,6 +17,7 @@ import UpgradeIcon from "@mui/icons-material/Upgrade";
 import { TipoEntidad } from "../interfaces/TipoEntidad";
 import { TipoPersona } from "../interfaces/TipoPersona";
 import { ConfirmModal } from "./components/ConfirmModal/ConfirmModal";
+import { DeleteConfirmModal } from "../../../../components/common/DeleteConfirmModal/DeleteConfirmModal";
 
 export const ProveedorOcasionalPage = () => {
   const {
@@ -34,6 +35,9 @@ export const ProveedorOcasionalPage = () => {
     actualizarProveedor,
     giros,
     plazoPagos,
+    openDeleteModal,
+    handleCloseDeleteModal,
+    confirmarEliminar,
   } = useProveedorOcasional();
 
   return (
@@ -111,6 +115,9 @@ export const ProveedorOcasionalPage = () => {
             onBlur={handleBlur}
             error={touched.rfc && Boolean(errors.rfc)}
             helperText={touched.rfc && errors.rfc?.toString()}
+            slotProps={{
+              htmlInput: { maxLength: 13, style: { textTransform: "uppercase" } },
+            }}
           />
         </Grid>
 
@@ -262,6 +269,12 @@ export const ProveedorOcasionalPage = () => {
         )}
       </Grid>
       <ConfirmModal actualizarProovedor={actualizarProveedor} />
+      <DeleteConfirmModal
+        open={openDeleteModal}
+        onClose={handleCloseDeleteModal}
+        onConfirm={confirmarEliminar}
+        proveedorNombre={values.razonSocial || values.alias || ""}
+      />
     </form>
   );
 };

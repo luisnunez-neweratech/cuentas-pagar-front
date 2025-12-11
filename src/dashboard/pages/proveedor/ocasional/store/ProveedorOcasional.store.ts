@@ -4,17 +4,21 @@ import type { ProveedorOcasional } from "../../../../../interfaces/proveedor-oca
 interface IProveedorOcasional {
   proveedorOcasional: ProveedorOcasional | null;
   openModal: boolean;
+  openDeleteModal: boolean;
 
   setProveedorOcasional: (proveedor: ProveedorOcasional) => void;
   clearProveedorOcasional: () => void;
   handleOpenModal: () => void;
   handleClose: () => void;
+  handleOpenDeleteModal: () => void;
+  handleCloseDeleteModal: () => void;
 }
 
 export const useProveedorOcasionalStore = create<IProveedorOcasional>()(
   (set) => ({
     proveedorOcasional: null,
     openModal: false,
+    openDeleteModal: false,
 
     setProveedorOcasional: (proveedor: ProveedorOcasional) => {
       set({ proveedorOcasional: proveedor });
@@ -30,6 +34,16 @@ export const useProveedorOcasionalStore = create<IProveedorOcasional>()(
     handleClose: () => {
       set({
         openModal: false,
+      });
+    },
+    handleOpenDeleteModal: () => {
+      set({
+        openDeleteModal: true,
+      });
+    },
+    handleCloseDeleteModal: () => {
+      set({
+        openDeleteModal: false,
       });
     },
   })

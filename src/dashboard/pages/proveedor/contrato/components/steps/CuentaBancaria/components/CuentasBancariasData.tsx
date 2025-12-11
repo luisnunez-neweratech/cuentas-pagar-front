@@ -95,6 +95,9 @@ export const CuentasBancariasData = ({
                 error={touched.clabe && Boolean(errors.clabe)}
                 helperText={touched.clabe && errors.clabe}
                 type="number"
+                slotProps={{
+                  htmlInput: { maxLength: 18 },
+                }}
               />
             </Grid>
             <Grid size={3}>

@@ -94,6 +94,9 @@ export const ContactosData = ({
                 onBlur={handleBlur}
                 error={touched.telefono && Boolean(errors.telefono)}
                 helperText={touched.telefono && errors.telefono}
+                slotProps={{
+                  htmlInput: { maxLength: 30 },
+                }}
               />
             </Grid>
             <Grid size={4}>

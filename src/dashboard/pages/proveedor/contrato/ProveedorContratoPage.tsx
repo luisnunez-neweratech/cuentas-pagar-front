@@ -2,10 +2,21 @@ import { Box, Button, Grid, Step, StepLabel, Stepper } from "@mui/material";
 import { useProveedorContratoPage } from "./hooks/useProveedorContratoPage";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { DeleteConfirmModal } from "../../../../components/common/DeleteConfirmModal/DeleteConfirmModal";
 
 export const ProveedorContratoPage = () => {
-  const { steps, activeStep, isStepSkipped, getStepScreen, id, onClickEliminar } =
-    useProveedorContratoPage();
+  const {
+    steps,
+    activeStep,
+    isStepSkipped,
+    getStepScreen,
+    id,
+    onClickEliminar,
+    openDeleteModal,
+    handleCloseDeleteModal,
+    confirmarEliminar,
+    proveedorNombre,
+  } = useProveedorContratoPage();
 
   return (
     <Grid container>
@@ -50,6 +61,12 @@ export const ProveedorContratoPage = () => {
           </Grid>
         </Box>
       </Grid>
+      <DeleteConfirmModal
+        open={openDeleteModal}
+        onClose={handleCloseDeleteModal}
+        onConfirm={confirmarEliminar}
+        proveedorNombre={proveedorNombre}
+      />
     </Grid>
   );
 };

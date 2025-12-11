@@ -106,6 +106,9 @@ export const Perfil = () => {
             onBlur={handleBlur}
             error={touched.rfc && Boolean(errors.rfc)}
             helperText={touched.rfc && errors.rfc?.toString()}
+            slotProps={{
+              htmlInput: { maxLength: 13, style: { textTransform: "uppercase" } },
+            }}
           />
         </Grid>
 

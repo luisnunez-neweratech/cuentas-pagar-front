@@ -175,6 +175,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                   <TableRow>
                     <TableCell>Folio Fiscal</TableCell>
                     <TableCell>Moneda</TableCell>
+                    <TableCell>Condiciones de Pago</TableCell>
                     <TableCell>Colaborador</TableCell>
                     <TableCell>PDF</TableCell>
                     <TableCell>XML</TableCell>
@@ -187,6 +188,9 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     </TableCell>
                     <TableCell>
                       {invoice.currencyName || invoice.currencyCode || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      {invoice.paymentTerms || "N/A"}
                     </TableCell>
                     <TableCell>
                       {invoice.reimbursementCollaboratorName || "N/A"}
