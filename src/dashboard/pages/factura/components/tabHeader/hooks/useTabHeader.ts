@@ -251,8 +251,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           value: proveedorBD.id,
           label: proveedorBD.descripcion,
           productos: proveedorBD.productos,
-          condicionesPagoId: proveedorBD.condicionesPagoId,
-          condicionesPagoLabel: proveedorBD.condicionesPagoLabel,
+          condicionesPagoId: facturaBD.condicionesPagoId,
+          condicionesPagoLabel: ''//proveedorBD.condicionesPagoLabel,
         },
         colaboradorId: { value: 0, label: "" },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
@@ -275,8 +275,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         total: facturaBD.total,
 
         productos: proveedorBD.productos,
-        condicionesPagoId: proveedorBD.condicionesPagoId,
-        condicionesPagoLabel: proveedorBD.condicionesPagoLabel,
+        condicionesPagoId: facturaBD.condicionesPagoId, //proveedorBD.condicionesPagoId,
+        condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
       };
     }
     return {
@@ -384,6 +384,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       ? values.colaboradorId!.value
                       : null,
                   invoiceStatusId: values.statusFacturaId,
+                  paymentTermId: values.condicionesPagoId,
                 });
               } else {
                 // crea solo detalles
@@ -468,6 +469,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   reimbursementStatus: values.statusReembolsoId,
                   reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId: values.colaboradorId!.value,
+                  paymentTermId: values.condicionesPagoId,
                 },
               });
 
