@@ -6,6 +6,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   TextField,
 } from "@mui/material";
@@ -15,6 +16,7 @@ import { TipoEntidad } from "../../../../interfaces/TipoEntidad";
 import { TipoPersona } from "../../../../interfaces/TipoPersona";
 import SaveIcon from "@mui/icons-material/Save";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 export const Perfil = () => {
   const {
@@ -30,34 +32,38 @@ export const Perfil = () => {
     setClickedBy,
     giros,
     plazoPagos,
+    navigate,
   } = usePerfil();
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container sx={{ marginTop: 4 }} spacing={2}>
-        <Grid size={4}>
-          <FormControl
-            fullWidth
-            error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-          >
-            <InputLabel id="tipo-entidad-label">*Tipo Entidad</InputLabel>
-            <Select
-              labelId="tipo-entidad-label"
-              id="tipoEntidad"
-              name="tipoEntidad"
-              label="Tipo Entidad"
-              value={values.tipoEntidad}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            >
-              <MenuItem value={TipoEntidad.Local.value}>
-                {TipoEntidad.Local.label}
-              </MenuItem>
-              <MenuItem value={TipoEntidad.Extranjero.value}>
-                {TipoEntidad.Extranjero.label}
-              </MenuItem>
-            </Select>
-            <FormHelperText>
+        <Grid size={12}>
+          <Paper sx={{ padding: 2 }} elevation={3}>
+            <Grid container spacing={2}>
+              <Grid size={4}>
+                <FormControl
+                  fullWidth
+                  error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
+                >
+                  <InputLabel id="tipo-entidad-label">*Tipo Entidad</InputLabel>
+                  <Select
+                    labelId="tipo-entidad-label"
+                    id="tipoEntidad"
+                    name="tipoEntidad"
+                    label="Tipo Entidad"
+                    value={values.tipoEntidad}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <MenuItem value={TipoEntidad.Local.value}>
+                      {TipoEntidad.Local.label}
+                    </MenuItem>
+                    <MenuItem value={TipoEntidad.Extranjero.value}>
+                      {TipoEntidad.Extranjero.label}
+                    </MenuItem>
+                  </Select>
+                  <FormHelperText>
               {touched.tipoEntidad && errors.tipoEntidad?.toString()}
             </FormHelperText>
           </FormControl>
@@ -214,9 +220,19 @@ export const Perfil = () => {
             </FormHelperText>
           </FormControl>
         </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
 
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button
+              variant="outlined"
+              onClick={() => navigate("/proveedor")}
+            >
+              <NavigateBeforeIcon sx={{ marginRight: 1 }} />
+              Regresar
+            </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {id && (
               <Button

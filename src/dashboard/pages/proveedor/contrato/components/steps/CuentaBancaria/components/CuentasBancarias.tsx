@@ -26,7 +26,7 @@ export const CuentasBancarias = ({
 
   useEffect(() => {
     setCuentasValidos(false);
-  }, []);
+  }, [setCuentasValidos]);
 
   return (
     <>

@@ -479,5 +479,6 @@ export const usePerfil = () => {
     setClickedBy,
     giros,
     plazoPagos,
+    navigate,
   };
 };

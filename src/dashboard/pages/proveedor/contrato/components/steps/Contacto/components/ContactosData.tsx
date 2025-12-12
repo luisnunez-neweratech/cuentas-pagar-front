@@ -34,8 +34,7 @@ export const ContactosData = ({
 
   return (
     <Grid size={12}>
-      <div>
-        <Paper sx={{ paddingBottom: 2, paddingLeft: 2 }} elevation={3}>
+        <Paper sx={{ padding: 2 }} elevation={3}>
           <Grid container spacing={2}>
             <Grid size={4} sx={{ marginTop: 2 }}>
               <FormControl
@@ -154,7 +153,6 @@ export const ContactosData = ({
             </Grid>
           </Grid>
         </Paper>
-      </div>
     </Grid>
   );
 };
