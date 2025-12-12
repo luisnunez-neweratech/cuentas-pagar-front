@@ -228,6 +228,10 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
 
       facturaDetalle: null,
       disableButtons: false,
+
+      validTabHeader: false,
+      validTabDetail: false,
+      validTabTotal: false,      
     }));
   },
 });
