@@ -6,6 +6,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   TextField,
 } from "@mui/material";
@@ -35,29 +36,32 @@ export const Perfil = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container sx={{ marginTop: 4 }} spacing={2}>
-        <Grid size={4}>
-          <FormControl
-            fullWidth
-            error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
-          >
-            <InputLabel id="tipo-entidad-label">*Tipo Entidad</InputLabel>
-            <Select
-              labelId="tipo-entidad-label"
-              id="tipoEntidad"
-              name="tipoEntidad"
-              label="Tipo Entidad"
-              value={values.tipoEntidad}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            >
-              <MenuItem value={TipoEntidad.Local.value}>
-                {TipoEntidad.Local.label}
-              </MenuItem>
-              <MenuItem value={TipoEntidad.Extranjero.value}>
-                {TipoEntidad.Extranjero.label}
-              </MenuItem>
-            </Select>
-            <FormHelperText>
+        <Grid size={12}>
+          <Paper sx={{ padding: 2 }} elevation={3}>
+            <Grid container spacing={2}>
+              <Grid size={4}>
+                <FormControl
+                  fullWidth
+                  error={touched.tipoEntidad && Boolean(errors.tipoEntidad)}
+                >
+                  <InputLabel id="tipo-entidad-label">*Tipo Entidad</InputLabel>
+                  <Select
+                    labelId="tipo-entidad-label"
+                    id="tipoEntidad"
+                    name="tipoEntidad"
+                    label="Tipo Entidad"
+                    value={values.tipoEntidad}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <MenuItem value={TipoEntidad.Local.value}>
+                      {TipoEntidad.Local.label}
+                    </MenuItem>
+                    <MenuItem value={TipoEntidad.Extranjero.value}>
+                      {TipoEntidad.Extranjero.label}
+                    </MenuItem>
+                  </Select>
+                  <FormHelperText>
               {touched.tipoEntidad && errors.tipoEntidad?.toString()}
             </FormHelperText>
           </FormControl>
@@ -213,6 +217,9 @@ export const Perfil = () => {
                 : "Seleccione el plazo de pago para este proveedor"}
             </FormHelperText>
           </FormControl>
+        </Grid>
+            </Grid>
+          </Paper>
         </Grid>
 
         <Grid size={12}>
