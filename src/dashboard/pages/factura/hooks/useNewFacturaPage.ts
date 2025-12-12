@@ -13,9 +13,12 @@ export const useNewFacturaPage = () => {
     setValue(newValue);
   };
 
+  const validDefaultHeader:boolean = id ? false : true; 
   const validTabHeader = useFacturaStore((state) => state.validTabHeader);
   const validTabDetail = useFacturaStore((state) => state.validTabDetail);
   const validTabTotal = useFacturaStore((state) => state.validTabTotal);
+
+
 
   
 
@@ -26,6 +29,7 @@ export const useNewFacturaPage = () => {
     validTabDetail,
     validTabTotal,
     value,
-    handleChange
+    handleChange,
+    validDefaultHeader
   };
 };
