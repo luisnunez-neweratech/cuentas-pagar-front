@@ -599,8 +599,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     );
   };
 
-  const setTipoEntidad = (tipoEntidadId: number | null) => {
-    if (tipoEntidadId) {
+  const setTipoEntidad = (tipoEntidadId: number | null) => {    
+    if (tipoEntidadId  !== null) {
       setTipoEntidadId(tipoEntidadId);
     }
   };
