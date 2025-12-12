@@ -9,7 +9,7 @@ interface props {
   handleBlur?: (value: any) => void;
   touched?: any;
   errors?: any;
-  setTipoEntidad?: (tipoEntidadId: number) => void;
+  setTipoEntidad?: (tipoEntidadId: number | null) => void;
 }
 
 export const NormalAutocomplete = ({
@@ -34,7 +34,7 @@ export const NormalAutocomplete = ({
         onChange={(_event, newValue) => {
           setFieldValue(id, newValue);
           if (setTipoEntidad) {
-            setTipoEntidad(newValue.tipoEntidadId);
+            setTipoEntidad(newValue ? newValue.tipoEntidadId : null);
           }
         }}
         onBlur={handleBlur}

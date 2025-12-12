@@ -34,7 +34,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     (state) => state.addRowFacturaDetalle
   );
 
-   const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
+  const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
   const setValidTabDetail = useFacturaStore((state) => state.setValidTabDetail);
   const setValidTabTotal = useFacturaStore((state) => state.setValidTabTotal);
 
@@ -519,7 +519,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     ],
     queryFn: () => getCheckDuplicate(values.noFactura, values.folioFiscal),
     enabled: callCheckDuplicateFactura,
-  });  
+  });
 
   useEffect(() => {
     if (isDuplicateFactura) {
@@ -528,7 +528,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         setValidTabHeader(false);
         setValidTabDetail(false);
         setValidTabTotal(false);
-        
       } else {
         setValidTabHeader(true);
         setValidTabDetail(true);
@@ -606,8 +605,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     );
   };
 
-  const setTipoEntidad = (tipoEntidadId: number) => {
-    setTipoEntidadId(tipoEntidadId);
+  const setTipoEntidad = (tipoEntidadId: number | null) => {
+    if (tipoEntidadId) {
+      setTipoEntidadId(tipoEntidadId);
+    }
   };
 
   useEffect(() => {
@@ -626,7 +627,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   }, [proveedores]);
 
   useEffect(() => {
-    if (values.proveedorId.value > 0) {
+    if (values.proveedorId && values.proveedorId.value > 0) {
       const newListaProductos = values.proveedorId.productos?.map(
         (producto: any) => {
           return {
@@ -642,7 +643,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       } else {
         setFieldValue("productos", []);
       }
-
       setFieldValue("condicionesPagoId", values.proveedorId.condicionesPagoId);
       setFieldValue(
         "condicionesPagoLabel",
@@ -650,6 +650,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       );
     } else {
       setListaProductos([]);
+      setFieldValue("productos", []);
       setFieldValue("condicionesPagoId", 0);
       setFieldValue("condicionesPagoLabel", "");
     }
