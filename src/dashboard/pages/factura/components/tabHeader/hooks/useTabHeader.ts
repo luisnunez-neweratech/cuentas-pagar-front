@@ -35,8 +35,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   );
 
   const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
-  const setValidTabDetail = useFacturaStore((state) => state.setValidTabDetail);
-  const setValidTabTotal = useFacturaStore((state) => state.setValidTabTotal);
 
   const setTipoDocumentoId = useFacturaStore(
     (state) => state.setTipoDocumentoId
@@ -526,12 +524,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       if (isDuplicateFactura?.exists) {
         toast.warning(isDuplicateFactura.message);
         setValidTabHeader(false);
-        setValidTabDetail(false);
-        setValidTabTotal(false);
       } else {
         setValidTabHeader(true);
-        setValidTabDetail(true);
-        setValidTabTotal(true);
       }
     }
   }, [isDuplicateFactura]);

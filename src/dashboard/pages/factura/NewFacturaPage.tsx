@@ -9,8 +9,6 @@ export const NewFacturaPage = () => {
     value,
     handleChange,
     validTabHeader,
-    validTabDetail,
-    validTabTotal,
   } = useNewFacturaPage();
 
   return (
@@ -22,8 +20,6 @@ export const NewFacturaPage = () => {
       >
         <Tab label="Header" />
         <Tab label="Details" disabled={!validTabHeader} />
-        <Tab label="Total" disabled={!validTabDetail} />
-        <Tab label="Pago" disabled={!validTabTotal} />
       </Tabs>
       <TabHeader
         tabIndex={value}

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 import { getAllPlazoPagos } from "../../../../catalogos/services/plazoPago.service";
+import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 
 export const useTabPago = () => {
   const [convertColaboradores, setConvertColaboradores] = useState<
@@ -16,6 +17,26 @@ export const useTabPago = () => {
     queryFn: () => getColaboradoresSgpyon(),
   });
 
+  const [convertMonedas, setConvertMonedas] = useState<
+    { value: number; label: string }[]
+  >([]);
+
+  const { data: monedas } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "Moneda"],
+    queryFn: () => getAllMonedaVentas(),
+  });
+
+  useEffect(() => {
+    const newMonedas = monedas?.map((moneda) => {
+      return {
+        value: moneda.id,
+        label: moneda.descripcion,
+      };
+    });
+
+    setConvertMonedas(newMonedas ?? []);
+  }, [monedas]);
+
   useEffect(() => {
     const newColaboradores = colaboradores?.map((colaborador: any) => {
       return {
@@ -28,17 +49,17 @@ export const useTabPago = () => {
   }, [colaboradores]);
 
   const {
-      /* isLoading,
+    /* isLoading,
       isError,
       error, */
-      data: plazoPagos,
-      //refetch,
-    } = useQuery({
-      queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
-      queryFn: () => getAllPlazoPagos(),
-    });
+    data: plazoPagos,
+    //refetch,
+  } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
+    queryFn: () => getAllPlazoPagos(),
+  });
 
-    useEffect(() => {
+  useEffect(() => {
     const newPlazoPagos = plazoPagos?.map((plazo: any) => {
       return {
         value: plazo.id,
@@ -51,6 +72,7 @@ export const useTabPago = () => {
 
   return {
     convertColaboradores,
-    convertPlazoPagos
+    convertPlazoPagos,
+    convertMonedas,
   };
 };

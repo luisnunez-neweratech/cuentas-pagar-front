@@ -31,7 +31,8 @@ export const TabPago = ({
   setFieldValue,
   setFieldTouched,
 }: props) => {
-  const { convertColaboradores, convertPlazoPagos } = useTabPago();
+  const { convertColaboradores, convertPlazoPagos, convertMonedas } =
+    useTabPago();
 
   return (
     <Grid container spacing={2} sx={{ marginTop: -58 }}>
@@ -87,8 +88,20 @@ export const TabPago = ({
           setFieldTouched={setFieldTouched}
         />
       </Grid>
+      <Grid size={2}>
+        <SelectCommon
+          id={"monedaId"}
+          label={"Moneda"}
+          options={convertMonedas}
+          value={values.monedaId || ""}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
+      </Grid>
 
-      <Grid size={4} />
+      <Grid size={2} />
 
       <Grid size={2} sx={{ marginTop: -7 }}>
         {values.statusReembolsoId !== 4 && (
