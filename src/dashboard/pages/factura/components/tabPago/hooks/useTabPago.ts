@@ -3,8 +3,12 @@ import { useEffect, useState } from "react";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 import { getAllPlazoPagos } from "../../../../catalogos/services/plazoPago.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
+import { useParams } from "react-router";
 
 export const useTabPago = () => {
+
+  const {id} = useParams()
+
   const [convertColaboradores, setConvertColaboradores] = useState<
     { value: number; label: string }[]
   >([]);
@@ -74,5 +78,6 @@ export const useTabPago = () => {
     convertColaboradores,
     convertPlazoPagos,
     convertMonedas,
+    id
   };
 };
