@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Autocomplete as AutocompleteGoogle } from "@react-google-maps/api";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -33,7 +33,10 @@ export const Domicilio = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Grid container sx={{ marginTop: 4 }} spacing={2}>
-        <Grid size={4}>
+        <Grid size={12}>
+          <Paper sx={{ padding: 2 }} elevation={3}>
+            <Grid container spacing={2}>
+              <Grid size={4}>
           <Autocomplete
             fullWidth
             id="country-select-demo"
@@ -201,6 +204,9 @@ export const Domicilio = () => {
             value={values.numInterior}
             onChange={handleChange}
           />
+        </Grid>
+            </Grid>
+          </Paper>
         </Grid>
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
