@@ -61,23 +61,6 @@ export const TabPago = ({
         />
       </Grid>
       <Grid size={2}>
-        <SelectCommon
-          id={"statusReembolsoId"}
-          label={"Estatus Reembolso"}
-          options={[
-            StatusReembolso.Pendiente,
-            StatusReembolso.Pagado,
-            StatusReembolso.Cancelado,
-            StatusReembolso.NoAplica,
-          ]}
-          value={values.statusReembolsoId}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
-        />
-      </Grid>
-      <Grid size={2}>
         <DatePickerCommon
           id="fechaProgramadaPago"
           label="Programada Pago"
@@ -101,10 +84,10 @@ export const TabPago = ({
         />
       </Grid>
 
-      <Grid size={2} />
+      <Grid size={4} />
 
       <Grid size={2} sx={{ marginTop: -7 }}>
-        {values.statusReembolsoId !== 4 && (
+        {values.statusFacturaId === 56 && (
           <NormalAutocomplete
             options={convertColaboradores}
             label="Colaborador"
@@ -117,11 +100,28 @@ export const TabPago = ({
           />
         )}
       </Grid>
-
-      <Grid size={2} sx={{ marginTop: -7 }} />
+      <Grid size={2} sx={{ marginTop: -7 }}>
+        {values.statusFacturaId === 56 && (
+          <SelectCommon
+            id={"statusReembolsoId"}
+            label={"Estatus Reembolso"}
+            options={[
+              StatusReembolso.Pendiente,
+              StatusReembolso.Pagado,
+              StatusReembolso.Cancelado,
+              StatusReembolso.NoAplica,
+            ]}
+            value={values.statusReembolsoId}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            touched={touched}
+            errors={errors}
+          />
+        )}
+      </Grid>
 
       <Grid size={2} sx={{ marginTop: -7 }}>
-        {values.statusReembolsoId !== 4 && (
+        {values.statusFacturaId === 56 && (
           <DatePickerCommon
             id="fechaReembolso"
             label="Fecha Reembolso"
