@@ -111,7 +111,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       return;
     },
     onSettled: () => {
-      //handleDisableButtons(false);
+      handleDisableButtons(false);
     },
   });
 
@@ -127,7 +127,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       return;
     },
     onSettled: () => {
-      //handleDisableButtons(false);
+      handleDisableButtons(false);
     },
   });
 
@@ -175,7 +175,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       return;
     },
     onSettled: () => {
-      //handleDisableButtons(false);
+      handleDisableButtons(false);
     },
   });
 
@@ -352,6 +352,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
             //validar suma de totales
             if (sumaDetalle !== +(values.subtotal ?? 0)) {
               toast.error("El total de los detalles no es igual al subtotal");
+              handleDisableButtons(false);
             } else {
               if (!stateFactura.id) {
                 // crea header y despues detalle
@@ -420,10 +421,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
               }
             }
           } else {
-            toast.error("Los Detalles no son validos");
+            toast.error("Los Campos en los detalles no son validos");
+            handleDisableButtons(false);
           }
         } else {
           toast.error("La Factura no tiene detalles");
+          handleDisableButtons(false);
         }
       } else {
         //modificar
@@ -443,6 +446,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           if (detallesValido) {
             if (sumaDetalle !== +(values.subtotal ?? 0)) {
               toast.error("El total de los detalles no es igual al subtotal");
+              handleDisableButtons(false);
             } else {
               //call endpoint actualizar header
               updateHeaderMutation.mutate({
@@ -499,10 +503,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
               });
             }
           } else {
-            toast.error("Los Detalles no son validos");
+            toast.error("Los Campos en los detalles no son validos");
+            handleDisableButtons(false);
           }
         } else {
           toast.error("La Factura no tiene detalles");
+          handleDisableButtons(false);
         }
       }
     },
