@@ -31,7 +31,7 @@ export const TabPago = ({
   setFieldValue,
   setFieldTouched,
 }: props) => {
-  const { convertColaboradores, convertPlazoPagos, convertMonedas } =
+  const { convertColaboradores, convertPlazoPagos, convertMonedas, id } =
     useTabPago();
 
   return (
@@ -54,23 +54,6 @@ export const TabPago = ({
           label={"Estatus Factura"}
           options={convertStatusFactura}
           value={values.statusFacturaId}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
-        />
-      </Grid>
-      <Grid size={2}>
-        <SelectCommon
-          id={"statusReembolsoId"}
-          label={"Estatus Reembolso"}
-          options={[
-            StatusReembolso.Pendiente,
-            StatusReembolso.Pagado,
-            StatusReembolso.Cancelado,
-            StatusReembolso.NoAplica,
-          ]}
-          value={values.statusReembolsoId}
           handleChange={handleChange}
           handleBlur={handleBlur}
           touched={touched}
@@ -101,10 +84,10 @@ export const TabPago = ({
         />
       </Grid>
 
-      <Grid size={2} />
+      <Grid size={4} />
 
       <Grid size={2} sx={{ marginTop: -7 }}>
-        {values.statusReembolsoId !== 4 && (
+        {values.statusFacturaId === 56 && (
           <NormalAutocomplete
             options={convertColaboradores}
             label="Colaborador"
@@ -117,11 +100,28 @@ export const TabPago = ({
           />
         )}
       </Grid>
-
-      <Grid size={2} sx={{ marginTop: -7 }} />
+      <Grid size={2} sx={{ marginTop: -7 }}>
+        {values.statusFacturaId === 56 && (
+          <SelectCommon
+            id={"statusReembolsoId"}
+            label={"Estatus Reembolso"}
+            options={[
+              StatusReembolso.Pendiente,
+              StatusReembolso.Pagado,
+              StatusReembolso.Cancelado,
+              StatusReembolso.NoAplica,
+            ]}
+            value={values.statusReembolsoId}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            touched={touched}
+            errors={errors}
+          />
+        )}
+      </Grid>
 
       <Grid size={2} sx={{ marginTop: -7 }}>
-        {values.statusReembolsoId !== 4 && (
+        {values.statusFacturaId === 56 && (
           <DatePickerCommon
             id="fechaReembolso"
             label="Fecha Reembolso"
@@ -135,15 +135,19 @@ export const TabPago = ({
       </Grid>
 
       <Grid size={2} sx={{ marginTop: -7 }}>
-        <DatePickerCommon
-          id="fechaPago"
-          label="Fecha Pago"
-          fechaValue={values.fechaPago ?? ""}
-          setFieldValue={setFieldValue}
-          touched={touched}
-          errors={errors}
-          setFieldTouched={setFieldTouched}
-        />
+        {((!id &&
+          (values.statusFacturaId === 56 || values.statusFacturaId === 53)) ||
+          id) && (
+          <DatePickerCommon
+            id="fechaPago"
+            label="Fecha Pago"
+            fechaValue={values.fechaPago ?? ""}
+            setFieldValue={setFieldValue}
+            touched={touched}
+            errors={errors}
+            setFieldTouched={setFieldTouched}
+          />
+        )}
       </Grid>
 
       <Grid size={2} sx={{ marginTop: -7 }} />
