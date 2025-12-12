@@ -16,6 +16,7 @@ import { TipoEntidad } from "../../../../interfaces/TipoEntidad";
 import { TipoPersona } from "../../../../interfaces/TipoPersona";
 import SaveIcon from "@mui/icons-material/Save";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 export const Perfil = () => {
   const {
@@ -31,6 +32,7 @@ export const Perfil = () => {
     setClickedBy,
     giros,
     plazoPagos,
+    navigate,
   } = usePerfil();
 
   return (
@@ -224,6 +226,13 @@ export const Perfil = () => {
 
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button
+              variant="outlined"
+              onClick={() => navigate("/proveedor")}
+            >
+              <NavigateBeforeIcon sx={{ marginRight: 1 }} />
+              Regresar
+            </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {id && (
               <Button
