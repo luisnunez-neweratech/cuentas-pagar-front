@@ -101,6 +101,9 @@ function Row({ invoice, onEdit, onRowClick }: props) {
           {formatDate(invoice.scheduledPaymentDate)}
         </TableCell>
         <TableCell onClick={() => onRowClick(invoice)}>
+          {formatCurrency(invoice.subtotal)}
+        </TableCell>
+        <TableCell onClick={() => onRowClick(invoice)}>
           {formatCurrency(invoice.total)}
         </TableCell>
         <TableCell onClick={() => onRowClick(invoice)}>
@@ -123,7 +126,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={11}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
           <Collapse
             in={open}
             timeout="auto"
@@ -317,6 +320,7 @@ export const FacturaTable = () => {
             <TableCell style={cellHeaderStyle}>Fecha Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Estatus Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Fecha Próximo Pago</TableCell>
+            <TableCell style={cellHeaderStyle}>Subtotal</TableCell>
             <TableCell style={cellHeaderStyle}>Total</TableCell>
             <TableCell style={cellHeaderStyle}>Estatus Reembolso</TableCell>
             <TableCell style={cellHeaderStyle}></TableCell>
@@ -336,7 +340,7 @@ export const FacturaTable = () => {
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 50]}
-              colSpan={11}
+              colSpan={12}
               count={data?.totalCount || 0}
               rowsPerPage={rowsPerPage}
               page={page}
