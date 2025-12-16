@@ -8,10 +8,17 @@ export const useFacturaDetalle = () => {
   );
 
   const clickAddRowDetalle = () => {
+    let maxId = 0;
+    if (
+      stateFactura.facturaDetalle &&
+      stateFactura.facturaDetalle?.length > 0
+    ) {
+      maxId = Math.max(...stateFactura.facturaDetalle.map((item) => item.id));
+    }
     addRowFacturaDetalle({
-      id: (stateFactura.facturaDetalle?.length ?? 0) + 1,
+      id: maxId + 1,
       cantidad: 1,
-      uMedida: '',
+      uMedida: "",
       codigo: "",
       concepto: "",
       precio: 0,
