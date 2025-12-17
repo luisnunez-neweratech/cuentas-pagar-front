@@ -9,12 +9,12 @@ interface props {
 }
 
 export const FacturaDetalle = ({ onClickGuardar }: props) => {
-  const { clickAddRowDetalle } = useFacturaDetalle();
+  const { clickAddRowDetalle, uMedidadData } = useFacturaDetalle();
 
   return (
     <>
       <Grid size={12}>
-        <DetalleTable onClickGuardar={onClickGuardar} />
+        <DetalleTable onClickGuardar={onClickGuardar} uMedidadData={uMedidadData} />
       </Grid>
       <Grid size={11} />
       <Grid size={1} >

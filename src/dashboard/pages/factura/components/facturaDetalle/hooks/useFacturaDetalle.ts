@@ -1,4 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import { useFacturaStore } from "../../../store/Factura.store";
+import { getAllUMedidas } from "../../../services/catalog.service";
 
 export const useFacturaDetalle = () => {
   const stateFactura = useFacturaStore((state) => state);
@@ -18,7 +20,7 @@ export const useFacturaDetalle = () => {
     addRowFacturaDetalle({
       id: maxId + 1,
       cantidad: 1,
-      uMedida: "",
+      uMedida: 0,
       codigo: "",
       concepto: "",
       precio: 0,
@@ -26,7 +28,15 @@ export const useFacturaDetalle = () => {
       validado: false,
     });
   };
+
+
+    const { data: uMedidadData } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "UofM"],
+    queryFn: () => getAllUMedidas(),
+  });
+
   return {
     clickAddRowDetalle,
+    uMedidadData
   };
 };

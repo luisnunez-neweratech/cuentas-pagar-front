@@ -145,7 +145,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           unitPrice: +detalle.precio,
           lineDiscount: 0,
           lineTotal: +detalle.total,
-          unitOfMeasure: detalle.uMedida.toString(),
+          uofMId: detalle.uMedida,
         };
       });
       createMutationDetalle.mutate({
@@ -228,7 +228,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         addRowFacturaDetalle({
           id: detail.id,
           cantidad: detail.quantity,
-          uMedida: detail.unitOfMeasure,
+          uMedida: detail.uofMId,
           codigo: detail.productServiceKey,
           concepto: detail.concept,
           precio: detail.unitPrice,
@@ -403,7 +403,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       unitPrice: +detalle.precio,
                       lineDiscount: 0,
                       lineTotal: +detalle.total,
-                      unitOfMeasure: detalle.uMedida.toString(),
+                      uofMId: detalle.uMedida,
                     };
                   }
                 );
@@ -491,7 +491,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     unitPrice: +detalle.precio,
                     lineDiscount: 0,
                     lineTotal: +detalle.total,
-                    unitOfMeasure: detalle.uMedida.toString(),
+                    uofMId: detalle.uMedida,
                   };
                 }
               );
@@ -605,8 +605,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     );
   };
 
-  const setTipoEntidad = (tipoEntidadId: number | null) => {    
-    if (tipoEntidadId  !== null) {
+  const setTipoEntidad = (tipoEntidadId: number | null) => {
+    if (tipoEntidadId !== null) {
       setTipoEntidadId(tipoEntidadId);
     }
   };
