@@ -10,9 +10,10 @@ import { RowDetalle } from "./components/rowDetalle/RowDetalle";
 
 interface props {
   onClickGuardar: number;
+  uMedidadData: any;
 }
 
-export const DetalleTable = ({onClickGuardar}:props) => {
+export const DetalleTable = ({onClickGuardar, uMedidadData}:props) => {
   const { rows } = useDetalleTable();
 
   return (
@@ -43,7 +44,7 @@ export const DetalleTable = ({onClickGuardar}:props) => {
         </TableHead>
         <TableBody>
           {(rows ?? []).map((row) => (
-            <RowDetalle key={row.id} id={row.id} onClickGuardar={onClickGuardar} />
+            <RowDetalle uMedidadData={uMedidadData ?? []} key={row.id} id={row.id} onClickGuardar={onClickGuardar} />
           ))}
         </TableBody>
       </Table>

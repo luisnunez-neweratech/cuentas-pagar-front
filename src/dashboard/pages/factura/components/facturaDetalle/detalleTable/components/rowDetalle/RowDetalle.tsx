@@ -4,6 +4,8 @@ import {
   TextField,
   Tooltip,
   IconButton,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRowDetalle } from "./hooks/useRowDetalle";
@@ -12,9 +14,10 @@ import { NumericFormat } from "react-number-format";
 interface props {
   id: number;
   onClickGuardar: number;
+  uMedidadData: any;
 }
 
-export const RowDetalle = ({ id, onClickGuardar }: props) => {
+export const RowDetalle = ({ id, onClickGuardar, uMedidadData }: props) => {
   const {
     deleteRowFactura,
     values,
@@ -61,30 +64,23 @@ export const RowDetalle = ({ id, onClickGuardar }: props) => {
         />
       </TableCell>
       <TableCell>
-        <TextField
+        <Select
           id="uMedida"
           name="uMedida"
-          type="tel"
-          value={values.uMedida}
+          value={values.uMedida ?? ""}
           onChange={(e) => {
+            console.log("e", e.target.value);
             handleChange(e);
             handleSubmit();
           }}
           onBlur={handleBlur}
-          variant="outlined" // Use outlined for better visibility in a table
-          size="small" // Make it less bulky
-          fullWidth // Optional: makes the TextField take the full width of the cell
-          error={touched.uMedida && Boolean(errors.uMedida)}
-          slotProps={{
-            input: {
-              style: { fontSize: "11px" }, // Styles the input element itself
-            },
-            // Or for the native HTML element
-            htmlInput: {
-              style: { fontSize: "11px" },
-            },
-          }}
-        />
+          fullWidth
+          size="small"
+        >
+          {uMedidadData.map((option: any) => (
+            <MenuItem value={option.id}>{option.label}</MenuItem>
+          ))}
+        </Select>
       </TableCell>
       <TableCell>
         <TextField
