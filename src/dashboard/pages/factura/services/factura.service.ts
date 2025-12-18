@@ -3,6 +3,7 @@ import type { PostFacturaDetallePayload } from "../interfaces/PostFacturaDetalle
 import type { PostFacturaHeaderPayload } from "../interfaces/PostFacturaHeaderPayload";
 import type { PutFacturaDetallePayload } from "../interfaces/PutFacturaDetallePayload";
 import type { PutFacturaHeaderPayload } from "../interfaces/PutFacturaHeaderPayload";
+import type { CalculateScheduledPaymentDateResponse } from "../interfaces/CalculateScheduledPaymentDateResponse";
 
 export const addFacturaHeader = async (
   postFacturaHeaderPayload: PostFacturaHeaderPayload
@@ -146,6 +147,24 @@ export const getCheckDuplicate = async (
 ): Promise<any> => {
   const { data } = await cuentasApi.get(
     `/Invoice/CheckDuplicate?invoiceNumber=${invoiceNumber}&fiscalFolio=${fiscalFolio}`
+  );
+
+  return data;
+};
+
+interface calculateScheduledPaymentDateProps {
+  supplierId: number;
+  invoiceDate: string;
+  paymentTermId: number;
+}
+
+export const calculateScheduledPaymentDate = async ({
+  supplierId,
+  invoiceDate,
+  paymentTermId,
+}: calculateScheduledPaymentDateProps): Promise<CalculateScheduledPaymentDateResponse> => {
+  const { data } = await cuentasApi.get<CalculateScheduledPaymentDateResponse>(
+    `/Invoice/CalculateScheduledPaymentDate?supplierId=${supplierId}&invoiceDate=${invoiceDate}&paymentTermId=${paymentTermId}`
   );
 
   return data;
