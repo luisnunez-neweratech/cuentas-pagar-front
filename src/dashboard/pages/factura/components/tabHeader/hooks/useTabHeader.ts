@@ -521,7 +521,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       values.noFactura,
       values.folioFiscal,
     ],
-    queryFn: () => getCheckDuplicate(values.noFactura, values.folioFiscal),
+    queryFn: () =>
+      getCheckDuplicate(
+        values.noFactura,
+        values.folioFiscal,
+        values.proveedorId.value
+      ),
     enabled: callCheckDuplicateFactura,
   });
 
