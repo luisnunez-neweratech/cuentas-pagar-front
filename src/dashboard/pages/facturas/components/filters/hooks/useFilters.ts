@@ -60,11 +60,13 @@ export const useFilters = () => {
     setQuery("documentType:" + documentType + ":" + Date.now());
   };
 
-  const onChangeCurrencyId = (currencyId?: number) => {
+  const onChangeCurrencyId = (currencyId?: number, currencyLabel?: string) => {
     setFiltrosFacturas((prev) => ({
       ...prev,
       currencyId,
+      currencyLabel
     }));
+
     setQuery("currencyId:" + currencyId + ":" + Date.now());
   };
 
