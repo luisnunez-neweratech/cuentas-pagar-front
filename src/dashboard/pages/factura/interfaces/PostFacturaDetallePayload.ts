@@ -7,5 +7,5 @@ export interface PostFacturaDetallePayload {
   unitPrice: number;
   lineDiscount: number;
   lineTotal: number;
-  unitOfMeasure: string;
+  uofMId: number;
 }

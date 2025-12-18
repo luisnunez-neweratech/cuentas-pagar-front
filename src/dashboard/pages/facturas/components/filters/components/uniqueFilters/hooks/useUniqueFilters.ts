@@ -103,8 +103,12 @@ export const useUniqueFilters = () => {
   }, [values.documentoId]);
 
   useEffect(() => {
+    
+    const currencyLabel = monedas?.find(moneda => moneda.id === values.monedaId)?.descripcion
+    
     onChangeCurrencyId(
-      values.monedaId === "" ? undefined : Number(values.monedaId)
+      values.monedaId === "" ? undefined : Number(values.monedaId),
+      currencyLabel
     );
   }, [values.monedaId]);
 

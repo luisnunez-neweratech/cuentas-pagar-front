@@ -7,5 +7,5 @@ export interface PutFacturaDetallePayload {
   unitPrice: number;
   lineDiscount: number;
   lineTotal: number;
-  unitOfMeasure: string;
+  uofMId: number;
 }

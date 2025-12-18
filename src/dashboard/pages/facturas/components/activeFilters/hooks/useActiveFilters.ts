@@ -91,11 +91,11 @@ export const useActiveFilters = () => {
     // Otros filtros
     documentType:
       filtrosFacturas.documentType !== undefined
-        ? filtrosFacturas.documentType === 0
+        ? filtrosFacturas.documentType === 1
           ? "Factura"
           : "Nota de Crédito"
         : "",
     invoiceYear: filtrosFacturas.invoiceYear?.toString() || "",
-    currencyId: filtrosFacturas.currencyId?.toString() || "",
+    currencyId: filtrosFacturas.currencyLabel || "",
   };
 };

@@ -19,6 +19,7 @@ const initFiltros: FiltrosFacturas = {
   documentType: undefined,
   invoiceYear: undefined,
   currencyId: undefined,
+  currencyLabel: undefined,
   collaboratorName: "",
   fiscalFolio: "",
 };
