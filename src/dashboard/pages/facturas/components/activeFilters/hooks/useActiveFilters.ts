@@ -96,6 +96,6 @@ export const useActiveFilters = () => {
           : "Nota de Crédito"
         : "",
     invoiceYear: filtrosFacturas.invoiceYear?.toString() || "",
-    currencyId: filtrosFacturas.currencyId?.toString() || "",
+    currencyId: filtrosFacturas.currencyLabel || "",
   };
 };

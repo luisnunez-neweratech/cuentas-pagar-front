@@ -16,6 +16,7 @@ export interface FiltrosFacturas {
   documentType?: number;
   invoiceYear?: number;
   currencyId?: number;
+  currencyLabel?: string;
   collaboratorName: string;
   fiscalFolio: string;
 }
