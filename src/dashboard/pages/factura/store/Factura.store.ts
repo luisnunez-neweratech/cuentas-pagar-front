@@ -40,6 +40,12 @@ export interface FacturaState {
 
   disableButtons: boolean;
 
+  scheduledPaymentMessage: string | null;
+
+  initialSupplierId: number | null;
+  initialInvoiceDate: string | null;
+  initialPaymentTermId: number | null;
+
   setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
   setXmlFile: (xmlFileValue: File) => void;
@@ -49,6 +55,8 @@ export interface FacturaState {
   setDisableButtons: (disableButtons: boolean) => void;
   setPdfDownloadUrl: (pdfDownloadUrl: string) => void;
   setXmlDownloadUrl: (xmlDownloadUrl: string) => void;
+  setScheduledPaymentMessage: (scheduledPaymentMessage: string | null) => void;
+  setInitialValues: (supplierId: number, invoiceDate: string, paymentTermId: number) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
@@ -92,6 +100,11 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
 
   validTabHeader: false,
   disableButtons: false,
+  scheduledPaymentMessage: null,
+
+  initialSupplierId: null,
+  initialInvoiceDate: null,
+  initialPaymentTermId: null,
 
   setTipoDocumentoId: (tipoDocumentoId: number) => {
     set((state) => ({
@@ -175,6 +188,20 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       xmlDownloadUrl,
     }));
   },
+  setScheduledPaymentMessage: (scheduledPaymentMessage: string | null) => {
+    set((state) => ({
+      ...state,
+      scheduledPaymentMessage,
+    }));
+  },
+  setInitialValues: (supplierId: number, invoiceDate: string, paymentTermId: number) => {
+    set((state) => ({
+      ...state,
+      initialSupplierId: supplierId,
+      initialInvoiceDate: invoiceDate,
+      initialPaymentTermId: paymentTermId,
+    }));
+  },
   clearState: () => {
     set((_state) => ({
       id: null,
@@ -212,6 +239,11 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       disableButtons: false,
 
       validTabHeader: false,
+      scheduledPaymentMessage: null,
+
+      initialSupplierId: null,
+      initialInvoiceDate: null,
+      initialPaymentTermId: null,
     }));
   },
 });

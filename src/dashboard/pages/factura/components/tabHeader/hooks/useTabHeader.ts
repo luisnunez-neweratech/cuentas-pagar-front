@@ -13,6 +13,7 @@ import {
   updateFacturaHeader,
   uploadFacturaFiles,
   getCheckDuplicate,
+  calculateScheduledPaymentDate,
 } from "../../../services/factura.service";
 import { useEffect, useState } from "react";
 import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
@@ -46,6 +47,13 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
   const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const setScheduledPaymentMessage = useFacturaStore(
+    (state) => state.setScheduledPaymentMessage
+  );
+  const setInitialValues = useFacturaStore((state) => state.setInitialValues);
+  const initialSupplierId = useFacturaStore((state) => state.initialSupplierId);
+  const initialInvoiceDate = useFacturaStore((state) => state.initialInvoiceDate);
+  const initialPaymentTermId = useFacturaStore((state) => state.initialPaymentTermId);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -248,6 +256,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       if (facturaBD.xmlFile) {
         setXmlDownloadUrl(facturaBD.xmlFile);
       }
+
+      setInitialValues(
+        facturaBD.proveedorId,
+        facturaBD.fechaFactura,
+        facturaBD.condicionesPagoId
+      );
 
       return {
         proveedorId: {
@@ -691,6 +705,45 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   useEffect(() => {
     setIsLoading(isLoading);
   }, [isLoading]);
+
+  useEffect(() => {
+    const fetchScheduledPaymentDate = async () => {
+      if (
+        values.proveedorId &&
+        values.proveedorId.value > 0 &&
+        values.fechaFactura &&
+        values.condicionesPagoId &&
+        values.tipoDocumentoId !== 2 // No aplica para Nota de Crédito
+      ) {
+        const hasChanges = !id || (
+          values.proveedorId.value !== initialSupplierId ||
+          values.fechaFactura !== initialInvoiceDate ||
+          values.condicionesPagoId !== initialPaymentTermId
+        );
+
+        if (hasChanges) {
+          try {
+            const response = await calculateScheduledPaymentDate({
+              supplierId: values.proveedorId.value,
+              invoiceDate: values.fechaFactura,
+              paymentTermId: values.condicionesPagoId,
+            });
+            
+            setFieldValue("fechaProgramadaPago", response.scheduledPaymentDate);
+            
+            setScheduledPaymentMessage(response.message);
+          } catch (error) {
+            console.log("Error al calcular fecha programada de pago:", error);
+            setScheduledPaymentMessage(null);
+          }
+        }
+      } else {
+        setScheduledPaymentMessage(null);
+      }
+    };
+
+    fetchScheduledPaymentDate();
+  }, [values.proveedorId, values.fechaFactura, values.condicionesPagoId, values.tipoDocumentoId]);
 
   /* const onValidateTabHeader = () => {
     if (

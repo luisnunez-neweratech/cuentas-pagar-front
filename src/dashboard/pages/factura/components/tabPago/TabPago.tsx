@@ -1,10 +1,11 @@
-import { Grid } from "@mui/material";
+import { Grid, FormHelperText } from "@mui/material";
 import { SelectCommon } from "../../../../../components/common/SelectCommon/SelectCommon";
 import { DatePickerCommon } from "../../../../../components/common/DatePickerCommon/DatePickerCommon";
 import { NormalAutocomplete } from "../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
 import { FacturaFooter } from "../facturaFooter/FacturaFooter";
 import { useTabPago } from "./hooks/useTabPago";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
+import { useFacturaStore } from "../../store/Factura.store";
 
 interface props {
   setOnClickGuardar: any;
@@ -33,6 +34,10 @@ export const TabPago = ({
 }: props) => {
   const { convertColaboradores, convertPlazoPagos, convertMonedas, id } =
     useTabPago();
+
+  const scheduledPaymentMessage = useFacturaStore(
+    (state) => state.scheduledPaymentMessage
+  );
 
   return (
     <Grid container spacing={2} sx={{ marginTop: -58 }}>
@@ -70,6 +75,11 @@ export const TabPago = ({
           errors={errors}
           setFieldTouched={setFieldTouched}
         />
+        {scheduledPaymentMessage && (
+          <FormHelperText sx={{ marginLeft: 1.75, marginTop: 0.5, color: "info.main" }}>
+            {scheduledPaymentMessage}
+          </FormHelperText>
+        )}
       </Grid>
       <Grid size={2}>
         <SelectCommon
