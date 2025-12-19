@@ -1,15 +1,33 @@
-import { useEffect } from "react";
-import { useAuthStore } from "../../../store/auth.store";
+import { useNavigate, useSearchParams } from "react-router";
 import { useFormik } from "formik";
 import { validationSchema } from "../Validations";
+import { useMutation } from "@tanstack/react-query";
+import { verifyToken } from "../../../services/recoverToken.action";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { useAuthLayoutStore } from "../../../store/authLayout.store";
 
 export const useRecoverToken = () => {
-  const { setLoading } = useAuthStore();
+  let [searchParams, _setSearchParams] = useSearchParams();
+  const setIsLoading = useAuthLayoutStore((state) => state.setIsLoading);
+  const verifyTokenMutation = useMutation({
+    mutationFn: verifyToken,
+    onSuccess: () => {
+      toast.info("Token Correcto");
+      navigate(`/auth/new-password?email=${searchParams.get("email")}`);
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Token incorrecto");
+    },
+  });
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
+  const navigate = useNavigate();
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
@@ -17,10 +35,16 @@ export const useRecoverToken = () => {
       },
       validationSchema: validationSchema,
       onSubmit: (values) => {
-        console.log(values);
-        setLoading(true);
+        verifyTokenMutation.mutate({
+          email: searchParams.get("email") ?? "",
+          token: values.token,
+        });
       },
     });
+
+  useEffect(() => {
+    setIsLoading(verifyTokenMutation.isPending);
+  }, [verifyTokenMutation.isPending]);
 
   return {
     handleSubmit,

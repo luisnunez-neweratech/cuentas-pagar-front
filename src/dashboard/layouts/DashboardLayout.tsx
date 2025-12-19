@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import { useTheme } from "@mui/material/styles";
 import {
   ListItem,
@@ -24,9 +24,14 @@ import { useDashboardLayout } from "./hooks/useDashboardLayout";
 import { IconAvatar } from "./components/IconAvatar";
 import { mainBackgroundColor } from "../../lib/constants";
 import logo from "../../assets/newera-logo.svg";
-//import { useNavigate } from "react-router";
+import { useAuthStore } from "../../stores/auth/auth.store";
+import { CircularLoading } from "../../components/common/CircularLoading";
+import { useDashboardLayoutStore } from "../store/dashboardLayout.store";
+import appInfo from "../../../package.json";
 
-export const DashboardLayout = () => {
+const DashboardLayout = () => {
+  const authStatus = useAuthStore((state) => state.status);
+  const isLoading = useDashboardLayoutStore((state) => state.isLoading);
   const theme = useTheme();
   const {
     open,
@@ -38,14 +43,9 @@ export const DashboardLayout = () => {
     iconDrawer,
   } = useDashboardLayout();
 
-  //const navigate = useNavigate();
-
-  //check if user is logged
-  /*  useEffect(() => {
-    navigate("/auth/login", {
-      replace: true,
-    });
-  }, []); */
+  if (authStatus !== "authorized") {
+    return <Navigate to="/auth/login" replace />;
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -153,8 +153,23 @@ export const DashboardLayout = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        {isLoading && <CircularLoading />}
         <Outlet />
+        <div
+          style={{
+            display: "table",
+            textAlign: "center",
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: 50,
+            color: 'grey'
+          }}
+        >
+          v {appInfo.version}
+        </div>
       </Box>
     </Box>
   );
 };
+
+export default DashboardLayout;

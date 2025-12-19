@@ -5,14 +5,15 @@ import { useLoginPage } from "./hooks/useLoginPage";
 import "./loginStyle.css";
 
 export const LoginPage = () => {
-  const {    
+  const {
     handleSubmit,
     values,
     handleChange,
     handleBlur,
     touched,
     errors,
-  } = useLoginPage();
+    isPending,
+  } = useLoginPage();  
 
   return (
     <div className="signInContainer">
@@ -32,14 +33,14 @@ export const LoginPage = () => {
             margin="normal"
             required
             fullWidth
-            id="rfc"
-            label="RFC"
-            name="rfc"
-            value={values.rfc}
+            id="email"
+            label="Email"
+            name="email"
+            value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={touched.rfc && Boolean(errors.rfc)}
-            helperText={touched.rfc && errors.rfc}
+            error={touched.email && Boolean(errors.email)}
+            helperText={touched.email && errors.email}
             autoFocus
           />
           <TextField
@@ -60,9 +61,9 @@ export const LoginPage = () => {
 
           <Button
             disabled={
-              values.password.length === 0 || values.rfc.length === 0
+              (values.password.length === 0 || values.email.length === 0
                 ? true
-                : false
+                : false) || isPending
             }
             type="submit"
             fullWidth

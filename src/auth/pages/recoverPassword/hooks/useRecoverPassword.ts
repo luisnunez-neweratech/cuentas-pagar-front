@@ -1,14 +1,35 @@
-import { useEffect } from "react";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router";
 import { validationSchema } from "../Validations";
-import { useAuthStore } from "../../../store/auth.store";
+import { useMutation } from "@tanstack/react-query";
+import { recoverPasswordAction } from "../../../services/recoverPassword.action";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { useAuthLayoutStore } from "../../../store/authLayout.store";
 
 export const useRecoverPassword = () => {
-  const { setLoading } = useAuthStore();
+  const navigate = useNavigate();
+  const setIsLoading = useAuthLayoutStore((state) => state.setIsLoading);
+
+  const recoverPasswordMutation = useMutation({
+    mutationFn: recoverPasswordAction,
+    onSuccess: (_data,variables) => {     
+      navigate(`/auth/token?email=${variables.email}`);
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al enviar el correo con el token");
+    },
+  });
 
   useEffect(() => {
-    setLoading(false);
-  }, []);
+      setIsLoading(recoverPasswordMutation.isPending);
+    }, [recoverPasswordMutation.isPending]);
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
@@ -16,9 +37,8 @@ export const useRecoverPassword = () => {
         email: "",
       },
       validationSchema: validationSchema,
-      onSubmit: (values) => {
-        console.log(values);
-        setLoading(true);
+      onSubmit: (values) => {        
+        recoverPasswordMutation.mutate({email: values.email})        
       },
     });
 
@@ -29,5 +49,6 @@ export const useRecoverPassword = () => {
     handleBlur,
     touched,
     errors,
+    isPending: recoverPasswordMutation.isPending,
   };
 };

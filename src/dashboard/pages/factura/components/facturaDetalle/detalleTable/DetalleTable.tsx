@@ -1,0 +1,53 @@
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { useDetalleTable } from "./hooks/useDetalleTable";
+import { RowDetalle } from "./components/rowDetalle/RowDetalle";
+
+interface props {
+  onClickGuardar: number;
+  uMedidadData: any;
+}
+
+export const DetalleTable = ({onClickGuardar, uMedidadData}:props) => {
+  const { rows } = useDetalleTable();
+
+  return (
+    <TableContainer component={Paper}>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell style={{ fontWeight: "bold", width: 120 }}>
+              Cantidad
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold", width: 200 }}>
+              U. Medida
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold", width: 120 }}>
+              Código
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold", width: 300 }}>
+              Concepto
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold", width: 150 }}>
+              Precio
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold", width: 150 }}>
+              Total
+            </TableCell >
+            <TableCell style={{ width: 50 }}></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {(rows ?? []).map((row) => (
+            <RowDetalle uMedidadData={uMedidadData ?? []} key={row.id} id={row.id} onClickGuardar={onClickGuardar} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
