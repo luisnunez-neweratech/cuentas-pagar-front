@@ -4,8 +4,8 @@ import type { Item } from "../../../../../../../../components/common/AutoComplet
 import { getProveedores } from "../../../../../services/proveedor.service";
 import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 import { useFilters } from "../../../hooks/useFilters";
-import { StatusFactura } from "../../../../../interfaces/StatusFactura";
 import { StatusReembolso } from "../../../../../interfaces/StatusReembolso";
+import { getStatusFactura } from "../../../../../../factura/services/factura.service";
 
 const meses = [
   { id: 1, descripcion: "Enero" },
@@ -23,17 +23,22 @@ const meses = [
 ];
 
 const estatusReembolso = [
-  { id: StatusReembolso.Pendiente.value, descripcion: StatusReembolso.Pendiente.label },
-  { id: StatusReembolso.Pagado.value, descripcion: StatusReembolso.Pagado.label },
-  { id: StatusReembolso.Cancelado.value, descripcion: StatusReembolso.Cancelado.label },
-  { id: StatusReembolso.NoAplica.value, descripcion: StatusReembolso.NoAplica.label },
-];
-
-const estatusFactura = [
-  { id: StatusFactura.Pendiente.value, descripcion: StatusFactura.Pendiente.label },
-  { id: StatusFactura.Pagado.value, descripcion: StatusFactura.Pagado.label },
-  { id: StatusFactura.Cancelado.value, descripcion: StatusFactura.Cancelado.label },
-  { id: StatusFactura.EnRevision.value, descripcion: StatusFactura.EnRevision.label },
+  {
+    id: StatusReembolso.Pendiente.value,
+    descripcion: StatusReembolso.Pendiente.label,
+  },
+  {
+    id: StatusReembolso.Pagado.value,
+    descripcion: StatusReembolso.Pagado.label,
+  },
+  {
+    id: StatusReembolso.Cancelado.value,
+    descripcion: StatusReembolso.Cancelado.label,
+  },
+  {
+    id: StatusReembolso.NoAplica.value,
+    descripcion: StatusReembolso.NoAplica.label,
+  },
 ];
 
 export const useAutocompleteFilters = () => {
@@ -45,6 +50,10 @@ export const useAutocompleteFilters = () => {
     onChangeInvoiceStatusIds,
     onChangeReimbursementStatuses,
   } = useFilters();
+
+  const [convertStatusFactura, setConvertStatusFactura] = useState<
+    Item[]
+  >([]);
 
   const [values, setValues] = useState({
     proveedores: [] as Item[],
@@ -91,7 +100,7 @@ export const useAutocompleteFilters = () => {
 
   useEffect(() => {
     if (!filtrosFacturas) return;
-    
+
     if (filtrosFacturas.supplierAliases?.length === 0) {
       setValues((prev) => ({ ...prev, proveedores: [] }));
     }
@@ -109,6 +118,22 @@ export const useAutocompleteFilters = () => {
     }
   }, [filtrosFacturas]);
 
+  const { data: statusFacturaData } = useQuery({
+    queryKey: ["CatalogMaster", "GetAll", "InvoiceStatus"],
+    queryFn: () => getStatusFactura(),
+  });
+
+  useEffect(() => {
+    const newStatusFactura = statusFacturaData?.map((status: any) => {
+      return {
+        id: status.id,
+        descripcion: status.itemName,
+      };
+    });
+
+    setConvertStatusFactura(newStatusFactura ?? []);
+  }, [statusFacturaData]);
+
   return {
     proveedores,
     values,
@@ -116,6 +141,6 @@ export const useAutocompleteFilters = () => {
     meses,
     onChangeAutocomplete,
     estatusReembolso,
-    estatusFactura,
+    estatusFactura: convertStatusFactura,
   };
 };
