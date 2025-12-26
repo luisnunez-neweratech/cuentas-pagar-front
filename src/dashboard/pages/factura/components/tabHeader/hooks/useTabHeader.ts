@@ -52,8 +52,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   );
   const setInitialValues = useFacturaStore((state) => state.setInitialValues);
   const initialSupplierId = useFacturaStore((state) => state.initialSupplierId);
-  const initialInvoiceDate = useFacturaStore((state) => state.initialInvoiceDate);
-  const initialPaymentTermId = useFacturaStore((state) => state.initialPaymentTermId);
+  const initialInvoiceDate = useFacturaStore(
+    (state) => state.initialInvoiceDate
+  );
+  const initialPaymentTermId = useFacturaStore(
+    (state) => state.initialPaymentTermId
+  );
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -715,11 +719,11 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         values.condicionesPagoId &&
         values.tipoDocumentoId !== 2 // No aplica para Nota de Crédito
       ) {
-        const hasChanges = !id || (
+        const hasChanges =
+          !id ||
           values.proveedorId.value !== initialSupplierId ||
           values.fechaFactura !== initialInvoiceDate ||
-          values.condicionesPagoId !== initialPaymentTermId
-        );
+          values.condicionesPagoId !== initialPaymentTermId;
 
         if (hasChanges) {
           try {
@@ -728,9 +732,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
               invoiceDate: values.fechaFactura,
               paymentTermId: values.condicionesPagoId,
             });
-            
+
             setFieldValue("fechaProgramadaPago", response.scheduledPaymentDate);
-            
+
             setScheduledPaymentMessage(response.message);
           } catch (error) {
             console.log("Error al calcular fecha programada de pago:", error);
@@ -743,7 +747,23 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     };
 
     fetchScheduledPaymentDate();
-  }, [values.proveedorId, values.fechaFactura, values.condicionesPagoId, values.tipoDocumentoId]);
+  }, [
+    values.proveedorId,
+    values.fechaFactura,
+    values.condicionesPagoId,
+    values.tipoDocumentoId,
+  ]);
+
+  useEffect(() => {
+    // por reembolsar
+    if (values.statusFacturaId === 56) {
+      setFieldValue("statusReembolsoId", 1); // pendiente
+    }
+    // reembolsada
+    if (values.statusFacturaId === 63) {
+      setFieldValue("statusReembolsoId", 2); // pagada
+    }
+  }, [values.statusFacturaId]);
 
   /* const onValidateTabHeader = () => {
     if (
