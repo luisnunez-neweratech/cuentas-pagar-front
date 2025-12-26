@@ -119,6 +119,9 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                 onEdit(invoice.id);
               }}
               sx={{ marginRight: 3 }}
+              disabled={
+                invoice.invoiceStatusId === 53 || invoice.invoiceStatusId === 54
+              } // 53 pagada , 54 cancelada
             >
               <ModeEditIcon style={{ width: 20, height: 20 }} />
             </IconButton>
@@ -192,9 +195,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell>
                       {invoice.currencyName || invoice.currencyCode || "N/A"}
                     </TableCell>
-                    <TableCell>
-                      {invoice.paymentTerms || "N/A"}
-                    </TableCell>
+                    <TableCell>{invoice.paymentTerms || "N/A"}</TableCell>
                     <TableCell>
                       {invoice.reimbursementCollaboratorName || "N/A"}
                     </TableCell>
