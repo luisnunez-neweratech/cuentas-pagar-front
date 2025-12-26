@@ -20,6 +20,7 @@ import { getProveedoresAutoComplete } from "../../../../facturas/services/provee
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
+import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 
 interface props {
   onClickGuardar: number;
@@ -234,8 +235,13 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     },
   });
 
+  const { data: colaboradores } = useQuery({
+    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryFn: () => getColaboradoresSgpyon(),
+  });
+
   const initialFormValues = () => {
-    if (id && facturaBD && proveedores) {
+    if (id && facturaBD && proveedores && colaboradores) {
       facturaBD?.details.map((detail: any) => {
         addRowFacturaDetalle({
           id: detail.id,
@@ -267,6 +273,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         facturaBD.condicionesPagoId
       );
 
+      
+
+      const colaborador = colaboradores.find((colaborador: any) => {
+        return colaborador.id === facturaBD.colaboradorId;
+      });
+
       return {
         proveedorId: {
           value: proveedorBD.id,
@@ -275,7 +287,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           condicionesPagoId: facturaBD.condicionesPagoId,
           condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         },
-        colaboradorId: { value: 0, label: "" },
+
+        colaboradorId: { value: colaborador.id, label: colaborador.name },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
         statusFacturaId: facturaBD.statusFacturaId,
         statusReembolsoId: 4,
