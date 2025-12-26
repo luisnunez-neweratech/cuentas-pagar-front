@@ -273,8 +273,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         facturaBD.condicionesPagoId
       );
 
-      
-
       const colaborador = colaboradores.find((colaborador: any) => {
         return colaborador.id === facturaBD.colaboradorId;
       });
@@ -288,7 +286,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         },
 
-        colaboradorId: { value: colaborador.id, label: colaborador.name },
+        colaboradorId: {
+          value: colaborador ? colaborador.id : 0,
+          label: colaborador ? colaborador.name : "",
+        },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
         statusFacturaId: facturaBD.statusFacturaId,
         statusReembolsoId: 4,
