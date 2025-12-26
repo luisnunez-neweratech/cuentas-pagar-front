@@ -97,7 +97,8 @@ export const TabPago = ({
       <Grid size={4} />
 
       <Grid size={2} sx={{ marginTop: -7 }}>
-        {values.statusFacturaId === 56 && (
+        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
+        {(values.statusFacturaId === 56 || values.statusFacturaId === 63)  && (
           <NormalAutocomplete
             options={convertColaboradores}
             label="Colaborador"
@@ -111,7 +112,8 @@ export const TabPago = ({
         )}
       </Grid>
       <Grid size={2} sx={{ marginTop: -7 }}>
-        {values.statusFacturaId === 56 && (
+         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
+        {(values.statusFacturaId === 56 || values.statusFacturaId === 63)  && (
           <SelectCommon
             id={"statusReembolsoId"}
             label={"Estatus Reembolso"}
@@ -131,7 +133,8 @@ export const TabPago = ({
       </Grid>
 
       <Grid size={2} sx={{ marginTop: -7 }}>
-        {values.statusFacturaId === 56 && (
+         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
+        {(values.statusFacturaId === 56 || values.statusFacturaId === 63)  && (
           <DatePickerCommon
             id="fechaReembolso"
             label="Fecha Reembolso"
@@ -145,8 +148,9 @@ export const TabPago = ({
       </Grid>
 
       <Grid size={2} sx={{ marginTop: -7 }}>
+         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}        
         {((!id &&
-          (values.statusFacturaId === 56 || values.statusFacturaId === 53)) ||
+          (values.statusFacturaId === 56 || values.statusFacturaId === 53 || values.statusFacturaId === 63)) ||
           id) && (
           <DatePickerCommon
             id="fechaPago"
