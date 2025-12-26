@@ -18,8 +18,6 @@ export const CargaArchivos = ({ validateDocuments }: myProps) => {
     tipoEntidad,
   } = useCargaArchivos();
 
-  console.log("tipoEntidad", tipoEntidad);
-
   return (
     <Grid container>
       <Grid size={12}>
