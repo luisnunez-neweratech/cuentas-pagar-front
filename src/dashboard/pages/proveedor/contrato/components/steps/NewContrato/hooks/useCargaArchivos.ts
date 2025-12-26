@@ -13,6 +13,10 @@ export const useCargaArchivos = () => {
     (state) => state.removeNewDocumento
   );
 
+  const stepPerfil = useProveedorContratoStore(
+    (state) => state.stepPerfil
+  );
+
   const deleteDocumento = (id: number) => {  
     removeNewDocumento(id);
   };
@@ -42,5 +46,6 @@ export const useCargaArchivos = () => {
     clickAddArchivo,
     deleteDocumento,
     enviarArchivos,
+    tipoEntidad: stepPerfil?.tipoEntidad
   };
 };
