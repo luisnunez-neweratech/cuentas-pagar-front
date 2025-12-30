@@ -15,6 +15,11 @@ export const useNewFacturaPage = () => {
   const validTabHeader = useFacturaStore((state) => state.validTabHeader);
   const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
 
+  const openModal = useFacturaStore((state) => state.openModal);
+  const handleCloseModal = useFacturaStore((state) => state.handleCloseModal);
+  const setModalFacturaAceptada = useFacturaStore((state) => state.setModalFacturaAceptada);
+
+
   useEffect(() => {
     if (id) {
       setValidTabHeader(true);
@@ -27,5 +32,8 @@ export const useNewFacturaPage = () => {
     validTabHeader,
     value,
     handleChange,
+    openModal,
+    handleCloseModal,
+    setModalFacturaAceptada
   };
 };
