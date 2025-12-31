@@ -66,6 +66,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     setIsLoading(state);
   };
 
+  const handleOpenModal = useFacturaStore((state) => state.handleOpenModal);
+
   const [listaProductos, setListaProductos] = useState<
     { id: number; descripcion: string }[]
   >([]);
@@ -719,7 +721,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           value: 1,
           label: "x",
         }).then(() => {
-          handleSubmit();
+          if (
+            (values.statusFacturaId === 53 || values.statusFacturaId === 54) &&
+            !stateFactura.modalFacturaAceptada
+          ) {
+            //pagda, cancelada            
+            handleOpenModal();
+          } else {
+            handleSubmit();
+          }
         });
       } else {
         handleSubmit();
