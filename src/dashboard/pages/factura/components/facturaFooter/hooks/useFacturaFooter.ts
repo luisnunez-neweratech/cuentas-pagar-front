@@ -11,10 +11,13 @@ export const useFacturaFooter = () => {
   const stateFactura = useFacturaStore((state) => state);
   const setPdfFile = useFacturaStore((state) => state.setPdfFile);
   const setXmlFile = useFacturaStore((state) => state.setXmlFile);
+  const setPaymentProofFile = useFacturaStore((state) => state.setPaymentProofFile);
 
   const [pdfFileName, setPdfFileName] = useState(stateFactura.pdfFileValue);
 
   const [xmlFileName, setXmlFileName] = useState(stateFactura.xmlFileValue);
+
+  const [paymentProofFileName, setPaymentProofFileName] = useState(stateFactura.paymentProofFileValue);
 
   const deleteFacturaDocumentoMutation = useMutation({
     mutationFn: deleteFacturaArchivo,
@@ -46,6 +49,13 @@ export const useFacturaFooter = () => {
     }
   };
 
+  const handlePaymentProofFileChange = (event: any) => {
+    if (event.target.files.length > 0) {
+      setPaymentProofFileName(event.target.files[0].name);
+      setPaymentProofFile(event.target.files[0]);
+    }
+  };
+
   const errors = {
     facturaPDF: "",
     facturaXML: "",
@@ -56,11 +66,14 @@ export const useFacturaFooter = () => {
     errors,
     pdfFileName,
     xmlFileName,
+    paymentProofFileName,
     handleXmlFileChange,
+    handlePaymentProofFileChange,
     tipoEntidadId: stateFactura.tipoEntidadId,
     disableButtons: stateFactura.disableButtons,
     pdfDownloadUrl: stateFactura.pdfDownloadUrl,
     xmlDownloadUrl: stateFactura.xmlDownloadUrl,
+    paymentProofDownloadUrl: stateFactura.paymentProofDownloadUrl,
     deleteFacturaDocumentoMutation,
     id,
   };

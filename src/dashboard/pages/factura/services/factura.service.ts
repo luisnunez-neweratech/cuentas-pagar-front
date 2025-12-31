@@ -34,16 +34,19 @@ interface uploadFacturaFilesProps {
   facturaId: string;
   pdf: any;
   xml: any;
+  paymentProof: any;
 }
 
 export const uploadFacturaFiles = async ({
   facturaId,
   pdf,
   xml,
+  paymentProof,
 }: uploadFacturaFilesProps): Promise<any> => {
   const formData = new FormData();
   formData.append("xmlFile", xml);
   formData.append("pdfFile", pdf);
+  formData.append("paymentProofFile", paymentProof);
 
   const { data } = await cuentasApi.post(
     `/Invoice/${facturaId}/UploadDocuments`,
@@ -85,6 +88,8 @@ export const getFactura = async (id: string): Promise<any> => {
     xmlFile: data.invoiceDocument?.xmlFilePath ?? null,
     pdfName: data.invoiceDocument?.pdfFileName ?? null,
     pdfFile: data.invoiceDocument?.pdfFilePath ?? null,
+    paymentProofName: data.invoiceDocument?.paymentProofFileName ?? null,
+    paymentProofFile: data.invoiceDocument?.paymentProofFilePath ?? null,
     condicionesPagoId: data.paymentTermId,
   };
 };

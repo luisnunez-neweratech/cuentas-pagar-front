@@ -26,6 +26,8 @@ export interface FacturaState {
   pdfDownloadUrl: string | null;
   xmlFileValue: File | null;
   xmlDownloadUrl: string | null;
+  paymentProofFileValue: File | null;
+  paymentProofDownloadUrl: string | null;
 
   subtotal: number | null;
   descuento: number | null;
@@ -52,12 +54,14 @@ export interface FacturaState {
   setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
   setXmlFile: (xmlFileValue: File) => void;
+  setPaymentProofFile: (paymentProofFileValue: File) => void;
   setFacturaId: (id: number) => void;
   setTipoEntidadId: (tipoEntidadId: number) => void;
   setValidTabHeader: (validTabHeader: boolean) => void;
   setDisableButtons: (disableButtons: boolean) => void;
   setPdfDownloadUrl: (pdfDownloadUrl: string) => void;
   setXmlDownloadUrl: (xmlDownloadUrl: string) => void;
+  setPaymentProofDownloadUrl: (paymentProofDownloadUrl: string) => void;
   setScheduledPaymentMessage: (scheduledPaymentMessage: string | null) => void;
   setInitialValues: (
     supplierId: number,
@@ -106,6 +110,8 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   pdfDownloadUrl: null,
   xmlFileValue: null,
   xmlDownloadUrl: null,
+  paymentProofFileValue: null,
+  paymentProofDownloadUrl: null,
 
   facturaDetalle: null,
 
@@ -138,6 +144,13 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
     set((state) => ({
       ...state,
       xmlFileValue,
+    }));
+  },
+
+  setPaymentProofFile: (paymentProofFileValue: File) => {
+    set((state) => ({
+      ...state,
+      paymentProofFileValue,
     }));
   },
 
@@ -202,6 +215,12 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       xmlDownloadUrl,
     }));
   },
+  setPaymentProofDownloadUrl: (paymentProofDownloadUrl: string) => {
+    set((state) => ({
+      ...state,
+      paymentProofDownloadUrl,
+    }));
+  },
   setScheduledPaymentMessage: (scheduledPaymentMessage: string | null) => {
     set((state) => ({
       ...state,
@@ -252,6 +271,8 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       pdfDownloadUrl: null,
       xmlFileValue: null,
       xmlDownloadUrl: null,
+      paymentProofFileValue: null,
+      paymentProofDownloadUrl: null,
 
       facturaDetalle: null,
       disableButtons: false,

@@ -30,9 +30,11 @@ export interface InvoiceListResponse {
   fiscalFolio: string | null;
   hasXml: boolean;
   hasPdf: boolean;
+  hasPaymentProof: boolean;
   daysToDue: number | null;
   xmlDownloadUrl: string | null;
   pdfDownloadUrl: string | null;
+  paymentProofDownloadUrl: string | null;
 }
 
 export interface InvoiceListResponsePagedResult {
