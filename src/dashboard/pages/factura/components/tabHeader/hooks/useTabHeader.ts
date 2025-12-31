@@ -542,6 +542,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                 invoiceId: id,
                 putFacturaDetallePayload: newDetalles,
               });
+
+              if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
+                uploadDocumentosMutation.mutate({
+                  facturaId: id,
+                  xml: stateFactura.xmlFileValue,
+                  pdf: stateFactura.pdfFileValue,
+                  paymentProof: stateFactura.paymentProofFileValue,
+                });
+              }
             }
           } else {
             toast.error("Los Campos en los detalles no son validos");
