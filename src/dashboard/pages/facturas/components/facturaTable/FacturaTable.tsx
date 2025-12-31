@@ -119,6 +119,9 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                 onEdit(invoice.id);
               }}
               sx={{ marginRight: 3 }}
+              disabled={
+                invoice.invoiceStatusId === 53 || invoice.invoiceStatusId === 54
+              } // 53 pagada , 54 cancelada
             >
               <ModeEditIcon style={{ width: 20, height: 20 }} />
             </IconButton>
@@ -182,6 +185,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell>Colaborador</TableCell>
                     <TableCell>PDF</TableCell>
                     <TableCell>XML</TableCell>
+                    <TableCell>Comprobante Pago</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -192,9 +196,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell>
                       {invoice.currencyName || invoice.currencyCode || "N/A"}
                     </TableCell>
-                    <TableCell>
-                      {invoice.paymentTerms || "N/A"}
-                    </TableCell>
+                    <TableCell>{invoice.paymentTerms || "N/A"}</TableCell>
                     <TableCell>
                       {invoice.reimbursementCollaboratorName || "N/A"}
                     </TableCell>
@@ -219,6 +221,19 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                           rel="noopener noreferrer"
                         >
                           Descargar XML
+                        </Link>
+                      ) : (
+                        "N/A"
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {invoice.hasPaymentProof && invoice.paymentProofDownloadUrl ? (
+                        <Link
+                          href={invoice.paymentProofDownloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Descargar Comprobante
                         </Link>
                       ) : (
                         "N/A"

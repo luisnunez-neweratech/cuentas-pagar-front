@@ -26,6 +26,8 @@ export interface FacturaState {
   pdfDownloadUrl: string | null;
   xmlFileValue: File | null;
   xmlDownloadUrl: string | null;
+  paymentProofFileValue: File | null;
+  paymentProofDownloadUrl: string | null;
 
   subtotal: number | null;
   descuento: number | null;
@@ -46,22 +48,35 @@ export interface FacturaState {
   initialInvoiceDate: string | null;
   initialPaymentTermId: number | null;
 
+  openModal: boolean;
+  modalFacturaAceptada: boolean;
+
   setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
   setXmlFile: (xmlFileValue: File) => void;
+  setPaymentProofFile: (paymentProofFileValue: File) => void;
   setFacturaId: (id: number) => void;
   setTipoEntidadId: (tipoEntidadId: number) => void;
   setValidTabHeader: (validTabHeader: boolean) => void;
   setDisableButtons: (disableButtons: boolean) => void;
   setPdfDownloadUrl: (pdfDownloadUrl: string) => void;
   setXmlDownloadUrl: (xmlDownloadUrl: string) => void;
+  setPaymentProofDownloadUrl: (paymentProofDownloadUrl: string) => void;
   setScheduledPaymentMessage: (scheduledPaymentMessage: string | null) => void;
-  setInitialValues: (supplierId: number, invoiceDate: string, paymentTermId: number) => void;
+  setInitialValues: (
+    supplierId: number,
+    invoiceDate: string,
+    paymentTermId: number
+  ) => void;
   clearState: () => void;
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => void;
   removeRowFacturaDetalle: (id: number) => void;
   updateRowFacturaDetalle: (id: number, facturaDetalle: FacturaDetalle) => void;
+
+  handleOpenModal: () => void;
+  handleCloseModal: () => void;
+  setModalFacturaAceptada: (modalFacturaAceptada: boolean) => void;
 }
 
 const storeFactura: StateCreator<FacturaState> = (set, get) => ({
@@ -95,6 +110,8 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   pdfDownloadUrl: null,
   xmlFileValue: null,
   xmlDownloadUrl: null,
+  paymentProofFileValue: null,
+  paymentProofDownloadUrl: null,
 
   facturaDetalle: null,
 
@@ -105,6 +122,9 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   initialSupplierId: null,
   initialInvoiceDate: null,
   initialPaymentTermId: null,
+
+  openModal: false,
+  modalFacturaAceptada: false,
 
   setTipoDocumentoId: (tipoDocumentoId: number) => {
     set((state) => ({
@@ -124,6 +144,13 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
     set((state) => ({
       ...state,
       xmlFileValue,
+    }));
+  },
+
+  setPaymentProofFile: (paymentProofFileValue: File) => {
+    set((state) => ({
+      ...state,
+      paymentProofFileValue,
     }));
   },
 
@@ -188,13 +215,23 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       xmlDownloadUrl,
     }));
   },
+  setPaymentProofDownloadUrl: (paymentProofDownloadUrl: string) => {
+    set((state) => ({
+      ...state,
+      paymentProofDownloadUrl,
+    }));
+  },
   setScheduledPaymentMessage: (scheduledPaymentMessage: string | null) => {
     set((state) => ({
       ...state,
       scheduledPaymentMessage,
     }));
   },
-  setInitialValues: (supplierId: number, invoiceDate: string, paymentTermId: number) => {
+  setInitialValues: (
+    supplierId: number,
+    invoiceDate: string,
+    paymentTermId: number
+  ) => {
     set((state) => ({
       ...state,
       initialSupplierId: supplierId,
@@ -234,6 +271,8 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       pdfDownloadUrl: null,
       xmlFileValue: null,
       xmlDownloadUrl: null,
+      paymentProofFileValue: null,
+      paymentProofDownloadUrl: null,
 
       facturaDetalle: null,
       disableButtons: false,
@@ -244,7 +283,18 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       initialSupplierId: null,
       initialInvoiceDate: null,
       initialPaymentTermId: null,
+
+      modalFacturaAceptada: false,
     }));
+  },
+  handleOpenModal: () => {
+    set({ openModal: true });
+  },
+  handleCloseModal: () => {
+    set({ openModal: false });
+  },
+  setModalFacturaAceptada: (modalFacturaAceptada: boolean) => {
+    set({ modalFacturaAceptada });
   },
 });
 

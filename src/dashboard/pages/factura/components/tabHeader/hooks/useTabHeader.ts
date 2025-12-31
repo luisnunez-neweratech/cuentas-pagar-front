@@ -20,6 +20,7 @@ import { getProveedoresAutoComplete } from "../../../../facturas/services/provee
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
+import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 
 interface props {
   onClickGuardar: number;
@@ -46,19 +47,26 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
   const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
+  const setPaymentProofDownloadUrl = useFacturaStore((state) => state.setPaymentProofDownloadUrl);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const setScheduledPaymentMessage = useFacturaStore(
     (state) => state.setScheduledPaymentMessage
   );
   const setInitialValues = useFacturaStore((state) => state.setInitialValues);
   const initialSupplierId = useFacturaStore((state) => state.initialSupplierId);
-  const initialInvoiceDate = useFacturaStore((state) => state.initialInvoiceDate);
-  const initialPaymentTermId = useFacturaStore((state) => state.initialPaymentTermId);
+  const initialInvoiceDate = useFacturaStore(
+    (state) => state.initialInvoiceDate
+  );
+  const initialPaymentTermId = useFacturaStore(
+    (state) => state.initialPaymentTermId
+  );
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
     setIsLoading(state);
   };
+
+  const handleOpenModal = useFacturaStore((state) => state.handleOpenModal);
 
   const [listaProductos, setListaProductos] = useState<
     { id: number; descripcion: string }[]
@@ -161,11 +169,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         postFacturaDetallePayload: newDetalles,
       });
 
-      if (stateFactura.xmlFileValue || stateFactura.pdfFileValue) {
+      if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
         uploadDocumentosMutation.mutate({
           facturaId: data.data.id,
           xml: stateFactura.xmlFileValue,
           pdf: stateFactura.pdfFileValue,
+          paymentProof: stateFactura.paymentProofFileValue,
         });
       }
     },
@@ -230,8 +239,13 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     },
   });
 
+  const { data: colaboradores } = useQuery({
+    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
+    queryFn: () => getColaboradoresSgpyon(),
+  });
+
   const initialFormValues = () => {
-    if (id && facturaBD && proveedores) {
+    if (id && facturaBD && proveedores && colaboradores) {
       facturaBD?.details.map((detail: any) => {
         addRowFacturaDetalle({
           id: detail.id,
@@ -257,11 +271,19 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         setXmlDownloadUrl(facturaBD.xmlFile);
       }
 
+      if (facturaBD.paymentProofFile) {
+        setPaymentProofDownloadUrl(facturaBD.paymentProofFile);
+      }
+
       setInitialValues(
         facturaBD.proveedorId,
         facturaBD.fechaFactura,
         facturaBD.condicionesPagoId
       );
+
+      const colaborador = colaboradores.find((colaborador: any) => {
+        return colaborador.id === facturaBD.colaboradorId;
+      });
 
       return {
         proveedorId: {
@@ -271,7 +293,11 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           condicionesPagoId: facturaBD.condicionesPagoId,
           condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         },
-        colaboradorId: { value: 0, label: "" },
+
+        colaboradorId: {
+          value: colaborador ? colaborador.id : 0,
+          label: colaborador ? colaborador.name : "",
+        },
         tipoDocumentoId: facturaBD.tipoDocumentoId,
         statusFacturaId: facturaBD.statusFacturaId,
         statusReembolsoId: 4,
@@ -425,11 +451,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   invoiceId: stateFactura.id!.toString(),
                   postFacturaDetallePayload: newDetalles,
                 });
-                if (stateFactura.xmlFileValue || stateFactura.pdfFileValue) {
+                if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
                   uploadDocumentosMutation.mutate({
                     facturaId: stateFactura.id!.toString(),
                     xml: stateFactura.xmlFileValue,
                     pdf: stateFactura.pdfFileValue,
+                    paymentProof: stateFactura.paymentProofFileValue,
                   });
                 }
               }
@@ -515,6 +542,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                 invoiceId: id,
                 putFacturaDetallePayload: newDetalles,
               });
+
+              if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
+                uploadDocumentosMutation.mutate({
+                  facturaId: id,
+                  xml: stateFactura.xmlFileValue,
+                  pdf: stateFactura.pdfFileValue,
+                  paymentProof: stateFactura.paymentProofFileValue,
+                });
+              }
             }
           } else {
             toast.error("Los Campos en los detalles no son validos");
@@ -694,7 +730,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           value: 1,
           label: "x",
         }).then(() => {
-          handleSubmit();
+          if (
+            (values.statusFacturaId === 53 || values.statusFacturaId === 54) &&
+            !stateFactura.modalFacturaAceptada
+          ) {
+            //pagda, cancelada            
+            handleOpenModal();
+          } else {
+            handleSubmit();
+          }
         });
       } else {
         handleSubmit();
@@ -715,11 +759,11 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         values.condicionesPagoId &&
         values.tipoDocumentoId !== 2 // No aplica para Nota de Crédito
       ) {
-        const hasChanges = !id || (
+        const hasChanges =
+          !id ||
           values.proveedorId.value !== initialSupplierId ||
           values.fechaFactura !== initialInvoiceDate ||
-          values.condicionesPagoId !== initialPaymentTermId
-        );
+          values.condicionesPagoId !== initialPaymentTermId;
 
         if (hasChanges) {
           try {
@@ -728,9 +772,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
               invoiceDate: values.fechaFactura,
               paymentTermId: values.condicionesPagoId,
             });
-            
+
             setFieldValue("fechaProgramadaPago", response.scheduledPaymentDate);
-            
+
             setScheduledPaymentMessage(response.message);
           } catch (error) {
             console.log("Error al calcular fecha programada de pago:", error);
@@ -743,7 +787,23 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     };
 
     fetchScheduledPaymentDate();
-  }, [values.proveedorId, values.fechaFactura, values.condicionesPagoId, values.tipoDocumentoId]);
+  }, [
+    values.proveedorId,
+    values.fechaFactura,
+    values.condicionesPagoId,
+    values.tipoDocumentoId,
+  ]);
+
+  useEffect(() => {
+    // por reembolsar
+    if (values.statusFacturaId === 56) {
+      setFieldValue("statusReembolsoId", 1); // pendiente
+    }
+    // reembolsada
+    if (values.statusFacturaId === 63) {
+      setFieldValue("statusReembolsoId", 2); // pagada
+    }
+  }, [values.statusFacturaId]);
 
   /* const onValidateTabHeader = () => {
     if (
