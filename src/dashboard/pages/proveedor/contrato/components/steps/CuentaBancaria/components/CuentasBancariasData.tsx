@@ -70,7 +70,7 @@ export const CuentasBancariasData = ({
     <Grid size={12}>
       <Paper sx={{ padding: 2 }} elevation={3}>
         <Grid container spacing={2}>
-          <Grid size={4}>
+          <Grid size={3}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -86,7 +86,7 @@ export const CuentasBancariasData = ({
               sx={{ marginTop: 0 }}
             />
           </Grid>
-          <Grid size={4}>
+          <Grid size={3}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -101,18 +101,20 @@ export const CuentasBancariasData = ({
               helperText={touched.clabe && errors.clabe}
               sx={{ marginTop: 0 }}
               slotProps={{
-                htmlInput: { maxLength: 18, inputMode: "numeric", pattern: "[0-9]*" },
+                htmlInput: {
+                  maxLength: 18,
+                  inputMode: "numeric",
+                  pattern: "[0-9]*",
+                },
               }}
             />
           </Grid>
-          <Grid size={4}>
+          <Grid size={3}>
             <FormControl
               fullWidth
               error={touched.monedaVenta && Boolean(errors.monedaVenta)}
             >
-              <InputLabel id="moneda-venta-label">
-                *Moneda de Venta
-              </InputLabel>
+              <InputLabel id="moneda-venta-label">*Moneda de Venta</InputLabel>
               <Select
                 labelId="moneda-venta-label"
                 id="monedaVenta"
@@ -134,7 +136,7 @@ export const CuentasBancariasData = ({
             </FormControl>
           </Grid>
 
-          <Grid size={4}>
+          <Grid size={3}>
             {tipoEntidad === TipoEntidad.Extranjero.value ? (
               <TextField
                 variant="outlined"
@@ -167,7 +169,27 @@ export const CuentasBancariasData = ({
               />
             )}
           </Grid>
-          <Grid size={4}>
+
+          {tipoEntidad === TipoEntidad.Extranjero.value && (
+            <Grid size={3}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="routeNumber"
+                label="Route Number"
+                name="routeNumber"
+                value={values.routeNumber?.toUpperCase()}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.routeNumber && Boolean(errors.routeNumber)}
+                helperText={touched.routeNumber && errors.routeNumber}
+                sx={{ marginTop: 0 }}
+              />
+            </Grid>
+          )}
+
+          <Grid size={3}>
             {!downloadUrl ? (
               <>
                 <input
@@ -191,7 +213,13 @@ export const CuentasBancariasData = ({
                   </Button>
                 </label>
                 {errors[idInput] && (
-                  <p style={{ color: "#d32f2f", fontSize: "12px", margin: "4px 0 0 0" }}>
+                  <p
+                    style={{
+                      color: "#d32f2f",
+                      fontSize: "12px",
+                      margin: "4px 0 0 0",
+                    }}
+                  >
                     Archivo requerido
                   </p>
                 )}
@@ -208,12 +236,15 @@ export const CuentasBancariasData = ({
                 )}
               </>
             ) : (
-              <Link href={downloadUrl} sx={{ display: "block", lineHeight: "56px" }}>
+              <Link
+                href={downloadUrl}
+                sx={{ display: "block", lineHeight: "56px" }}
+              >
                 Descargar Carátula
               </Link>
             )}
           </Grid>
-          <Grid size={4} sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Grid size={3} sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <FormGroup>
               <FormControlLabel
                 control={

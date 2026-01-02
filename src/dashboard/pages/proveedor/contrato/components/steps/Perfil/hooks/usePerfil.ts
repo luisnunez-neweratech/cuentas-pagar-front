@@ -371,6 +371,7 @@ export const usePerfil = () => {
               downloadUrl: cuenta.downloadUrl,
               newElement: false,
               noCuenta: cuenta.accountNumber,
+              routeNumber: cuenta.routeNumber,
             };
           });
         } else {
