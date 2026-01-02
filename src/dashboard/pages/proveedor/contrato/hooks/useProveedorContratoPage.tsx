@@ -6,7 +6,10 @@ import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
 import { Perfil } from "../components/steps/Perfil/Perfil";
 import { NewContrato } from "../components/steps/NewContrato/NewContrato";
 import { useMutation } from "@tanstack/react-query";
-import { deleteProveedorOcasional } from "../../ocasional/services/proveedor.contrato.service";
+import {
+  deleteProveedorOcasional,
+  activateSupplier,
+} from "../../ocasional/services/proveedor.contrato.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 
@@ -26,6 +29,7 @@ export const useProveedorContratoPage = () => {
     (state) => state.isStepSkipped
   );
   const stepPerfil = useProveedorContratoStore((state) => state.stepPerfil);
+  const isActive = useProveedorContratoStore((state) => state.isActive);
   const openDeleteModal = useProveedorContratoStore(
     (state) => state.openDeleteModal
   );
@@ -60,7 +64,7 @@ export const useProveedorContratoPage = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteProveedorOcasional,
     onSuccess: () => {
-      toast.success("Proveedor eliminado correctamente");
+      toast.success("Proveedor dado de baja correctamente");
       navigate("/proveedor");
     },
     onError: (error) => {
@@ -69,7 +73,24 @@ export const useProveedorContratoPage = () => {
         toast.error(error.message);
         return;
       }
-      toast.error("Error al eliminar el proveedor");
+      toast.error("Error al dar de baja el proveedor");
+      return;
+    },
+  });
+
+  const activateMutation = useMutation({
+    mutationFn: activateSupplier,
+    onSuccess: () => {
+      toast.success("Proveedor activado correctamente");
+      navigate("/proveedor");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al activar el proveedor");
       return;
     },
   });
@@ -82,6 +103,10 @@ export const useProveedorContratoPage = () => {
     deleteMutation.mutate(id!);
   };
 
+  const onClickActivar = () => {
+    activateMutation.mutate(id!);
+  };
+
   return {
     steps,
     activeStep,
@@ -90,9 +115,11 @@ export const useProveedorContratoPage = () => {
     onClickBack,
     id,
     onClickEliminar,
+    onClickActivar,
     openDeleteModal,
     handleCloseDeleteModal,
     confirmarEliminar,
     proveedorNombre: stepPerfil?.razonSocial || stepPerfil?.alias || "",
+    isActive,
   };
 };

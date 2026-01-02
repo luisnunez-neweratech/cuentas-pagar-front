@@ -28,6 +28,11 @@ export const deleteProveedorOcasional = async (id: string): Promise<any> => {
   return response;
 };
 
+export const activateSupplier = async (id: string): Promise<any> => {
+  const response = await cuentasApi.post(`/Supplier/${id}/Activate`);
+  return response;
+};
+
 export const getProveedorOcasional = async (id: string): Promise<any> => {
   const { data } = await cuentasApi.get(`/Supplier/${id}/Details`);
 
@@ -43,5 +48,6 @@ export const getProveedorOcasional = async (id: string): Promise<any> => {
     giroPrincipal: data.supplierActivity ? data.supplierActivity.id : null,
     productos: data.productServices.map((producto: any) => producto.id),
     paymentTermsId: data.paymentTermsId,
+    isActive: data.isActive,
   };
 };

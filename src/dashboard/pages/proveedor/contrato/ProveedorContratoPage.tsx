@@ -2,6 +2,7 @@ import { Box, Button, Grid, Step, StepLabel, Stepper } from "@mui/material";
 import { useProveedorContratoPage } from "./hooks/useProveedorContratoPage";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { DeleteConfirmModal } from "../../../../components/common/DeleteConfirmModal/DeleteConfirmModal";
 
 export const ProveedorContratoPage = () => {
@@ -12,10 +13,12 @@ export const ProveedorContratoPage = () => {
     getStepScreen,
     id,
     onClickEliminar,
+    onClickActivar,
     openDeleteModal,
     handleCloseDeleteModal,
     confirmarEliminar,
     proveedorNombre,
+    isActive,
   } = useProveedorContratoPage();
 
   return (
@@ -24,17 +27,31 @@ export const ProveedorContratoPage = () => {
         <>
           <Grid size={10} />
           <Grid size={2}>
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: mainBackgroundColor }}
-              fullWidth
-              type="button"
-              size="small"
-              onClick={onClickEliminar}
-            >
-              Dar de baja
-              <DeleteIcon sx={{ marginLeft: 1 }} />
-            </Button>
+            {isActive ? (
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: mainBackgroundColor }}
+                fullWidth
+                type="button"
+                size="small"
+                onClick={onClickEliminar}
+              >
+                Dar de baja
+                <DeleteIcon sx={{ marginLeft: 1 }} />
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: mainBackgroundColor }}
+                fullWidth
+                type="button"
+                size="small"
+                onClick={onClickActivar}
+              >
+                Activar
+                <CheckCircleIcon sx={{ marginLeft: 1 }} />
+              </Button>
+            )}
           </Grid>
         </>
       )}
