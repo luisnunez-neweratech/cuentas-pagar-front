@@ -17,10 +17,13 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
     disableButtons,
     pdfFileName,
     xmlFileName,
+    paymentProofFileName,
     handleXmlFileChange,
+    handlePaymentProofFileChange,
     tipoEntidadId,
     pdfDownloadUrl,
     xmlDownloadUrl,
+    paymentProofDownloadUrl,
     deleteFacturaDocumentoMutation,
     id,
   } = useFacturaFooter();
@@ -167,6 +170,77 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           </Grid>
         </>
       )}
+
+      <Grid size={6} />
+
+      {!paymentProofDownloadUrl ? (
+        <>
+          <Grid size={3} sx={{ marginTop: -5 }}>
+            <input
+              type="file"
+              id="comprobantePago"
+              style={{ display: "none" }}
+              onChange={handlePaymentProofFileChange}
+              accept=".pdf,.jpg,.jpeg,.png,.gif"
+            />
+
+            <label htmlFor="comprobantePago">
+              <Button
+                variant="outlined"
+                component="span"
+                style={{ marginTop: 14 }}
+              >
+                Cargar Comprobante Pago
+                <FileUploadIcon />
+              </Button>
+            </label>
+            {errors.facturaPDF && (
+              <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+                Archivo requerido
+              </p>
+            )}
+          </Grid>
+          <Grid size={3} sx={{ marginTop: -1 }}>
+            {paymentProofFileName && (
+              <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
+                {`Nombre del Archivo: ${paymentProofFileName}`}
+              </p>
+            )}
+          </Grid>
+        </>
+      ) : (
+        <>
+          <Grid size={3} sx={{ marginTop: -1 }}>
+            <Link
+              href={paymentProofDownloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Descargar Comprobante
+            </Link>
+          </Grid>
+          <Grid size={3} sx={{ marginTop: -3 }}>
+            <Tooltip title="Eliminar Comprobante">
+              <IconButton
+                color="error"
+                edge="start"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteFacturaDocumentoMutation.mutate({
+                    fileType: "paymentProof",
+                    invoiceId: id!.toString(),
+                  });
+                }}
+                sx={{ marginLeft: 3 }}
+              >
+                <DeleteIcon style={{ width: 32, height: 32 }} />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </>
+      )}
+
+      <Grid size={6} />
 
       <Grid size={2} sx={{ marginTop: -3 }}>
         <Button

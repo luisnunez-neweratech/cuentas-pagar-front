@@ -47,6 +47,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
   const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
+  const setPaymentProofDownloadUrl = useFacturaStore((state) => state.setPaymentProofDownloadUrl);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const setScheduledPaymentMessage = useFacturaStore(
     (state) => state.setScheduledPaymentMessage
@@ -168,11 +169,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         postFacturaDetallePayload: newDetalles,
       });
 
-      if (stateFactura.xmlFileValue || stateFactura.pdfFileValue) {
+      if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
         uploadDocumentosMutation.mutate({
           facturaId: data.data.id,
           xml: stateFactura.xmlFileValue,
           pdf: stateFactura.pdfFileValue,
+          paymentProof: stateFactura.paymentProofFileValue,
         });
       }
     },
@@ -267,6 +269,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
       if (facturaBD.xmlFile) {
         setXmlDownloadUrl(facturaBD.xmlFile);
+      }
+
+      if (facturaBD.paymentProofFile) {
+        setPaymentProofDownloadUrl(facturaBD.paymentProofFile);
       }
 
       setInitialValues(
@@ -445,11 +451,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   invoiceId: stateFactura.id!.toString(),
                   postFacturaDetallePayload: newDetalles,
                 });
-                if (stateFactura.xmlFileValue || stateFactura.pdfFileValue) {
+                if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
                   uploadDocumentosMutation.mutate({
                     facturaId: stateFactura.id!.toString(),
                     xml: stateFactura.xmlFileValue,
                     pdf: stateFactura.pdfFileValue,
+                    paymentProof: stateFactura.paymentProofFileValue,
                   });
                 }
               }
@@ -535,6 +542,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                 invoiceId: id,
                 putFacturaDetallePayload: newDetalles,
               });
+
+              if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
+                uploadDocumentosMutation.mutate({
+                  facturaId: id,
+                  xml: stateFactura.xmlFileValue,
+                  pdf: stateFactura.pdfFileValue,
+                  paymentProof: stateFactura.paymentProofFileValue,
+                });
+              }
             }
           } else {
             toast.error("Los Campos en los detalles no son validos");
