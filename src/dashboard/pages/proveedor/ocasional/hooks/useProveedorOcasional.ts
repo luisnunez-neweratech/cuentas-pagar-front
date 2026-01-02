@@ -14,6 +14,7 @@ import {
   addProveedorOcasional,
   updateProveedorOcasional,
   deleteProveedorOcasional,
+  activateSupplier,
   getProveedorOcasional,
 } from "../services/proveedor.contrato.service";
 import { useDashboardLayoutStore } from "../../../../store/dashboardLayout.store";
@@ -22,6 +23,7 @@ import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
   const [disableButtons, setDisableButtons] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -54,7 +56,7 @@ export const useProveedorOcasional = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteProveedorOcasional,
     onSuccess: () => {
-      toast.success("Proveedor eliminado correctamente");
+      toast.success("Proveedor dado de baja correctamente");
       navigate("/proveedor");
     },
     onError: (error) => {
@@ -63,7 +65,27 @@ export const useProveedorOcasional = () => {
         toast.error(error.message);
         return;
       }
-      toast.error("Error al eliminar el proveedor");
+      toast.error("Error al dar de baja el proveedor");
+      return;
+    },
+    onSettled: () => {
+      handleDisableButtons(false);
+    },
+  });
+
+  const activateMutation = useMutation({
+    mutationFn: activateSupplier,
+    onSuccess: () => {
+      toast.success("Proveedor activado correctamente");
+      navigate("/proveedor");
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al activar el proveedor");
       return;
     },
     onSettled: () => {
@@ -168,6 +190,7 @@ export const useProveedorOcasional = () => {
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
       }
+      setIsActive(proveedorOcasional.isActive ?? true);
       const productos = giros?.filter((obj) =>
         proveedorOcasional.productos.includes(obj.id)
       );
@@ -257,6 +280,11 @@ export const useProveedorOcasional = () => {
     deleteMutation.mutate(id!);
   };
 
+  const onClickActivar = () => {
+    handleDisableButtons(true);
+    activateMutation.mutate(id!);
+  };
+
   const onChangeAutocomplete = (newValues: Giro[]) => {
     setFieldValue("productos", newValues);
   };
@@ -312,6 +340,7 @@ export const useProveedorOcasional = () => {
     onClickBack,
     id,
     onClickEliminar,
+    onClickActivar,
     onChangeAutocomplete,
     giros: giros ?? [],
     plazoPagos,
@@ -321,5 +350,6 @@ export const useProveedorOcasional = () => {
     openDeleteModal,
     handleCloseDeleteModal,
     confirmarEliminar,
+    isActive,
   };
 };
