@@ -109,9 +109,10 @@ export const useCuentaBancaria = () => {
                 clabe: cuenta.clabe.toString(),
                 swiftCode: cuenta.swift ?? "",
                 accountNumber: cuenta.noCuenta ?? "",
+                routeNumber: cuenta.routeNumber ?? "",
               },
               supplierId: stateProveedor.id!.toString(),
-              caratulaFile: cuenta.fileValue,
+              caratulaFile: cuenta.fileValue,              
             });
           } else {
             updateMutation.mutate({
@@ -123,6 +124,7 @@ export const useCuentaBancaria = () => {
                 swiftCode: cuenta.swift ?? "",
                 isActive: cuenta.status,
                 accountNumber: cuenta.noCuenta ?? "",
+                routeNumber: cuenta.routeNumber ?? "",
               },
               id: cuenta.id.toString(),
               caratulaFile: cuenta.fileValue,

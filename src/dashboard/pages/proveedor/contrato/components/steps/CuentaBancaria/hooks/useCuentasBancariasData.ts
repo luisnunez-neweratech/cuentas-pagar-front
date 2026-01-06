@@ -55,6 +55,7 @@ export const useCuentasBancariasData = ({
       [idInput]: cuentaBancaria?.fileValue,
       newElement: cuentaBancaria?.newElement,
       noCuenta: cuentaBancaria?.noCuenta,
+      routeNumber: cuentaBancaria?.routeNumber,
     };
   };
 
@@ -110,6 +111,7 @@ export const useCuentasBancariasData = ({
               ? values[idInput]
               : undefined,
           noCuenta: values.noCuenta!,
+          routeNumber: values.routeNumber!,
         });
       } else {
         isValidForm(id, false);

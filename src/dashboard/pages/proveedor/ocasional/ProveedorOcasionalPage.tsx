@@ -13,6 +13,7 @@ import { AutoCompleteComponent } from "../../../../components/common/AutoComplet
 import { useProveedorOcasional } from "./hooks/useProveedorOcasional";
 import { mainBackgroundColor } from "../../../../lib/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
 import { TipoEntidad } from "../interfaces/TipoEntidad";
 import { TipoPersona } from "../interfaces/TipoPersona";
@@ -29,6 +30,7 @@ export const ProveedorOcasionalPage = () => {
     errors,
     id,
     onClickEliminar,
+    onClickActivar,
     onChangeAutocomplete,
     openModal,
     disableButtons,
@@ -38,6 +40,7 @@ export const ProveedorOcasionalPage = () => {
     openDeleteModal,
     handleCloseDeleteModal,
     confirmarEliminar,
+    isActive,
   } = useProveedorOcasional();
 
   return (
@@ -240,17 +243,31 @@ export const ProveedorOcasionalPage = () => {
               </Button>
             </Grid>
             <Grid size={2}>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: mainBackgroundColor }}
-                fullWidth
-                type="button"
-                onClick={onClickEliminar}
-                disabled={disableButtons}
-              >
-                Dar de baja
-                <DeleteIcon sx={{ marginLeft: 1 }} />
-              </Button>
+              {isActive ? (
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: mainBackgroundColor }}
+                  fullWidth
+                  type="button"
+                  onClick={onClickEliminar}
+                  disabled={disableButtons}
+                >
+                  Dar de baja
+                  <DeleteIcon sx={{ marginLeft: 1 }} />
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: mainBackgroundColor }}
+                  fullWidth
+                  type="button"
+                  onClick={onClickActivar}
+                  disabled={disableButtons}
+                >
+                  Activar
+                  <CheckCircleIcon sx={{ marginLeft: 1 }} />
+                </Button>
+              )}
             </Grid>
           </>
         ) : (

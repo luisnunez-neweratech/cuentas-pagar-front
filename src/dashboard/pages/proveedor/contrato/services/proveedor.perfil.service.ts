@@ -138,6 +138,7 @@ export const getProveedorPerfil = async (id: string): Promise<any> => {
     giroPrincipal: data.supplierActivity ?? null,
     productos: data.productServices.map((producto: any) => producto.id),
     paymentTermsId: data.paymentTermsId,
+    isActive: data.isActive,
 
     pais: data.country,
     codigoPostal: data.postalCode,

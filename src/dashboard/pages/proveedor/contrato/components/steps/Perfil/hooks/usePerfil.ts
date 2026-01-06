@@ -33,6 +33,7 @@ export const usePerfil = () => {
   const setStepPerfil = useProveedorContratoStore(
     (state) => state.setStepPerfil
   );
+  const setIsActive = useProveedorContratoStore((state) => state.setIsActive);
   const setProveedorId = useProveedorContratoStore(
     (state) => state.setProveedorId
   );
@@ -176,6 +177,8 @@ export const usePerfil = () => {
       if (proveedorPerfil.tipoProveedor === TipoProveedor.Ocasional.value) {
         navigate(`/proveedor/${id}`);
       }
+
+      setIsActive(proveedorPerfil.isActive ?? true);
 
       const productos = giros?.filter((obj) =>
         proveedorPerfil.productos.includes(obj.id)
@@ -371,6 +374,7 @@ export const usePerfil = () => {
               downloadUrl: cuenta.downloadUrl,
               newElement: false,
               noCuenta: cuenta.accountNumber,
+              routeNumber: cuenta.routeNumber,
             };
           });
         } else {
