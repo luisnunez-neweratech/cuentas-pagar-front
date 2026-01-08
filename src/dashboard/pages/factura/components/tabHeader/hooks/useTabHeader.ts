@@ -47,7 +47,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
   const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
-  const setPaymentProofDownloadUrl = useFacturaStore((state) => state.setPaymentProofDownloadUrl);
+  const setPaymentProofDownloadUrl = useFacturaStore(
+    (state) => state.setPaymentProofDownloadUrl
+  );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const setScheduledPaymentMessage = useFacturaStore(
     (state) => state.setScheduledPaymentMessage
@@ -169,7 +171,11 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         postFacturaDetallePayload: newDetalles,
       });
 
-      if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
+      if (
+        stateFactura.xmlFileValue ||
+        stateFactura.pdfFileValue ||
+        stateFactura.paymentProofFileValue
+      ) {
         uploadDocumentosMutation.mutate({
           facturaId: data.data.id,
           xml: stateFactura.xmlFileValue,
@@ -451,7 +457,11 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   invoiceId: stateFactura.id!.toString(),
                   postFacturaDetallePayload: newDetalles,
                 });
-                if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
+                if (
+                  stateFactura.xmlFileValue ||
+                  stateFactura.pdfFileValue ||
+                  stateFactura.paymentProofFileValue
+                ) {
                   uploadDocumentosMutation.mutate({
                     facturaId: stateFactura.id!.toString(),
                     xml: stateFactura.xmlFileValue,
@@ -543,7 +553,11 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                 putFacturaDetallePayload: newDetalles,
               });
 
-              if (stateFactura.xmlFileValue || stateFactura.pdfFileValue || stateFactura.paymentProofFileValue) {
+              if (
+                stateFactura.xmlFileValue ||
+                stateFactura.pdfFileValue ||
+                stateFactura.paymentProofFileValue
+              ) {
                 uploadDocumentosMutation.mutate({
                   facturaId: id,
                   xml: stateFactura.xmlFileValue,
@@ -693,7 +707,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         }
       );
       setListaProductos(newListaProductos);
-      if (newListaProductos.length > 0) {
+      if (newListaProductos && newListaProductos.length > 0) {
         setFieldValue("productos", [newListaProductos[0]]);
       } else {
         setFieldValue("productos", []);
@@ -734,7 +748,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
             (values.statusFacturaId === 53 || values.statusFacturaId === 54) &&
             !stateFactura.modalFacturaAceptada
           ) {
-            //pagda, cancelada            
+            //pagda, cancelada
             handleOpenModal();
           } else {
             handleSubmit();
