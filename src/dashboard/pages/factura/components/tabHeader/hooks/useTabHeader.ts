@@ -293,9 +293,13 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
       return {
         proveedorId: {
-          value: proveedorBD.id,
-          label: proveedorBD.descripcion,
-          productos: proveedorBD.productos,
+          value: proveedorBD && proveedorBD.id ? proveedorBD.id : 0,
+          label:
+            proveedorBD && proveedorBD.descripcion
+              ? proveedorBD.descripcion
+              : "",
+          productos:
+            proveedorBD && proveedorBD.productos ? proveedorBD.productos : [],
           condicionesPagoId: facturaBD.condicionesPagoId,
           condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         },
@@ -323,7 +327,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         isrRetenido: facturaBD.isrRetenido,
         total: facturaBD.total,
 
-        productos: proveedorBD.productos,
+        productos:
+          proveedorBD && proveedorBD.productos ? proveedorBD.productos : [],
         condicionesPagoId: facturaBD.condicionesPagoId, //proveedorBD.condicionesPagoId,
         condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
       };
