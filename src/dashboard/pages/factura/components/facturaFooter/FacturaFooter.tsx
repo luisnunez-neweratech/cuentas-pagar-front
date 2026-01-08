@@ -227,7 +227,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   deleteFacturaDocumentoMutation.mutate({
-                    fileType: "paymentProof",
+                    fileType: "payment-Proof",
                     invoiceId: id!.toString(),
                   });
                 }}
