@@ -12,6 +12,8 @@ export const FacturaXml = () => {
     onClickCargarInformacion,
     openModal,
     onClickCloseModal,
+    infoMessages,
+    warningMessages,
   } = useFacturaXml();
 
   return (
@@ -88,22 +90,8 @@ export const FacturaXml = () => {
       <XmlLoadedModal
         open={openModal}
         onClose={onClickCloseModal}
-        warnings={[
-          "Unidad de medida 'E48' no encontrada en catálogo",
-          "Unidad de medida 'E48' no encontrada en catálogo",
-          "Unidad de medida 'E48' no encontrada en catálogo",
-          "Unidad de medida 'E48' no encontrada en catálogo",
-          "Unidad de medida 'E48' no encontrada en catálogo",
-          "Unidad de medida 'E48' no encontrada en catálogo",
-        ]}
-        info={[
-          "XML CFDI 4.0 parseado correctamente",
-          "Proveedor encontrado: ARREGUIN SANCHEZ Y ASOCIADOS (ID: 1)",
-          "Tipo de documento: FACTURA",
-          "Factura creada con ID: 5",
-          "Se importaron 6 conceptos",
-          "Archivo XML guardado correctamente",
-        ]}
+        warnings={warningMessages}
+        info={infoMessages}
       />
     </Grid>
   );
