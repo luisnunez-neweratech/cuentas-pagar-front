@@ -91,7 +91,7 @@ export const getFactura = async (id: string): Promise<any> => {
     paymentProofName: data.invoiceDocument?.paymentProofFileName ?? null,
     paymentProofFile: data.invoiceDocument?.paymentProofFilePath ?? null,
     condicionesPagoId: data.paymentTermId,
-    tipoCambio: data.exchangeRate ?? null, // TODO leer campo del api
+    tipoCambio: data.exchangeRate ?? null,
   };
 };
 

@@ -97,16 +97,18 @@ export const TabPago = ({
         />
       </Grid>
       <Grid size={2}>
-        <TextFieldCommon
-          id="tipoCambio"
-          label="Tipo de Cambio"
-          value={values.tipoCambio || ""}
-          handleChange={handleChange}
-          typeMoneda={true}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
-        />
+        {values.monedaId === 39 && ( // 39 = USD
+          <TextFieldCommon
+            id="tipoCambio"
+            label="Tipo de Cambio"
+            value={values.tipoCambio || ""}
+            handleChange={handleChange}
+            typeMoneda={true}
+            handleBlur={handleBlur}
+            touched={touched}
+            errors={errors}
+          />
+        )}
       </Grid>
 
       <Grid size={2} />

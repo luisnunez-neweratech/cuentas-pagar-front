@@ -429,7 +429,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     +values.ivaRetenido! -
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
-                  exchangeRate: 0,
+                  exchangeRate:
+                    values.monedaId === 39 // USD
+                      ? values.tipoCambio === 0 || values.tipoCambio === null
+                        ? 1
+                        : values.tipoCambio
+                      : null,
                   paymentForm: "string",
                   paymentTerms: values.condicionesPagoLabel!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
@@ -535,6 +540,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId: values.colaboradorId!.value,
                   paymentTermId: values.condicionesPagoId,
+                  exchangeRate:
+                    values.monedaId === 39 // USD
+                      ? values.tipoCambio === 0 || values.tipoCambio === null
+                        ? 1
+                        : values.tipoCambio
+                      : null,
                 },
               });
 
