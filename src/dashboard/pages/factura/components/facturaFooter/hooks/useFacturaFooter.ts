@@ -11,13 +11,19 @@ export const useFacturaFooter = () => {
   const stateFactura = useFacturaStore((state) => state);
   const setPdfFile = useFacturaStore((state) => state.setPdfFile);
   const setXmlFile = useFacturaStore((state) => state.setXmlFile);
-  const setPaymentProofFile = useFacturaStore((state) => state.setPaymentProofFile);
+  const setPaymentProofFile = useFacturaStore(
+    (state) => state.setPaymentProofFile
+  );
+  const clearPdfValues = useFacturaStore((state) => state.clearPdfValues);
+  const clearXmlValues = useFacturaStore((state) => state.clearXmlValues);
 
   const [pdfFileName, setPdfFileName] = useState(stateFactura.pdfFileValue);
 
   const [xmlFileName, setXmlFileName] = useState(stateFactura.xmlFileValue);
 
-  const [paymentProofFileName, setPaymentProofFileName] = useState(stateFactura.paymentProofFileValue);
+  const [paymentProofFileName, setPaymentProofFileName] = useState(
+    stateFactura.paymentProofFileValue
+  );
 
   const deleteFacturaDocumentoMutation = useMutation({
     mutationFn: deleteFacturaArchivo,
@@ -30,8 +36,13 @@ export const useFacturaFooter = () => {
       toast.error("Error al eliminar el documento");
       return;
     },
-    onSettled: () => {
-      //handleDisableButtons(false);
+    onSettled: (_data, _error, variables) => {
+      if (variables.fileType === "pdf") {
+        clearPdfValues();        
+      } else {
+        clearXmlValues();
+      }
+      toast.info("Documento eliminado correctamente");
     },
   });
 
@@ -61,6 +72,17 @@ export const useFacturaFooter = () => {
     facturaXML: "",
   };
 
+  const onClickDeleteFile = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    type: string
+  ) => {
+    e.stopPropagation();
+    deleteFacturaDocumentoMutation.mutate({
+      fileType: type,
+      invoiceId: id!.toString(),
+    });
+  };
+
   return {
     handlePdfFileChange,
     errors,
@@ -76,5 +98,6 @@ export const useFacturaFooter = () => {
     paymentProofDownloadUrl: stateFactura.paymentProofDownloadUrl,
     deleteFacturaDocumentoMutation,
     id,
+    onClickDeleteFile,
   };
 };
