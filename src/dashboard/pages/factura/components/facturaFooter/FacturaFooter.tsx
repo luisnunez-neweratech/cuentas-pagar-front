@@ -26,6 +26,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
     paymentProofDownloadUrl,
     deleteFacturaDocumentoMutation,
     id,
+    onClickDeleteFile,
   } = useFacturaFooter();
 
   return (
@@ -81,13 +82,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
               <IconButton
                 color="error"
                 edge="start"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteFacturaDocumentoMutation.mutate({
-                    fileType: "pdf",
-                    invoiceId: id!.toString(),
-                  });
-                }}
+                onClick={(e) => onClickDeleteFile(e, "pdf")}
                 sx={{ marginLeft: 3 }}
               >
                 <DeleteIcon style={{ width: 32, height: 32 }} />
@@ -155,13 +150,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
               <IconButton
                 color="error"
                 edge="start"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteFacturaDocumentoMutation.mutate({
-                    fileType: "xml",
-                    invoiceId: id!.toString(),
-                  });
-                }}
+                onClick={(e) => onClickDeleteFile(e, "xml")}
                 sx={{ marginLeft: 3 }}
               >
                 <DeleteIcon style={{ width: 32, height: 32 }} />

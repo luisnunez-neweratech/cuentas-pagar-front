@@ -35,6 +35,7 @@ export interface FacturaState {
   ivaRetenido: number | null;
   isrRetenido: number | null;
   total: number | null;
+  tipoCambio: number | null;
 
   facturaDetalle: FacturaDetalle[] | null;
 
@@ -77,6 +78,8 @@ export interface FacturaState {
   handleOpenModal: () => void;
   handleCloseModal: () => void;
   setModalFacturaAceptada: (modalFacturaAceptada: boolean) => void;
+  clearPdfValues: () => void;
+  clearXmlValues: () => void;
 }
 
 const storeFactura: StateCreator<FacturaState> = (set, get) => ({
@@ -105,6 +108,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   ivaRetenido: 0,
   isrRetenido: 0,
   total: 0,
+  tipoCambio: null,
 
   pdfFileValue: null,
   pdfDownloadUrl: null,
@@ -266,6 +270,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       ivaRetenido: 0,
       isrRetenido: 0,
       total: 0,
+      tipoCambio: null,
 
       pdfFileValue: null,
       pdfDownloadUrl: null,
@@ -296,6 +301,20 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   setModalFacturaAceptada: (modalFacturaAceptada: boolean) => {
     set({ modalFacturaAceptada });
   },
+  clearPdfValues: () => {
+    set((state) => ({
+      ...state,
+      pdfFileValue: null,
+      pdfDownloadUrl: null,
+    }));
+  },
+  clearXmlValues: () => {
+    set((state) => ({
+      ...state,
+      xmlFileValue: null,
+      xmlDownloadUrl: null,
+    }));
+  }
 });
 
 export const useFacturaStore = create<FacturaState>()(storeFactura);
