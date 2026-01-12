@@ -1,8 +1,7 @@
-import { Button, Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { TabHeader } from "./components/tabHeader/TabHeader";
 import { useNewFacturaPage } from "./hooks/useNewFacturaPage";
 import { ConfirmModal } from "./components/confirmModal/ConfirmModal";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 export const NewFacturaPage = () => {
   const {
@@ -14,7 +13,6 @@ export const NewFacturaPage = () => {
     openModal,
     handleCloseModal,
     setModalFacturaAceptada,
-    handleCargarXmlFile,
   } = useNewFacturaPage();
 
   return (
@@ -26,24 +24,6 @@ export const NewFacturaPage = () => {
       >
         <Tab label="Header" />
         <Tab label="Details" disabled={!validTabHeader} />
-        <>
-          <input
-            type="file"
-            id="cargarFacturaXML"
-            style={{ display: "none" }}
-            onChange={handleCargarXmlFile}
-            accept=".xml"
-          />
-          <label htmlFor="cargarFacturaXML">
-            <Button
-              variant="outlined"
-              component="span"
-              style={{ marginTop: 14 }}
-            >
-              Cargar Datos del XML <UploadFileIcon style={{ marginLeft: 8 }} />
-            </Button>
-          </label>
-        </>
       </Tabs>
       <TabHeader
         tabIndex={value}

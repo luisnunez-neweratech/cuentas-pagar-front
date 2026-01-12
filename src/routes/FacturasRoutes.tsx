@@ -16,6 +16,7 @@ import { PlazoPagoListPage } from "../dashboard/pages/catalogos/plazoPago/PlazoP
 import { Plazo } from "../dashboard/pages/catalogos/plazoPago/plazo/Plazo";
 import { FacturasPage } from "../dashboard/pages/facturas/FacturasPage";
 import { NewFacturaPage } from "../dashboard/pages/factura/NewFacturaPage";
+import { FacturaXml } from "../dashboard/pages/facturaXml/FacturaXml";
 
 const AuthLayout = lazy(() => import("../auth/layouts/AuthLayout"));
 const DashboardLayout = lazy(
@@ -37,6 +38,7 @@ export const FacturasRoutes = () => {
         <Route path="facturas">
           <Route index element={<FacturasPage />} />
           <Route path="nueva-factura" element={<NewFacturaPage />} />
+          <Route path="nueva-factura-xml" element={<FacturaXml />} />
           <Route path=":id" element={<NewFacturaPage />} />
         </Route>
 
