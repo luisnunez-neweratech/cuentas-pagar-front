@@ -331,6 +331,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           proveedorBD && proveedorBD.productos ? proveedorBD.productos : [],
         condicionesPagoId: facturaBD.condicionesPagoId, //proveedorBD.condicionesPagoId,
         condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
+        tipoCambio: facturaBD.tipoCambio,
       };
     }
     return {
@@ -364,6 +365,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       productos: stateFactura.productos,
       condicionesPagoId: stateFactura.condicionesPagoId,
       condicionesPagoLabel: stateFactura.condicionesPagoLabel,
+      tipoCambio: stateFactura.tipoCambio,
     };
   };
 
