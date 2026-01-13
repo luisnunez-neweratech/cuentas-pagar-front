@@ -62,11 +62,10 @@ export const useProveedorOcasional = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data || error.message);
         return;
       }
       toast.error("Error al dar de baja el proveedor");
-      return;
     },
     onSettled: () => {
       handleDisableButtons(false);
@@ -82,11 +81,10 @@ export const useProveedorOcasional = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data || error.message);
         return;
       }
       toast.error("Error al activar el proveedor");
-      return;
     },
     onSettled: () => {
       handleDisableButtons(false);
@@ -102,11 +100,10 @@ export const useProveedorOcasional = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.response?.data);
+        toast.error(error.response?.data || error.message);
         return;
       }
       toast.error("Error al agregar el proveedor");
-      return;
     },
     onSettled: () => {
       handleDisableButtons(false);
@@ -121,11 +118,10 @@ export const useProveedorOcasional = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data || error.message);
         return;
       }
       toast.error("Error al actualizar el proveedor");
-      return;
     },
     onSettled: () => {
       handleDisableButtons(false);
@@ -153,11 +149,10 @@ export const useProveedorOcasional = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data || error.message);
         return;
       }
       toast.error("Error al actualizar el proveedor");
-      return;
     },
     onSettled: () => {
       handleDisableButtons(false);

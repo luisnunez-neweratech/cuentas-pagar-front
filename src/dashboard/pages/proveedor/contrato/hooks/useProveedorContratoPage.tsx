@@ -70,11 +70,10 @@ export const useProveedorContratoPage = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data || error.message);
         return;
       }
       toast.error("Error al dar de baja el proveedor");
-      return;
     },
   });
 
@@ -87,11 +86,10 @@ export const useProveedorContratoPage = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        toast.error(error.message);
+        toast.error(error.response?.data || error.message);
         return;
       }
       toast.error("Error al activar el proveedor");
-      return;
     },
   });
 
