@@ -10,7 +10,7 @@ export const NewPasswordPage = () => {
     <div className="recoverNewPasswordContainer">
       <Paper style={{ padding: 16 }}>
         <Typography component="h1" variant="h5">
-          Recover password
+          Recuperar Contraseña
         </Typography>
         <form
           onSubmit={handleSubmit}
@@ -25,7 +25,7 @@ export const NewPasswordPage = () => {
             required
             fullWidth
             id="password"
-            label="Password"
+            label="Nueva Contraseña"
             name="password"
             type="password"
             autoFocus
@@ -41,7 +41,7 @@ export const NewPasswordPage = () => {
             required
             fullWidth
             id="newPassword"
-            label="New Password"
+            label="Repita la contraseña"
             name="newPassword"
             type="password"
             value={values.newPassword}
