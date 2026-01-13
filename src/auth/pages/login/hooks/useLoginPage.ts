@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { toast } from "sonner";
 import { validationSchema } from "../Validations";
@@ -8,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginAction } from "../../../services/login.action";
 import type { User } from "../../../../interfaces/user.interface";
 import { useAuthLayoutStore } from "../../../store/authLayout.store";
+import { axiosErrorMessage } from "../../../../lib/axiosError";
 
 export const useLoginPage = () => {
   const loginUser = useAuthStore((state) => state.loginUser);
@@ -27,13 +27,8 @@ export const useLoginPage = () => {
       };
       loginUser(token, user);
     },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Correo o contraseña incorrecta");
+    onError: (error: Error) => {
+      toast.error(axiosErrorMessage(error, "Correo o contraseña incorrecta"));
     },
   });
 

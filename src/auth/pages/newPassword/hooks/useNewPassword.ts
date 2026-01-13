@@ -4,9 +4,9 @@ import { validationSchema } from "../Validations";
 import { useAuthLayoutStore } from "../../../store/authLayout.store";
 import { useMutation } from "@tanstack/react-query";
 import { newPasswordAction } from "../../../services/newPassword.action";
-import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { axiosErrorMessage } from "../../../../lib/axiosError";
 
 export const useNewPassword = () => {
   let [searchParams, _setSearchParams] = useSearchParams();
@@ -21,12 +21,7 @@ export const useNewPassword = () => {
       navigate("/auth/login");
     },
     onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al cambiar la contraseña");
+      toast.error(axiosErrorMessage(error, "Error al cambiar la contraseña"));
     },
   });
 
@@ -37,7 +32,7 @@ export const useNewPassword = () => {
         newPassword: "",
       },
       validationSchema: validationSchema,
-      onSubmit: (values) => {        
+      onSubmit: (values) => {
         newPasswordMutation.mutate({
           email: searchParams.get("email") ?? "",
           password: values.password,
