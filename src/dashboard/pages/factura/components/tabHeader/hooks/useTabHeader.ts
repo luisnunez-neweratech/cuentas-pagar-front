@@ -332,6 +332,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         condicionesPagoId: facturaBD.condicionesPagoId, //proveedorBD.condicionesPagoId,
         condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         tipoCambio: facturaBD.tipoCambio,
+        contractId: facturaBD.contractId,
       };
     }
     return {
@@ -366,6 +367,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       condicionesPagoId: stateFactura.condicionesPagoId,
       condicionesPagoLabel: stateFactura.condicionesPagoLabel,
       tipoCambio: stateFactura.tipoCambio,
+      contractId: stateFactura.contractId,
     };
   };
 
@@ -416,7 +418,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   fiscalFolio: values.folioFiscal ?? "",
                   documentType: values.tipoDocumentoId!,
                   invoiceDate: values.fechaFactura!,
-                  supplierProductService: values.productos![0].descripcion,
+                  supplierProductService:
+                    values.productos.length > 0
+                      ? values.productos[0].descripcion
+                      : "",
                   subtotal: values.subtotal!,
                   discount: values.descuento!,
                   taxIVA: values.impuestos!,
@@ -447,6 +452,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       : null,
                   invoiceStatusId: values.statusFacturaId,
                   paymentTermId: values.condicionesPagoId,
+                  contractId:
+                    values.contractId.value > 0
+                      ? values.contractId.value
+                      : null,
                 });
               } else {
                 // crea solo detalles
@@ -521,7 +530,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   fiscalFolio: values.folioFiscal ?? "",
                   documentType: values.tipoDocumentoId!,
                   invoiceDate: values.fechaFactura!,
-                  supplierProductService: values.productos![0].descripcion,
+                  supplierProductService:
+                    values.productos.length > 0
+                      ? values.productos[0].descripcion
+                      : "",
                   subtotal: values.subtotal!,
                   discount: values.descuento!,
                   taxIVA: values.impuestos!,
@@ -545,6 +557,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       ? values.tipoCambio === 0 || values.tipoCambio === null
                         ? 1
                         : values.tipoCambio
+                      : null,
+                  contractId:
+                    values.contractId && values.contractId.value > 0
+                      ? values.contractId.value
                       : null,
                 },
               });

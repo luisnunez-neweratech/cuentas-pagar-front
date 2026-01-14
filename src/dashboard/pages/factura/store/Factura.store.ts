@@ -36,6 +36,7 @@ export interface FacturaState {
   isrRetenido: number | null;
   total: number | null;
   tipoCambio: number | null;
+  contractId: number | null;
 
   facturaDetalle: FacturaDetalle[] | null;
 
@@ -109,6 +110,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   isrRetenido: 0,
   total: 0,
   tipoCambio: null,
+  contractId: null,
 
   pdfFileValue: null,
   pdfDownloadUrl: null,
@@ -271,6 +273,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       isrRetenido: 0,
       total: 0,
       tipoCambio: null,
+      contractId: null,
 
       pdfFileValue: null,
       pdfDownloadUrl: null,
