@@ -33,8 +33,8 @@ export const TabPago = ({
   setFieldValue,
   setFieldTouched,
 }: props) => {
-  const { convertColaboradores, convertPlazoPagos, convertMonedas, id } =
-    useTabPago();
+  const { convertColaboradores, convertPlazoPagos, convertMonedas, id, convertContratos } =
+    useTabPago(values.proveedorId?.value);
 
   const scheduledPaymentMessage = useFacturaStore(
     (state) => state.scheduledPaymentMessage
@@ -113,7 +113,7 @@ export const TabPago = ({
 
       <Grid size={2} />
 
-      <Grid size={2} sx={{ marginTop: -7 }}>
+      <Grid size={2} sx={{ marginTop: -2 }}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
           <NormalAutocomplete
@@ -128,7 +128,7 @@ export const TabPago = ({
           />
         )}
       </Grid>
-      <Grid size={2} sx={{ marginTop: -7 }}>
+      <Grid size={2} sx={{ marginTop: -2 }}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
           <SelectCommon
@@ -149,7 +149,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -7 }}>
+      <Grid size={2} sx={{ marginTop: -2 }}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
           <DatePickerCommon
@@ -164,7 +164,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -7 }}>
+      <Grid size={2} sx={{ marginTop: -2 }}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {((!id &&
           (values.statusFacturaId === 56 ||
@@ -183,7 +183,23 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -7 }} />
+      <Grid size={2} sx={{ marginTop: -2 }}>
+        {/* contratos*/}
+        {values.proveedorId.value > 0 && (
+          <NormalAutocomplete
+            options={convertContratos}
+            label="Contrato"
+            id="contractId"
+            value={values.contractId}
+            setFieldValue={setFieldValue}
+            handleBlur={handleBlur}
+            touched={touched.contractId?.value}
+            errors={errors.contractId?.value}
+          />
+        )}
+      </Grid>
+
+      <Grid size={11} />
 
       <FacturaFooter
         setOnClickGuardar={setOnClickGuardar}
