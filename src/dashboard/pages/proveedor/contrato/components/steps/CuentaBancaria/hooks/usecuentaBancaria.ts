@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { useState } from "react";
 import { useParams } from "react-router";
+import { axiosErrorMessage } from "../../../../../../../../lib/axiosError";
 
 export const useCuentaBancaria = () => {
   const { id: idParams } = useParams();
@@ -57,14 +58,8 @@ export const useCuentaBancaria = () => {
         caratulaFile: variables.caratulaFile,
       });
     },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el contacto");
-      return;
+    onError: (error:Error) => {      
+      toast(axiosErrorMessage(error, "Error al crear la cuenta bancaria"));
     },
     onSettled: () => {
       handleDisableButtons(false);
@@ -112,7 +107,7 @@ export const useCuentaBancaria = () => {
                 routeNumber: cuenta.routeNumber ?? "",
               },
               supplierId: stateProveedor.id!.toString(),
-              caratulaFile: cuenta.fileValue,              
+              caratulaFile: cuenta.fileValue,
             });
           } else {
             updateMutation.mutate({
