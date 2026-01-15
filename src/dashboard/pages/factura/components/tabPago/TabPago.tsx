@@ -33,8 +33,13 @@ export const TabPago = ({
   setFieldValue,
   setFieldTouched,
 }: props) => {
-  const { convertColaboradores, convertPlazoPagos, convertMonedas, id, convertContratos } =
-    useTabPago(values.proveedorId?.value);
+  const {
+    convertColaboradores,
+    convertPlazoPagos,
+    convertMonedas,
+    id,
+    convertContratos,
+  } = useTabPago(values.proveedorId?.value);
 
   const scheduledPaymentMessage = useFacturaStore(
     (state) => state.scheduledPaymentMessage
@@ -185,7 +190,7 @@ export const TabPago = ({
 
       <Grid size={2} sx={{ marginTop: -2 }}>
         {/* contratos*/}
-        {values.proveedorId.value > 0 && (
+        {values.proveedorId && values.proveedorId.value > 0 && (
           <NormalAutocomplete
             options={convertContratos}
             label="Contrato"
