@@ -308,7 +308,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
             value: currentContrato.contractId,
             label: currentContrato.contractName,
           };
-        }        
+        }
       }
 
       return {
@@ -475,7 +475,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   invoiceStatusId: values.statusFacturaId,
                   paymentTermId: values.condicionesPagoId,
                   contractId:
-                    values.contractId.value > 0
+                    values.contractId && values.contractId.value > 0
                       ? values.contractId.value
                       : null,
                   relatedInvoiceId:
