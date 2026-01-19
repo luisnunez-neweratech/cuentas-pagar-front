@@ -10,11 +10,12 @@ export const RecoverTokenPage = () => {
     <div className="recoverPasswordContainer">
       <Paper style={{ padding: 16 }}>
         <Typography component="h1" variant="h5">
-          Recover password
+          Recuperar Contraseña
         </Typography>
         <p>
-          Please check your email for a verification token. Enter the token in
-          the field below to proceed with your request.
+          Revisa tu correo electrónico para ver si tienes un token de
+          verificación. Ingresalo en el campo de abajo para continuar con la
+          solicitud.
         </p>
         <form
           onSubmit={handleSubmit}
@@ -45,7 +46,7 @@ export const RecoverTokenPage = () => {
             color="primary"
             disabled={!(values.token.length > 0)}
           >
-            Reset Password
+            Restablecer Contraseña
           </Button>
         </form>
       </Paper>

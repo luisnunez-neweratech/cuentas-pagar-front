@@ -34,8 +34,7 @@ export const validationSchema = (
       swift: yup
         .string()
         .required("Swift es requerido")
-        .min(8, "Mínimo 8 dígitos")
-        .max(11, "Máximo 11 dígitos"),
+        .matches(/^(.{8}|.{11})$/, "Debe tener 8 u 11 caracteres"),
       noCuenta: yup.string().notRequired(),
     });
   }
@@ -83,8 +82,7 @@ export const validationSchema = (
     swift: yup
       .string()
       .required("Swift es requerido")
-      .min(8, "Mínimo 8 dígitos")
-      .max(11, "Máximo 11 dígitos"),
+      .matches(/^(.{8}|.{11})$/, "Debe tener 8 u 11 caracteres"),
     noCuenta: yup.string().notRequired(),
   });
 };

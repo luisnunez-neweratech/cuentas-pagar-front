@@ -13,7 +13,7 @@ export interface PostFacturaHeaderPayload {
   taxISRRetained: number;
   total: number;
   currencyId: number;
-  exchangeRate: number;
+  exchangeRate: number | null;
   paymentForm: string;
   paymentTerms: string;
   paymentTermId: number;
@@ -22,5 +22,7 @@ export interface PostFacturaHeaderPayload {
   reimbursementStatus: number;
   reimbursementDate: string | null;
   reimbursementCollaboratorId: number | null;
-  invoiceStatusId: number | null;  
+  invoiceStatusId: number | null;
+  contractId: number | null;
+  relatedInvoiceId: number | null;
 }

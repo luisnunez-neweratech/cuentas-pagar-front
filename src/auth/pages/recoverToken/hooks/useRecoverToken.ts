@@ -3,10 +3,10 @@ import { useFormik } from "formik";
 import { validationSchema } from "../Validations";
 import { useMutation } from "@tanstack/react-query";
 import { verifyToken } from "../../../services/recoverToken.action";
-import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useAuthLayoutStore } from "../../../store/authLayout.store";
+import { axiosErrorMessage } from "../../../../lib/axiosError";
 
 export const useRecoverToken = () => {
   let [searchParams, _setSearchParams] = useSearchParams();
@@ -18,12 +18,7 @@ export const useRecoverToken = () => {
       navigate(`/auth/new-password?email=${searchParams.get("email")}`);
     },
     onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Token incorrecto");
+      toast.error(axiosErrorMessage(error, "Token incorrecto"));
     },
   });
 

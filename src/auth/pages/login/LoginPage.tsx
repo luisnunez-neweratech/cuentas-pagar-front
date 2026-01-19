@@ -19,7 +19,7 @@ export const LoginPage = () => {
     <div className="signInContainer">
       <Paper style={{ padding: 16 }}>
         <Typography component="h1" variant="h5">
-          Sign in
+          Iniciar sesión
         </Typography>
         <form
           onSubmit={handleSubmit}
@@ -34,7 +34,7 @@ export const LoginPage = () => {
             required
             fullWidth
             id="email"
-            label="Email"
+            label="Correo electrónico"
             name="email"
             value={values.email}
             onChange={handleChange}
@@ -49,7 +49,7 @@ export const LoginPage = () => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Contraseña"
             type="password"
             id="password"
             value={values.password}
@@ -70,11 +70,11 @@ export const LoginPage = () => {
             variant="contained"
             color="primary"
           >
-            Sign In
+            Iniciar Sesión
           </Button>
           <Grid container>
             <Grid style={{ marginTop: 8 }}>
-              <Link to="/auth/recover">Forgot password?</Link>
+              <Link to="/auth/recover">¿Olvidaste tu contraseña?</Link>
             </Grid>
           </Grid>
         </form>

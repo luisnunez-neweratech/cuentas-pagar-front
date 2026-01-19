@@ -24,7 +24,7 @@ export const updateProveedorOcasional = async (
 };
 
 export const deleteProveedorOcasional = async (id: string): Promise<any> => {
-  const response = await cuentasApi.delete(`/Supplier/${id}`);
+  const response = await cuentasApi.post(`/Supplier/${id}/Deactivate`);
   return response;
 };
 

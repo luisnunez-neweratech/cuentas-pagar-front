@@ -17,8 +17,9 @@ export const useNewFacturaPage = () => {
 
   const openModal = useFacturaStore((state) => state.openModal);
   const handleCloseModal = useFacturaStore((state) => state.handleCloseModal);
-  const setModalFacturaAceptada = useFacturaStore((state) => state.setModalFacturaAceptada);
-
+  const setModalFacturaAceptada = useFacturaStore(
+    (state) => state.setModalFacturaAceptada
+  );
 
   useEffect(() => {
     if (id) {
@@ -34,6 +35,6 @@ export const useNewFacturaPage = () => {
     handleChange,
     openModal,
     handleCloseModal,
-    setModalFacturaAceptada
+    setModalFacturaAceptada,
   };
 };

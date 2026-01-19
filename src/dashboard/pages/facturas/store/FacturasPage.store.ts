@@ -26,25 +26,31 @@ const initFiltros: FiltrosFacturas = {
 
 interface IFacturasPage {
   openModal: boolean;
+  openFacturaModal: boolean;
   filtrosFacturas: FiltrosFacturas;
   callApi: number;
   idSelected: string;
 
   handleOpenModal: () => void;
   handleClose: () => void;
+  handleOpenFacturaModal: () => void;
+  handleCloseFacturaModal: () => void;
   setFiltrosFacturas: (
-    filtrosFacturas: FiltrosFacturas | ((prev: FiltrosFacturas) => FiltrosFacturas)
+    filtrosFacturas:
+      | FiltrosFacturas
+      | ((prev: FiltrosFacturas) => FiltrosFacturas)
   ) => void;
   clearFiltros: () => void;
   setCallApi: () => void;
-  setIdSelected: (id:string) => void;
+  setIdSelected: (id: string) => void;
 }
 
 export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
   openModal: false,
+  openFacturaModal: false,
   filtrosFacturas: initFiltros,
   callApi: 0,
-  idSelected: '',
+  idSelected: "",
 
   handleOpenModal: () => {
     set({
@@ -54,6 +60,16 @@ export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
   handleClose: () => {
     set({
       openModal: false,
+    });
+  },
+  handleOpenFacturaModal: () => {
+    set({
+      openFacturaModal: true,
+    });
+  },
+  handleCloseFacturaModal: () => {
+    set({
+      openFacturaModal: false,
     });
   },
   setFiltrosFacturas: (filtrosFacturas) => {
@@ -75,7 +91,7 @@ export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
       callApi: get().callApi + 1,
     });
   },
-  setIdSelected:(id:string) => {
+  setIdSelected: (id: string) => {
     set({
       idSelected: id,
     });

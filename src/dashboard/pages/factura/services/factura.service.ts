@@ -91,6 +91,8 @@ export const getFactura = async (id: string): Promise<any> => {
     paymentProofName: data.invoiceDocument?.paymentProofFileName ?? null,
     paymentProofFile: data.invoiceDocument?.paymentProofFilePath ?? null,
     condicionesPagoId: data.paymentTermId,
+    tipoCambio: data.exchangeRate ?? null,
+    contractId: data.contractId ?? null,
   };
 };
 
@@ -172,6 +174,19 @@ export const calculateScheduledPaymentDate = async ({
   const { data } = await cuentasApi.get<CalculateScheduledPaymentDateResponse>(
     `/Invoice/CalculateScheduledPaymentDate?supplierId=${supplierId}&invoiceDate=${invoiceDate}&paymentTermId=${paymentTermId}`
   );
+
+  return data;
+};
+
+
+export const getContractNames = async (supplierId: string): Promise<any> => {
+  const { data } = await cuentasApi.get(`/Invoice/${supplierId}/GetContractNames`);
+
+  return data;
+};
+
+export const getSupplierInvoices = async (supplierId: string, currentInvoiceId: string ): Promise<any> => {
+  const { data } = await cuentasApi.get(`/Invoice/${supplierId}/GetSupplierInvoices${currentInvoiceId ? `?currentInvoiceId=${currentInvoiceId}` : ''}`);
 
   return data;
 };

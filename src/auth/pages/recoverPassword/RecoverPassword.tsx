@@ -11,7 +11,7 @@ export const RecoverPasswordPage = () => {
     <div className="recoverPasswordContainer">
       <Paper style={{ padding: 16 }}>
         <Typography component="h1" variant="h5">
-          Recover password
+          Recuperar Contraseña
         </Typography>
         <form
           onSubmit={handleSubmit}
@@ -26,7 +26,7 @@ export const RecoverPasswordPage = () => {
             required
             fullWidth
             id="email"
-            label="Email"
+            label="Correo Electrónico"
             name="email"
             type="email"
             autoFocus
@@ -43,11 +43,11 @@ export const RecoverPasswordPage = () => {
             color="primary"
             disabled={!(values.email.length > 0) || isPending}
           >
-            Reset Password
+            Restablecer Contraseña
           </Button>
           <Grid container>
             <Grid style={{ marginTop: 8 }}>
-              <Link to="/auth/login">Sign in</Link>
+              <Link to="/auth/login">Iniciar Sesión</Link>
             </Grid>
           </Grid>
         </form>

@@ -19,4 +19,7 @@ export interface PutFacturaHeaderPayload {
   reimbursementDate: string | null;
   reimbursementCollaboratorId: number | null;
   paymentTermId: number;
+  exchangeRate: number | null;
+  contractId: number | null;
+  relatedInvoiceId: number | null;
 }

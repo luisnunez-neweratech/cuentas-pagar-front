@@ -14,6 +14,7 @@ import {
   uploadFacturaFiles,
   getCheckDuplicate,
   calculateScheduledPaymentDate,
+  getContractNames,
 } from "../../../services/factura.service";
 import { useEffect, useState } from "react";
 import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
@@ -250,6 +251,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     queryFn: () => getColaboradoresSgpyon(),
   });
 
+  const { data: contratos } = useQuery({
+    queryKey: ["Invoice", "GetContractNames"],
+    queryFn: () => getContractNames(facturaBD.proveedorId!.toString()),
+    enabled: facturaBD && facturaBD.proveedorId ? true : false,
+  });
+
   const initialFormValues = () => {
     if (id && facturaBD && proveedores && colaboradores) {
       facturaBD?.details.map((detail: any) => {
@@ -291,6 +298,19 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         return colaborador.id === facturaBD.colaboradorId;
       });
 
+      let currentContrato = null;
+      if (contratos && contratos.length > 0) {
+        currentContrato = contratos.find((contrato: any) => {
+          return contrato.contractId === facturaBD.contractId;
+        });
+        if (currentContrato) {
+          currentContrato = {
+            value: currentContrato.contractId,
+            label: currentContrato.contractName,
+          };
+        }
+      }
+
       return {
         proveedorId: {
           value: proveedorBD && proveedorBD.id ? proveedorBD.id : 0,
@@ -331,6 +351,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           proveedorBD && proveedorBD.productos ? proveedorBD.productos : [],
         condicionesPagoId: facturaBD.condicionesPagoId, //proveedorBD.condicionesPagoId,
         condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
+        tipoCambio: facturaBD.tipoCambio,
+        contractId: currentContrato,
+        relatedInvoiceId: facturaBD.relatedInvoiceNumber,
       };
     }
     return {
@@ -364,6 +387,9 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       productos: stateFactura.productos,
       condicionesPagoId: stateFactura.condicionesPagoId,
       condicionesPagoLabel: stateFactura.condicionesPagoLabel,
+      tipoCambio: stateFactura.tipoCambio,
+      contractId: stateFactura.contractId,
+      relatedInvoiceId: stateFactura.relatedInvoiceId,
     };
   };
 
@@ -414,7 +440,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   fiscalFolio: values.folioFiscal ?? "",
                   documentType: values.tipoDocumentoId!,
                   invoiceDate: values.fechaFactura!,
-                  supplierProductService: values.productos![0].descripcion,
+                  supplierProductService:
+                    values.productos.length > 0
+                      ? values.productos[0].descripcion
+                      : "",
                   subtotal: values.subtotal!,
                   discount: values.descuento!,
                   taxIVA: values.impuestos!,
@@ -427,7 +456,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     +values.ivaRetenido! -
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
-                  exchangeRate: 0,
+                  exchangeRate:
+                    values.monedaId === 39 // USD
+                      ? values.tipoCambio === 0 || values.tipoCambio === null
+                        ? 1
+                        : values.tipoCambio
+                      : null,
                   paymentForm: "string",
                   paymentTerms: values.condicionesPagoLabel!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
@@ -440,6 +474,14 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       : null,
                   invoiceStatusId: values.statusFacturaId,
                   paymentTermId: values.condicionesPagoId,
+                  contractId:
+                    values.contractId && values.contractId.value > 0
+                      ? values.contractId.value
+                      : null,
+                  relatedInvoiceId:
+                    values.relatedInvoiceId && values.relatedInvoiceId.value > 0
+                      ? values.relatedInvoiceId.value
+                      : null,
                 });
               } else {
                 // crea solo detalles
@@ -514,7 +556,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   fiscalFolio: values.folioFiscal ?? "",
                   documentType: values.tipoDocumentoId!,
                   invoiceDate: values.fechaFactura!,
-                  supplierProductService: values.productos![0].descripcion,
+                  supplierProductService:
+                    values.productos.length > 0
+                      ? values.productos[0].descripcion
+                      : "",
                   subtotal: values.subtotal!,
                   discount: values.descuento!,
                   taxIVA: values.impuestos!,
@@ -533,6 +578,20 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId: values.colaboradorId!.value,
                   paymentTermId: values.condicionesPagoId,
+                  exchangeRate:
+                    values.monedaId === 39 // USD
+                      ? values.tipoCambio === 0 || values.tipoCambio === null
+                        ? 1
+                        : values.tipoCambio
+                      : null,
+                  contractId:
+                    values.contractId && values.contractId.value > 0
+                      ? values.contractId.value
+                      : null,
+                  relatedInvoiceId:
+                    values.relatedInvoiceId && values.relatedInvoiceId.value > 0
+                      ? values.relatedInvoiceId.value
+                      : null,
                 },
               });
 
