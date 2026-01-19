@@ -21,4 +21,5 @@ export interface PutFacturaHeaderPayload {
   paymentTermId: number;
   exchangeRate: number | null;
   contractId: number | null;
+  relatedInvoiceId: number | null;
 }

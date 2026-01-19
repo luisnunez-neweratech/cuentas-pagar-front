@@ -39,6 +39,7 @@ export const TabPago = ({
     convertMonedas,
     id,
     convertContratos,
+    convertFacturas,
   } = useTabPago(values.proveedorId?.value);
 
   const scheduledPaymentMessage = useFacturaStore(
@@ -202,6 +203,25 @@ export const TabPago = ({
             errors={errors.contractId?.value}
           />
         )}
+      </Grid>
+
+      <Grid size={2} />
+
+      <Grid size={2}>
+        {values.tipoDocumentoId === 2 && // nota de credito
+          values.proveedorId &&
+          values.proveedorId.value > 0 && (
+            <NormalAutocomplete
+              options={convertFacturas}
+              label="Facturas"
+              id="relatedInvoiceId"
+              value={values.relatedInvoiceId}
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+              touched={touched.relatedInvoiceId?.value}
+              errors={errors.relatedInvoiceId?.value}
+            />
+          )}
       </Grid>
 
       <Grid size={11} />

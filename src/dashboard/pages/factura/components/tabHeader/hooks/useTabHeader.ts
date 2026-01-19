@@ -14,6 +14,7 @@ import {
   uploadFacturaFiles,
   getCheckDuplicate,
   calculateScheduledPaymentDate,
+  getContractNames,
 } from "../../../services/factura.service";
 import { useEffect, useState } from "react";
 import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
@@ -250,6 +251,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     queryFn: () => getColaboradoresSgpyon(),
   });
 
+  const { data: contratos } = useQuery({
+    queryKey: ["Invoice", "GetContractNames"],
+    queryFn: () => getContractNames(facturaBD.proveedorId!.toString()),
+    enabled: facturaBD && facturaBD.proveedorId ? true : false,
+  });
+
   const initialFormValues = () => {
     if (id && facturaBD && proveedores && colaboradores) {
       facturaBD?.details.map((detail: any) => {
@@ -290,6 +297,19 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       const colaborador = colaboradores.find((colaborador: any) => {
         return colaborador.id === facturaBD.colaboradorId;
       });
+
+      let currentContrato = null;
+      if (contratos && contratos.length > 0) {
+        currentContrato = contratos.find((contrato: any) => {
+          return contrato.contractId === facturaBD.contractId;
+        });
+        if (currentContrato) {
+          currentContrato = {
+            value: currentContrato.contractId,
+            label: currentContrato.contractName,
+          };
+        }        
+      }
 
       return {
         proveedorId: {
@@ -332,7 +352,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         condicionesPagoId: facturaBD.condicionesPagoId, //proveedorBD.condicionesPagoId,
         condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         tipoCambio: facturaBD.tipoCambio,
-        contractId: facturaBD.contractId,
+        contractId: currentContrato,
+        relatedInvoiceId: facturaBD.relatedInvoiceNumber,
       };
     }
     return {
@@ -368,6 +389,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       condicionesPagoLabel: stateFactura.condicionesPagoLabel,
       tipoCambio: stateFactura.tipoCambio,
       contractId: stateFactura.contractId,
+      relatedInvoiceId: stateFactura.relatedInvoiceId,
     };
   };
 
@@ -455,6 +477,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   contractId:
                     values.contractId.value > 0
                       ? values.contractId.value
+                      : null,
+                  relatedInvoiceId:
+                    values.relatedInvoiceId && values.relatedInvoiceId.value > 0
+                      ? values.relatedInvoiceId.value
                       : null,
                 });
               } else {
@@ -561,6 +587,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   contractId:
                     values.contractId && values.contractId.value > 0
                       ? values.contractId.value
+                      : null,
+                  relatedInvoiceId:
+                    values.relatedInvoiceId && values.relatedInvoiceId.value > 0
+                      ? values.relatedInvoiceId.value
                       : null,
                 },
               });
