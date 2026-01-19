@@ -186,7 +186,7 @@ export const getContractNames = async (supplierId: string): Promise<any> => {
 };
 
 export const getSupplierInvoices = async (supplierId: string, currentInvoiceId: string ): Promise<any> => {
-  const { data } = await cuentasApi.get(`/Invoice/${supplierId}/GetSupplierInvoices?currentInvoiceId=${currentInvoiceId}`);
+  const { data } = await cuentasApi.get(`/Invoice/${supplierId}/GetSupplierInvoices${currentInvoiceId ? `?currentInvoiceId=${currentInvoiceId}` : ''}`);
 
   return data;
 };
