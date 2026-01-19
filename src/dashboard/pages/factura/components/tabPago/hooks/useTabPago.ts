@@ -4,7 +4,10 @@ import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.ser
 import { getAllPlazoPagos } from "../../../../catalogos/services/plazoPago.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 import { useParams } from "react-router";
-import { getContractNames } from "../../../services/factura.service";
+import {
+  getContractNames,
+  getSupplierInvoices,
+} from "../../../services/factura.service";
 
 interface contratoItem {
   contractId: number;
@@ -21,6 +24,9 @@ export const useTabPago = (proveedorId: number | null) => {
     { value: number; label: string }[]
   >([]);
   const [convertContratos, setConvertContratos] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const [convertFacturas, setConvertFacturas] = useState<
     { value: number; label: string }[]
   >([]);
 
@@ -99,11 +105,29 @@ export const useTabPago = (proveedorId: number | null) => {
     setConvertContratos(newContratos ?? []);
   }, [contratos]);
 
+  const { data: facturas } = useQuery({
+    queryKey: ["Invoice", proveedorId, "GetSupplierInvoices", "currentInvoiceId"],
+    queryFn: () => getSupplierInvoices(proveedorId!.toString(), id || ""),
+    enabled: proveedorId && proveedorId > 0 ? true : false,
+  });
+
+  useEffect(() => {
+    const newFacturas = facturas?.map((factura: any) => {
+      return {
+        value: factura.invoiceId,
+        label: factura.invoiceNumber,
+      };
+    });
+
+    setConvertFacturas(newFacturas ?? []);
+  }, [facturas]);
+
   return {
     convertColaboradores,
     convertPlazoPagos,
     convertMonedas,
     id,
-    convertContratos
+    convertContratos,
+    convertFacturas,
   };
 };
