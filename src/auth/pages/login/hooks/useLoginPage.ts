@@ -25,7 +25,7 @@ export const useLoginPage = () => {
           loginMutation.mutate({ email, password });
           return;
         } catch (error) {
-          console.error('error', error);
+          console.error("error", error);
           toast.error("Correo o contraseña incorrecta ");
         }
       },
