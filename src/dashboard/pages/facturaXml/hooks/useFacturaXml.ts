@@ -1,24 +1,25 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useDashboardLayoutStore } from "../../../store/dashboardLayout.store";
 import { useFacturaXMLStore } from "../store/FacturaXml.store";
 import { useNavigate } from "react-router";
-import { importFacturaFiles } from "../services/invoice.service";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
+import { useMutations } from "./useMutations";
 
 export const useFacturaXml = () => {
   const navigate = useNavigate();
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const isLoading = useDashboardLayoutStore((state) => state.isLoading);
   const openModal = useFacturaXMLStore((state) => state.openModal);
   const handleOpenModal = useFacturaXMLStore((state) => state.handleOpenModal);
   const handleCloseModal = useFacturaXMLStore(
-    (state) => state.handleCloseModal
+    (state) => state.handleCloseModal,
   );
   const setFacturaResult = useFacturaXMLStore(
-    (state) => state.setFacturaResult
+    (state) => state.setFacturaResult,
   );
   const facturaResult = useFacturaXMLStore((state) => state.facturaResult);
+
+  const fileInputXmlRef = useRef<HTMLInputElement>(null);
+  const fileInputPdfRef = useRef<HTMLInputElement>(null);
 
   const [xmlFileName, setXmlFileName] = useState("");
   const [_xmlFile, setXmlFile] = useState(null);
@@ -26,28 +27,25 @@ export const useFacturaXml = () => {
   const [pdfFileName, setPdfFileName] = useState("");
   const [_pdfFile, setPdfFile] = useState(null);
 
-  const importDocumentosMutation = useMutation({
-    mutationFn: importFacturaFiles,
-    onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al subir los documentos");
-      return;
-    },
-    onSettled: (data, error) => {
-      setIsLoading(false);
-      if (error) {
-        if (error instanceof AxiosError) {
-          toast.error(error.response?.data.error);
-          return;
-        }
-      } else {
-        setFacturaResult(data);
-        handleOpenModal();
-      }
-    },
+  const clearValues = () => {
+    setXmlFileName("");
+    setPdfFileName("");
+    setXmlFile(null);
+    setPdfFile(null);
+    if (fileInputXmlRef.current) {
+      fileInputXmlRef.current.value = "";
+    }
+    if (fileInputPdfRef.current) {
+      fileInputPdfRef.current.value = "";
+    }
+
+  };
+
+  const { importDocumentosMutation } = useMutations({
+    setIsLoading,
+    setFacturaResult,
+    handleOpenModal,
+    clearValues,
   });
 
   const handleXmlFileChange = (event: any) => {
@@ -85,5 +83,8 @@ export const useFacturaXml = () => {
     onClickCloseModal,
     infoMessages: facturaResult.messages ?? [],
     warningMessages: facturaResult.warnings ?? [],
+    fileInputXmlRef,
+    fileInputPdfRef,
+    isLoading
   };
 };

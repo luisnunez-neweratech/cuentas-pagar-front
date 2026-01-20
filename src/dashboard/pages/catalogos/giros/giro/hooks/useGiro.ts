@@ -4,58 +4,17 @@ import { useNavigate, useParams } from "react-router";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { validationSchema } from "../Validations";
-import { addGiro, getGiro, updateGiro } from "../../../services/giros.service";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
+import { useQueries } from "./useQueries";
+import { useMutations } from "./useMutations";
 
 export const useGiro = () => {
   const { id } = useParams();
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const navigate = useNavigate();
 
-  const addGiroMutation = useMutation({
-    mutationFn: addGiro,
-    onSuccess: () => {
-      toast.success("Giro agregado correctamente");
-      navigate("/catalogos/giros/");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al agregar el giro");
-      return;
-    },
-  });
-
-  const updateGiroMutation = useMutation({
-    mutationFn: updateGiro,
-    onSuccess: () => {
-      toast.success("Giro actualizado correctamente");
-      navigate("/catalogos/giros/");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el giro");
-      return;
-    },
-  });
-
-  const {
-    isLoading,
-    isError,
-    error,
-    data: giro,
-  } = useQuery({
-    queryKey: ["CatalogMaster", `${id}`],
-    queryFn: () => getGiro(id || ""),
-  });
+  const { isLoading, isError, error, giro } = useQueries({ id });
+  const { addGiroMutation, updateGiroMutation } = useMutations({ navigate });
 
   const getData = () => {
     if (giro) {

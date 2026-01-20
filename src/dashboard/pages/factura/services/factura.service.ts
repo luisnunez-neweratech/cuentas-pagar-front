@@ -6,7 +6,7 @@ import type { PutFacturaHeaderPayload } from "../interfaces/PutFacturaHeaderPayl
 import type { CalculateScheduledPaymentDateResponse } from "../interfaces/CalculateScheduledPaymentDateResponse";
 
 export const addFacturaHeader = async (
-  postFacturaHeaderPayload: PostFacturaHeaderPayload
+  postFacturaHeaderPayload: PostFacturaHeaderPayload,
 ): Promise<any> => {
   const response = await cuentasApi.post("/Invoice/HeaderCreate", {
     ...postFacturaHeaderPayload,
@@ -25,7 +25,7 @@ export const addFacturaDetalle = async ({
 }: addFacturaDetalleProps): Promise<any> => {
   const response = await cuentasApi.post(
     `/Invoice/DetailsCreate/${invoiceId}`,
-    postFacturaDetallePayload
+    postFacturaDetallePayload,
   );
   return response;
 };
@@ -55,7 +55,7 @@ export const uploadFacturaFiles = async ({
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    }
+    },
   );
   return data;
 };
@@ -93,6 +93,7 @@ export const getFactura = async (id: string): Promise<any> => {
     condicionesPagoId: data.paymentTermId,
     tipoCambio: data.exchangeRate ?? null,
     contractId: data.contractId ?? null,
+    relatedInvoiceId: data.relatedInvoiceId ?? null,
   };
 };
 
@@ -121,7 +122,7 @@ export const updateFacturaDetalle = async ({
 }: putFacturaDetalleProps): Promise<any> => {
   const response = await cuentasApi.put(
     `/Invoice/DetailsUpdate/${invoiceId}`,
-    putFacturaDetallePayload
+    putFacturaDetallePayload,
   );
   return response;
 };
@@ -142,7 +143,7 @@ export const deleteFacturaArchivo = async ({
   fileType,
 }: deleteFacturaArchivoProps): Promise<any> => {
   const { data } = await cuentasApi.delete(
-    `/Invoice/${invoiceId}/Document/${fileType}`
+    `/Invoice/${invoiceId}/Document/${fileType}`,
   );
 
   return data;
@@ -151,10 +152,10 @@ export const deleteFacturaArchivo = async ({
 export const getCheckDuplicate = async (
   invoiceNumber: string,
   fiscalFolio: string,
-  supplierId: string
+  supplierId: string,
 ): Promise<any> => {
   const { data } = await cuentasApi.get(
-    `/Invoice/CheckDuplicate?invoiceNumber=${invoiceNumber}&fiscalFolio=${fiscalFolio}&supplierId=${supplierId}`
+    `/Invoice/CheckDuplicate?invoiceNumber=${invoiceNumber}&fiscalFolio=${fiscalFolio}&supplierId=${supplierId}`,
   );
 
   return data;
@@ -172,21 +173,27 @@ export const calculateScheduledPaymentDate = async ({
   paymentTermId,
 }: calculateScheduledPaymentDateProps): Promise<CalculateScheduledPaymentDateResponse> => {
   const { data } = await cuentasApi.get<CalculateScheduledPaymentDateResponse>(
-    `/Invoice/CalculateScheduledPaymentDate?supplierId=${supplierId}&invoiceDate=${invoiceDate}&paymentTermId=${paymentTermId}`
+    `/Invoice/CalculateScheduledPaymentDate?supplierId=${supplierId}&invoiceDate=${invoiceDate}&paymentTermId=${paymentTermId}`,
   );
 
   return data;
 };
 
-
 export const getContractNames = async (supplierId: string): Promise<any> => {
-  const { data } = await cuentasApi.get(`/Invoice/${supplierId}/GetContractNames`);
+  const { data } = await cuentasApi.get(
+    `/Invoice/${supplierId}/GetContractNames`,
+  );
 
   return data;
 };
 
-export const getSupplierInvoices = async (supplierId: string, currentInvoiceId: string ): Promise<any> => {
-  const { data } = await cuentasApi.get(`/Invoice/${supplierId}/GetSupplierInvoices${currentInvoiceId ? `?currentInvoiceId=${currentInvoiceId}` : ''}`);
+export const getSupplierInvoices = async (
+  supplierId: string,
+  currentInvoiceId: string,
+): Promise<any> => {
+  const { data } = await cuentasApi.get(
+    `/Invoice/${supplierId}/GetSupplierInvoices${currentInvoiceId ? `?currentInvoiceId=${currentInvoiceId}` : ""}`,
+  );
 
   return data;
 };

@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { useQuery } from "@tanstack/react-query";
 import { TipoProveedor } from "../../../../proveedor/interfaces/TipoProveedor";
-import { getProveedores } from "../../../services/proveedores.service";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 import { useProveedorContratoStore } from "../../../../proveedor/contrato/store/ProveedorContrato.store";
 import { useProveedoresPageStore } from "../../../store/ProveedoresPage.store";
 import { useDocumentoPrincipalStore } from "../../../../proveedor/contrato/components/steps/NewContrato/store/DocumentoPrincipal.store";
+import { useQueries } from "./useQueries";
 
 export const useProveedorTable = () => {
   const navigate = useNavigate();
@@ -20,52 +19,38 @@ export const useProveedorTable = () => {
   const [totalRows, setTotalRows] = useState(0);
   const callApi = useProveedoresPageStore((state) => state.callApi);
   const filtrosProveedores = useProveedoresPageStore(
-    (state) => state.filtrosProveedores
+    (state) => state.filtrosProveedores,
   );
   const clearData = useDocumentoPrincipalStore((state) => state.clearData);
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
+    newPage: number,
   ) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const {
-    isLoading,
-    isError: isErrorGet,
-    error: errorGet,
-    data: proveedores,
-  } = useQuery({
-    queryKey: ["Supplier", "GetPagedAsync", page, rowsPerPage, callApi],
-    queryFn: () =>
-      getProveedores({
-        page: page + 1,
-        rowsPerPage,
-        rfc: filtrosProveedores.rfc,
-        alias: filtrosProveedores.alias,
-        razonSocial: filtrosProveedores.razonSocial,
-        fechaalta: filtrosProveedores.fechaAlta,
-        contratoFechaInicio: filtrosProveedores.fechaInicioContrato,
-        contratoFechaFin: filtrosProveedores.fechaFinContrato,
-        status: filtrosProveedores.status
-      }),
+  const { isLoading, isErrorGet, errorGet, proveedores } = useQueries({
+    page,
+    rowsPerPage,
+    callApi,
   });
 
   const rowClick = (row: any) => {
     handleReset();
-    clearData();
-    if (row.tipoProveedor === TipoProveedor.Ocasional.value) {
-      navigate(row.id);
+    clearData();    
+    if (row.tipoProveedor === TipoProveedor.Ocasional.value) {            
+      navigate(`/proveedor/${row.id}`);      
+    } else {      
+      navigate(`contrato/${row.id}`);
     }
-    navigate(`contrato/${row.id}`);
   };
 
   useEffect(() => {
