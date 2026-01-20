@@ -329,9 +329,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
             label: currentFactura.invoiceNumber,
           };
         }
-      }
-
-      console.log('facturaBD', facturaBD);
+      }      
 
       return {
         proveedorId: {
