@@ -7,22 +7,17 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   addFacturaDetalle,
   addFacturaHeader,
-  getFactura,
-  getStatusFactura,
   updateFacturaDetalle,
   updateFacturaHeader,
   uploadFacturaFiles,
   getCheckDuplicate,
   calculateScheduledPaymentDate,
-  getContractNames,
-  getSupplierInvoices,
 } from "../../../services/factura.service";
 import { useEffect, useState } from "react";
-import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
-import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
+import { useQueries } from "./useQueries";
 
 interface props {
   onClickGuardar: number;
@@ -30,6 +25,19 @@ interface props {
 
 export const useTabHeader = ({ onClickGuardar }: props) => {
   const { id } = useParams();
+
+  const {
+    proveedores,
+    statusFacturaData,
+    facturaBD,
+    isLoading,
+    colaboradores,
+    contratos,
+    facturas,
+  } = useQueries({
+    id,
+  });
+
   const navigate = useNavigate();
 
   const stateFactura = useFacturaStore((state) => state);
@@ -88,27 +96,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
   const [callCheckDuplicateFactura, setCallCheckDuplicateFactura] =
     useState<boolean>(false);
-
-  const { data: proveedores } = useQuery({
-    queryKey: ["Supplier", "GetAll"],
-    queryFn: () => getProveedoresAutoComplete(),
-  });
-
-  const { data: statusFacturaData } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "InvoiceStatus"],
-    queryFn: () => getStatusFactura(),
-  });
-
-  const {
-    isLoading,
-    //isError: isErrorGet,
-    //error: errorGet,
-    data: facturaBD,
-  } = useQuery({
-    queryKey: ["Invoice", `${id}`],
-    queryFn: () => getFactura(id || ""),
-    enabled: !!id,
-  });
 
   const createMutationDetalle = useMutation({
     mutationFn: addFacturaDetalle,
@@ -247,23 +234,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     },
   });
 
-  const { data: colaboradores } = useQuery({
-    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
-    queryFn: () => getColaboradoresSgpyon(),
-  });
-
-  const { data: contratos } = useQuery({
-    queryKey: ["Invoice", "GetContractNames"],
-    queryFn: () => getContractNames(facturaBD.proveedorId!.toString()),
-    enabled: facturaBD && facturaBD.proveedorId ? true : false,
-  });
-
-  const { data: facturas } = useQuery({
-    queryKey: ["Invoice", "GetSupplierInvoices", "currentInvoiceId"],
-    queryFn: () => getSupplierInvoices(facturaBD.proveedorId!.toString(), ""),
-    enabled: facturaBD && facturaBD.proveedorId ? true : false,
-  });
-
   const initialFormValues = () => {
     if (id && facturaBD && proveedores && colaboradores) {
       facturaBD?.details.map((detail: any) => {
@@ -329,7 +299,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
             label: currentFactura.invoiceNumber,
           };
         }
-      }      
+      }
 
       return {
         proveedorId: {
