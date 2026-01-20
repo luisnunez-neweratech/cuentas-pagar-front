@@ -3,26 +3,16 @@ import { validationSchema } from "../../../Validations";
 import { useFacturaStore } from "../../../store/Factura.store";
 import type { Item } from "../../../../../../components/common/AutoComplete/interfaces/Item";
 import { useNavigate, useParams } from "react-router";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
-  addFacturaDetalle,
-  addFacturaHeader,
-  getFactura,
-  getStatusFactura,
-  updateFacturaDetalle,
-  updateFacturaHeader,
-  uploadFacturaFiles,
   getCheckDuplicate,
   calculateScheduledPaymentDate,
-  getContractNames,
-  getSupplierInvoices,
 } from "../../../services/factura.service";
 import { useEffect, useState } from "react";
-import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
-import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
+import { useQueries } from "./useQueries";
+import { useMutations } from "./useMutations";
 
 interface props {
   onClickGuardar: number;
@@ -30,6 +20,19 @@ interface props {
 
 export const useTabHeader = ({ onClickGuardar }: props) => {
   const { id } = useParams();
+
+  const {
+    proveedores,
+    statusFacturaData,
+    facturaBD,
+    isLoading,
+    colaboradores,
+    contratos,
+    facturas,
+  } = useQueries({
+    id,
+  });
+
   const navigate = useNavigate();
 
   const stateFactura = useFacturaStore((state) => state);
@@ -45,7 +48,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   );
 
   const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
-  const setFacturaId = useFacturaStore((state) => state.setFacturaId);
+
   const setDisableButtons = useFacturaStore((state) => state.setDisableButtons);
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
   const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
@@ -70,6 +73,17 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     setIsLoading(state);
   };
 
+  const {
+    createMutationDetalle,
+    uploadDocumentosMutation,
+    createMutation,
+    updateHeaderMutation,
+    updateMutationDetalle,
+  } = useMutations({
+    handleDisableButtons,
+    navigate,
+  });
+
   const handleOpenModal = useFacturaStore((state) => state.handleOpenModal);
 
   const [listaProductos, setListaProductos] = useState<
@@ -88,181 +102,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
 
   const [callCheckDuplicateFactura, setCallCheckDuplicateFactura] =
     useState<boolean>(false);
-
-  const { data: proveedores } = useQuery({
-    queryKey: ["Supplier", "GetAll"],
-    queryFn: () => getProveedoresAutoComplete(),
-  });
-
-  const { data: statusFacturaData } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "InvoiceStatus"],
-    queryFn: () => getStatusFactura(),
-  });
-
-  const {
-    isLoading,
-    //isError: isErrorGet,
-    //error: errorGet,
-    data: facturaBD,
-  } = useQuery({
-    queryKey: ["Invoice", `${id}`],
-    queryFn: () => getFactura(id || ""),
-    enabled: !!id,
-  });
-
-  const createMutationDetalle = useMutation({
-    mutationFn: addFacturaDetalle,
-    onSuccess: () => {
-      toast.success("Factura creada correctamente");
-      handleDisableButtons(false);
-      navigate("/facturas");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          toast.error(error.response.data);
-          return;
-        }
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al agregar el detalle de la factura");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const uploadDocumentosMutation = useMutation({
-    mutationFn: uploadFacturaFiles,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al subir los documentos");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const createMutation = useMutation({
-    mutationFn: addFacturaHeader,
-    onSuccess: (data) => {
-      setFacturaId(data.data.id); //id header creado, por si falla el detalle usar este id
-      const newDetalles = (stateFactura.facturaDetalle ?? []).map((detalle) => {
-        return {
-          id: 0,
-          lineNumber: 0,
-          quantity: +detalle.cantidad,
-          productServiceKey: detalle.codigo.toString(),
-          concept: detalle.concepto.toString(),
-          unitPrice: +detalle.precio,
-          lineDiscount: 0,
-          lineTotal: +detalle.total,
-          uofMId: detalle.uMedida,
-        };
-      });
-      createMutationDetalle.mutate({
-        invoiceId: data.data.id,
-        postFacturaDetallePayload: newDetalles,
-      });
-
-      if (
-        stateFactura.xmlFileValue ||
-        stateFactura.pdfFileValue ||
-        stateFactura.paymentProofFileValue
-      ) {
-        uploadDocumentosMutation.mutate({
-          facturaId: data.data.id,
-          xml: stateFactura.xmlFileValue,
-          pdf: stateFactura.pdfFileValue,
-          paymentProof: stateFactura.paymentProofFileValue,
-        });
-      }
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          toast.error(error.response.data);
-          return;
-        }
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al agregar la factura");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const updateHeaderMutation = useMutation({
-    mutationFn: updateFacturaHeader,
-    onSuccess: () => {
-      //toast.success("Factura actualizada correctamente");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar la factura");
-      return;
-    },
-    onSettled: () => {
-      //handleDisableButtons(false);
-    },
-  });
-
-  const updateMutationDetalle = useMutation({
-    mutationFn: updateFacturaDetalle,
-    onSuccess: () => {
-      toast.success("Factura actualizada correctamente");
-      navigate("/facturas");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          toast.error(error.response.data);
-          return;
-        }
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al agregar el detalle de la factura");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const { data: colaboradores } = useQuery({
-    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
-    queryFn: () => getColaboradoresSgpyon(),
-  });
-
-  const { data: contratos } = useQuery({
-    queryKey: ["Invoice", "GetContractNames"],
-    queryFn: () => getContractNames(facturaBD.proveedorId!.toString()),
-    enabled: facturaBD && facturaBD.proveedorId ? true : false,
-  });
-
-  const { data: facturas } = useQuery({
-    queryKey: ["Invoice", "GetSupplierInvoices", "currentInvoiceId"],
-    queryFn: () => getSupplierInvoices(facturaBD.proveedorId!.toString(), ""),
-    enabled: facturaBD && facturaBD.proveedorId ? true : false,
-  });
 
   const initialFormValues = () => {
     if (id && facturaBD && proveedores && colaboradores) {
@@ -329,7 +168,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
             label: currentFactura.invoiceNumber,
           };
         }
-      }      
+      }
 
       return {
         proveedorId: {
@@ -903,45 +742,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     }
   }, [values.statusFacturaId]);
 
-  /* const onValidateTabHeader = () => {
-    if (
-      values.tipoDocumentoId &&
-      values.proveedorId.value > 0 &&
-      values.noFactura &&
-      values.folioFiscal &&
-      values.fechaFactura
-    ) {
-      setValidTabHeader(true);
-    } else {
-      setValidTabHeader(false);
-    }
-  }; */
-
-  /*   useEffect(() => {
-    onValidateTabHeader();
-  }, [
-    values.tipoDocumentoId,
-    values.noFactura,
-    values.folioFiscal,
-    values.fechaFactura,
-  ]);
- */
-  /*  const onValidateTabDetail = () => {
-    if (
-      values.monedaId &&
-      stateFactura.facturaDetalle &&
-      stateFactura.facturaDetalle?.length > 0
-    ) {
-      setValidTabDetail(true);
-    } else {
-      setValidTabDetail(false);
-    }
-  }; */
-  /* 
-  useEffect(() => {
-    onValidateTabDetail();
-  }, [values.monedaId, stateFactura.facturaDetalle]);
- */
   return {
     onChangeAutocomplete,
     values,

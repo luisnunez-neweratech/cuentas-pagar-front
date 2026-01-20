@@ -14,6 +14,9 @@ export const FacturaXml = () => {
     onClickCloseModal,
     infoMessages,
     warningMessages,
+    fileInputXmlRef,
+    fileInputPdfRef,
+    isLoading
   } = useFacturaXml();
 
   return (
@@ -25,6 +28,7 @@ export const FacturaXml = () => {
             id="facturaXML"
             style={{ display: "none" }}
             onChange={handleXmlFileChange}
+            ref={fileInputXmlRef}
             accept=".xml"
           />
 
@@ -52,7 +56,7 @@ export const FacturaXml = () => {
       <Grid size={2}>
         <Button
           variant="contained"
-          disabled={xmlFileName.length === 0}
+          disabled={xmlFileName.length === 0 || isLoading}
           onClick={onClickCargarInformacion}
         >
           Cargar Información
@@ -65,6 +69,7 @@ export const FacturaXml = () => {
             id="facturaPDF"
             style={{ display: "none" }}
             onChange={handlePdfFileChange}
+            ref={fileInputPdfRef}
             accept=".pdf"
           />
 
