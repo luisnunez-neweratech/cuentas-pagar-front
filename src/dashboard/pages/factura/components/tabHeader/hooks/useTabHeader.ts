@@ -15,6 +15,7 @@ import {
   getCheckDuplicate,
   calculateScheduledPaymentDate,
   getContractNames,
+  getSupplierInvoices,
 } from "../../../services/factura.service";
 import { useEffect, useState } from "react";
 import { getProveedoresAutoComplete } from "../../../../facturas/services/proveedor.service";
@@ -34,13 +35,13 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const stateFactura = useFacturaStore((state) => state);
 
   const addRowFacturaDetalle = useFacturaStore(
-    (state) => state.addRowFacturaDetalle
+    (state) => state.addRowFacturaDetalle,
   );
 
   const setValidTabHeader = useFacturaStore((state) => state.setValidTabHeader);
 
   const setTipoDocumentoId = useFacturaStore(
-    (state) => state.setTipoDocumentoId
+    (state) => state.setTipoDocumentoId,
   );
 
   const setTipoEntidadId = useFacturaStore((state) => state.setTipoEntidadId);
@@ -49,19 +50,19 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setPdfDownloadUrl = useFacturaStore((state) => state.setPdfDownloadUrl);
   const setXmlDownloadUrl = useFacturaStore((state) => state.setXmlDownloadUrl);
   const setPaymentProofDownloadUrl = useFacturaStore(
-    (state) => state.setPaymentProofDownloadUrl
+    (state) => state.setPaymentProofDownloadUrl,
   );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const setScheduledPaymentMessage = useFacturaStore(
-    (state) => state.setScheduledPaymentMessage
+    (state) => state.setScheduledPaymentMessage,
   );
   const setInitialValues = useFacturaStore((state) => state.setInitialValues);
   const initialSupplierId = useFacturaStore((state) => state.initialSupplierId);
   const initialInvoiceDate = useFacturaStore(
-    (state) => state.initialInvoiceDate
+    (state) => state.initialInvoiceDate,
   );
   const initialPaymentTermId = useFacturaStore(
-    (state) => state.initialPaymentTermId
+    (state) => state.initialPaymentTermId,
   );
 
   const handleDisableButtons = (state: boolean) => {
@@ -257,6 +258,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     enabled: facturaBD && facturaBD.proveedorId ? true : false,
   });
 
+  const { data: facturas } = useQuery({
+    queryKey: ["Invoice", "GetSupplierInvoices", "currentInvoiceId"],
+    queryFn: () => getSupplierInvoices(facturaBD.proveedorId!.toString(), ""),
+    enabled: facturaBD && facturaBD.proveedorId ? true : false,
+  });
+
   const initialFormValues = () => {
     if (id && facturaBD && proveedores && colaboradores) {
       facturaBD?.details.map((detail: any) => {
@@ -291,7 +298,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       setInitialValues(
         facturaBD.proveedorId,
         facturaBD.fechaFactura,
-        facturaBD.condicionesPagoId
+        facturaBD.condicionesPagoId,
       );
 
       const colaborador = colaboradores.find((colaborador: any) => {
@@ -310,6 +317,21 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
           };
         }
       }
+
+      let currentFactura = null;
+      if (facturas && facturas.length > 0) {
+        currentFactura = facturas.find((factura: any) => {
+          return factura.invoiceId === facturaBD.relatedInvoiceId;
+        });
+        if (currentFactura) {
+          currentFactura = {
+            value: currentFactura.invoiceId,
+            label: currentFactura.invoiceNumber,
+          };
+        }
+      }
+
+      console.log('facturaBD', facturaBD);
 
       return {
         proveedorId: {
@@ -353,7 +375,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         condicionesPagoLabel: "", //proveedorBD.condicionesPagoLabel,
         tipoCambio: facturaBD.tipoCambio,
         contractId: currentContrato,
-        relatedInvoiceId: facturaBD.relatedInvoiceNumber,
+        relatedInvoiceId: currentFactura,
       };
     }
     return {
@@ -498,7 +520,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       lineTotal: +detalle.total,
                       uofMId: detalle.uMedida,
                     };
-                  }
+                  },
                 );
                 createMutationDetalle.mutate({
                   invoiceId: stateFactura.id!.toString(),
@@ -608,7 +630,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     lineTotal: +detalle.total,
                     uofMId: detalle.uMedida,
                   };
-                }
+                },
               );
 
               // call endpoint actualizar detalle
@@ -653,7 +675,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       getCheckDuplicate(
         values.noFactura,
         values.folioFiscal,
-        values.proveedorId.value
+        values.proveedorId.value,
       ),
     enabled: callCheckDuplicateFactura,
   });
@@ -686,7 +708,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   const setCorrectAmoutValue = (
     value: string,
     field: string,
-    tipoDocId?: number
+    tipoDocId?: number,
   ) => {
     const valueDocumentoId = tipoDocId ?? values.tipoDocumentoId;
     if (valueDocumentoId === 2) {
@@ -709,32 +731,32 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     setCorrectAmoutValue(
       values.subtotal?.toString() ?? "",
       "subtotal",
-      e.target.value
+      e.target.value,
     );
     setCorrectAmoutValue(
       values.descuento?.toString() ?? "",
       "descuento",
-      e.target.value
+      e.target.value,
     );
     setCorrectAmoutValue(
       values.impuestos?.toString() ?? "",
       "impuestos",
-      e.target.value
+      e.target.value,
     );
     setCorrectAmoutValue(
       values.ivaRetenido?.toString() ?? "",
       "ivaRetenido",
-      e.target.value
+      e.target.value,
     );
     setCorrectAmoutValue(
       values.isrRetenido?.toString() ?? "",
       "isrRetenido",
-      e.target.value
+      e.target.value,
     );
     setCorrectAmoutValue(
       values.total?.toString() ?? "",
       "total",
-      e.target.value
+      e.target.value,
     );
   };
 
@@ -768,7 +790,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
             descripcion: producto.itemValue,
             //value: null
           };
-        }
+        },
       );
       setListaProductos(newListaProductos);
       if (newListaProductos && newListaProductos.length > 0) {
@@ -779,7 +801,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       setFieldValue("condicionesPagoId", values.proveedorId.condicionesPagoId);
       setFieldValue(
         "condicionesPagoLabel",
-        values.proveedorId.condicionesPagoLabel
+        values.proveedorId.condicionesPagoLabel,
       );
     } else {
       setListaProductos([]);
