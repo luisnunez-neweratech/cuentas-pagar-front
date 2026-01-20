@@ -14,6 +14,7 @@ export const FacturaXml = () => {
     onClickCloseModal,
     infoMessages,
     warningMessages,
+    fileInputXmlRef
   } = useFacturaXml();
 
   return (
@@ -25,6 +26,7 @@ export const FacturaXml = () => {
             id="facturaXML"
             style={{ display: "none" }}
             onChange={handleXmlFileChange}
+            ref={fileInputXmlRef}
             accept=".xml"
           />
 
