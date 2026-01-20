@@ -14,7 +14,8 @@ export const FacturaXml = () => {
     onClickCloseModal,
     infoMessages,
     warningMessages,
-    fileInputXmlRef
+    fileInputXmlRef,
+    fileInputPdfRef,
   } = useFacturaXml();
 
   return (
@@ -67,6 +68,7 @@ export const FacturaXml = () => {
             id="facturaPDF"
             style={{ display: "none" }}
             onChange={handlePdfFileChange}
+            ref={fileInputPdfRef}
             accept=".pdf"
           />
 

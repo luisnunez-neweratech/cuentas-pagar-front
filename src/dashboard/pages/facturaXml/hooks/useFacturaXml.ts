@@ -18,6 +18,7 @@ export const useFacturaXml = () => {
   const facturaResult = useFacturaXMLStore((state) => state.facturaResult);
 
   const fileInputXmlRef = useRef<HTMLInputElement>(null);
+  const fileInputPdfRef = useRef<HTMLInputElement>(null);
 
   const [xmlFileName, setXmlFileName] = useState("");
   const [_xmlFile, setXmlFile] = useState(null);
@@ -33,6 +34,10 @@ export const useFacturaXml = () => {
     if (fileInputXmlRef.current) {
       fileInputXmlRef.current.value = "";
     }
+    if (fileInputPdfRef.current) {
+      fileInputPdfRef.current.value = "";
+    }
+
   };
 
   const { importDocumentosMutation } = useMutations({
@@ -78,5 +83,6 @@ export const useFacturaXml = () => {
     infoMessages: facturaResult.messages ?? [],
     warningMessages: facturaResult.warnings ?? [],
     fileInputXmlRef,
+    fileInputPdfRef
   };
 };
