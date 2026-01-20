@@ -16,6 +16,7 @@ export const FacturaXml = () => {
     warningMessages,
     fileInputXmlRef,
     fileInputPdfRef,
+    isLoading
   } = useFacturaXml();
 
   return (
@@ -55,7 +56,7 @@ export const FacturaXml = () => {
       <Grid size={2}>
         <Button
           variant="contained"
-          disabled={xmlFileName.length === 0}
+          disabled={xmlFileName.length === 0 || isLoading}
           onClick={onClickCargarInformacion}
         >
           Cargar Información

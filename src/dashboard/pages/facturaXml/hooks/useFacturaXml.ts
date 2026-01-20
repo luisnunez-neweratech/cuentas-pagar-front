@@ -7,6 +7,7 @@ import { useMutations } from "./useMutations";
 export const useFacturaXml = () => {
   const navigate = useNavigate();
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
+  const isLoading = useDashboardLayoutStore((state) => state.isLoading);
   const openModal = useFacturaXMLStore((state) => state.openModal);
   const handleOpenModal = useFacturaXMLStore((state) => state.handleOpenModal);
   const handleCloseModal = useFacturaXMLStore(
@@ -83,6 +84,7 @@ export const useFacturaXml = () => {
     infoMessages: facturaResult.messages ?? [],
     warningMessages: facturaResult.warnings ?? [],
     fileInputXmlRef,
-    fileInputPdfRef
+    fileInputPdfRef,
+    isLoading
   };
 };
