@@ -742,45 +742,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     }
   }, [values.statusFacturaId]);
 
-  /* const onValidateTabHeader = () => {
-    if (
-      values.tipoDocumentoId &&
-      values.proveedorId.value > 0 &&
-      values.noFactura &&
-      values.folioFiscal &&
-      values.fechaFactura
-    ) {
-      setValidTabHeader(true);
-    } else {
-      setValidTabHeader(false);
-    }
-  }; */
-
-  /*   useEffect(() => {
-    onValidateTabHeader();
-  }, [
-    values.tipoDocumentoId,
-    values.noFactura,
-    values.folioFiscal,
-    values.fechaFactura,
-  ]);
- */
-  /*  const onValidateTabDetail = () => {
-    if (
-      values.monedaId &&
-      stateFactura.facturaDetalle &&
-      stateFactura.facturaDetalle?.length > 0
-    ) {
-      setValidTabDetail(true);
-    } else {
-      setValidTabDetail(false);
-    }
-  }; */
-  /* 
-  useEffect(() => {
-    onValidateTabDetail();
-  }, [values.monedaId, stateFactura.facturaDetalle]);
- */
   return {
     onChangeAutocomplete,
     values,
