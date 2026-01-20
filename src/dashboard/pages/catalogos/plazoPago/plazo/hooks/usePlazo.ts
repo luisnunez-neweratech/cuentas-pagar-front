@@ -4,62 +4,17 @@ import { useNavigate, useParams } from "react-router";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { validationSchema } from "../Validations";
-import {
-  addPlazoPago,
-  updatePlazoPago,
-  getPlazoPago,
-} from "../../../services/plazoPago.service";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
+import { useQueries } from "./useQueries";
+import { useMutations } from "./useMutations";
 
 export const usePlazo = () => {
   const { id } = useParams();
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const navigate = useNavigate();
 
-  const addPlazoMutation = useMutation({
-    mutationFn: addPlazoPago,
-    onSuccess: () => {
-      toast.success("Condicion de Pago agregado correctamente");
-      navigate("/catalogos/plazo-pago/");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al agregar la condicion de pago");
-      return;
-    },
-  });
-
-  const updatePlazoMutation = useMutation({
-    mutationFn: updatePlazoPago,
-    onSuccess: () => {
-      toast.success("Condiciones de Pago actualizado correctamente");
-      navigate("/catalogos/plazo-pago/");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar la condicion de pago");
-      return;
-    },
-  });
-
-  const {
-    isLoading,
-    isError,
-    error,
-    data: plazo,
-  } = useQuery({
-    queryKey: ["CatalogMaster", `${id}`],
-    queryFn: () => getPlazoPago(id || ""),
-  });
+  const { isLoading, isError, error, plazo } = useQueries({ id });
+  const { addPlazoMutation, updatePlazoMutation } = useMutations({ navigate });
 
   const getData = () => {
     if (plazo) {
