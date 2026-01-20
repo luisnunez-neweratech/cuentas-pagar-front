@@ -10,43 +10,32 @@ import type {
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 import { TipoPersona } from "../../../../../interfaces/TipoPersona";
 import { useContratoStore } from "../store/Contrato.store";
-import { useMutation, useQuery } from "@tanstack/react-query";
-
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
-import {
-  addProveedorContrato,
-  addDocumentoProveedor,
-  addDocumentoPrincipalProveedor,
-  addColaboradoresProveedor,
-  getProveedorPerfil,
-  //addColaboradoresProveedor,
-} from "../../../../services/proveedor.perfil.service";
-//import { TipoDocumentoProveedor } from "../../../../services/interfaces/TipoDocumentoProveedor";
 import { useParams } from "react-router";
 import { useDocumentoPrincipalStore } from "../store/DocumentoPrincipal.store";
-import { updateProveedorContratoInfo } from "../../../../services/proveedor.contrato.service";
+import { useNewContratoQueries } from "./useNewContratoQueries";
+import { useNewContratoMutations } from "./useNewContratoMutations";
 
 export const useNewContrato = () => {
   const { id: idParams } = useParams();
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getStepPerfil = useProveedorContratoStore(
-    (state) => state.getStepPerfil
+    (state) => state.getStepPerfil,
   );
   const getNewStepContrato = useProveedorContratoStore(
-    (state) => state.getNewStepContrato
+    (state) => state.getNewStepContrato,
   );
   const newStepContrato = useProveedorContratoStore(
-    (state) => state.newStepContrato
+    (state) => state.newStepContrato,
   );
   const setNewStepContrato = useProveedorContratoStore(
-    (state) => state.setNewStepContrato
+    (state) => state.setNewStepContrato,
   );
 
   const getColaboradoresValidos = useColaboradorMoralStore(
-    (state) => state.getColaboradoresValidos
+    (state) => state.getColaboradoresValidos,
   );
 
   const getValidScreen = useContratoStore((state) => state.getValidScreen);
@@ -56,7 +45,7 @@ export const useNewContrato = () => {
   const stateArchivoPrincipal = useDocumentoPrincipalStore((state) => state);
 
   const [checkContractor, setCheckContractor] = useState<boolean>(
-    getNewStepContrato()?.contractor ?? false
+    getNewStepContrato()?.contractor ?? false,
   );
 
   const [validateDocuments, doValidateDocuments] = useState<number>(0);
@@ -77,145 +66,15 @@ export const useNewContrato = () => {
     handleNext();
   };
 
-  const createColaboradorMutation = useMutation({
-    mutationFn: addColaboradoresProveedor,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el colaborador");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const createDocumentoMutation = useMutation({
-    mutationFn: addDocumentoProveedor,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el documento");
-      return;
-    },
-    onSettled: () => {
-      setActualizarHistorial(true);
-      handleDisableButtons(false);
-    },
-  });
-
-  const createDocumentoPrincipalMutation = useMutation({
-    mutationFn: addDocumentoPrincipalProveedor,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el documento");
-      return;
-    },
-    onSettled: () => {
-      setActualizarHistorial(true);
-      handleDisableButtons(false);
-    },
-  });
-
-  const updateContratoInfo = useMutation({
-    mutationFn: updateProveedorContratoInfo,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar la información de contrato");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const createMutation = useMutation({
-    mutationFn: addProveedorContrato,
-    onSuccess: (data, variables) => {
-      // revisar si es moral y tiene colaboradores para guardarlo
-      if (
-        checkContractor &&
-        getStepPerfil()?.tipoPersona === TipoPersona.Moral.value
-      ) {
-        //addColaboradoresProveedor
-        newStepContrato?.colaboradores?.map((colaborador) => {
-          createColaboradorMutation.mutate({
-            contractId: data.id,
-            postColaboradorPayload: {
-              collaboratorNumber: colaborador.noColaborador,
-              name: colaborador.nombre,
-              startDate: new Date(colaborador.fechaInicio),
-              tentativeEndDate: new Date(colaborador.fechaFin),
-              status: colaborador.status ? "Active" : "Inactive",
-            },
-          });
-        });
-      }
-
-      // documento principal
-      if (stateArchivoPrincipal.file) {
-        createDocumentoPrincipalMutation.mutate({
-          postDocumentoPrincipalProveedor: {
-            documentType: stateArchivoPrincipal.tipoDocumento,
-            isProposal:
-              stateArchivoPrincipal.tipoDocumento === 2 ? true : false,
-            isMainDocument: true,
-            fechaInicio: stateArchivoPrincipal.fechaInicio,
-            fechaVencimiento: stateArchivoPrincipal.fechaFin ?? "",
-            esIndeterminado: stateArchivoPrincipal.indeterminado,
-            file: stateArchivoPrincipal.file,
-          },
-          contractId: data.id,
-        });
-      }
-      // propuesta o anexo
-      variables?.documentos &&
-        variables?.documentos.map((documento) => {
-          if (documento.fileValue && documento.tipoDocumento > 3) {
-            if (documento.perteneceContratoId === 0) {
-              //agregar propuesta o anexo al nuevo contrato
-              createDocumentoPrincipalMutation.mutate({
-                postDocumentoPrincipalProveedor: {
-                  documentType: documento.tipoDocumento === 4 ? 2 : 1, // 2 propuesta, 1 anexo
-                  isProposal: documento.tipoDocumento === 4 ? true : false, // 4 propuesta, 1 anexo
-                  isMainDocument: false,
-                  fechaInicio: documento.fechaInicio,
-                  fechaVencimiento: documento.fechaFin ?? "",
-                  esIndeterminado: documento.indeterminado,
-                  file: documento.fileValue,
-                },
-                contractId: data.id,
-              });
-            }
-          }
-        });
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el proveedor");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
+  const {
+    createDocumentoMutation,
+    createDocumentoPrincipalMutation,
+    updateContratoInfo,
+    createMutation,
+  } = useNewContratoMutations({
+    handleDisableButtons,
+    setActualizarHistorial,
+    checkContractor,
   });
 
   const initialFormValues = () => {
@@ -232,12 +91,7 @@ export const useNewContrato = () => {
     };
   };
 
-  //cargar datos de perfil, domicilio, contrato
-  const { data: proveedorPerfil } = useQuery({
-    queryKey: ["Supplier", `${stateContrato.id}`, "Details"],
-    queryFn: () => getProveedorPerfil(stateContrato.id!.toString()),
-    enabled: actualizarHistorial,
-  });
+  const { proveedorPerfil } = useNewContratoQueries({ actualizarHistorial });
 
   useEffect(() => {
     setActualizarHistorial(false);
@@ -258,7 +112,7 @@ export const useNewContrato = () => {
                 nombreArchivo: value.mainDocument.fileName,
               });
             }
-          }
+          },
         );
       }
 
@@ -276,7 +130,7 @@ export const useNewContrato = () => {
               tipoDocumento:
                 documento.contractDocumentType ?? documento.profileDocumentType,
             });
-          }
+          },
         );
 
       //TODO revisar si se actualiza colaboradores morales
@@ -323,9 +177,9 @@ export const useNewContrato = () => {
     onSubmit: async (values) => {
       //validate files
       doValidateColaboradores(validateColaboradores + 1);
-      doValidateDocuments(validateDocuments + 1);      
+      doValidateDocuments(validateDocuments + 1);
 
-       if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
+      if (getStepPerfil()?.tipoPersona === TipoPersona.Fisica.value) {
         //type fisico
         const prevStepContrato = getNewStepContrato();
         const stepContrato: NewStepContrato = {
@@ -340,7 +194,7 @@ export const useNewContrato = () => {
         if (getValidScreen()) {
           if (clickedBy === 1 || (clickedBy === 0 && !idParams)) {
             if (stateArchivoPrincipal.file && stateArchivoPrincipal.valid) {
-              // crear contrato             
+              // crear contrato
               createMutation.mutate({
                 postContratoPayload: {
                   startDate: new Date(stateArchivoPrincipal.fechaInicio),
@@ -358,10 +212,13 @@ export const useNewContrato = () => {
                 documentos: stepContrato.documentos,
               });
             }
-            
+
             //agrega documentos
-            stepContrato.documentos.map((documento) => {              
-              if (documento.fileValue && typeof documento.fileValue === 'object') {
+            stepContrato.documentos.map((documento) => {
+              if (
+                documento.fileValue &&
+                typeof documento.fileValue === "object"
+              ) {
                 if (documento.tipoDocumento < 4) {
                   createDocumentoMutation.mutate({
                     postDocumentoProveedor: {
@@ -474,7 +331,10 @@ export const useNewContrato = () => {
 
               //agrega documentos
               newStepContrato.documentos.map((documento) => {
-                if (documento.fileValue && typeof documento.fileValue === 'object') {
+                if (
+                  documento.fileValue &&
+                  typeof documento.fileValue === "object"
+                ) {
                   if (documento.tipoDocumento < 4) {
                     createDocumentoMutation.mutate({
                       postDocumentoProveedor: {
@@ -551,7 +411,10 @@ export const useNewContrato = () => {
 
                 //agrega documentos
                 newStepContrato?.documentos.map((documento) => {
-                  if (documento.fileValue && typeof documento.fileValue === 'object') {
+                  if (
+                    documento.fileValue &&
+                    typeof documento.fileValue === "object"
+                  ) {
                     if (documento.tipoDocumento < 4) {
                       createDocumentoMutation.mutate({
                         postDocumentoProveedor: {
@@ -594,7 +457,7 @@ export const useNewContrato = () => {
             }
           }
         }
-      } 
+      }
     },
   });
 

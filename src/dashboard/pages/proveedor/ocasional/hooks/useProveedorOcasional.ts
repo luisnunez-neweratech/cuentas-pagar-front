@@ -95,7 +95,7 @@ export const useProveedorOcasional = () => {
   });
 
   const initialFormValues = () => {
-    if (proveedorOcasional) {      
+    if (proveedorOcasional) {
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
       }
@@ -212,7 +212,7 @@ export const useProveedorOcasional = () => {
         legalName: values.razonSocial.trim(),
         tradeName: values.alias.trim(),
         rfc: values.rfc.toUpperCase().trim(),
-        email: values.email.trim(),
+        email: values.email ? values.email.trim() : "",
         productServiceIds:
           values.productos?.map((producto: any) => producto.id) ?? [],
         paymentTermsId: Number(values.condicionesPago),
