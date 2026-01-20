@@ -95,8 +95,7 @@ export const useProveedorOcasional = () => {
   });
 
   const initialFormValues = () => {
-    if (proveedorOcasional) {
-      console.log('here ocasional?.....')
+    if (proveedorOcasional) {      
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
       }
