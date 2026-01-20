@@ -2,23 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { validationSchema } from "../Validations";
 import type { Giro } from "../../../catalogos/giros/interfaces/Giro";
-import { getAllGiros } from "../../../catalogos/services/giros.service";
-import { getAllPlazoPagos } from "../../../catalogos/services/plazoPago.service";
 import { useProveedorContratoStore } from "../../contrato/store/ProveedorContrato.store";
 import { TipoProveedor } from "../../interfaces/TipoProveedor";
-import {
-  addProveedorOcasional,
-  updateProveedorOcasional,
-  deleteProveedorOcasional,
-  activateSupplier,
-  getProveedorOcasional,
-} from "../services/proveedor.contrato.service";
+import { updateProveedorOcasional } from "../services/proveedor.contrato.service";
 import { useDashboardLayoutStore } from "../../../../store/dashboardLayout.store";
 import { useProveedorOcasionalStore } from "../store/ProveedorOcasional.store";
+import { useQueries } from "./useQueries";
+import { useMutations } from "./useMutations";
 
 export const useProveedorOcasional = () => {
   const [contractor, setContractor] = useState(true);
@@ -29,104 +23,45 @@ export const useProveedorOcasional = () => {
   const { id } = useParams();
 
   const setStepPerfil = useProveedorContratoStore(
-    (state) => state.setStepPerfil
+    (state) => state.setStepPerfil,
   );
   const setProveedorId = useProveedorContratoStore(
-    (state) => state.setProveedorId
+    (state) => state.setProveedorId,
   );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const handleOpenModal = useProveedorOcasionalStore(
-    (state) => state.handleOpenModal
+    (state) => state.handleOpenModal,
   );
   const openDeleteModal = useProveedorOcasionalStore(
-    (state) => state.openDeleteModal
+    (state) => state.openDeleteModal,
   );
   const handleOpenDeleteModal = useProveedorOcasionalStore(
-    (state) => state.handleOpenDeleteModal
+    (state) => state.handleOpenDeleteModal,
   );
   const handleCloseDeleteModal = useProveedorOcasionalStore(
-    (state) => state.handleCloseDeleteModal
+    (state) => state.handleCloseDeleteModal,
   );
+
+  const {
+    isLoading,
+    isErrorGet,
+    errorGet,
+    proveedorOcasional,
+    giros,
+    plazoPagos,
+  } = useQueries({
+    id,
+  });
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
     setIsLoading(state);
   };
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteProveedorOcasional,
-    onSuccess: () => {
-      toast.success("Proveedor dado de baja correctamente");
-      navigate("/proveedor");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data || error.message);
-        return;
-      }
-      toast.error("Error al dar de baja el proveedor");
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const activateMutation = useMutation({
-    mutationFn: activateSupplier,
-    onSuccess: () => {
-      toast.success("Proveedor activado correctamente");
-      navigate("/proveedor");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data || error.message);
-        return;
-      }
-      toast.error("Error al activar el proveedor");
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const createMutation = useMutation({
-    mutationFn: addProveedorOcasional,
-    onSuccess: () => {
-      toast.success("Proveedor creado correctamente");
-      navigate("/proveedor");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data || error.message);
-        return;
-      }
-      toast.error("Error al agregar el proveedor");
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: updateProveedorOcasional,
-    onSuccess: () => {
-      toast.success("Proveedor actualizado correctamente");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data || error.message);
-        return;
-      }
-      toast.error("Error al actualizar el proveedor");
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
+  const { deleteMutation, activateMutation, createMutation, updateMutation } =
+    useMutations({
+      navigate,
+      handleDisableButtons,
+    });
 
   const upgradeProvedorMutation = useMutation({
     mutationFn: updateProveedorOcasional,
@@ -159,35 +94,15 @@ export const useProveedorOcasional = () => {
     },
   });
 
-  const {
-    isLoading,
-    isError: isErrorGet,
-    error: errorGet,
-    data: proveedorOcasional,
-  } = useQuery({
-    queryKey: ["Supplier", `${id}`, "Details"],
-    queryFn: () => getProveedorOcasional(id || ""),
-    enabled: !!id,
-  });
-
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
-
-  const { data: plazoPagos } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
-    queryFn: () => getAllPlazoPagos(),
-  });
-
   const initialFormValues = () => {
     if (proveedorOcasional) {
+      console.log('here ocasional?.....')
       if (proveedorOcasional.tipoProveedor === TipoProveedor.Contrato.value) {
         navigate(`/proveedor/contrato/${id}`);
       }
       setIsActive(proveedorOcasional.isActive ?? true);
       const productos = giros?.filter((obj) =>
-        proveedorOcasional.productos.includes(obj.id)
+        proveedorOcasional.productos.includes(obj.id),
       );
       return {
         tipoEntidad: proveedorOcasional.tipoEntidad,
@@ -201,9 +116,8 @@ export const useProveedorOcasional = () => {
       };
     }
     // Buscar el ID del plazo con value 0 (Pago Inmediato) para establecerlo por defecto
-    const pagoInmediatoId = plazoPagos?.find(
-      (plazo) => plazo.value === 0
-    )?.id ?? "";
+    const pagoInmediatoId =
+      plazoPagos?.find((plazo) => plazo.value === 0)?.id ?? "";
 
     return {
       tipoEntidad: "",

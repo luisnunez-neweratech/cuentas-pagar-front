@@ -45,11 +45,12 @@ export const useProveedorTable = () => {
 
   const rowClick = (row: any) => {
     handleReset();
-    clearData();
-    if (row.tipoProveedor === TipoProveedor.Ocasional.value) {
-      navigate(row.id);
+    clearData();    
+    if (row.tipoProveedor === TipoProveedor.Ocasional.value) {            
+      navigate(`/proveedor/${row.id}`);      
+    } else {      
+      navigate(`contrato/${row.id}`);
     }
-    navigate(`contrato/${row.id}`);
   };
 
   useEffect(() => {
