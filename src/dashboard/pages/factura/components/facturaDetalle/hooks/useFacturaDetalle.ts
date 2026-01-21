@@ -1,12 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
 import { useFacturaStore } from "../../../store/Factura.store";
-import { getAllUMedidas } from "../../../services/catalog.service";
+import { useQueries } from "./useQueries";
 
 export const useFacturaDetalle = () => {
   const stateFactura = useFacturaStore((state) => state);
 
   const addRowFacturaDetalle = useFacturaStore(
-    (state) => state.addRowFacturaDetalle
+    (state) => state.addRowFacturaDetalle,
   );
 
   const clickAddRowDetalle = () => {
@@ -29,14 +28,10 @@ export const useFacturaDetalle = () => {
     });
   };
 
-
-    const { data: uMedidadData } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "UofM"],
-    queryFn: () => getAllUMedidas(),
-  });
+  const { uMedidadData } = useQueries();
 
   return {
     clickAddRowDetalle,
-    uMedidadData
+    uMedidadData,
   };
 };

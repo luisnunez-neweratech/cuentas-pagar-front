@@ -1,13 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
-import { getAllPlazoPagos } from "../../../../catalogos/services/plazoPago.service";
-import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 import { useParams } from "react-router";
-import {
-  getContractNames,
-  getSupplierInvoices,
-} from "../../../services/factura.service";
+import { useQueries } from "./useQueries";
 
 interface contratoItem {
   contractId: number;
@@ -30,25 +23,15 @@ export const useTabPago = (proveedorId: number | null) => {
     { value: number; label: string }[]
   >([]);
 
-  const { data: colaboradores } = useQuery({
-    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
-    queryFn: () => getColaboradoresSgpyon(),
-  });
-
-  const { data: contratos } = useQuery({
-    queryKey: ["Invoice", proveedorId, "GetContractNames"],
-    queryFn: () => getContractNames(proveedorId!.toString()),
-    enabled: proveedorId && proveedorId > 0 ? true : false,
-  });
+  const { colaboradores, contratos, monedas, plazoPagos, facturas } =
+    useQueries({
+      proveedorId,
+      id,
+    });
 
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
   >([]);
-
-  const { data: monedas } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Moneda"],
-    queryFn: () => getAllMonedaVentas(),
-  });
 
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
@@ -72,17 +55,6 @@ export const useTabPago = (proveedorId: number | null) => {
     setConvertColaboradores(newColaboradores ?? []);
   }, [colaboradores]);
 
-  const {
-    /* isLoading,
-      isError,
-      error, */
-    data: plazoPagos,
-    //refetch,
-  } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
-    queryFn: () => getAllPlazoPagos(),
-  });
-
   useEffect(() => {
     const newPlazoPagos = plazoPagos?.map((plazo: any) => {
       return {
@@ -104,12 +76,6 @@ export const useTabPago = (proveedorId: number | null) => {
 
     setConvertContratos(newContratos ?? []);
   }, [contratos]);
-
-  const { data: facturas } = useQuery({
-    queryKey: ["Invoice", proveedorId, "GetSupplierInvoices", "currentInvoiceId"],
-    queryFn: () => getSupplierInvoices(proveedorId!.toString(), id || ""),
-    enabled: proveedorId && proveedorId > 0 ? true : false,
-  });
 
   useEffect(() => {
     const newFacturas = facturas?.map((factura: any) => {
