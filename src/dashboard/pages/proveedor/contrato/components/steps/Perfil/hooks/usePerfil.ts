@@ -1,29 +1,22 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepPerfil } from "../../../../interface/stepPerfil";
 import type { Giro } from "../../../../../../catalogos/giros/interfaces/Giro";
-import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
-import { getAllPlazoPagos } from "../../../../../../catalogos/services/plazoPago.service";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
-import {
-  addProveedorContratoPerfil,
-  updateProveedorContratoPerfil,
-  getColaboradoresContrato,
-} from "../../../../services/proveedor.contrato.service";
-import { getProveedorPerfil } from "../../../../services/proveedor.perfil.service";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { TipoContacto } from "../../../../../interfaces/TipoContacto";
 import type {
   HistorialDocumentos,
   ListaContratos,
 } from "../../../../interface/stepContrato";
+import { useQueries } from "./useQueries";
+import { useMutations } from "./useMutations";
 
 export const usePerfil = () => {
   const { id } = useParams();
@@ -31,30 +24,30 @@ export const usePerfil = () => {
 
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const setStepPerfil = useProveedorContratoStore(
-    (state) => state.setStepPerfil
+    (state) => state.setStepPerfil,
   );
   const setIsActive = useProveedorContratoStore((state) => state.setIsActive);
   const setProveedorId = useProveedorContratoStore(
-    (state) => state.setProveedorId
+    (state) => state.setProveedorId,
   );
   const getStepPerfil = useProveedorContratoStore(
-    (state) => state.getStepPerfil
+    (state) => state.getStepPerfil,
   );
 
   const stateProveedor = useProveedorContratoStore((state) => state);
 
   const proveedorContratoState = useProveedorContratoStore((state) => state);
   const setStepDomicilio = useProveedorContratoStore(
-    (state) => state.setStepDomicilio
+    (state) => state.setStepDomicilio,
   );
   const setNewStepContrato = useProveedorContratoStore(
-    (state) => state.setNewStepContrato
+    (state) => state.setNewStepContrato,
   );
   const setStepContacto = useProveedorContratoStore(
-    (state) => state.setStepContacto
+    (state) => state.setStepContacto,
   );
   const setStepCuentaBancaria = useProveedorContratoStore(
-    (state) => state.setStepCuentaBancaria
+    (state) => state.setStepCuentaBancaria,
   );
 
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
@@ -88,88 +81,21 @@ export const usePerfil = () => {
     }
   };
 
-  const createMutation = useMutation({
-    mutationFn: addProveedorContratoPerfil,
-    onSuccess: (data) => {
-      toNextStep(data.id);
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data);
-        return;
-      }
-      toast.error("Error al actualizar el proveedor");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
+  const { createMutation, updateMutation } = useMutations({
+    toNextStep,
+    handleDisableButtons,
   });
 
-  const updateMutation = useMutation({
-    mutationFn: updateProveedorContratoPerfil,
-    onSuccess: () => {
-      toNextStep(proveedorContratoState.id!, true);
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el proveedor");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  //cargar datos de perfil, domicilio, contrato
   const {
     isLoading,
-    isError: isErrorGet,
-    error: errorGet,
-    data: proveedorPerfil,
-  } = useQuery({
-    queryKey: ["Supplier", `${id}`, "Details"],
-    queryFn: () => getProveedorPerfil(id || ""),
-    enabled: !!id,
-  });
-
-  // cargar colaboradores
-  const {
-    /* isError: isErrorGet,
-    error: errorGet, */
-    data: proveedorColaboradores,
-  } = useQuery({
-    queryKey: [
-      "ContractCollaborator",
-      "Contract",
-      `${
-        proveedorPerfil?.contratos && proveedorPerfil?.contratos.length > 0
-          ? proveedorPerfil?.contratos[proveedorPerfil?.contratos.length - 1].id // TODO obtener el tulimo contrato
-          : 0
-      }`,
-    ],
-    queryFn: () =>
-      getColaboradoresContrato(
-        proveedorPerfil?.contratos && proveedorPerfil?.contratos.length > 0
-          ? proveedorPerfil?.contratos[0].id
-          : 0
-      ),
-    enabled: !!id && !!proveedorPerfil?.contratos,
-  });
-
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
-
-  const { data: plazoPagos } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "PlazoPago"],
-    queryFn: () => getAllPlazoPagos(),
+    isErrorGet,
+    errorGet,
+    proveedorPerfil,
+    proveedorColaboradores,
+    giros,
+    plazoPagos,
+  } = useQueries({
+    id,
   });
 
   const initialFormValues = () => {
@@ -181,7 +107,7 @@ export const usePerfil = () => {
       setIsActive(proveedorPerfil.isActive ?? true);
 
       const productos = giros?.filter((obj) =>
-        proveedorPerfil.productos.includes(obj.id)
+        proveedorPerfil.productos.includes(obj.id),
       );
 
       return {
@@ -199,9 +125,10 @@ export const usePerfil = () => {
     const stepPerfil = getStepPerfil();
 
     // Buscar el ID de "Inmediato" en plazoPagos para establecerlo por defecto
-    const inmediatoId = plazoPagos?.find(
-      (plazo) => plazo.descripcion.toLowerCase() === "inmediato"
-    )?.id ?? "";
+    const inmediatoId =
+      plazoPagos?.find(
+        (plazo) => plazo.descripcion.toLowerCase() === "inmediato",
+      )?.id ?? "";
 
     return {
       tipoEntidad: stepPerfil ? stepPerfil.tipoEntidad : "",
@@ -264,28 +191,29 @@ export const usePerfil = () => {
                 });
                 //TODO agregar tipodocumento 6
               }
-
-            }
+            },
           );
         }
 
         // documentos normales
         proveedorPerfil &&
-          proveedorPerfil.proveedorDocumentos?.map((documento: any, index: number) => {
-            historialDocumentos.push({
-              id: index,
-              fechaInicio: documento.fechaInicio,
-              fechaFin: documento.fechaVencimiento,
-              indeterminado: documento.esIndeterminado,
-              fileUrl: documento.downloadUrl,
-              fileName: documento.fileName,
-              tipoDocumento:
-                documento.contractDocumentType ?? documento.profileDocumentType,
-            });
-          });
+          proveedorPerfil.proveedorDocumentos?.map(
+            (documento: any, index: number) => {
+              historialDocumentos.push({
+                id: index,
+                fechaInicio: documento.fechaInicio,
+                fechaFin: documento.fechaVencimiento,
+                indeterminado: documento.esIndeterminado,
+                fileUrl: documento.downloadUrl,
+                fileName: documento.fileName,
+                tipoDocumento:
+                  documento.contractDocumentType ??
+                  documento.profileDocumentType,
+              });
+            },
+          );
 
-
-          console.log('historialDocumentos', historialDocumentos)
+        console.log("historialDocumentos", historialDocumentos);
         // contrato es array, porque es historico
         let colaboradoresData = [];
         if (proveedorColaboradores && proveedorColaboradores.length > 0) {

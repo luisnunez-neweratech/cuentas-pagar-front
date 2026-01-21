@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import type { Item } from "../../../../../../../../components/common/AutoComplete/interfaces/Item";
-import { getProveedores } from "../../../../../services/proveedor.service";
-import { getAllGiros } from "../../../../../../catalogos/services/giros.service";
 import { useFilters } from "../../../hooks/useFilters";
 import { StatusReembolso } from "../../../../../interfaces/StatusReembolso";
-import { getStatusFactura } from "../../../../../../factura/services/factura.service";
+import { useQueries } from "./useQueries";
 
 const meses = [
   { id: 1, descripcion: "Enero" },
@@ -51,9 +48,7 @@ export const useAutocompleteFilters = () => {
     onChangeReimbursementStatuses,
   } = useFilters();
 
-  const [convertStatusFactura, setConvertStatusFactura] = useState<
-    Item[]
-  >([]);
+  const [convertStatusFactura, setConvertStatusFactura] = useState<Item[]>([]);
 
   const [values, setValues] = useState({
     proveedores: [] as Item[],
@@ -63,15 +58,7 @@ export const useAutocompleteFilters = () => {
     estatusFactura: [] as Item[],
   });
 
-  const { data: proveedores } = useQuery({
-    queryKey: ["Supplier", "GetAll"],
-    queryFn: () => getProveedores(),
-  });
-
-  const { data: giros } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Giros"],
-    queryFn: () => getAllGiros(),
-  });
+  const { proveedores, giros, statusFacturaData } = useQueries();
 
   const onChangeAutocomplete = (newValues: Item[], fieldValue: string) => {
     setValues((prev) => ({
@@ -117,11 +104,6 @@ export const useAutocompleteFilters = () => {
       setValues((prev) => ({ ...prev, estatusReembolso: [] }));
     }
   }, [filtrosFacturas]);
-
-  const { data: statusFacturaData } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "InvoiceStatus"],
-    queryFn: () => getStatusFactura(),
-  });
 
   useEffect(() => {
     const newStatusFactura = statusFacturaData?.map((status: any) => {

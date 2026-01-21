@@ -5,13 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { useProveedorContratoStore } from "../store/ProveedorContrato.store";
 import { Perfil } from "../components/steps/Perfil/Perfil";
 import { NewContrato } from "../components/steps/NewContrato/NewContrato";
-import { useMutation } from "@tanstack/react-query";
-import {
-  deleteProveedorOcasional,
-  activateSupplier,
-} from "../../ocasional/services/proveedor.contrato.service";
-import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { useMutations } from "./useMutations";
 
 const steps = [
   "Perfil",
@@ -26,18 +20,18 @@ export const useProveedorContratoPage = () => {
 
   const activeStep = useProveedorContratoStore((state) => state.activeStep);
   const isStepSkipped = useProveedorContratoStore(
-    (state) => state.isStepSkipped
+    (state) => state.isStepSkipped,
   );
   const stepPerfil = useProveedorContratoStore((state) => state.stepPerfil);
   const isActive = useProveedorContratoStore((state) => state.isActive);
   const openDeleteModal = useProveedorContratoStore(
-    (state) => state.openDeleteModal
+    (state) => state.openDeleteModal,
   );
   const handleOpenDeleteModal = useProveedorContratoStore(
-    (state) => state.handleOpenDeleteModal
+    (state) => state.handleOpenDeleteModal,
   );
   const handleCloseDeleteModal = useProveedorContratoStore(
-    (state) => state.handleCloseDeleteModal
+    (state) => state.handleCloseDeleteModal,
   );
 
   const navigate = useNavigate();
@@ -61,37 +55,7 @@ export const useProveedorContratoPage = () => {
     navigate("/proveedor");
   };
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteProveedorOcasional,
-    onSuccess: () => {
-      toast.success("Proveedor dado de baja correctamente");
-      navigate("/proveedor");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data || error.message);
-        return;
-      }
-      toast.error("Error al dar de baja el proveedor");
-    },
-  });
-
-  const activateMutation = useMutation({
-    mutationFn: activateSupplier,
-    onSuccess: () => {
-      toast.success("Proveedor activado correctamente");
-      navigate("/proveedor");
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data || error.message);
-        return;
-      }
-      toast.error("Error al activar el proveedor");
-    },
-  });
+  const { deleteMutation, activateMutation } = useMutations({ navigate });
 
   const onClickEliminar = () => {
     handleOpenDeleteModal();

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useFacturasPageStore } from "../../../store/FacturasPage.store";
-import { getInvoicesPaged } from "../../../services/invoice.service";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 import { useFacturaStore } from "../../../../factura/store/Factura.store";
+import { useQueries } from "./useQueries";
 
 export const useFacturaTable = () => {
   const [page, setPage] = useState(0);
@@ -15,63 +14,17 @@ export const useFacturaTable = () => {
   const navigate = useNavigate();
 
   const handleOpenModal = useFacturasPageStore(
-    (state) => state.handleOpenModal
+    (state) => state.handleOpenModal,
   );
   const setIdSelected = useFacturasPageStore((state) => state.setIdSelected);
-  const callApi = useFacturasPageStore((state) => state.callApi);
+
   const filtrosFacturas = useFacturasPageStore(
-    (state) => state.filtrosFacturas
+    (state) => state.filtrosFacturas,
   );
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const clearState = useFacturaStore((state) => state.clearState);
 
-  const { data, isLoading, error, isError } = useQuery({
-    queryKey: ["invoices", page, rowsPerPage, callApi],
-    queryFn: () =>
-      getInvoicesPaged({
-        pageNumber: page + 1,
-        pageSize: rowsPerPage,
-        filters: {
-          supplierAliases:
-            filtrosFacturas?.supplierAliases?.length > 0
-              ? filtrosFacturas.supplierAliases
-              : undefined,
-          productServices:
-            filtrosFacturas?.productServices?.length > 0
-              ? filtrosFacturas.productServices
-              : undefined,
-          months:
-            filtrosFacturas?.months?.length > 0
-              ? filtrosFacturas.months
-              : undefined,
-          invoiceStatusIds:
-            filtrosFacturas?.invoiceStatusIds?.length > 0
-              ? filtrosFacturas.invoiceStatusIds
-              : undefined,
-          reimbursementStatuses:
-            filtrosFacturas?.reimbursementStatuses?.length > 0
-              ? filtrosFacturas.reimbursementStatuses
-              : undefined,
-          invoiceDateFrom: filtrosFacturas?.invoiceDateFrom || undefined,
-          invoiceDateTo: filtrosFacturas?.invoiceDateTo || undefined,
-          scheduledPaymentFrom:
-            filtrosFacturas?.scheduledPaymentFrom || undefined,
-          scheduledPaymentTo: filtrosFacturas?.scheduledPaymentTo || undefined,
-          paymentDateFrom: filtrosFacturas?.paymentDateFrom || undefined,
-          paymentDateTo: filtrosFacturas?.paymentDateTo || undefined,
-          reimbursementDateFrom:
-            filtrosFacturas?.reimbursementDateFrom || undefined,
-          reimbursementDateTo:
-            filtrosFacturas?.reimbursementDateTo || undefined,
-          invoiceNumber: filtrosFacturas?.invoiceNumber || undefined,
-          documentType: filtrosFacturas?.documentType,
-          invoiceYear: filtrosFacturas?.invoiceYear,
-          currencyId: filtrosFacturas?.currencyId,
-          collaboratorName: filtrosFacturas?.collaboratorName || undefined,
-          fiscalFolio: filtrosFacturas?.fiscalFolio || undefined,
-        },
-      }),
-  });
+  const { data, isLoading, error, isError } = useQueries({ page, rowsPerPage });
 
   const rowClick = (invoice: any) => {
     setIdSelected(invoice.id);
@@ -80,13 +33,13 @@ export const useFacturaTable = () => {
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
+    newPage: number,
   ) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);

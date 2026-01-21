@@ -5,23 +5,21 @@ import { validationSchema } from "../Validations";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import type { StepDomicilio } from "../../../../interface/stepDomicilio";
 import { countries } from "../../../../../../../../lib/constants";
-import { updateProveedorContratoPerfil } from "../../../../services/proveedor.contrato.service";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
 import { TipoProveedor } from "../../../../../interfaces/TipoProveedor";
 import { useParams } from "react-router";
+import { useMutations } from "./useMutations";
 
 export const useDomicilio = (inputRef: any) => {
   const { id: idParams } = useParams();
   const handleNext = useProveedorContratoStore((state) => state.handleNext);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getStepDomicilio = useProveedorContratoStore(
-    (state) => state.getStepDomicilio
+    (state) => state.getStepDomicilio,
   );
   const setStepDomicilio = useProveedorContratoStore(
-    (state) => state.setStepDomicilio
+    (state) => state.setStepDomicilio,
   );
   const stateContrato = useProveedorContratoStore((state) => state);
   const [optionPais, setOptionPais] = useState<any>(null);
@@ -55,24 +53,7 @@ export const useDomicilio = (inputRef: any) => {
     setIsLoading(state);
   };
 
-  const updateMutation = useMutation({
-    mutationFn: updateProveedorContratoPerfil,
-    onSuccess: (_data, variables) => {
-      toNextStep(variables.clickedBy ?? 0);
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el proveedor");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
+  const { updateMutation } = useMutations({ toNextStep, handleDisableButtons });
 
   const initialFormValues = () => {
     const stepDomicilio = getStepDomicilio();
@@ -92,7 +73,7 @@ export const useDomicilio = (inputRef: any) => {
 
   useEffect(() => {
     setOptionPais(
-      countries.find((country) => country.label === getStepDomicilio()?.pais)
+      countries.find((country) => country.label === getStepDomicilio()?.pais),
     );
   }, []);
 
@@ -124,7 +105,7 @@ export const useDomicilio = (inputRef: any) => {
             supplierActivity: stateContrato.stepPerfil?.giroPrincipal!,
             productServiceIds:
               stateContrato.stepPerfil?.productos?.map(
-                (producto: any) => producto.id
+                (producto: any) => producto.id,
               ) ?? [],
             //domicilio
             country: values.pais ?? "",
@@ -172,7 +153,7 @@ export const useDomicilio = (inputRef: any) => {
           if (addressFound.types.includes("street_number")) {
             return addressFound;
           }
-        }
+        },
       );
       if (codigoPostal.length > 0) {
         setFieldValue("codigoPostal", codigoPostal[0].long_name || "");
@@ -183,7 +164,7 @@ export const useDomicilio = (inputRef: any) => {
           if (addressFound.types.includes("sublocality")) {
             return addressFound;
           }
-        }
+        },
       );
       if (colonia.length > 0) {
         setFieldValue("colonia", colonia[0].long_name || "");
