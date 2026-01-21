@@ -1,40 +1,24 @@
 import { useState } from "react";
 import { useCuentaBancariaStore } from "../store/CuentaBancaria";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
-import { getAllMonedaVentas } from "../../../../../../catalogos/services/monedaVenta.service";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { deleteProveedorCuenta } from "../../../../services/proveedor.cuentaBancaria.service";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
+import { useCuentasBancariasQueries } from "./useCuentasBancariasQueries";
+import { useCuentasBancariasMutations } from "./useCuentasBancariasMutations";
 type Cuenta = { id: number; valido: boolean };
 
 export const useCuentasBancarias = () => {
   const [items, setItems] = useState<Cuenta[]>([]);
   const setCuentasValidos = useCuentaBancariaStore(
-    (state) => state.setCuentasValidos
+    (state) => state.setCuentasValidos,
   );
 
   const addCuentaBancaria = useProveedorContratoStore(
-    (state) => state.addCuentaBancaria
+    (state) => state.addCuentaBancaria,
   );
   const stepCuentaBancaria = useProveedorContratoStore(
-    (state) => state.stepCuentaBancaria
+    (state) => state.stepCuentaBancaria,
   );
 
-  const removeCuentaBancaria = useProveedorContratoStore(
-    (state) => state.removeCuentaBancaria
-  );
-
-  const {
-    //isLoading,
-    //isError,
-    //error,
-    data: monedas,
-    //refetch,
-  } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Moneda"],
-    queryFn: () => getAllMonedaVentas(),
-  });
+  const { monedas } = useCuentasBancariasQueries();
 
   const addCuenta = () => {
     addCuentaBancaria({
@@ -50,21 +34,7 @@ export const useCuentasBancarias = () => {
     });
   };
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteProveedorCuenta,
-    onSuccess: (_data, variables) => {
-      removeCuentaBancaria(+variables);
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al eliminar la cuenta");
-      return;
-    },
-  });
+  const { deleteMutation } = useCuentasBancariasMutations();
 
   const deleteCuenta = (id: number) => {
     deleteMutation.mutate(id.toString());
@@ -77,7 +47,7 @@ export const useCuentasBancarias = () => {
           item.valido = valid;
         }
         return item;
-      })
+      }),
     );
 
     if (valid) {

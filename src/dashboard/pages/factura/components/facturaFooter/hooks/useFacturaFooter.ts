@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
-import { deleteFacturaArchivo } from "../../../services/factura.service";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
 import { useParams } from "react-router";
+import { useMutations } from "./useMutations";
 
 export const useFacturaFooter = () => {
   const { id } = useParams();
@@ -12,39 +9,18 @@ export const useFacturaFooter = () => {
   const setPdfFile = useFacturaStore((state) => state.setPdfFile);
   const setXmlFile = useFacturaStore((state) => state.setXmlFile);
   const setPaymentProofFile = useFacturaStore(
-    (state) => state.setPaymentProofFile
+    (state) => state.setPaymentProofFile,
   );
-  const clearPdfValues = useFacturaStore((state) => state.clearPdfValues);
-  const clearXmlValues = useFacturaStore((state) => state.clearXmlValues);
 
   const [pdfFileName, setPdfFileName] = useState(stateFactura.pdfFileValue);
 
   const [xmlFileName, setXmlFileName] = useState(stateFactura.xmlFileValue);
 
   const [paymentProofFileName, setPaymentProofFileName] = useState(
-    stateFactura.paymentProofFileValue
+    stateFactura.paymentProofFileValue,
   );
 
-  const deleteFacturaDocumentoMutation = useMutation({
-    mutationFn: deleteFacturaArchivo,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al eliminar el documento");
-      return;
-    },
-    onSettled: (_data, _error, variables) => {
-      if (variables.fileType === "pdf") {
-        clearPdfValues();        
-      } else {
-        clearXmlValues();
-      }
-      toast.info("Documento eliminado correctamente");
-    },
-  });
+  const { deleteFacturaDocumentoMutation } = useMutations();
 
   const handlePdfFileChange = (event: any) => {
     if (event.target.files.length > 0) {
@@ -74,7 +50,7 @@ export const useFacturaFooter = () => {
 
   const onClickDeleteFile = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    type: string
+    type: string,
   ) => {
     e.stopPropagation();
     deleteFacturaDocumentoMutation.mutate({

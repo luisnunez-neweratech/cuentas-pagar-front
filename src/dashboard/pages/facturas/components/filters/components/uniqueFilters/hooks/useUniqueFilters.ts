@@ -1,9 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllMonedaVentas } from "../../../../../../catalogos/services/monedaVenta.service";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { getColaboradoresSgpyon } from "../../../../../../factura/services/colaborador.sgpyon.service";
 import { useFilters } from "../../../hooks/useFilters";
+import { useQueries } from "./useQueries";
 
 export const useUniqueFilters = () => {
   const {
@@ -24,10 +22,7 @@ export const useUniqueFilters = () => {
     { value: number; label: string }[]
   >([]);
 
-  const { data: monedas } = useQuery({
-    queryKey: ["CatalogMaster", "GetAll", "Moneda"],
-    queryFn: () => getAllMonedaVentas(),
-  });
+  const { monedas, colaboradores } = useQueries();
 
   useEffect(() => {
     const newMonedas = monedas?.map((moneda) => {
@@ -67,11 +62,6 @@ export const useUniqueFilters = () => {
     onSubmit: async (_values) => {},
   });
 
-  const { data: colaboradores } = useQuery({
-    queryKey: ["external", "CuentasPorPagar", "GetColaboratorsVista", "EN"],
-    queryFn: () => getColaboradoresSgpyon(),
-  });
-
   useEffect(() => {
     const newColaboradores = colaboradores?.map((colaborador: any) => {
       return {
@@ -98,17 +88,18 @@ export const useUniqueFilters = () => {
 
   useEffect(() => {
     onChangeDocumentType(
-      values.documentoId === "" ? undefined : Number(values.documentoId)
+      values.documentoId === "" ? undefined : Number(values.documentoId),
     );
   }, [values.documentoId]);
 
   useEffect(() => {
-    
-    const currencyLabel = monedas?.find(moneda => moneda.id === values.monedaId)?.descripcion
-    
+    const currencyLabel = monedas?.find(
+      (moneda) => moneda.id === values.monedaId,
+    )?.descripcion;
+
     onChangeCurrencyId(
       values.monedaId === "" ? undefined : Number(values.monedaId),
-      currencyLabel
+      currencyLabel,
     );
   }, [values.monedaId]);
 
@@ -157,7 +148,10 @@ export const useUniqueFilters = () => {
       setValues((prev) => ({ ...prev, monedaId: "" }));
     }
     if (!filtrosFacturas?.collaboratorName && values.colaboradorId?.label) {
-      setValues((prev) => ({ ...prev, colaboradorId: { value: 0, label: "" } }));
+      setValues((prev) => ({
+        ...prev,
+        colaboradorId: { value: 0, label: "" },
+      }));
     }
   }, [
     filtrosFacturas.invoiceNumber,

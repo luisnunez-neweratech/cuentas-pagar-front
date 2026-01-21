@@ -1,41 +1,20 @@
 import { useState } from "react";
 import { useContactosStore } from "../store/Contacto";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
-import { deleteProveedorContacto } from '../../../../services/proveedor.contacto.service';
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
-
+import { useContactosMutations } from "./useContactosMutations";
 
 type Contacto = { id: number; valido: boolean };
 
 export const useContactos = () => {
   const [items, setItems] = useState<Contacto[]>([]);
   const setContactosValidos = useContactosStore(
-    (state) => state.setContactosValidos
+    (state) => state.setContactosValidos,
   );
 
   const addContacto = useProveedorContratoStore((state) => state.addContacto);
   const stepContacto = useProveedorContratoStore((state) => state.stepContacto);
-  const removeContacto = useProveedorContratoStore(
-    (state) => state.removeContacto
-  );
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteProveedorContacto,
-    onSuccess: (_data,variables) => {
-      removeContacto(+variables);
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al eliminar el contacto");
-      return;
-    },
-  });
+  const { deleteMutation } = useContactosMutations();
 
   const clickAddContacto = () => {
     addContacto({
@@ -51,7 +30,7 @@ export const useContactos = () => {
   };
 
   const deleteContacto = (id: number) => {
-    deleteMutation.mutate(id.toString())    
+    deleteMutation.mutate(id.toString());
   };
 
   const isValidForm = (id: number, valid: boolean) => {
@@ -61,7 +40,7 @@ export const useContactos = () => {
           item.valido = valid;
         }
         return item;
-      })
+      }),
     );
 
     if (valid) {
@@ -83,6 +62,6 @@ export const useContactos = () => {
     clickAddContacto,
     deleteContacto,
     setContactosValidos,
-    isValidForm,    
+    isValidForm,
   };
 };

@@ -1,22 +1,17 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { useMutation } from "@tanstack/react-query";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
 import { useContactosStore } from "../store/Contacto";
-import {
-  addProveedorContacto,
-  updateProveedorContacto,
-} from "../../../../services/proveedor.contacto.service";
 import { useDashboardLayoutStore } from "../../../../../../../store/dashboardLayout.store";
+import { useContactoMutations } from "./useContactoMutations";
 
 export const useContacto = () => {
   const { id: idParams } = useParams();
   const [validateContactos, doValidateContactos] = useState<number>(0);
   const handleBack = useProveedorContratoStore((state) => state.handleBack);
   const getContactosValidos = useContactosStore(
-    (state) => state.getContactosValidos
+    (state) => state.getContactosValidos,
   );
   const [disableButtons, setDisableButtons] = useState(false);
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
@@ -29,36 +24,8 @@ export const useContacto = () => {
     setIsLoading(state);
   };
 
-  const updateMutation = useMutation({
-    mutationFn: updateProveedorContacto,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el contacto");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
-  });
-
-  const createMutation = useMutation({
-    mutationFn: addProveedorContacto,
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el contacto");
-      return;
-    },
-    onSettled: () => {
-      handleDisableButtons(false);
-    },
+  const { updateMutation, createMutation } = useContactoMutations({
+    handleDisableButtons,
   });
 
   const guardarProovedor = (clickedBy: number) => {

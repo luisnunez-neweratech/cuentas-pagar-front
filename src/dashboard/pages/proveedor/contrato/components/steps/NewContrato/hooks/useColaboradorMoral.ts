@@ -1,41 +1,23 @@
 import { useState } from "react";
 import { useColaboradorMoralStore } from "../store/ColaboradorMoral.store";
 import { useProveedorContratoStore } from "../../../../store/ProveedorContrato.store";
-import { deleteColaboradoresContrato } from "../../../../services/proveedor.contrato.service";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { useColaboradorMoralMutations } from "./useColaboradorMoralMutations";
 type Colaborador = { id: number; valido: boolean };
 
 export const usecolaboradorMoral = () => {
   const [items, setItems] = useState<Colaborador[]>([]);
   const setColaboradoresValidos = useColaboradorMoralStore(
-    (state) => state.setColaboradoresValidos
+    (state) => state.setColaboradoresValidos,
   );
 
   const addNewColaborador = useProveedorContratoStore(
-    (state) => state.addNewColaborador
+    (state) => state.addNewColaborador,
   );
-  const newStepContrato = useProveedorContratoStore((state) => state.newStepContrato);
-  const removeNewColaborador = useProveedorContratoStore(
-    (state) => state.removeNewColaborador
+  const newStepContrato = useProveedorContratoStore(
+    (state) => state.newStepContrato,
   );
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteColaboradoresContrato,
-    onSuccess: (_data, variables) => {
-      removeNewColaborador(+variables);
-    },
-    onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al eliminar el colaborador");
-      return;
-    },
-  });
+  const { deleteMutation } = useColaboradorMoralMutations();
 
   const clickAddColaborador = () => {
     addNewColaborador({
@@ -54,14 +36,14 @@ export const usecolaboradorMoral = () => {
     deleteMutation.mutate(id.toString());
   };
 
-  const isValidForm = (id: number, valid: boolean) => {    
+  const isValidForm = (id: number, valid: boolean) => {
     setItems(
       items.map((item) => {
         if (item.id === id) {
           item.valido = valid;
         }
         return item;
-      })
+      }),
     );
 
     if (valid) {
@@ -84,6 +66,6 @@ export const usecolaboradorMoral = () => {
     deleteColaborador,
     isValidForm,
     setColaboradoresValidos,
-    newStepContrato,    
+    newStepContrato,
   };
 };
