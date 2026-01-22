@@ -1,6 +1,5 @@
 import {
   IconButton,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -9,6 +8,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import TaskIcon from "@mui/icons-material/Task";
 import { TablePaginationActions } from "./components/TablePaginationActions";
@@ -30,7 +30,7 @@ export const ProveedorTable = () => {
   } = useProveedorTable();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer  sx={{ width: "95% !important" }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -75,13 +75,15 @@ export const ProveedorTable = () => {
                   {proveedor.providerCode}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  <IconButton
-                    color="inherit"
-                    edge="start"
-                    onClick={handleOpenModal}
-                  >
-                    <ChatIcon style={{ width: 24, height: 24 }} />
-                  </IconButton>
+                  <Tooltip title="Ver Notas">
+                    <IconButton
+                      color="inherit"
+                      edge="start"
+                      onClick={handleOpenModal}
+                    >
+                      <ChatIcon style={{ width: 24, height: 24 }} />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
                 <TableCell
                   component="th"

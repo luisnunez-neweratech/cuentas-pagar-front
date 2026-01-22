@@ -11,6 +11,7 @@ import {
 import SaveIcon from "@mui/icons-material/Save";
 import { mainBackgroundColor } from "../../../lib/constants";
 import CloseIcon from "@mui/icons-material/Close";
+import { ListaComentarios } from "./components/ListaComentarios/ListaComentarios";
 
 interface Props {
   openModal: boolean;
@@ -30,13 +31,19 @@ export const Comments = ({ openModal, handleClose }: Props) => {
           flexWrap: "wrap",
           "& > :not(style)": {
             m: 1,
-            width: `80vw`,
+            width: `75vw`,
             height: `80vh`,
           },
         }}
       >
         <Paper
-          sx={{ paddingTop: 4, paddingLeft: 1, paddingRight: 1 }}
+          sx={{
+            paddingTop: 4,
+            paddingLeft: 1,
+            paddingRight: 1,
+            overflow: "hidden",
+            overflowY: "scroll",
+          }}
           elevation={3}
         >
           <Grid container spacing={2}>
@@ -70,6 +77,8 @@ export const Comments = ({ openModal, handleClose }: Props) => {
                 Guardar <SaveIcon sx={{ marginLeft: 1 }} />
               </Button>
             </Grid>
+            <Grid size={10} />
+            <ListaComentarios />
           </Grid>
         </Paper>
       </Box>
