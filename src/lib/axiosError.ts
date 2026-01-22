@@ -6,6 +6,7 @@ export const axiosErrorMessage = (error: Error, errorMessage: string) => {
     return (
       error.response?.data.message ||
       error.response?.data.error ||
+      error.response?.data ||
       error.message
     );
   }
