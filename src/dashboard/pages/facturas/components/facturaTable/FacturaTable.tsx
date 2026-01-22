@@ -26,6 +26,8 @@ import dayjs from "dayjs";
 import { CircularLoading } from "../../../../../components/common/CircularLoading";
 import { TipoDocumento } from "../../interfaces/TipoDocumento";
 import { StatusReembolso } from "../../interfaces/StatusReembolso";
+import ChatIcon from "@mui/icons-material/Chat";
+import { mainBackgroundColor } from "../../../../../lib/constants";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -33,9 +35,10 @@ interface props {
   invoice: InvoiceListResponse;
   onEdit: (id: number) => void;
   onRowClick: (invoice: InvoiceListResponse) => void;
+  handleOpenModal: () => void;
 }
 
-function Row({ invoice, onEdit, onRowClick }: props) {
+function Row({ invoice, onEdit, onRowClick, handleOpenModal }: props) {
   const [open, setOpen] = React.useState(false);
 
   const formatDate = (date: string | null) => {
@@ -58,7 +61,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
 
   const getReimbursementStatusLabel = (status: number) => {
     const statusObj = Object.values(StatusReembolso).find(
-      (s) => s.value === status
+      (s) => s.value === status,
     );
     return statusObj?.label || "N/A";
   };
@@ -74,6 +77,15 @@ function Row({ invoice, onEdit, onRowClick }: props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          <Tooltip title="Ver Notas">
+            <IconButton color="inherit" edge="start" onClick={handleOpenModal}>
+              <ChatIcon
+                style={{ width: 24, height: 24, color: mainBackgroundColor }}
+              />
+            </IconButton>
+          </Tooltip>
         </TableCell>
         <TableCell
           component="th"
@@ -227,7 +239,8 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                       )}
                     </TableCell>
                     <TableCell>
-                      {invoice.hasPaymentProof && invoice.paymentProofDownloadUrl ? (
+                      {invoice.hasPaymentProof &&
+                      invoice.paymentProofDownloadUrl ? (
                         <Link
                           href={invoice.paymentProofDownloadUrl}
                           target="_blank"
@@ -316,6 +329,7 @@ export const FacturaTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     handleEdit,
+    handleOpenCommentsModal,
   } = useFacturaTable();
 
   if (isLoading) {
@@ -328,6 +342,7 @@ export const FacturaTable = () => {
         <TableHead>
           <TableRow>
             <TableCell />
+            <TableCell style={cellHeaderStyle}>Notas</TableCell>
             <TableCell style={cellHeaderStyle}>Proveedor</TableCell>
             <TableCell style={cellHeaderStyle}>No. Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Tipo</TableCell>
@@ -348,6 +363,7 @@ export const FacturaTable = () => {
               invoice={invoice}
               onEdit={handleEdit}
               onRowClick={() => rowClick(invoice)}
+              handleOpenModal={handleOpenCommentsModal}
             />
           ))}
         </TableBody>

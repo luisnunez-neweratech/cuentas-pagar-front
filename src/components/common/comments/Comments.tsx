@@ -39,8 +39,8 @@ export const Comments = ({ openModal, handleClose }: Props) => {
         <Paper
           sx={{
             paddingTop: 4,
-            paddingLeft: 1,
-            paddingRight: 1,
+            paddingLeft: 2,
+            paddingRight: 2,
             overflow: "hidden",
             overflowY: "scroll",
           }}
