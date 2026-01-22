@@ -8,6 +8,7 @@ import { useProveedorContratoStore } from "../../../../proveedor/contrato/store/
 import { useProveedoresPageStore } from "../../../store/ProveedoresPage.store";
 import { useDocumentoPrincipalStore } from "../../../../proveedor/contrato/components/steps/NewContrato/store/DocumentoPrincipal.store";
 import { useQueries } from "./useQueries";
+import { useProveedorTableStore } from "../store/ProveedorTable.store";
 
 export const useProveedorTable = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export const useProveedorTable = () => {
     (state) => state.filtrosProveedores,
   );
   const clearData = useDocumentoPrincipalStore((state) => state.clearData);
+  const handleOpenModal = useProveedorTableStore((state) => state.handleOpenModal);
 
   const handleChangePage = (
     _event: React.MouseEvent<HTMLButtonElement> | null,
@@ -105,5 +107,6 @@ export const useProveedorTable = () => {
     handleChangeRowsPerPage,
     proveedoresData,
     totalRows,
+    handleOpenModal
   };
 };
