@@ -4,6 +4,7 @@ import { FacturasRoutes } from "./routes/FacturasRoutes";
 import { ThemeProvider } from "@mui/material/styles";
 import { customTheme } from "./theme/theme";
 import { TanStackProvider } from "./plugins/TanStackProvider";
+import { AxiosInterceptorComponent } from "./routes/axiosSetup";
 
 export const FacturasApp = () => {
   return (
@@ -11,7 +12,9 @@ export const FacturasApp = () => {
       <BrowserRouter basename="/Accounts_Payable">
         <Toaster richColors />
         <ThemeProvider theme={customTheme}>
-          <FacturasRoutes />
+          <AxiosInterceptorComponent>
+            <FacturasRoutes />
+          </AxiosInterceptorComponent>
         </ThemeProvider>
       </BrowserRouter>
     </TanStackProvider>

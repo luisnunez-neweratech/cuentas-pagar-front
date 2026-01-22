@@ -20,7 +20,7 @@ import { FacturaXml } from "../dashboard/pages/facturaXml/FacturaXml";
 
 const AuthLayout = lazy(() => import("../auth/layouts/AuthLayout"));
 const DashboardLayout = lazy(
-  () => import("../dashboard/layouts/DashboardLayout")
+  () => import("../dashboard/layouts/DashboardLayout"),
 );
 
 export const FacturasRoutes = () => {
