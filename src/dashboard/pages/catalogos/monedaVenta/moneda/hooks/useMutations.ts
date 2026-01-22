@@ -4,7 +4,7 @@ import {
   updateMonedaVenta,
 } from "../../../services/monedaVenta.service";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { axiosErrorMessage } from "../../../../../../lib/axiosError";
 
 interface Props {
   navigate: (path: string) => void;
@@ -18,13 +18,7 @@ export const useMutations = ({ navigate }: Props) => {
       navigate("/catalogos/moneda-venta/");
     },
     onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al agregar el giro");
-      return;
+      toast.error(axiosErrorMessage(error, "Error al agregar la Moneda de Venta"));
     },
   });
 
@@ -35,13 +29,7 @@ export const useMutations = ({ navigate }: Props) => {
       navigate("/catalogos/moneda-venta/");
     },
     onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar el giro");
-      return;
+      toast.error(axiosErrorMessage(error, "Error al actualizar la Moneda de Venta"));
     },
   });
 
