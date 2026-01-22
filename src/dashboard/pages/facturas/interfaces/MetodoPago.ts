@@ -1,4 +1,4 @@
 export const MetodoPago = Object.freeze({
-  PUE: { label: "PUE", value: 1 },
-  PPD: { label: "PPD", value: 2 },
+  PUE: { label: "PUE", value: 0 },
+  PPD: { label: "PPD", value: 1 },
 });

@@ -134,7 +134,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
 
   openModal: false,
   modalFacturaAceptada: false,
-  metodoPagoId: null,
+  metodoPagoId: 0,
 
   setTipoDocumentoId: (tipoDocumentoId: number) => {
     set((state) => ({
@@ -278,7 +278,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       total: 0,
       tipoCambio: null,
       contractId: null,
-      metodoPagoId: null,
+      metodoPagoId: 0,
       relatedInvoiceId: null,
 
       pdfFileValue: null,

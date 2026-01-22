@@ -8,6 +8,7 @@ import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { useFacturaStore } from "../../store/Factura.store";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
 import { MetodoPago } from "../../../facturas/interfaces/MetodoPago";
+import { Ppd } from "../ppd/Ppd";
 
 interface props {
   setOnClickGuardar: any;
@@ -104,16 +105,20 @@ export const TabPago = ({
         />
       </Grid>
       <Grid size={2}>
-        {values.monedaId === 39 && ( // 39 = USD
-          <TextFieldCommon
-            id="tipoCambio"
-            label="Tipo de Cambio"
-            value={values.tipoCambio || ""}
-            handleChange={handleChange}
-            typeMoneda={true}
-            handleBlur={handleBlur}
+        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
+        {((!id &&
+          (values.statusFacturaId === 56 ||
+            values.statusFacturaId === 53 ||
+            values.statusFacturaId === 63)) ||
+          id) && (
+          <DatePickerCommon
+            id="fechaPago"
+            label="Fecha Pago"
+            fechaValue={values.fechaPago ?? ""}
+            setFieldValue={setFieldValue}
             touched={touched}
             errors={errors}
+            setFieldTouched={setFieldTouched}
           />
         )}
       </Grid>
@@ -172,23 +177,62 @@ export const TabPago = ({
       </Grid>
 
       <Grid size={2} sx={{ marginTop: -2 }}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
-        {((!id &&
-          (values.statusFacturaId === 56 ||
-            values.statusFacturaId === 53 ||
-            values.statusFacturaId === 63)) ||
-          id) && (
-          <DatePickerCommon
-            id="fechaPago"
-            label="Fecha Pago"
-            fechaValue={values.fechaPago ?? ""}
-            setFieldValue={setFieldValue}
+        {values.monedaId === 39 && ( // 39 = USD
+          <TextFieldCommon
+            id="tipoCambio"
+            label="Tipo de Cambio"
+            value={values.tipoCambio || ""}
+            handleChange={handleChange}
+            typeMoneda={true}
+            handleBlur={handleBlur}
             touched={touched}
             errors={errors}
-            setFieldTouched={setFieldTouched}
           />
         )}
       </Grid>
+
+      <Grid size={4} />
+
+      <Grid size={2} sx={{ marginTop: -2 }}>
+        <SelectCommon
+          id={"metodoPagoId"}
+          label={"Metodo de Pago"}
+          options={[MetodoPago.PUE, MetodoPago.PPD]}
+          value={values.metodoPagoId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
+      </Grid>
+
+      <Grid size={2} sx={{ marginTop: -2 }}>
+        {(values.tipoDocumentoId === 2 ||
+          values.metodoPagoId === MetodoPago.PPD.value) && // nota de credito
+          values.proveedorId &&
+          values.proveedorId.value > 0 && (
+            <NormalAutocomplete
+              options={convertFacturas}
+              label="Factura Relacionada"
+              id="relatedInvoiceId"
+              value={values.relatedInvoiceId}
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+              touched={touched.relatedInvoiceId?.value}
+              errors={errors.relatedInvoiceId?.value}
+            />
+          )}
+      </Grid>
+
+      {values.metodoPagoId === MetodoPago.PPD.value && (
+        <Ppd
+          values={values}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
+      )}
 
       <Grid size={2} sx={{ marginTop: -2 }}>
         {/* contratos*/}
@@ -204,38 +248,6 @@ export const TabPago = ({
             errors={errors.contractId?.value}
           />
         )}
-      </Grid>
-
-      <Grid size={2} />
-
-      <Grid size={2}>
-        <SelectCommon
-          id={"metodoPagoId"}
-          label={"Metodo de Pago"}
-          options={[MetodoPago.PUE, MetodoPago.PPD]}
-          value={values.metodoPagoId}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-          touched={touched}
-          errors={errors}
-        />
-      </Grid>
-
-      <Grid size={2}>
-        {values.tipoDocumentoId === 2 && // nota de credito
-          values.proveedorId &&
-          values.proveedorId.value > 0 && (
-            <NormalAutocomplete
-              options={convertFacturas}
-              label="Facturas"
-              id="relatedInvoiceId"
-              value={values.relatedInvoiceId}
-              setFieldValue={setFieldValue}
-              handleBlur={handleBlur}
-              touched={touched.relatedInvoiceId?.value}
-              errors={errors.relatedInvoiceId?.value}
-            />
-          )}
       </Grid>
 
       <Grid size={11} />
