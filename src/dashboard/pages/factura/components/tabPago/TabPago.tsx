@@ -7,6 +7,7 @@ import { useTabPago } from "./hooks/useTabPago";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { useFacturaStore } from "../../store/Factura.store";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
+import { MetodoPago } from "../../../facturas/interfaces/MetodoPago";
 
 interface props {
   setOnClickGuardar: any;
@@ -43,7 +44,7 @@ export const TabPago = ({
   } = useTabPago(values.proveedorId?.value);
 
   const scheduledPaymentMessage = useFacturaStore(
-    (state) => state.scheduledPaymentMessage
+    (state) => state.scheduledPaymentMessage,
   );
 
   return (
@@ -206,6 +207,19 @@ export const TabPago = ({
       </Grid>
 
       <Grid size={2} />
+
+      <Grid size={2}>
+        <SelectCommon
+          id={"metodoPagoId"}
+          label={"Metodo de Pago"}
+          options={[MetodoPago.PUE, MetodoPago.PPD]}
+          value={values.metodoPagoId}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+          errors={errors}
+        />
+      </Grid>
 
       <Grid size={2}>
         {values.tipoDocumentoId === 2 && // nota de credito

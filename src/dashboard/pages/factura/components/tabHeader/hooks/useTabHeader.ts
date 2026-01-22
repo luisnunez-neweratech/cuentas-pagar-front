@@ -213,6 +213,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         tipoCambio: facturaBD.tipoCambio,
         contractId: currentContrato,
         relatedInvoiceId: currentFactura,
+        metodoPagoId: facturaBD.metodoPagoId,
       };
     }
     return {
@@ -249,6 +250,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       tipoCambio: stateFactura.tipoCambio,
       contractId: stateFactura.contractId,
       relatedInvoiceId: stateFactura.relatedInvoiceId,
+      metodoPagoId: stateFactura.metodoPagoId,
     };
   };
 

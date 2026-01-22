@@ -53,6 +53,7 @@ export interface FacturaState {
 
   openModal: boolean;
   modalFacturaAceptada: boolean;
+  metodoPagoId: number | null;
 
   setTipoDocumentoId: (tipoDocumentoId: number) => void;
   setPdfFile: (pdfFileValue: File) => void;
@@ -69,7 +70,7 @@ export interface FacturaState {
   setInitialValues: (
     supplierId: number,
     invoiceDate: string,
-    paymentTermId: number
+    paymentTermId: number,
   ) => void;
   clearState: () => void;
 
@@ -133,6 +134,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
 
   openModal: false,
   modalFacturaAceptada: false,
+  metodoPagoId: null,
 
   setTipoDocumentoId: (tipoDocumentoId: number) => {
     set((state) => ({
@@ -171,7 +173,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
 
   addRowFacturaDetalle: (facturaDetalle: FacturaDetalle) => {
     const idFound = get().facturaDetalle?.find(
-      (factura) => factura.id === facturaDetalle.id
+      (factura) => factura.id === facturaDetalle.id,
     );
     if (!idFound) {
       set((state) => ({
@@ -189,7 +191,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   updateRowFacturaDetalle: (id: number, facturaDetalle: FacturaDetalle) => {
     set((state) => ({
       facturaDetalle: (state.facturaDetalle ?? []).map((item) =>
-        item.id === id ? { ...facturaDetalle } : item
+        item.id === id ? { ...facturaDetalle } : item,
       ),
     }));
   },
@@ -238,7 +240,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   setInitialValues: (
     supplierId: number,
     invoiceDate: string,
-    paymentTermId: number
+    paymentTermId: number,
   ) => {
     set((state) => ({
       ...state,
@@ -276,6 +278,8 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       total: 0,
       tipoCambio: null,
       contractId: null,
+      metodoPagoId: null,
+      relatedInvoiceId: null,
 
       pdfFileValue: null,
       pdfDownloadUrl: null,
@@ -319,7 +323,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       xmlFileValue: null,
       xmlDownloadUrl: null,
     }));
-  }
+  },
 });
 
 export const useFacturaStore = create<FacturaState>()(storeFactura);
