@@ -119,7 +119,11 @@ export const ProveedorOcasionalPage = () => {
             error={touched.rfc && Boolean(errors.rfc)}
             helperText={touched.rfc && errors.rfc?.toString()}
             slotProps={{
-              htmlInput: { maxLength: 13, style: { textTransform: "uppercase" } },
+              htmlInput: {
+                maxLength:
+                  values.tipoPersona === TipoPersona.Fisica.value ? 13 : 12,
+                style: { textTransform: "uppercase" },
+              },
             }}
           />
         </Grid>
