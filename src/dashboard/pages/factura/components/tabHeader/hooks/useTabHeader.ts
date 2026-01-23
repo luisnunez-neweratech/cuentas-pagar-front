@@ -265,6 +265,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     enableReinitialize: true,
     initialValues: initialFormValues(),
     validationSchema: validationSchema(stateFactura.tipoEntidadId),
+    validateOnChange: true,
     onSubmit: async (values) => {
       handleDisableButtons(true);
       window.scrollTo({
@@ -529,16 +530,25 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   }, [isDuplicateFactura]);
 
   useEffect(() => {
-    if (
-      !id &&
-      values.noFactura &&
-      values.noFactura.length > 0 &&
-      values.folioFiscal &&
-      values.folioFiscal.length > 0
-    ) {
-      setCallCheckDuplicateFactura(true);
+    if (stateFactura.tipoEntidadId === 0) {
+      // nacional
+      if (
+        !id &&
+        values.noFactura &&
+        values.noFactura.length > 0 &&
+        values.folioFiscal &&
+        values.folioFiscal.length > 0
+      ) {
+        setCallCheckDuplicateFactura(true);
+      } else {
+        setCallCheckDuplicateFactura(false);
+      }
     } else {
-      setCallCheckDuplicateFactura(false);
+      if (!id && values.noFactura && values.noFactura.length > 0) {
+        setCallCheckDuplicateFactura(true);
+      } else {
+        setCallCheckDuplicateFactura(false);
+      }
     }
   }, [values.noFactura, values.folioFiscal]);
 
