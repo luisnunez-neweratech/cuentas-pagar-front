@@ -2,7 +2,6 @@ import { Grid, FormHelperText } from "@mui/material";
 import { SelectCommon } from "../../../../../components/common/SelectCommon/SelectCommon";
 import { DatePickerCommon } from "../../../../../components/common/DatePickerCommon/DatePickerCommon";
 import { NormalAutocomplete } from "../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
-import { FacturaFooter } from "../facturaFooter/FacturaFooter";
 import { useTabPago } from "./hooks/useTabPago";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { useFacturaStore } from "../../store/Factura.store";
@@ -22,8 +21,6 @@ interface props {
 }
 
 export const TabPago = ({
-  setOnClickGuardar,
-  onClickGuardar,
   convertStatusFactura,
   values,
   handleChange,
@@ -48,8 +45,8 @@ export const TabPago = ({
   );
 
   return (
-    <Grid container spacing={2} sx={{ marginTop: -58 }}>
-      <Grid size={2}>
+    <Grid container spacing={2}>
+      <Grid size={2.4}>
         <SelectCommon
           id={"condicionesPagoId"}
           label={"Condiciones de Pago"}
@@ -61,7 +58,7 @@ export const TabPago = ({
           errors={errors}
         />
       </Grid>
-      <Grid size={2}>
+      <Grid size={2.4}>
         <SelectCommon
           id={"statusFacturaId"}
           label={"Estatus Factura"}
@@ -73,7 +70,7 @@ export const TabPago = ({
           errors={errors}
         />
       </Grid>
-      <Grid size={2}>
+      <Grid size={2.4}>
         <DatePickerCommon
           id="fechaProgramadaPago"
           label="Programada Pago"
@@ -91,7 +88,7 @@ export const TabPago = ({
           </FormHelperText>
         )}
       </Grid>
-      <Grid size={2}>
+      <Grid size={2.4}>
         <SelectCommon
           id={"monedaId"}
           label={"Moneda"}
@@ -103,7 +100,7 @@ export const TabPago = ({
           errors={errors}
         />
       </Grid>
-      <Grid size={2}>
+      <Grid size={2.4}>
         {showTipoCambio && (
           <TextFieldCommon
             id="tipoCambio"
@@ -118,9 +115,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} />
-
-      <Grid size={2} sx={{ marginTop: -2 }}>
+      <Grid size={2.4}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
           <NormalAutocomplete
@@ -135,7 +130,7 @@ export const TabPago = ({
           />
         )}
       </Grid>
-      <Grid size={2} sx={{ marginTop: -2 }}>
+      <Grid size={2.4}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
           <SelectCommon
@@ -156,7 +151,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -2 }}>
+      <Grid size={2.4}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
           <DatePickerCommon
@@ -171,7 +166,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -2 }}>
+      <Grid size={2.4}>
         {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {((!id &&
           (values.statusFacturaId === 56 ||
@@ -190,7 +185,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -2 }}>
+      <Grid size={2.4} sx={{ marginTop: 2.2 }}>
         {/* contratos*/}
         {values.proveedorId && values.proveedorId.value > 0 && (
           <NormalAutocomplete
@@ -206,9 +201,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} />
-
-      <Grid size={2}>
+      <Grid size={2.4}>
         {values.tipoDocumentoId === 2 && // nota de credito
           values.proveedorId &&
           values.proveedorId.value > 0 && (
@@ -225,12 +218,6 @@ export const TabPago = ({
           )}
       </Grid>
 
-      <Grid size={11} />
-
-      <FacturaFooter
-        setOnClickGuardar={setOnClickGuardar}
-        onClickGuardar={onClickGuardar}
-      />
     </Grid>
   );
 };

@@ -242,6 +242,21 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                   </TableRow>
                 </TableBody>
               </Table>
+
+              <Table size="small" aria-label="proyecto" sx={{ marginTop: 2 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Proyecto</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {invoice.project || "N/A"}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </Box>
 
             <Box sx={{ margin: 1 }}>
@@ -258,7 +273,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                 <TableHead>
                   <TableRow>
                     <TableCell></TableCell>
-                    <TableCell></TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -266,25 +281,25 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell component="th" scope="row">
                       Subtotal
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.subtotal)}</TableCell>
+                    <TableCell align="right">{formatCurrency(invoice.subtotal)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       Descuento
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.discount)}</TableCell>
+                    <TableCell align="right">{formatCurrency(invoice.discount)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       IVA
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.taxIVA)}</TableCell>
+                    <TableCell align="right">{formatCurrency(invoice.taxIVA)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       IVA Retenido
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       {formatCurrency(invoice.taxIVARetained)}
                     </TableCell>
                   </TableRow>
@@ -292,7 +307,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell component="th" scope="row">
                       ISR Retenido
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       {formatCurrency(invoice.taxISRRetained)}
                     </TableCell>
                   </TableRow>
