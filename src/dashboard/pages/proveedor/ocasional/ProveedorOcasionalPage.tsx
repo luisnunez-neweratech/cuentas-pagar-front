@@ -121,7 +121,7 @@ export const ProveedorOcasionalPage = () => {
             slotProps={{
               htmlInput: {
                 maxLength:
-                  values.tipoPersona === TipoPersona.Fisica.value ? 13 : 12,
+                  values.tipoPersona === TipoPersona.Fisica.value ? 13 : 12,                
                 style: { textTransform: "uppercase" },
               },
             }}

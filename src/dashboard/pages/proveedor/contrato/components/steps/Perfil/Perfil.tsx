@@ -118,6 +118,10 @@ export const Perfil = () => {
                         values.tipoPersona === TipoPersona.Fisica.value
                           ? 13
                           : 12,
+                      minLength:
+                        values.tipoPersona === TipoPersona.Fisica.value
+                          ? 13
+                          : 12,
                       style: { textTransform: "uppercase" },
                     },
                   }}
