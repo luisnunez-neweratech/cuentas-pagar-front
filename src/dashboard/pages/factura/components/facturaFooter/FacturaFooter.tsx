@@ -231,7 +231,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
 
       <Grid size={6} />
 
-      <Grid size={2} sx={{ marginTop: -3 }}>
+      <Grid size={2} sx={{ marginTop: 2 }}>
         <Button
           variant="contained"
           sx={{ backgroundColor: mainBackgroundColor }}

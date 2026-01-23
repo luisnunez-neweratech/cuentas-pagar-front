@@ -94,6 +94,7 @@ export const getFactura = async (id: string): Promise<any> => {
     tipoCambio: data.exchangeRate ?? null,
     contractId: data.contractId ?? null,
     relatedInvoiceId: data.relatedInvoiceId ?? null,
+    project: data.project ?? null,
   };
 };
 

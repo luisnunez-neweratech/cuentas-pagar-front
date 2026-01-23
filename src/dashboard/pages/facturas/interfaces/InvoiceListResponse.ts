@@ -35,6 +35,7 @@ export interface InvoiceListResponse {
   xmlDownloadUrl: string | null;
   pdfDownloadUrl: string | null;
   paymentProofDownloadUrl: string | null;
+  project: string | null;
 }
 
 export interface InvoiceListResponsePagedResult {
