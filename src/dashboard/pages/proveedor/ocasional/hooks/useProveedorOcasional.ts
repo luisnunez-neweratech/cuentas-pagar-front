@@ -42,6 +42,8 @@ export const useProveedorOcasional = () => {
     (state) => state.handleCloseDeleteModal,
   );
 
+  const [tipoPersona, setTipoPersona] = useState<number>(0);
+
   const {
     isLoading,
     isErrorGet,
@@ -141,7 +143,7 @@ export const useProveedorOcasional = () => {
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialFormValues(),
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(tipoPersona),
     onSubmit: async (values) => {
       handleDisableButtons(true);
       if (id) {
@@ -219,6 +221,10 @@ export const useProveedorOcasional = () => {
       });
     }
   };
+
+  useEffect(() => {
+    setTipoPersona(values.tipoPersona);
+  }, [values.tipoPersona]);
 
   useEffect(() => {
     setIsLoading(isLoading);
