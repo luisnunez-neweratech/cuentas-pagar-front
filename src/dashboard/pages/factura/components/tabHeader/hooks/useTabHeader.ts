@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 import { useQueries } from "./useQueries";
 import { useMutations } from "./useMutations";
+import { isNotMonedaMXN } from "../../../lib/moneda";
 
 interface props {
   onClickGuardar: number;
@@ -29,6 +30,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     colaboradores,
     contratos,
     facturas,
+    monedas,
   } = useQueries({
     id,
   });
@@ -96,12 +98,27 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     { value: number; label: string }[]
   >([]);
 
+  const [convertMonedas, setConvertMonedas] = useState<
+    { value: number; label: string }[]
+  >([]);
+
   const onChangeAutocomplete = (newValues: Item[], fieldValue: string) => {
     setFieldValue(fieldValue, newValues);
   };
 
   const [callCheckDuplicateFactura, setCallCheckDuplicateFactura] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    const newMonedas = monedas?.map((moneda) => {
+      return {
+        value: moneda.id,
+        label: moneda.descripcion,
+      };
+    });
+
+    setConvertMonedas(newMonedas ?? []);
+  }, [monedas]);
 
   const initialFormValues = () => {
     if (id && facturaBD && proveedores && colaboradores) {
@@ -252,6 +269,21 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     };
   };
 
+  const getExchangeRate = (
+    monedaId: number | null,
+    tipoCambio: number | null,
+  ) => {
+    if (!isNotMonedaMXN(monedaId, convertMonedas)) {
+      return null;
+    } else {
+      if (tipoCambio === 0 || tipoCambio === null) {
+        return 1;
+      } else {
+        return tipoCambio;
+      }
+    }
+  };
+
   const {
     handleSubmit,
     values,
@@ -316,12 +348,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     +values.ivaRetenido! -
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
-                  exchangeRate:
-                    values.monedaId === 39 // USD
-                      ? values.tipoCambio === 0 || values.tipoCambio === null
-                        ? 1
-                        : values.tipoCambio
-                      : null,
+                  exchangeRate: getExchangeRate(
+                    values.monedaId,
+                    values.tipoCambio,
+                  ),
                   paymentForm: "string",
                   paymentTerms: values.condicionesPagoLabel!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
@@ -438,12 +468,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId: values.colaboradorId!.value,
                   paymentTermId: values.condicionesPagoId,
-                  exchangeRate:
-                    values.monedaId === 39 // USD
-                      ? values.tipoCambio === 0 || values.tipoCambio === null
-                        ? 1
-                        : values.tipoCambio
-                      : null,
+                  exchangeRate: getExchangeRate(
+                    values.monedaId,
+                    values.tipoCambio,
+                  ),
                   contractId:
                     values.contractId && values.contractId.value > 0
                       ? values.contractId.value

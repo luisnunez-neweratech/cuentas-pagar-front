@@ -40,10 +40,11 @@ export const TabPago = ({
     id,
     convertContratos,
     convertFacturas,
-  } = useTabPago(values.proveedorId?.value);
+    showTipoCambio,
+  } = useTabPago(values.proveedorId?.value, values.monedaId || null);
 
   const scheduledPaymentMessage = useFacturaStore(
-    (state) => state.scheduledPaymentMessage
+    (state) => state.scheduledPaymentMessage,
   );
 
   return (
@@ -103,7 +104,7 @@ export const TabPago = ({
         />
       </Grid>
       <Grid size={2}>
-        {values.monedaId === 39 && ( // 39 = USD
+        {showTipoCambio && (
           <TextFieldCommon
             id="tipoCambio"
             label="Tipo de Cambio"
