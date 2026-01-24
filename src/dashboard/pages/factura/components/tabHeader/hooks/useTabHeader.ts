@@ -14,6 +14,7 @@ import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.st
 import { useQueries } from "./useQueries";
 import { useMutations } from "./useMutations";
 import { isNotMonedaMXN } from "../../../lib/moneda";
+import { getFacturaId } from "../../../lib/facturas";
 
 interface props {
   onClickGuardar: number;
@@ -232,6 +233,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         relatedInvoiceId: currentFactura,
       };
     }
+
     return {
       proveedorId: {
         value: 0,
@@ -242,7 +244,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
       tipoDocumentoId: 1, // por default factura en nuevo//stateFactura.tipoDocumentoId,
-      statusFacturaId: 51, //en revision al crear //stateFactura.statusFacturaId,
+      statusFacturaId:
+        statusFacturaData && statusFacturaData.length > 0
+          ? getFacturaId("EN REVISION", statusFacturaData)
+          : null,
       statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
       monedaId: stateFactura.monedaId,
       noFactura: stateFactura.noFactura,
