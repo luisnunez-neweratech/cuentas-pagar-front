@@ -188,6 +188,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         }
       }
 
+      if (proveedorBD && proveedorBD.tipoEntidadId !== null) {
+        setTipoEntidadId(proveedorBD.tipoEntidadId);
+      }
+
       return {
         proveedorId: {
           value: proveedorBD && proveedorBD.id ? proveedorBD.id : 0,
