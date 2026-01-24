@@ -6,6 +6,7 @@ import { useTabPago } from "./hooks/useTabPago";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { useFacturaStore } from "../../store/Factura.store";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
+import { getFacturaId } from "../../lib/facturas";
 
 interface props {
   setOnClickGuardar: any;
@@ -38,6 +39,7 @@ export const TabPago = ({
     convertContratos,
     convertFacturas,
     showTipoCambio,
+    statusFacturaData,
   } = useTabPago(values.proveedorId?.value, values.monedaId || null);
 
   const scheduledPaymentMessage = useFacturaStore(
@@ -150,28 +152,31 @@ export const TabPago = ({
           />
         )}
       </Grid>
-
-      <Grid size={2.4}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
-        {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
-          <DatePickerCommon
-            id="fechaReembolso"
-            label="Fecha Reembolso"
-            fechaValue={values.fechaReembolso ?? ""}
-            setFieldValue={setFieldValue}
-            touched={touched}
-            errors={errors}
-            setFieldTouched={setFieldTouched}
-          />
-        )}
+      <Grid size={2} sx={{ marginTop: -2 }}>
+        {values.statusFacturaId ===
+          getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+          (values.statusFacturaId ===
+            getFacturaId("REEMBOLSADA", statusFacturaData) && (
+            <DatePickerCommon
+              id="fechaReembolso"
+              label="Fecha Reembolso"
+              fechaValue={values.fechaReembolso ?? ""}
+              setFieldValue={setFieldValue}
+              touched={touched}
+              errors={errors}
+              setFieldTouched={setFieldTouched}
+            />
+          ))}
       </Grid>
 
-      <Grid size={2.4}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
+      <Grid size={2} sx={{ marginTop: -2 }}>
         {((!id &&
-          (values.statusFacturaId === 56 ||
-            values.statusFacturaId === 53 ||
-            values.statusFacturaId === 63)) ||
+          (values.statusFacturaId ===
+            getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+            values.statusFacturaId ===
+              getFacturaId("PAGADA", statusFacturaData) ||
+            values.statusFacturaId ===
+              getFacturaId("REEMBOLSADA", statusFacturaData))) ||
           id) && (
           <DatePickerCommon
             id="fechaPago"

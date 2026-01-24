@@ -17,11 +17,7 @@ export const HeaderButtons = ({
   onClickShowFilter,
   showFilter,
 }: HeaderButtonsProps) => {
-  const {
-    handleOpenModal,
-    clearFiltros,
-    downloadFile,
-  } = useHeaderButtons();
+  const { handleOpenModal, clearFiltros, downloadFile } = useHeaderButtons();
 
   return (
     <>
@@ -44,21 +40,19 @@ export const HeaderButtons = ({
       <ActiveFilters />
 
       <Grid size={1}>
-        {showFilter && (
-          <Tooltip title="Limpiar Filtros">
-            <IconButton
-              sx={{ color: mainBackgroundColor }}
-              onClick={clearFiltros}
-            >
-              <DeleteSweepIcon
-                style={{
-                  height: "36px",
-                  width: "36px",
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-        )}
+        <Tooltip title="Limpiar Filtros">
+          <IconButton
+            sx={{ color: mainBackgroundColor }}
+            onClick={clearFiltros}
+          >
+            <DeleteSweepIcon
+              style={{
+                height: "36px",
+                width: "36px",
+              }}
+            />
+          </IconButton>
+        </Tooltip> 
       </Grid>
       <Grid size={1}>
         <Tooltip title={`${showFilter ? "Ocultar" : "Mostrar"} Filtros`}>
