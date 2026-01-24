@@ -29,11 +29,17 @@ export const useTabPago = (
     { value: number; label: string }[]
   >([]);
 
-  const { colaboradores, contratos, monedas, plazoPagos, facturas } =
-    useQueries({
-      proveedorId,
-      id,
-    });
+  const {
+    colaboradores,
+    contratos,
+    monedas,
+    plazoPagos,
+    facturas,
+    statusFacturaData,
+  } = useQueries({
+    proveedorId,
+    id,
+  });
 
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
@@ -108,5 +114,6 @@ export const useTabPago = (
     convertContratos,
     convertFacturas,
     showTipoCambio,
+    statusFacturaData,
   };
 };

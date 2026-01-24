@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
 import {
   getContractNames,
+  getStatusFactura,
   getSupplierInvoices,
 } from "../../../services/factura.service";
 import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
@@ -45,11 +46,17 @@ export const useQueries = ({ proveedorId, id }: Props) => {
     enabled: proveedorId && proveedorId > 0 ? true : false,
   });
 
+   const { data: statusFacturaData } = useQuery({
+      queryKey: ["CatalogMaster", "GetAll", "InvoiceStatus"],
+      queryFn: () => getStatusFactura(),
+    });
+
   return {
     colaboradores,
     contratos,
     monedas,
     plazoPagos,
     facturas,
+    statusFacturaData
   };
 };
