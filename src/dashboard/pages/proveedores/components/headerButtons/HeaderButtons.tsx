@@ -52,7 +52,7 @@ export const HeaderButtons = ({
               }}
             />
           </IconButton>
-        </Tooltip>
+        </Tooltip> 
       </Grid>
       <Grid size={1}>
         <Tooltip title={`${showFilter ? "Ocultar" : "Mostrar"} Filtros`}>
