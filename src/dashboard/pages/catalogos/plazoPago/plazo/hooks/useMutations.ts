@@ -4,7 +4,7 @@ import {
   updatePlazoPago,
 } from "../../../services/plazoPago.service";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { axiosErrorMessage } from "../../../../../../lib/axiosError";
 
 interface Props {
   navigate: (path: string) => void;
@@ -18,13 +18,9 @@ export const useMutations = ({ navigate }: Props) => {
       navigate("/catalogos/plazo-pago/");
     },
     onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al agregar la condicion de pago");
-      return;
+      toast.error(
+        axiosErrorMessage(error, "Error al agregar la condicion de pago"),
+      );
     },
   });
 
@@ -35,13 +31,9 @@ export const useMutations = ({ navigate }: Props) => {
       navigate("/catalogos/plazo-pago/");
     },
     onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al actualizar la condicion de pago");
-      return;
+      toast.error(
+        axiosErrorMessage(error, "Error al actualizar la condicion de pago"),
+      );
     },
   });
 

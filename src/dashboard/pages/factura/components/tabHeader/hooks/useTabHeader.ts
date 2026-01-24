@@ -235,6 +235,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         tipoCambio: facturaBD.tipoCambio,
         contractId: currentContrato,
         relatedInvoiceId: currentFactura,
+        project: facturaBD.project || "",
       };
     }
 
@@ -275,6 +276,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       tipoCambio: stateFactura.tipoCambio,
       contractId: stateFactura.contractId,
       relatedInvoiceId: stateFactura.relatedInvoiceId,
+      project: stateFactura.project || "",
     };
   };
 
@@ -381,6 +383,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     values.relatedInvoiceId && values.relatedInvoiceId.value > 0
                       ? values.relatedInvoiceId.value
                       : null,
+                  project: values.project || null,
                 });
               } else {
                 // crea solo detalles
@@ -489,6 +492,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     values.relatedInvoiceId && values.relatedInvoiceId.value > 0
                       ? values.relatedInvoiceId.value
                       : null,
+                  project: values.project || null,
                 },
               });
 

@@ -28,7 +28,8 @@ export const validationSchema = (tipoEntidadId: number | null) => {
       ivaRetenido: yup.number().required("Requerido"),
       isrRetenido: yup.number().required("Requerido"),
       total: yup.number().required("Requerido"),
-      productos: yup.array(),
+      productos: yup.array(),//.required("Requerido").min(1, "Requerido"),
+      project: yup.string().max(100, "Máximo 100 caracteres").notRequired(),
     });
   } else {
     return yup.object().shape({
@@ -56,7 +57,8 @@ export const validationSchema = (tipoEntidadId: number | null) => {
       ivaRetenido: yup.number().notRequired(),
       isrRetenido: yup.number().notRequired(),
       total: yup.number().required("Requerido"),
-      productos: yup.array(),
+      productos: yup.array(),//.required("Requerido").min(1, "Requerido"),
+      project: yup.string().max(100, "Máximo 100 caracteres").notRequired(),
     });
   }
 };

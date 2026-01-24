@@ -9,6 +9,7 @@ import { AutoCompleteComponent } from "../../../../../components/common/AutoComp
 import { TabDetails } from "../tabDetails/TabDetails";
 import { TabTotal } from "../tabTotal/TabTotal";
 import { TabPago } from "../tabPago/TabPago";
+import { FacturaFooter } from "../facturaFooter/FacturaFooter";
 
 interface props {
   tabIndex: number;
@@ -121,26 +122,50 @@ export const TabHeader = ({
               </FormHelperText>
             </FormControl>
           </Grid>
+          <Grid size={2}>
+            <TextFieldCommon
+              id="project"
+              label="Proyecto"
+              value={values.project || ""}
+              handleChange={handleChange}
+              typeMoneda={false}
+              handleBlur={handleBlur}
+              touched={touched}
+              errors={errors}
+            />
+          </Grid>
 
-          <TabTotal
-            setCorrectAmoutValue={setCorrectAmoutValue}
-            values={values}
-            handleBlur={handleBlur}
-            touched={touched}
-            errors={errors}
-          />
+          <Grid size={12}>
+            <Grid container spacing={2} sx={{ marginTop: 0 }}>
+              <Grid size={10}>
+                <TabPago
+                  setOnClickGuardar={setOnClickGuardar}
+                  onClickGuardar={onClickGuardar}
+                  convertStatusFactura={convertStatusFactura}
+                  values={values}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  touched={touched}
+                  errors={errors}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
+                />
+              </Grid>
+              <Grid size={2}>
+                <TabTotal
+                  setCorrectAmoutValue={setCorrectAmoutValue}
+                  values={values}
+                  handleBlur={handleBlur}
+                  touched={touched}
+                  errors={errors}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
 
-          <TabPago
+          <FacturaFooter
             setOnClickGuardar={setOnClickGuardar}
             onClickGuardar={onClickGuardar}
-            convertStatusFactura={convertStatusFactura}
-            values={values}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            touched={touched}
-            errors={errors}
-            setFieldValue={setFieldValue}
-            setFieldTouched={setFieldTouched}
           />
         </>
       )}
