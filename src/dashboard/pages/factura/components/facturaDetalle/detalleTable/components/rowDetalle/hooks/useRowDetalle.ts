@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useFacturaStore } from "../../../../../../store/Factura.store";
 import { useEffect } from "react";
 import { validationSchema } from "../Validations";
+import { TipoDocumento } from "../../../../../../../facturas/interfaces/TipoDocumento";
 
 interface props {
   id: number;
@@ -11,15 +12,15 @@ interface props {
 export const useRowDetalle = ({ id, onClickGuardar }: props) => {
   const stateFactura = useFacturaStore((state) => state);
   const removeRowFacturaDetalle = useFacturaStore(
-    (state) => state.removeRowFacturaDetalle
+    (state) => state.removeRowFacturaDetalle,
   );
   const updateRowFacturaDetalle = useFacturaStore(
-    (state) => state.updateRowFacturaDetalle
+    (state) => state.updateRowFacturaDetalle,
   );
 
   const getInitialValues = () => {
     const rowDetalleFactura = (stateFactura.facturaDetalle ?? []).find(
-      (item) => item.id === id
+      (item) => item.id === id,
     );
 
     return {
@@ -97,10 +98,10 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
   const setCorrectAmoutValue = (
     value: string,
     field: string,
-    tipoDocId?: number
+    tipoDocId?: number,
   ) => {
     const valueDocumentoId = tipoDocId ?? stateFactura.tipoDocumentoId;
-    if (valueDocumentoId === 2) {
+    if (valueDocumentoId === TipoDocumento.NotaCredito.value) {
       // nota de credito
       if (+value > 0) {
         value = (+value * -1).toString();
@@ -120,12 +121,12 @@ export const useRowDetalle = ({ id, onClickGuardar }: props) => {
     setCorrectAmoutValue(
       values.precio?.toString() ?? "",
       "precio",
-      stateFactura.tipoDocumentoId!
+      stateFactura.tipoDocumentoId!,
     );
     setCorrectAmoutValue(
       values.total?.toString() ?? "",
       "total",
-      stateFactura.tipoDocumentoId!
+      stateFactura.tipoDocumentoId!,
     );
   }, [stateFactura.tipoDocumentoId]);
 

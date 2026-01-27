@@ -192,6 +192,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         setTipoEntidadId(proveedorBD.tipoEntidadId);
       }
 
+      setTipoDocumentoId(facturaBD.tipoDocumentoId);
+
       return {
         proveedorId: {
           value: proveedorBD && proveedorBD.id ? proveedorBD.id : 0,
