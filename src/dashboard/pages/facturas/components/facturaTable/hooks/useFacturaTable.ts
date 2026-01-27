@@ -24,7 +24,10 @@ export const useFacturaTable = () => {
   const setIsLoading = useDashboardLayoutStore((state) => state.setIsLoading);
   const clearState = useFacturaStore((state) => state.clearState);
 
-  const { data, isLoading, error, isError } = useQueries({ page, rowsPerPage });
+  const { data, isLoading, error, isError, statusFacturaData } = useQueries({
+    page,
+    rowsPerPage,
+  });
 
   const rowClick = (invoice: any) => {
     setIdSelected(invoice.id);
@@ -90,5 +93,6 @@ export const useFacturaTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     handleEdit,
+    statusFacturaData,
   };
 };

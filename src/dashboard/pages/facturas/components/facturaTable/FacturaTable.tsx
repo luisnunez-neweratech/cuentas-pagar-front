@@ -26,6 +26,7 @@ import dayjs from "dayjs";
 import { CircularLoading } from "../../../../../components/common/CircularLoading";
 import { TipoDocumento } from "../../interfaces/TipoDocumento";
 import { StatusReembolso } from "../../interfaces/StatusReembolso";
+import { getFacturaId } from "../../../factura/lib/facturas";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -33,9 +34,10 @@ interface props {
   invoice: InvoiceListResponse;
   onEdit: (id: number) => void;
   onRowClick: (invoice: InvoiceListResponse) => void;
+  statusFacturaData?: any;
 }
 
-function Row({ invoice, onEdit, onRowClick }: props) {
+function Row({ invoice, onEdit, onRowClick, statusFacturaData }: props) {
   const [open, setOpen] = React.useState(false);
 
   const formatDate = (date: string | null) => {
@@ -58,7 +60,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
 
   const getReimbursementStatusLabel = (status: number) => {
     const statusObj = Object.values(StatusReembolso).find(
-      (s) => s.value === status
+      (s) => s.value === status,
     );
     return statusObj?.label || "N/A";
   };
@@ -120,8 +122,13 @@ function Row({ invoice, onEdit, onRowClick }: props) {
               }}
               sx={{ marginRight: 3 }}
               disabled={
-                invoice.invoiceStatusId === 53 || invoice.invoiceStatusId === 54
-              } // 53 pagada , 54 cancelada
+                invoice.invoiceStatusId ===
+                  getFacturaId("PAGADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                  getFacturaId("CANCELADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                  getFacturaId("REEMBOLSADA", statusFacturaData)
+              }
             >
               <ModeEditIcon style={{ width: 20, height: 20 }} />
             </IconButton>
@@ -227,7 +234,8 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                       )}
                     </TableCell>
                     <TableCell>
-                      {invoice.hasPaymentProof && invoice.paymentProofDownloadUrl ? (
+                      {invoice.hasPaymentProof &&
+                      invoice.paymentProofDownloadUrl ? (
                         <Link
                           href={invoice.paymentProofDownloadUrl}
                           target="_blank"
@@ -281,19 +289,25 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell component="th" scope="row">
                       Subtotal
                     </TableCell>
-                    <TableCell align="right">{formatCurrency(invoice.subtotal)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.subtotal)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       Descuento
                     </TableCell>
-                    <TableCell align="right">{formatCurrency(invoice.discount)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.discount)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       IVA
                     </TableCell>
-                    <TableCell align="right">{formatCurrency(invoice.taxIVA)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.taxIVA)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
@@ -331,6 +345,7 @@ export const FacturaTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     handleEdit,
+    statusFacturaData,
   } = useFacturaTable();
 
   if (isLoading) {
@@ -363,6 +378,7 @@ export const FacturaTable = () => {
               invoice={invoice}
               onEdit={handleEdit}
               onRowClick={() => rowClick(invoice)}
+              statusFacturaData={statusFacturaData}
             />
           ))}
         </TableBody>
