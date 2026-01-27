@@ -26,6 +26,8 @@ import dayjs from "dayjs";
 import { CircularLoading } from "../../../../../components/common/CircularLoading";
 import { TipoDocumento } from "../../interfaces/TipoDocumento";
 import { StatusReembolso } from "../../interfaces/StatusReembolso";
+import ChatIcon from "@mui/icons-material/Chat";
+import { mainBackgroundColor } from "../../../../../lib/constants";
 import { getFacturaId } from "../../../factura/lib/facturas";
 
 const cellHeaderStyle = { fontWeight: "bold" };
@@ -34,10 +36,17 @@ interface props {
   invoice: InvoiceListResponse;
   onEdit: (id: number) => void;
   onRowClick: (invoice: InvoiceListResponse) => void;
+  handleOpenModal: () => void;
   statusFacturaData?: any;
 }
 
-function Row({ invoice, onEdit, onRowClick, statusFacturaData }: props) {
+function Row({
+  invoice,
+  onEdit,
+  onRowClick,
+  statusFacturaData,
+  handleOpenModal,
+}: props) {
   const [open, setOpen] = React.useState(false);
 
   const formatDate = (date: string | null) => {
@@ -76,6 +85,15 @@ function Row({ invoice, onEdit, onRowClick, statusFacturaData }: props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          <Tooltip title="Ver Notas">
+            <IconButton color="inherit" edge="start" onClick={handleOpenModal}>
+              <ChatIcon
+                style={{ width: 24, height: 24, color: mainBackgroundColor }}
+              />
+            </IconButton>
+          </Tooltip>
         </TableCell>
         <TableCell
           component="th"
@@ -345,6 +363,7 @@ export const FacturaTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     handleEdit,
+    handleOpenCommentsModal,
     statusFacturaData,
   } = useFacturaTable();
 
@@ -358,6 +377,7 @@ export const FacturaTable = () => {
         <TableHead>
           <TableRow>
             <TableCell />
+            <TableCell style={cellHeaderStyle}>Notas</TableCell>
             <TableCell style={cellHeaderStyle}>Proveedor</TableCell>
             <TableCell style={cellHeaderStyle}>No. Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Tipo</TableCell>
@@ -378,6 +398,9 @@ export const FacturaTable = () => {
               invoice={invoice}
               onEdit={handleEdit}
               onRowClick={() => rowClick(invoice)}
+              handleOpenModal={() =>
+                handleOpenCommentsModal(invoice.id.toString())
+              }
               statusFacturaData={statusFacturaData}
             />
           ))}

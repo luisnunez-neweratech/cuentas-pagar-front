@@ -27,6 +27,7 @@ const initFiltros: FiltrosFacturas = {
 interface IFacturasPage {
   openModal: boolean;
   openFacturaModal: boolean;
+  openCommentsModal: boolean;
   filtrosFacturas: FiltrosFacturas;
   callApi: number;
   idSelected: string;
@@ -35,10 +36,12 @@ interface IFacturasPage {
   handleClose: () => void;
   handleOpenFacturaModal: () => void;
   handleCloseFacturaModal: () => void;
+  handleOpenCommentsModal: (idSelected: string) => void;
+  handleCloseCommentsModal: () => void;
   setFiltrosFacturas: (
     filtrosFacturas:
       | FiltrosFacturas
-      | ((prev: FiltrosFacturas) => FiltrosFacturas)
+      | ((prev: FiltrosFacturas) => FiltrosFacturas),
   ) => void;
   clearFiltros: () => void;
   setCallApi: () => void;
@@ -48,6 +51,7 @@ interface IFacturasPage {
 export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
   openModal: false,
   openFacturaModal: false,
+  openCommentsModal: false,
   filtrosFacturas: initFiltros,
   callApi: 0,
   idSelected: "",
@@ -70,6 +74,17 @@ export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
   handleCloseFacturaModal: () => {
     set({
       openFacturaModal: false,
+    });
+  },
+  handleOpenCommentsModal: (idSelected: string) => {
+    set({
+      openCommentsModal: true,
+      idSelected,
+    });
+  },
+  handleCloseCommentsModal: () => {
+    set({
+      openCommentsModal: false,
     });
   },
   setFiltrosFacturas: (filtrosFacturas) => {

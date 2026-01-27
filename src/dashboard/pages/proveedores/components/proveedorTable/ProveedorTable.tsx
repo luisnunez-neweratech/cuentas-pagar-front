@@ -1,5 +1,5 @@
 import {
-  Paper,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -8,10 +8,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import TaskIcon from "@mui/icons-material/Task";
 import { TablePaginationActions } from "./components/TablePaginationActions";
 import { useProveedorTable } from "./hooks/useProveedorTable";
+import ChatIcon from "@mui/icons-material/Chat";
+import { mainBackgroundColor } from "../../../../../lib/constants";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -24,13 +27,15 @@ export const ProveedorTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     totalRows,
+    handleOpenModal,
   } = useProveedorTable();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer sx={{ width: "95% !important" }}>
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell style={cellHeaderStyle}>Notas</TableCell>
             <TableCell style={cellHeaderStyle}>ID</TableCell>
             <TableCell style={cellHeaderStyle}>RFC</TableCell>
             <TableCell style={cellHeaderStyle}>Alias</TableCell>
@@ -60,31 +65,107 @@ export const ProveedorTable = () => {
                   "&:last-child td, &:last-child th": { border: 0 },
                   cursor: "pointer",
                 }}
-                onClick={(_e) => {
-                  rowClick(proveedor);
-                }}
               >
                 <TableCell component="th" scope="row">
+                  <Tooltip title="Ver Notas">
+                    <IconButton
+                      color="inherit"
+                      edge="start"
+                      onClick={() => handleOpenModal(proveedor.id)}
+                    >
+                      <ChatIcon
+                        style={{
+                          width: 24,
+                          height: 24,
+                          color: mainBackgroundColor,
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
                   {proveedor.providerCode}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
                   {proveedor.rfc}
                 </TableCell>
-                <TableCell>{proveedor.alias}</TableCell>
-                <TableCell>{proveedor.razonSocial}</TableCell>
-                <TableCell>{proveedor.fechaAlta}</TableCell>
-                <TableCell>{proveedor.fechaInicioContrato}</TableCell>
-                <TableCell>{proveedor.fechaFinContrato}</TableCell>
-                <TableCell align="center">
+                <TableCell
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
+                  {proveedor.alias}
+                </TableCell>
+                <TableCell
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
+                  {proveedor.razonSocial}
+                </TableCell>
+                <TableCell
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
+                  {proveedor.fechaAlta}
+                </TableCell>
+                <TableCell
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
+                  {proveedor.fechaInicioContrato}
+                </TableCell>
+                <TableCell
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
+                  {proveedor.fechaFinContrato}
+                </TableCell>
+                <TableCell
+                  align="center"
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
                   {proveedor.indicadorCSF && <TaskIcon />}
                 </TableCell>
-                <TableCell align="center">
+                <TableCell
+                  align="center"
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
                   {proveedor.indicadorIdRepLegal && <TaskIcon />}
                 </TableCell>
-                <TableCell align="center">
+                <TableCell
+                  align="center"
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
                   {proveedor.indicadorCompDom && <TaskIcon />}
                 </TableCell>
-                <TableCell align="center">
+                <TableCell
+                  align="center"
+                  onClick={(_e) => {
+                    rowClick(proveedor);
+                  }}
+                >
                   {proveedor.indicadorPoderRep && <TaskIcon />}
                 </TableCell>
               </TableRow>

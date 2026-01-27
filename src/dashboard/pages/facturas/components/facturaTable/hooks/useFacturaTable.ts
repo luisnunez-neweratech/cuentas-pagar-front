@@ -16,6 +16,11 @@ export const useFacturaTable = () => {
   const handleOpenModal = useFacturasPageStore(
     (state) => state.handleOpenModal,
   );
+
+  const handleOpenCommentsModal = useFacturasPageStore(
+    (state) => state.handleOpenCommentsModal,
+  );
+
   const setIdSelected = useFacturasPageStore((state) => state.setIdSelected);
 
   const filtrosFacturas = useFacturasPageStore(
@@ -93,6 +98,7 @@ export const useFacturaTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     handleEdit,
+    handleOpenCommentsModal,
     statusFacturaData,
   };
 };

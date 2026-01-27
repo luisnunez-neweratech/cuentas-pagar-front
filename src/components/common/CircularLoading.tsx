@@ -11,6 +11,7 @@ export const CircularLoading = () => {
         marginLeft: "-50px",
         width: "100px",
         height: "100px",
+        zIndex: 1300,
       }}
     >
       <CircularProgress style={{ color: "#ffb65a" }} />
