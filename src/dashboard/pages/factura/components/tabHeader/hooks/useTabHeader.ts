@@ -487,7 +487,6 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       getFacturaId("REEMBOLSADA", statusFacturaData)
                       ? values.colaboradorId!.value
                       : null,
-                  //values.colaboradorId!.value,
                   paymentTermId: values.condicionesPagoId,
                   exchangeRate: getExchangeRate(
                     values.monedaId,
