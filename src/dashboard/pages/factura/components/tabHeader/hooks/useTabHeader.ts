@@ -480,7 +480,13 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   paymentDate: values.fechaPago ?? null,
                   reimbursementStatus: values.statusReembolsoId,
                   reimbursementDate: values.fechaReembolso ?? null,
-                  reimbursementCollaboratorId: values.colaboradorId!.value,
+                  reimbursementCollaboratorId:
+                    values.statusFacturaId ===
+                      getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+                    values.statusFacturaId ===
+                      getFacturaId("REEMBOLSADA", statusFacturaData)
+                      ? values.colaboradorId!.value
+                      : null,
                   paymentTermId: values.condicionesPagoId,
                   exchangeRate: getExchangeRate(
                     values.monedaId,
@@ -785,12 +791,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   ]);
 
   useEffect(() => {
-    // por reembolsar
-    if (values.statusFacturaId === 56) {
+    if (
+      values.statusFacturaId ===
+      getFacturaId("POR REEMBOLSAR", statusFacturaData)
+    ) {
       setFieldValue("statusReembolsoId", 1); // pendiente
     }
-    // reembolsada
-    if (values.statusFacturaId === 63) {
+    if (
+      values.statusFacturaId === getFacturaId("REEMBOLSADA", statusFacturaData)
+    ) {
       setFieldValue("statusReembolsoId", 2); // pagada
     }
   }, [values.statusFacturaId]);

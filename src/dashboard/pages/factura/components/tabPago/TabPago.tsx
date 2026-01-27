@@ -118,8 +118,10 @@ export const TabPago = ({
       </Grid>
 
       <Grid size={2.4}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
-        {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
+        {(values.statusFacturaId ===
+          getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+          values.statusFacturaId ===
+            getFacturaId("REEMBOLSADA", statusFacturaData)) && (
           <NormalAutocomplete
             options={convertColaboradores}
             label="Colaborador"
@@ -133,8 +135,10 @@ export const TabPago = ({
         )}
       </Grid>
       <Grid size={2.4}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
-        {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
+        {(values.statusFacturaId ===
+          getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+          values.statusFacturaId ===
+            getFacturaId("REEMBOLSADA", statusFacturaData)) && (
           <SelectCommon
             id={"statusReembolsoId"}
             label={"Estatus Reembolso"}
@@ -222,7 +226,6 @@ export const TabPago = ({
             />
           )}
       </Grid>
-
     </Grid>
   );
 };
