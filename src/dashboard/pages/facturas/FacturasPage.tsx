@@ -25,6 +25,7 @@ export const FacturasPage = () => {
       <Comments
         openModal={openCommentsModal}
         handleClose={handleCloseCommentsModal}
+        isProveedor={false}
       />
     </Grid>
   );

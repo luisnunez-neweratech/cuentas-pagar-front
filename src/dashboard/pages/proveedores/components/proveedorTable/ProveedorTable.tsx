@@ -71,7 +71,7 @@ export const ProveedorTable = () => {
                     <IconButton
                       color="inherit"
                       edge="start"
-                      onClick={handleOpenModal}
+                      onClick={() => handleOpenModal(proveedor.id)}
                     >
                       <ChatIcon
                         style={{

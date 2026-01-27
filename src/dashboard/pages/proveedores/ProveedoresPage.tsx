@@ -15,16 +15,16 @@ export const ProveedoresPage = () => {
     <Grid
       container
       spacing={2}
-       sx={{
-        width: '100%',
-        overflow: "hidden",          
-      }} 
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+      }}
     >
       <HeaderButtons {...{ onClickShowFilter, showFilter }} />
       <Filters {...{ showFilter }} />
       <ProveedorTable />
       <NuevoProvedor />
-      <Comments {...{ openModal, handleClose }} />
+      <Comments {...{ openModal, handleClose, isProveedor: true }} />
     </Grid>
   );
 };

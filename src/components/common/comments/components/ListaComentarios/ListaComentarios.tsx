@@ -1,6 +1,14 @@
 import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
 
-export const ListaComentarios = () => {
+interface Props {
+  items: Array<{
+    id: number;
+    commentText: string;
+    createdAt: string;
+  }>;
+}
+
+export const ListaComentarios = ({ items }: Props) => {
   return (
     <>
       <Grid size={12}>
@@ -11,16 +19,14 @@ export const ListaComentarios = () => {
       </Grid>
       <Grid size={12}>
         <List sx={{ bgcolor: "background.paper" }}>
-          <ListItem>
-            <ListItemText primary="Comentario" secondary="Jan 9, 2014" />
-          </ListItem>
-          <ListItem>
-            <ListItemText primary="Comentario" secondary="Jan 9, 2014" />
-          </ListItem>
-
-          <ListItem>
-            <ListItemText primary="Comentario" secondary="Jan 9, 2014" />
-          </ListItem>
+          {items.map((item) => (
+            <ListItem key={item.id}>
+              <ListItemText
+                primary={item.commentText}
+                secondary={item.createdAt}
+              />
+            </ListItem>
+          ))}
         </List>
       </Grid>
     </>

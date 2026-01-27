@@ -12,13 +12,20 @@ import SaveIcon from "@mui/icons-material/Save";
 import { mainBackgroundColor } from "../../../lib/constants";
 import CloseIcon from "@mui/icons-material/Close";
 import { ListaComentarios } from "./components/ListaComentarios/ListaComentarios";
+import { useComments } from "./hooks/useComments";
 
 interface Props {
   openModal: boolean;
   handleClose: () => void;
+  isProveedor: boolean;
 }
 
-export const Comments = ({ openModal, handleClose }: Props) => {
+export const Comments = ({ openModal, handleClose, isProveedor }: Props) => {
+  const { proveedoresComments, nota, setNota, onClickGuardar } = useComments({
+    openModal,
+    isProveedor,
+  });
+
   return (
     <Backdrop
       sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
@@ -65,20 +72,26 @@ export const Comments = ({ openModal, handleClose }: Props) => {
                 multiline
                 rows={5}
                 fullWidth
+                onChange={(e) => setNota(e.target.value)}
+                value={nota}
               />
             </Grid>
+            <Grid size={10} />
             <Grid size={2}>
               <Button
                 variant="contained"
                 color="primary"
                 sx={{ backgroundColor: mainBackgroundColor, marginTop: 2 }}
-                //onClick={onClickOcasional}
+                disabled={!nota.trim().length}
+                onClick={onClickGuardar}
               >
                 Guardar <SaveIcon sx={{ marginLeft: 1 }} />
               </Button>
             </Grid>
             <Grid size={10} />
-            <ListaComentarios />
+            {proveedoresComments && proveedoresComments.items.length > 0 && (
+              <ListaComentarios items={proveedoresComments.items} />
+            )}
           </Grid>
         </Paper>
       </Box>
