@@ -54,6 +54,7 @@ export const usePerfil = () => {
 
   const [disableButtons, setDisableButtons] = useState(false);
   const [clickedBy, setClickedBy] = useState<number>(0);
+  const [tipoPersona, setTipoPersona] = useState<number>(0);
 
   const handleDisableButtons = (state: boolean) => {
     setDisableButtons(state);
@@ -154,7 +155,7 @@ export const usePerfil = () => {
   } = useFormik({
     enableReinitialize: true,
     initialValues: initialFormValues(),
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(tipoPersona),
     onSubmit: async (values) => {
       handleDisableButtons(true);
       createMutation.reset();
@@ -397,6 +398,10 @@ export const usePerfil = () => {
       toast.error("Error al obtener el proveedor");
     }
   }, [isErrorGet]);
+
+  useEffect(() => {
+    setTipoPersona(values.tipoPersona);
+  }, [values.tipoPersona]);
 
   return {
     handleSubmit,

@@ -13,6 +13,8 @@ import { toast } from "sonner";
 import { useDashboardLayoutStore } from "../../../../../store/dashboardLayout.store";
 import { useQueries } from "./useQueries";
 import { useMutations } from "./useMutations";
+import { isNotMonedaMXN } from "../../../lib/moneda";
+import { getFacturaId } from "../../../lib/facturas";
 
 interface props {
   onClickGuardar: number;
@@ -29,6 +31,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     colaboradores,
     contratos,
     facturas,
+    monedas,
   } = useQueries({
     id,
   });
@@ -96,12 +99,27 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     { value: number; label: string }[]
   >([]);
 
+  const [convertMonedas, setConvertMonedas] = useState<
+    { value: number; label: string }[]
+  >([]);
+
   const onChangeAutocomplete = (newValues: Item[], fieldValue: string) => {
     setFieldValue(fieldValue, newValues);
   };
 
   const [callCheckDuplicateFactura, setCallCheckDuplicateFactura] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    const newMonedas = monedas?.map((moneda) => {
+      return {
+        value: moneda.id,
+        label: moneda.descripcion,
+      };
+    });
+
+    setConvertMonedas(newMonedas ?? []);
+  }, [monedas]);
 
   const initialFormValues = () => {
     if (id && facturaBD && proveedores && colaboradores) {
@@ -170,6 +188,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         }
       }
 
+      if (proveedorBD && proveedorBD.tipoEntidadId !== null) {
+        setTipoEntidadId(proveedorBD.tipoEntidadId);
+      }
+
+      setTipoDocumentoId(facturaBD.tipoDocumentoId);
+
       return {
         proveedorId: {
           value: proveedorBD && proveedorBD.id ? proveedorBD.id : 0,
@@ -213,8 +237,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         tipoCambio: facturaBD.tipoCambio,
         contractId: currentContrato,
         relatedInvoiceId: currentFactura,
+        project: facturaBD.project || "",
       };
     }
+
     return {
       proveedorId: {
         value: 0,
@@ -225,7 +251,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       }, //stateFactura.proveedorId,
       colaboradorId: { value: 0, label: "" }, //stateFactura.colaboradorId,
       tipoDocumentoId: 1, // por default factura en nuevo//stateFactura.tipoDocumentoId,
-      statusFacturaId: 51, //en revision al crear //stateFactura.statusFacturaId,
+      statusFacturaId:
+        statusFacturaData && statusFacturaData.length > 0
+          ? getFacturaId("EN REVISION", statusFacturaData)
+          : null,
       statusReembolsoId: 4, //NA al crear// stateFactura.statusReembolsoId,
       monedaId: stateFactura.monedaId,
       noFactura: stateFactura.noFactura,
@@ -249,7 +278,23 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       tipoCambio: stateFactura.tipoCambio,
       contractId: stateFactura.contractId,
       relatedInvoiceId: stateFactura.relatedInvoiceId,
+      project: stateFactura.project || "",
     };
+  };
+
+  const getExchangeRate = (
+    monedaId: number | null,
+    tipoCambio: number | null,
+  ) => {
+    if (!isNotMonedaMXN(monedaId, convertMonedas)) {
+      return null;
+    } else {
+      if (tipoCambio === 0 || tipoCambio === null) {
+        return 1;
+      } else {
+        return tipoCambio;
+      }
+    }
   };
 
   const {
@@ -265,6 +310,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     enableReinitialize: true,
     initialValues: initialFormValues(),
     validationSchema: validationSchema(stateFactura.tipoEntidadId),
+    validateOnChange: true,
     onSubmit: async (values) => {
       handleDisableButtons(true);
       window.scrollTo({
@@ -315,12 +361,10 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     +values.ivaRetenido! -
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
-                  exchangeRate:
-                    values.monedaId === 39 // USD
-                      ? values.tipoCambio === 0 || values.tipoCambio === null
-                        ? 1
-                        : values.tipoCambio
-                      : null,
+                  exchangeRate: getExchangeRate(
+                    values.monedaId,
+                    values.tipoCambio,
+                  ),
                   paymentForm: "string",
                   paymentTerms: values.condicionesPagoLabel!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
@@ -341,6 +385,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     values.relatedInvoiceId && values.relatedInvoiceId.value > 0
                       ? values.relatedInvoiceId.value
                       : null,
+                  project: values.project || null,
                 });
               } else {
                 // crea solo detalles
@@ -435,14 +480,18 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   paymentDate: values.fechaPago ?? null,
                   reimbursementStatus: values.statusReembolsoId,
                   reimbursementDate: values.fechaReembolso ?? null,
-                  reimbursementCollaboratorId: values.colaboradorId!.value,
-                  paymentTermId: values.condicionesPagoId,
-                  exchangeRate:
-                    values.monedaId === 39 // USD
-                      ? values.tipoCambio === 0 || values.tipoCambio === null
-                        ? 1
-                        : values.tipoCambio
+                  reimbursementCollaboratorId:
+                    values.statusFacturaId ===
+                      getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+                    values.statusFacturaId ===
+                      getFacturaId("REEMBOLSADA", statusFacturaData)
+                      ? values.colaboradorId!.value
                       : null,
+                  paymentTermId: values.condicionesPagoId,
+                  exchangeRate: getExchangeRate(
+                    values.monedaId,
+                    values.tipoCambio,
+                  ),
                   contractId:
                     values.contractId && values.contractId.value > 0
                       ? values.contractId.value
@@ -451,6 +500,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                     values.relatedInvoiceId && values.relatedInvoiceId.value > 0
                       ? values.relatedInvoiceId.value
                       : null,
+                  project: values.project || null,
                 },
               });
 
@@ -529,16 +579,25 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   }, [isDuplicateFactura]);
 
   useEffect(() => {
-    if (
-      !id &&
-      values.noFactura &&
-      values.noFactura.length > 0 &&
-      values.folioFiscal &&
-      values.folioFiscal.length > 0
-    ) {
-      setCallCheckDuplicateFactura(true);
+    if (stateFactura.tipoEntidadId === 0) {
+      // nacional
+      if (
+        !id &&
+        values.noFactura &&
+        values.noFactura.length > 0 &&
+        values.folioFiscal &&
+        values.folioFiscal.length > 0
+      ) {
+        setCallCheckDuplicateFactura(true);
+      } else {
+        setCallCheckDuplicateFactura(false);
+      }
     } else {
-      setCallCheckDuplicateFactura(false);
+      if (!id && values.noFactura && values.noFactura.length > 0) {
+        setCallCheckDuplicateFactura(true);
+      } else {
+        setCallCheckDuplicateFactura(false);
+      }
     }
   }, [values.noFactura, values.folioFiscal]);
 
@@ -732,12 +791,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   ]);
 
   useEffect(() => {
-    // por reembolsar
-    if (values.statusFacturaId === 56) {
+    if (
+      values.statusFacturaId ===
+      getFacturaId("POR REEMBOLSAR", statusFacturaData)
+    ) {
       setFieldValue("statusReembolsoId", 1); // pendiente
     }
-    // reembolsada
-    if (values.statusFacturaId === 63) {
+    if (
+      values.statusFacturaId === getFacturaId("REEMBOLSADA", statusFacturaData)
+    ) {
       setFieldValue("statusReembolsoId", 2); // pagada
     }
   }, [values.statusFacturaId]);

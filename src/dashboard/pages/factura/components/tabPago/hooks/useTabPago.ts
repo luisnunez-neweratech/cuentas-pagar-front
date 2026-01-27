@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useQueries } from "./useQueries";
+import { isNotMonedaMXN } from "../../../lib/moneda";
 
 interface contratoItem {
   contractId: number;
   contractName: string;
 }
 
-export const useTabPago = (proveedorId: number | null) => {
+export const useTabPago = (
+  proveedorId: number | null,
+  monedaId: number | null,
+) => {
   const { id } = useParams();
+
+  const [showTipoCambio, setShowTipoCambio] = useState<boolean>(false);
 
   const [convertColaboradores, setConvertColaboradores] = useState<
     { value: number; label: string }[]
@@ -23,11 +29,17 @@ export const useTabPago = (proveedorId: number | null) => {
     { value: number; label: string }[]
   >([]);
 
-  const { colaboradores, contratos, monedas, plazoPagos, facturas } =
-    useQueries({
-      proveedorId,
-      id,
-    });
+  const {
+    colaboradores,
+    contratos,
+    monedas,
+    plazoPagos,
+    facturas,
+    statusFacturaData,
+  } = useQueries({
+    proveedorId,
+    id,
+  });
 
   const [convertMonedas, setConvertMonedas] = useState<
     { value: number; label: string }[]
@@ -88,6 +100,12 @@ export const useTabPago = (proveedorId: number | null) => {
     setConvertFacturas(newFacturas ?? []);
   }, [facturas]);
 
+  useEffect(() => {
+    if (monedaId && convertMonedas.length > 0) {
+      setShowTipoCambio(isNotMonedaMXN(monedaId, convertMonedas));
+    }
+  }, [monedaId]);
+
   return {
     convertColaboradores,
     convertPlazoPagos,
@@ -95,5 +113,7 @@ export const useTabPago = (proveedorId: number | null) => {
     id,
     convertContratos,
     convertFacturas,
+    showTipoCambio,
+    statusFacturaData,
   };
 };

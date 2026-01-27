@@ -7,6 +7,7 @@ import {
   getSupplierInvoices,
 } from "../../../services/factura.service";
 import { getColaboradoresSgpyon } from "../../../services/colaborador.sgpyon.service";
+import { getAllMonedaVentas } from "../../../../catalogos/services/monedaVenta.service";
 
 interface Props {
   id?: string | null | undefined;
@@ -51,6 +52,11 @@ export const useQueries = ({ id }: Props) => {
     enabled: facturaBD && facturaBD.proveedorId ? true : false,
   });
 
+  const { data: monedas } = useQuery({
+      queryKey: ["CatalogMaster", "GetAll", "Moneda"],
+      queryFn: () => getAllMonedaVentas(),
+    });
+
   return {
     proveedores,
     statusFacturaData,
@@ -59,5 +65,6 @@ export const useQueries = ({ id }: Props) => {
     colaboradores,
     contratos,
     facturas,
+    monedas
   };
 };

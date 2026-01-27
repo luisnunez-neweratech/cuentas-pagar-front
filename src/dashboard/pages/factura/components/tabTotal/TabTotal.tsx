@@ -17,13 +17,11 @@ export const TabTotal = ({
   errors,
 }: props) => {
   return (
-    <>
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0, marginBottom: 0 }}>
+    <Grid container spacing={2}>
+      <Grid size={12}>
         <NumericFormat
           fullWidth
           variant="outlined"
-          margin="normal"
           size="small"
           id="subtotal"
           label="Subtotal"
@@ -42,22 +40,16 @@ export const TabTotal = ({
           allowNegative
           decimalScale={2}
           slotProps={{
-            input: {
-              style: { textAlign: "right" },
-            },
             htmlInput: {
               style: { textAlign: "right" },
             },
           }}
         />
       </Grid>
-
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
+      <Grid size={12}>
         <NumericFormat
           fullWidth
           variant="outlined"
-          margin="normal"
           size="small"
           id="descuento"
           label="Descuento"
@@ -76,9 +68,6 @@ export const TabTotal = ({
           allowNegative
           decimalScale={2}
           slotProps={{
-            input: {
-              style: { textAlign: "right" },
-            },
             htmlInput: {
               style: { textAlign: "right" },
             },
@@ -86,12 +75,10 @@ export const TabTotal = ({
         />
       </Grid>
 
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
+      <Grid size={12}>
         <NumericFormat
           fullWidth
           variant="outlined"
-          margin="normal"
           size="small"
           id="impuestos"
           label="Impuestos"
@@ -110,9 +97,6 @@ export const TabTotal = ({
           allowNegative
           decimalScale={2}
           slotProps={{
-            input: {
-              style: { textAlign: "right" },
-            },
             htmlInput: {
               style: { textAlign: "right" },
             },
@@ -120,12 +104,10 @@ export const TabTotal = ({
         />
       </Grid>
 
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
+      <Grid size={12}>
         <NumericFormat
           fullWidth
           variant="outlined"
-          margin="normal"
           size="small"
           id="ivaRetenido"
           label="IVA Retenido"
@@ -144,9 +126,6 @@ export const TabTotal = ({
           allowNegative
           decimalScale={2}
           slotProps={{
-            input: {
-              style: { textAlign: "right" },
-            },
             htmlInput: {
               style: { textAlign: "right" },
             },
@@ -154,12 +133,10 @@ export const TabTotal = ({
         />
       </Grid>
 
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
+      <Grid size={12}>
         <NumericFormat
           fullWidth
           variant="outlined"
-          margin="normal"
           size="small"
           id="isrRetenido"
           label="ISR Retenido"
@@ -178,9 +155,6 @@ export const TabTotal = ({
           allowNegative
           decimalScale={2}
           slotProps={{
-            input: {
-              style: { textAlign: "right" },
-            },
             htmlInput: {
               style: { textAlign: "right" },
             },
@@ -188,12 +162,10 @@ export const TabTotal = ({
         />
       </Grid>
 
-      <Grid size={10} />
-      <Grid size={2} sx={{ marginTop: 0 }}>
+      <Grid size={12}>
         <NumericFormat
           fullWidth
           variant="outlined"
-          margin="normal"
           size="small"
           id="total"
           label="Total"
@@ -212,15 +184,12 @@ export const TabTotal = ({
           allowNegative
           decimalScale={2}
           slotProps={{
-            input: {
-              style: { textAlign: "right" },
-            },
             htmlInput: {
               style: { textAlign: "right" },
             },
           }}
         />
       </Grid>
-    </>
+    </Grid>
   );
 };

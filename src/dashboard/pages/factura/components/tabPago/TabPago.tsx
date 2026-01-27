@@ -2,11 +2,11 @@ import { Grid, FormHelperText } from "@mui/material";
 import { SelectCommon } from "../../../../../components/common/SelectCommon/SelectCommon";
 import { DatePickerCommon } from "../../../../../components/common/DatePickerCommon/DatePickerCommon";
 import { NormalAutocomplete } from "../../../../../components/common/NormalAutocomplete/NormalAutocomplete";
-import { FacturaFooter } from "../facturaFooter/FacturaFooter";
 import { useTabPago } from "./hooks/useTabPago";
 import { StatusReembolso } from "../../../facturas/interfaces/StatusReembolso";
 import { useFacturaStore } from "../../store/Factura.store";
 import { TextFieldCommon } from "../../../../../components/common/TextFieldCommon/TextFieldCommon";
+import { getFacturaId } from "../../lib/facturas";
 
 interface props {
   setOnClickGuardar: any;
@@ -22,8 +22,6 @@ interface props {
 }
 
 export const TabPago = ({
-  setOnClickGuardar,
-  onClickGuardar,
   convertStatusFactura,
   values,
   handleChange,
@@ -40,15 +38,17 @@ export const TabPago = ({
     id,
     convertContratos,
     convertFacturas,
-  } = useTabPago(values.proveedorId?.value);
+    showTipoCambio,
+    statusFacturaData,
+  } = useTabPago(values.proveedorId?.value, values.monedaId || null);
 
   const scheduledPaymentMessage = useFacturaStore(
-    (state) => state.scheduledPaymentMessage
+    (state) => state.scheduledPaymentMessage,
   );
 
   return (
-    <Grid container spacing={2} sx={{ marginTop: -58 }}>
-      <Grid size={2}>
+    <Grid container spacing={2}>
+      <Grid size={2.4}>
         <SelectCommon
           id={"condicionesPagoId"}
           label={"Condiciones de Pago"}
@@ -60,7 +60,7 @@ export const TabPago = ({
           errors={errors}
         />
       </Grid>
-      <Grid size={2}>
+      <Grid size={2.4}>
         <SelectCommon
           id={"statusFacturaId"}
           label={"Estatus Factura"}
@@ -72,7 +72,7 @@ export const TabPago = ({
           errors={errors}
         />
       </Grid>
-      <Grid size={2}>
+      <Grid size={2.4}>
         <DatePickerCommon
           id="fechaProgramadaPago"
           label="Programada Pago"
@@ -90,7 +90,7 @@ export const TabPago = ({
           </FormHelperText>
         )}
       </Grid>
-      <Grid size={2}>
+      <Grid size={2.4}>
         <SelectCommon
           id={"monedaId"}
           label={"Moneda"}
@@ -102,8 +102,8 @@ export const TabPago = ({
           errors={errors}
         />
       </Grid>
-      <Grid size={2}>
-        {values.monedaId === 39 && ( // 39 = USD
+      <Grid size={2.4}>
+        {showTipoCambio && (
           <TextFieldCommon
             id="tipoCambio"
             label="Tipo de Cambio"
@@ -117,11 +117,11 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} />
-
-      <Grid size={2} sx={{ marginTop: -2 }}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
-        {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
+      <Grid size={2.4}>
+        {(values.statusFacturaId ===
+          getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+          values.statusFacturaId ===
+            getFacturaId("REEMBOLSADA", statusFacturaData)) && (
           <NormalAutocomplete
             options={convertColaboradores}
             label="Colaborador"
@@ -134,9 +134,11 @@ export const TabPago = ({
           />
         )}
       </Grid>
-      <Grid size={2} sx={{ marginTop: -2 }}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
-        {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
+      <Grid size={2.4}>
+        {(values.statusFacturaId ===
+          getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+          values.statusFacturaId ===
+            getFacturaId("REEMBOLSADA", statusFacturaData)) && (
           <SelectCommon
             id={"statusReembolsoId"}
             label={"Estatus Reembolso"}
@@ -154,28 +156,31 @@ export const TabPago = ({
           />
         )}
       </Grid>
-
       <Grid size={2} sx={{ marginTop: -2 }}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
-        {(values.statusFacturaId === 56 || values.statusFacturaId === 63) && (
-          <DatePickerCommon
-            id="fechaReembolso"
-            label="Fecha Reembolso"
-            fechaValue={values.fechaReembolso ?? ""}
-            setFieldValue={setFieldValue}
-            touched={touched}
-            errors={errors}
-            setFieldTouched={setFieldTouched}
-          />
-        )}
+        {values.statusFacturaId ===
+          getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+          (values.statusFacturaId ===
+            getFacturaId("REEMBOLSADA", statusFacturaData) && (
+            <DatePickerCommon
+              id="fechaReembolso"
+              label="Fecha Reembolso"
+              fechaValue={values.fechaReembolso ?? ""}
+              setFieldValue={setFieldValue}
+              touched={touched}
+              errors={errors}
+              setFieldTouched={setFieldTouched}
+            />
+          ))}
       </Grid>
 
       <Grid size={2} sx={{ marginTop: -2 }}>
-        {/* estatus factura 56 = por reembolsar , 65 = reembolsada */}
         {((!id &&
-          (values.statusFacturaId === 56 ||
-            values.statusFacturaId === 53 ||
-            values.statusFacturaId === 63)) ||
+          (values.statusFacturaId ===
+            getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+            values.statusFacturaId ===
+              getFacturaId("PAGADA", statusFacturaData) ||
+            values.statusFacturaId ===
+              getFacturaId("REEMBOLSADA", statusFacturaData))) ||
           id) && (
           <DatePickerCommon
             id="fechaPago"
@@ -189,7 +194,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -2 }}>
+      <Grid size={2.4} sx={{ marginTop: 2.2 }}>
         {/* contratos*/}
         {values.proveedorId && values.proveedorId.value > 0 && (
           <NormalAutocomplete
@@ -205,9 +210,7 @@ export const TabPago = ({
         )}
       </Grid>
 
-      <Grid size={2} />
-
-      <Grid size={2}>
+      <Grid size={2.4}>
         {values.tipoDocumentoId === 2 && // nota de credito
           values.proveedorId &&
           values.proveedorId.value > 0 && (
@@ -223,13 +226,6 @@ export const TabPago = ({
             />
           )}
       </Grid>
-
-      <Grid size={11} />
-
-      <FacturaFooter
-        setOnClickGuardar={setOnClickGuardar}
-        onClickGuardar={onClickGuardar}
-      />
     </Grid>
   );
 };

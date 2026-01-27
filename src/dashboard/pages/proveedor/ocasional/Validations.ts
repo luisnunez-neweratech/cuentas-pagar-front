@@ -1,14 +1,15 @@
 import * as yup from "yup";
 import { TipoEntidad } from "../interfaces/TipoEntidad";
 
-export const validationSchema = yup.object().shape({
+export const validationSchema = (tipoPersona: number) => yup.object().shape({
   tipoEntidad: yup.string().required("Tipo Entidad es requerido"),
   tipoPersona: yup.string().required("Tipo Persona es requerido"),
   razonSocial: yup.string().required("Razon Social es requerido"),
   alias: yup.string().required("Alias es requerido"),
   rfc: yup
     .string()
-    .max(13, "13 caracteres máximo")
+    .min(tipoPersona === 1 ? 13 : 12, `RFC debe tener ${tipoPersona === 1 ? 13 : 12} caracteres`)
+    .max(tipoPersona === 1 ? 13 : 12, `RFC debe tener ${tipoPersona === 1 ? 13 : 12} caracteres`)
     .ensure()
     .when("tipoEntidad", {
       is: TipoEntidad.Local.value.toString(),

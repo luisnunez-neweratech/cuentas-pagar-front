@@ -28,6 +28,7 @@ import { TipoDocumento } from "../../interfaces/TipoDocumento";
 import { StatusReembolso } from "../../interfaces/StatusReembolso";
 import ChatIcon from "@mui/icons-material/Chat";
 import { mainBackgroundColor } from "../../../../../lib/constants";
+import { getFacturaId } from "../../../factura/lib/facturas";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -36,9 +37,10 @@ interface props {
   onEdit: (id: number) => void;
   onRowClick: (invoice: InvoiceListResponse) => void;
   handleOpenModal: () => void;
+  statusFacturaData?: any;
 }
 
-function Row({ invoice, onEdit, onRowClick, handleOpenModal }: props) {
+function Row({ invoice, onEdit, onRowClick, statusFacturaData, handleOpenModal }: props) {
   const [open, setOpen] = React.useState(false);
 
   const formatDate = (date: string | null) => {
@@ -132,8 +134,13 @@ function Row({ invoice, onEdit, onRowClick, handleOpenModal }: props) {
               }}
               sx={{ marginRight: 3 }}
               disabled={
-                invoice.invoiceStatusId === 53 || invoice.invoiceStatusId === 54
-              } // 53 pagada , 54 cancelada
+                invoice.invoiceStatusId ===
+                  getFacturaId("PAGADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                  getFacturaId("CANCELADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                  getFacturaId("REEMBOLSADA", statusFacturaData)
+              }
             >
               <ModeEditIcon style={{ width: 20, height: 20 }} />
             </IconButton>
@@ -255,6 +262,21 @@ function Row({ invoice, onEdit, onRowClick, handleOpenModal }: props) {
                   </TableRow>
                 </TableBody>
               </Table>
+
+              <Table size="small" aria-label="proyecto" sx={{ marginTop: 2 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Proyecto</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {invoice.project || "N/A"}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </Box>
 
             <Box sx={{ margin: 1 }}>
@@ -271,7 +293,7 @@ function Row({ invoice, onEdit, onRowClick, handleOpenModal }: props) {
                 <TableHead>
                   <TableRow>
                     <TableCell></TableCell>
-                    <TableCell></TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -279,25 +301,31 @@ function Row({ invoice, onEdit, onRowClick, handleOpenModal }: props) {
                     <TableCell component="th" scope="row">
                       Subtotal
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.subtotal)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.subtotal)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       Descuento
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.discount)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.discount)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       IVA
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.taxIVA)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.taxIVA)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       IVA Retenido
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       {formatCurrency(invoice.taxIVARetained)}
                     </TableCell>
                   </TableRow>
@@ -305,7 +333,7 @@ function Row({ invoice, onEdit, onRowClick, handleOpenModal }: props) {
                     <TableCell component="th" scope="row">
                       ISR Retenido
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       {formatCurrency(invoice.taxISRRetained)}
                     </TableCell>
                   </TableRow>
@@ -330,6 +358,7 @@ export const FacturaTable = () => {
     handleChangeRowsPerPage,
     handleEdit,
     handleOpenCommentsModal,
+    statusFacturaData,
   } = useFacturaTable();
 
   if (isLoading) {
@@ -364,6 +393,7 @@ export const FacturaTable = () => {
               onEdit={handleEdit}
               onRowClick={() => rowClick(invoice)}
               handleOpenModal={handleOpenCommentsModal}
+              statusFacturaData={statusFacturaData}
             />
           ))}
         </TableBody>
