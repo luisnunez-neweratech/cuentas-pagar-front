@@ -1,4 +1,5 @@
 import { Divider, Grid, List, ListItem, ListItemText } from "@mui/material";
+import { converDateFormat } from "../../../../../lib/dates";
 
 interface Props {
   items: Array<{
@@ -23,7 +24,7 @@ export const ListaComentarios = ({ items }: Props) => {
             <ListItem key={item.id}>
               <ListItemText
                 primary={item.commentText}
-                secondary={item.createdAt}
+                secondary={converDateFormat(item.createdAt)}
               />
             </ListItem>
           ))}

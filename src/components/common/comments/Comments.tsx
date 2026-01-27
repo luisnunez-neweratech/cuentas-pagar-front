@@ -21,7 +21,13 @@ interface Props {
 }
 
 export const Comments = ({ openModal, handleClose, isProveedor }: Props) => {
-  const { proveedoresComments, nota, setNota, onClickGuardar } = useComments({
+  const {
+    proveedoresComments,
+    nota,
+    setNota,
+    onClickGuardar,
+    facturasComments,
+  } = useComments({
     openModal,
     isProveedor,
   });
@@ -89,9 +95,16 @@ export const Comments = ({ openModal, handleClose, isProveedor }: Props) => {
               </Button>
             </Grid>
             <Grid size={10} />
-            {proveedoresComments && proveedoresComments.items.length > 0 && (
-              <ListaComentarios items={proveedoresComments.items} />
-            )}
+            {isProveedor &&
+              proveedoresComments &&
+              proveedoresComments.items.length > 0 && (
+                <ListaComentarios items={proveedoresComments.items} />
+              )}
+            {!isProveedor &&
+              facturasComments &&
+              facturasComments.items.length > 0 && (
+                <ListaComentarios items={facturasComments.items} />
+              )}
           </Grid>
         </Paper>
       </Box>

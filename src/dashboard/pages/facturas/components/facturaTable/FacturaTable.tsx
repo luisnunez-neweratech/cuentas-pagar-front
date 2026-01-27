@@ -40,7 +40,13 @@ interface props {
   statusFacturaData?: any;
 }
 
-function Row({ invoice, onEdit, onRowClick, statusFacturaData, handleOpenModal }: props) {
+function Row({
+  invoice,
+  onEdit,
+  onRowClick,
+  statusFacturaData,
+  handleOpenModal,
+}: props) {
   const [open, setOpen] = React.useState(false);
 
   const formatDate = (date: string | null) => {
@@ -392,7 +398,9 @@ export const FacturaTable = () => {
               invoice={invoice}
               onEdit={handleEdit}
               onRowClick={() => rowClick(invoice)}
-              handleOpenModal={handleOpenCommentsModal}
+              handleOpenModal={() =>
+                handleOpenCommentsModal(invoice.id.toString())
+              }
               statusFacturaData={statusFacturaData}
             />
           ))}

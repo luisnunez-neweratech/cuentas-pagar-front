@@ -36,7 +36,7 @@ interface IFacturasPage {
   handleClose: () => void;
   handleOpenFacturaModal: () => void;
   handleCloseFacturaModal: () => void;
-  handleOpenCommentsModal: () => void;
+  handleOpenCommentsModal: (idSelected: string) => void;
   handleCloseCommentsModal: () => void;
   setFiltrosFacturas: (
     filtrosFacturas:
@@ -76,9 +76,10 @@ export const useFacturasPageStore = create<IFacturasPage>()((set, get) => ({
       openFacturaModal: false,
     });
   },
-  handleOpenCommentsModal: () => {
+  handleOpenCommentsModal: (idSelected: string) => {
     set({
       openCommentsModal: true,
+      idSelected,
     });
   },
   handleCloseCommentsModal: () => {
