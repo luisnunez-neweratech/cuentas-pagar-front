@@ -73,7 +73,6 @@ export const Comments = ({ openModal, handleClose, isProveedor }: Props) => {
             </Grid>
             <Grid size={12}>
               <TextField
-                id="outlined-multiline-static"
                 label="Agregar Nota"
                 multiline
                 rows={5}

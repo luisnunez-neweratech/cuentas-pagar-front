@@ -238,6 +238,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
         contractId: currentContrato,
         relatedInvoiceId: currentFactura,
         project: facturaBD.project || "",
+
       };
     }
 
@@ -279,6 +280,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
       contractId: stateFactura.contractId,
       relatedInvoiceId: stateFactura.relatedInvoiceId,
       project: stateFactura.project || "",
+      nota: stateFactura.nota || "",
     };
   };
 
@@ -386,6 +388,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       ? values.relatedInvoiceId.value
                       : null,
                   project: values.project || null,
+                  commentText: values.nota || null,
                 });
               } else {
                 // crea solo detalles
@@ -483,7 +486,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   reimbursementCollaboratorId:
                     values.statusFacturaId ===
                       getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
-                    values.statusFacturaId ===
+                      values.statusFacturaId ===
                       getFacturaId("REEMBOLSADA", statusFacturaData)
                       ? values.colaboradorId!.value
                       : null,
