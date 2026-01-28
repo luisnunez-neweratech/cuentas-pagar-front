@@ -86,6 +86,29 @@ function Row({
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
+        <TableCell>
+          <Tooltip title="Editar">
+            <IconButton
+              color="primary"
+              edge="start"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(invoice.id);
+              }}
+              sx={{ marginRight: 3 }}
+              disabled={
+                invoice.invoiceStatusId ===
+                getFacturaId("PAGADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                getFacturaId("CANCELADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                getFacturaId("REEMBOLSADA", statusFacturaData)
+              }
+            >
+              <ModeEditIcon style={{ width: 20, height: 20 }} />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
         <TableCell component="th" scope="row">
           <Tooltip title="Ver Notas">
             <IconButton color="inherit" edge="start" onClick={handleOpenModal}>
@@ -128,29 +151,6 @@ function Row({
         </TableCell>
         <TableCell onClick={() => onRowClick(invoice)}>
           {getReimbursementStatusLabel(invoice.reimbursementStatus)}
-        </TableCell>
-        <TableCell>
-          <Tooltip title="Editar">
-            <IconButton
-              color="primary"
-              edge="start"
-              onClick={(e) => {
-                e.stopPropagation();
-                onEdit(invoice.id);
-              }}
-              sx={{ marginRight: 3 }}
-              disabled={
-                invoice.invoiceStatusId ===
-                  getFacturaId("PAGADA", statusFacturaData) ||
-                invoice.invoiceStatusId ===
-                  getFacturaId("CANCELADA", statusFacturaData) ||
-                invoice.invoiceStatusId ===
-                  getFacturaId("REEMBOLSADA", statusFacturaData)
-              }
-            >
-              <ModeEditIcon style={{ width: 20, height: 20 }} />
-            </IconButton>
-          </Tooltip>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -253,7 +253,7 @@ function Row({
                     </TableCell>
                     <TableCell>
                       {invoice.hasPaymentProof &&
-                      invoice.paymentProofDownloadUrl ? (
+                        invoice.paymentProofDownloadUrl ? (
                         <Link
                           href={invoice.paymentProofDownloadUrl}
                           target="_blank"
@@ -377,6 +377,7 @@ export const FacturaTable = () => {
         <TableHead>
           <TableRow>
             <TableCell />
+            <TableCell style={cellHeaderStyle}></TableCell>
             <TableCell style={cellHeaderStyle}>Notas</TableCell>
             <TableCell style={cellHeaderStyle}>Proveedor</TableCell>
             <TableCell style={cellHeaderStyle}>No. Factura</TableCell>
@@ -388,7 +389,6 @@ export const FacturaTable = () => {
             <TableCell style={cellHeaderStyle}>Subtotal</TableCell>
             <TableCell style={cellHeaderStyle}>Total</TableCell>
             <TableCell style={cellHeaderStyle}>Estatus Reembolso</TableCell>
-            <TableCell style={cellHeaderStyle}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
