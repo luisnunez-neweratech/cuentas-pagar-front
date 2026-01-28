@@ -481,7 +481,12 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   currencyId: values.monedaId!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
                   paymentDate: values.fechaPago ?? null,
-                  reimbursementStatus: values.statusReembolsoId,
+                  reimbursementStatus: values.statusFacturaId ===
+                    getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+                    values.statusFacturaId ===
+                    getFacturaId("REEMBOLSADA", statusFacturaData)
+                    ? values.statusReembolsoId
+                    : 4, // N/A                                    
                   reimbursementDate: values.fechaReembolso ?? null,
                   reimbursementCollaboratorId:
                     values.statusFacturaId ===
