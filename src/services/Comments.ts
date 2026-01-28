@@ -26,15 +26,15 @@ export const postProveedorComment = async ({
 };
 
 interface postFacturas {
-  supplierId: string;
+  invoiceId: string;
   commentText: string;
 }
 
 export const postFacturaComment = async ({
-  supplierId,
+  invoiceId,
   commentText,
 }: postFacturas): Promise<any> => {
-  const { data } = await cuentasApi.post(`/Invoice/${supplierId}/Comments`, {
+  const { data } = await cuentasApi.post(`/Invoice/${invoiceId}/Comments`, {
     commentText,
   });
   return data;

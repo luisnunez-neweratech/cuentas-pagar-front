@@ -23,4 +23,5 @@ export interface PutFacturaHeaderPayload {
   contractId: number | null;
   relatedInvoiceId: number | null;
   project: string | null;
+  commentText: string | null;
 }
