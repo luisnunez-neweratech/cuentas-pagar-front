@@ -39,6 +39,7 @@ export interface FacturaState {
   contractId: number | null;
   relatedInvoiceId: number | null;
   project: string | null;
+  nota: string | null;
 
   facturaDetalle: FacturaDetalle[] | null;
 
@@ -122,6 +123,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
   xmlDownloadUrl: null,
   paymentProofFileValue: null,
   paymentProofDownloadUrl: null,
+  nota: null,
 
   facturaDetalle: null,
 
@@ -285,6 +287,7 @@ const storeFactura: StateCreator<FacturaState> = (set, get) => ({
       xmlDownloadUrl: null,
       paymentProofFileValue: null,
       paymentProofDownloadUrl: null,
+      nota: null,
 
       facturaDetalle: null,
       disableButtons: false,

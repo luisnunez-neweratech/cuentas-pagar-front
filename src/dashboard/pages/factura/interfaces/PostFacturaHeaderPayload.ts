@@ -26,4 +26,5 @@ export interface PostFacturaHeaderPayload {
   contractId: number | null;
   relatedInvoiceId: number | null;
   project: string | null;
+  commentText: string | null;
 }

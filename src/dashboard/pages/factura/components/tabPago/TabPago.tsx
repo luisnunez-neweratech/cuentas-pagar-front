@@ -121,80 +121,80 @@ export const TabPago = ({
         {(values.statusFacturaId ===
           getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
           values.statusFacturaId ===
-            getFacturaId("REEMBOLSADA", statusFacturaData)) && (
-          <NormalAutocomplete
-            options={convertColaboradores}
-            label="Colaborador"
-            id="colaboradorId"
-            value={values.colaboradorId}
-            setFieldValue={setFieldValue}
-            handleBlur={handleBlur}
-            touched={touched.colaboradorId?.value}
-            errors={errors.colaboradorId?.value}
-          />
-        )}
+          getFacturaId("REEMBOLSADA", statusFacturaData)) && (
+            <NormalAutocomplete
+              options={convertColaboradores}
+              label="Colaborador"
+              id="colaboradorId"
+              value={values.colaboradorId}
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+              touched={touched.colaboradorId?.value}
+              errors={errors.colaboradorId?.value}
+            />
+          )}
       </Grid>
       <Grid size={2.4}>
         {(values.statusFacturaId ===
           getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
           values.statusFacturaId ===
-            getFacturaId("REEMBOLSADA", statusFacturaData)) && (
-          <SelectCommon
-            id={"statusReembolsoId"}
-            label={"Estatus Reembolso"}
-            options={[
-              StatusReembolso.Pendiente,
-              StatusReembolso.Pagado,
-              StatusReembolso.Cancelado,
-              StatusReembolso.NoAplica,
-            ]}
-            value={values.statusReembolsoId}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            touched={touched}
-            errors={errors}
-          />
-        )}
+          getFacturaId("REEMBOLSADA", statusFacturaData)) && (
+            <SelectCommon
+              id={"statusReembolsoId"}
+              label={"Estatus Reembolso"}
+              options={[
+                StatusReembolso.Pendiente,
+                StatusReembolso.Pagado,
+                StatusReembolso.Cancelado,
+                StatusReembolso.NoAplica,
+              ]}
+              value={values.statusReembolsoId}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              touched={touched}
+              errors={errors}
+            />
+          )}
       </Grid>
-      <Grid size={2} sx={{ marginTop: -2 }}>
+      <Grid size={2.4} >
         {values.statusFacturaId ===
           getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
           (values.statusFacturaId ===
             getFacturaId("REEMBOLSADA", statusFacturaData) && (
+              <DatePickerCommon
+                id="fechaReembolso"
+                label="Fecha Reembolso"
+                fechaValue={values.fechaReembolso ?? ""}
+                setFieldValue={setFieldValue}
+                touched={touched}
+                errors={errors}
+                setFieldTouched={setFieldTouched}
+              />
+            ))}
+      </Grid>
+
+      <Grid size={2.4} >
+        {((!id &&
+          (values.statusFacturaId ===
+            getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
+            values.statusFacturaId ===
+            getFacturaId("PAGADA", statusFacturaData) ||
+            values.statusFacturaId ===
+            getFacturaId("REEMBOLSADA", statusFacturaData))) ||
+          id) && (
             <DatePickerCommon
-              id="fechaReembolso"
-              label="Fecha Reembolso"
-              fechaValue={values.fechaReembolso ?? ""}
+              id="fechaPago"
+              label="Fecha Pago"
+              fechaValue={values.fechaPago ?? ""}
               setFieldValue={setFieldValue}
               touched={touched}
               errors={errors}
               setFieldTouched={setFieldTouched}
             />
-          ))}
+          )}
       </Grid>
 
-      <Grid size={2} sx={{ marginTop: -2 }}>
-        {((!id &&
-          (values.statusFacturaId ===
-            getFacturaId("POR REEMBOLSAR", statusFacturaData) ||
-            values.statusFacturaId ===
-              getFacturaId("PAGADA", statusFacturaData) ||
-            values.statusFacturaId ===
-              getFacturaId("REEMBOLSADA", statusFacturaData))) ||
-          id) && (
-          <DatePickerCommon
-            id="fechaPago"
-            label="Fecha Pago"
-            fechaValue={values.fechaPago ?? ""}
-            setFieldValue={setFieldValue}
-            touched={touched}
-            errors={errors}
-            setFieldTouched={setFieldTouched}
-          />
-        )}
-      </Grid>
-
-      <Grid size={2.4} sx={{ marginTop: 2.2 }}>
+      <Grid size={2.4} >
         {/* contratos*/}
         {values.proveedorId && values.proveedorId.value > 0 && (
           <NormalAutocomplete

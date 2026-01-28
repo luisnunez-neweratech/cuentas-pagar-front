@@ -166,6 +166,9 @@ export const TabHeader = ({
           <FacturaFooter
             setOnClickGuardar={setOnClickGuardar}
             onClickGuardar={onClickGuardar}
+            values={values}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
           />
         </>
       )}

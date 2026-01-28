@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Link, Tooltip } from "@mui/material";
+import { Button, Grid, IconButton, Link, TextField, Tooltip } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { mainBackgroundColor } from "../../../../../lib/constants";
 import SaveIcon from "@mui/icons-material/Save";
@@ -8,9 +8,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 interface props {
   onClickGuardar: number;
   setOnClickGuardar: (value: any) => void;
+  values: any;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
+export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar, values, handleChange, handleBlur }: props) => {
   const {
     handlePdfFileChange,
     errors,
@@ -30,7 +33,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
   } = useFacturaFooter();
 
   return (
-    <Grid container spacing={2} sx={{ marginTop: 2 }}>
+    <Grid container spacing={2} sx={{ marginTop: -14 }}>
       {!pdfDownloadUrl ? (
         <>
           <Grid size={12}>
@@ -209,6 +212,20 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           </Grid>
         </>
       )}
+      <Grid size={12}>
+        <TextField
+          id="nota"
+          label="Nota"
+          name="nota"
+          multiline
+          rows={5}
+          fullWidth
+          value={values.nota || ""}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          inputProps={{ maxLength: 4000 }}
+        />
+      </Grid>
 
       <Grid size={12}>
         <Button
