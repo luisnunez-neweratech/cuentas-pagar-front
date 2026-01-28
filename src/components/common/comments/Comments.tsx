@@ -80,6 +80,7 @@ export const Comments = ({ openModal, handleClose, isProveedor }: Props) => {
                 fullWidth
                 onChange={(e) => setNota(e.target.value)}
                 value={nota}
+                inputProps={{ maxLength: 4000 }}
               />
             </Grid>
             <Grid size={10} />
