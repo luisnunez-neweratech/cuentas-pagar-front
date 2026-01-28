@@ -55,10 +55,15 @@ function Row({
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("es-MX", {
-      style: "currency",
-      currency: invoice.currencyCode || "MXN",
-    }).format(amount);
+    try {
+      return new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: invoice.currencyCode || "MXN",
+      }).format(amount);
+    } catch (e) {
+      console.log(e);
+      return amount.toString();
+    }
   };
 
   const getDocumentTypeLabel = (type: number) => {
