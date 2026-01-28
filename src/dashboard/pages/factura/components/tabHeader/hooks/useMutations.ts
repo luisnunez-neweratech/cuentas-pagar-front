@@ -9,6 +9,7 @@ import {
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useFacturaStore } from "../../../store/Factura.store";
+import { postFacturaComment } from "../../../../../../services/Comments";
 
 interface Props {
   handleDisableButtons: (value: boolean) => void;
@@ -115,7 +116,13 @@ export const useMutations = ({ handleDisableButtons, navigate }: Props) => {
 
   const updateHeaderMutation = useMutation({
     mutationFn: updateFacturaHeader,
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
+      if (variables.putFacturaHeaderPayload.commentText && variables.putFacturaHeaderPayload.commentText.trim() !== "") {
+        addFacturaComment.mutate({
+          invoiceId: variables.invoiceId,
+          commentText: variables.putFacturaHeaderPayload.commentText,
+        });
+      }
       //toast.success("Factura actualizada correctamente");
     },
     onError: (error) => {
@@ -156,11 +163,34 @@ export const useMutations = ({ handleDisableButtons, navigate }: Props) => {
     },
   });
 
+  const addFacturaComment = useMutation({
+    mutationFn: postFacturaComment,
+    onSuccess: () => {
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          toast.error(error.response.data);
+          return;
+        }
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al agregar comentario");
+      return;
+    },
+    onSettled: () => {
+
+    },
+  });
+
   return {
     createMutationDetalle,
     uploadDocumentosMutation,
     createMutation,
     updateHeaderMutation,
     updateMutationDetalle,
+    addFacturaComment
   };
 };

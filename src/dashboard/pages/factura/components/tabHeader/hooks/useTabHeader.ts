@@ -504,6 +504,7 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                       ? values.relatedInvoiceId.value
                       : null,
                   project: values.project || null,
+                  commentText: values.nota || null,
                 },
               });
 

@@ -108,7 +108,7 @@ export const useComments = ({ openModal, isProveedor }: Props) => {
       });
     } else {
       addFacturaComment.mutate({
-        supplierId: idSelected!,
+        invoiceId: idSelected!,
         commentText: nota,
       });
     }
