@@ -1,5 +1,4 @@
 import {
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -8,13 +7,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tooltip,
 } from "@mui/material";
 import TaskIcon from "@mui/icons-material/Task";
 import { TablePaginationActions } from "./components/TablePaginationActions";
 import { useProveedorTable } from "./hooks/useProveedorTable";
-import ChatIcon from "@mui/icons-material/Chat";
-import { mainBackgroundColor } from "../../../../../lib/constants";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -27,7 +23,6 @@ export const ProveedorTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     totalRows,
-    handleOpenModal,
   } = useProveedorTable();
 
   return (
@@ -35,7 +30,6 @@ export const ProveedorTable = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell style={cellHeaderStyle}>Notas</TableCell>
             <TableCell style={cellHeaderStyle}>ID</TableCell>
             <TableCell style={cellHeaderStyle}>RFC</TableCell>
             <TableCell style={cellHeaderStyle}>Alias</TableCell>
@@ -66,23 +60,6 @@ export const ProveedorTable = () => {
                   cursor: "pointer",
                 }}
               >
-                <TableCell component="th" scope="row">
-                  <Tooltip title="Ver Notas">
-                    <IconButton
-                      color="inherit"
-                      edge="start"
-                      onClick={() => handleOpenModal(proveedor.id)}
-                    >
-                      <ChatIcon
-                        style={{
-                          width: 24,
-                          height: 24,
-                          color: mainBackgroundColor,
-                        }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
                 <TableCell
                   component="th"
                   scope="row"
