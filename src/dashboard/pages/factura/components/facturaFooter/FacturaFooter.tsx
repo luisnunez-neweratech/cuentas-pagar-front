@@ -30,6 +30,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar, values, handl
     deleteFacturaDocumentoMutation,
     id,
     onClickDeleteFile,
+    isComprobanteDisabled
   } = useFacturaFooter();
 
   return (
@@ -160,12 +161,14 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar, values, handl
               style={{ display: "none" }}
               onChange={handlePaymentProofFileChange}
               accept=".pdf,.jpg,.jpeg,.png,.gif"
+              disabled={isComprobanteDisabled()}
             />
 
-            <label htmlFor="comprobantePago">
+            <label htmlFor={!isComprobanteDisabled() ? "comprobantePago" : undefined}>
               <Button
                 variant="outlined"
                 component="span"
+                disabled={isComprobanteDisabled()}
               >
                 Cargar Comprobante Pago
                 <FileUploadIcon />

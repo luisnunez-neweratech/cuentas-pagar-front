@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { useParams } from "react-router";
 import { useMutations } from "./useMutations";
+import { InvoiceDocumentType } from "../../../../facturas/interfaces/InvoiceListResponse";
 
 export const useFacturaFooter = () => {
   const { id } = useParams();
@@ -59,6 +60,14 @@ export const useFacturaFooter = () => {
     });
   };
 
+  //Set flag to disable comprobante button for credit notes
+  const isComprobanteDisabled = () => {
+    if (stateFactura.tipoDocumentoId === InvoiceDocumentType.NotaCredito) {
+      return true;
+    };
+    return false;
+  };
+
   return {
     handlePdfFileChange,
     errors,
@@ -75,5 +84,6 @@ export const useFacturaFooter = () => {
     deleteFacturaDocumentoMutation,
     id,
     onClickDeleteFile,
+    isComprobanteDisabled,
   };
 };
