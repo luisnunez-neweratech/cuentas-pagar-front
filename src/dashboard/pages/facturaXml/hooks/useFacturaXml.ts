@@ -19,24 +19,15 @@ export const useFacturaXml = () => {
   const facturaResult = useFacturaXMLStore((state) => state.facturaResult);
 
   const fileInputXmlRef = useRef<HTMLInputElement>(null);
-  const fileInputPdfRef = useRef<HTMLInputElement>(null);
 
   const [xmlFileName, setXmlFileName] = useState("");
   const [_xmlFile, setXmlFile] = useState(null);
 
-  const [pdfFileName, setPdfFileName] = useState("");
-  const [_pdfFile, setPdfFile] = useState(null);
-
   const clearValues = () => {
     setXmlFileName("");
-    setPdfFileName("");
     setXmlFile(null);
-    setPdfFile(null);
     if (fileInputXmlRef.current) {
       fileInputXmlRef.current.value = "";
-    }
-    if (fileInputPdfRef.current) {
-      fileInputPdfRef.current.value = "";
     }
 
   };
@@ -50,21 +41,19 @@ export const useFacturaXml = () => {
 
   const handleXmlFileChange = (event: any) => {
     if (event.target.files.length > 0) {
-      setXmlFileName(event.target.files[0].name);
-      setXmlFile(event.target.files[0]);
-    }
-  };
-
-  const handlePdfFileChange = (event: any) => {
-    if (event.target.files.length > 0) {
-      setPdfFileName(event.target.files[0].name);
-      setPdfFile(event.target.files[0]);
+      if (event.target.files.length === 1) {
+        setXmlFileName(`Nombre del Archivo: ${event.target.files[0].name}`);
+        setXmlFile(event.target.files[0]);
+      } else {
+        setXmlFileName(`${event.target.files.length} archivos seleccionados`);
+        //setXmlFile(event.target.files); TODO: Implementar carga de múltiples archivos
+      }
     }
   };
 
   const onClickCargarInformacion = () => {
     setIsLoading(true);
-    importDocumentosMutation.mutate({ xml: _xmlFile, pdf: _pdfFile });
+    importDocumentosMutation.mutate({ xml: _xmlFile });
   };
 
   const onClickCloseModal = () => {
@@ -76,15 +65,12 @@ export const useFacturaXml = () => {
   return {
     handleXmlFileChange,
     xmlFileName,
-    handlePdfFileChange,
-    pdfFileName,
     onClickCargarInformacion,
     openModal,
     onClickCloseModal,
     infoMessages: facturaResult.messages ?? [],
     warningMessages: facturaResult.warnings ?? [],
     fileInputXmlRef,
-    fileInputPdfRef,
     isLoading
   };
 };
