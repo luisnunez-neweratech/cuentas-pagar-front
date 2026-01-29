@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Link, Tooltip } from "@mui/material";
+import { Button, Grid, IconButton, Link, TextField, Tooltip } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { mainBackgroundColor } from "../../../../../lib/constants";
 import SaveIcon from "@mui/icons-material/Save";
@@ -8,9 +8,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 interface props {
   onClickGuardar: number;
   setOnClickGuardar: (value: any) => void;
+  values: any;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
+export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar, values, handleChange, handleBlur }: props) => {
   const {
     handlePdfFileChange,
     errors,
@@ -30,10 +33,10 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
   } = useFacturaFooter();
 
   return (
-    <>
+    <Grid container spacing={2} sx={{ marginTop: -14 }}>
       {!pdfDownloadUrl ? (
         <>
-          <Grid size={3}>
+          <Grid size={12}>
             <input
               type="file"
               id="facturaPDF"
@@ -46,29 +49,26 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
               <Button
                 variant="outlined"
                 component="span"
-                style={{ marginTop: 14 }}
               >
                 Cargar Factura PDF
                 <FileUploadIcon />
               </Button>
             </label>
-            {errors.facturaPDF && (
-              <p style={{ color: "#d32f2f", fontSize: "12px" }}>
-                Archivo requerido
-              </p>
-            )}
-          </Grid>
-          <Grid size={4} sx={{ marginTop: 3 }}>
             {pdfFileName && (
-              <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
+              <span style={{ marginLeft: 16, color: "rgba(0, 0, 0, 0.6)" }}>
                 {`Nombre del Archivo: ${pdfFileName}`}
+              </span>
+            )}
+            {errors.facturaPDF && (
+              <p style={{ color: "#d32f2f", fontSize: "12px", marginTop: 4 }}>
+                Archivo requerido
               </p>
             )}
           </Grid>
         </>
       ) : (
         <>
-          <Grid size={3} sx={{ marginTop: 3 }}>
+          <Grid size={12}>
             <Link
               href={pdfDownloadUrl}
               target="_blank"
@@ -76,14 +76,12 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
             >
               Descargar PDF
             </Link>
-          </Grid>
-          <Grid size={4}>
             <Tooltip title="Eliminar PDF">
               <IconButton
                 color="error"
                 edge="start"
                 onClick={(e) => onClickDeleteFile(e, "pdf")}
-                sx={{ marginLeft: 3 }}
+                sx={{ marginLeft: 2 }}
               >
                 <DeleteIcon style={{ width: 32, height: 32 }} />
               </IconButton>
@@ -92,11 +90,9 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
         </>
       )}
 
-      <Grid size={5} />
-
       {!xmlDownloadUrl ? (
         <>
-          <Grid size={3} sx={{ marginTop: -5 }}>
+          <Grid size={12}>
             {tipoEntidadId === 0 && (
               <>
                 <input
@@ -111,32 +107,29 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
                   <Button
                     variant="outlined"
                     component="span"
-                    style={{ marginTop: 14 }}
                   >
                     Cargar Factura XML
                     <FileUploadIcon />
                   </Button>
                 </label>
+                {xmlFileName && (
+                  <span style={{ marginLeft: 16, color: "rgba(0, 0, 0, 0.6)" }}>
+                    {`Nombre del Archivo: ${xmlFileName}`}
+                  </span>
+                )}
               </>
             )}
 
             {errors.facturaXML && (
-              <p style={{ color: "#d32f2f", fontSize: "12px" }}>
+              <p style={{ color: "#d32f2f", fontSize: "12px", marginTop: 4 }}>
                 Archivo requerido
-              </p>
-            )}
-          </Grid>
-          <Grid size={3} sx={{ marginTop: -1 }}>
-            {xmlFileName && (
-              <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
-                {`Nombre del Archivo: ${xmlFileName}`}
               </p>
             )}
           </Grid>
         </>
       ) : (
         <>
-          <Grid size={3} sx={{ marginTop: -1 }}>
+          <Grid size={12}>
             <Link
               href={xmlDownloadUrl}
               target="_blank"
@@ -144,14 +137,12 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
             >
               Descargar XML
             </Link>
-          </Grid>
-          <Grid size={3} sx={{ marginTop: -3 }}>
             <Tooltip title="Eliminar XML">
               <IconButton
                 color="error"
                 edge="start"
                 onClick={(e) => onClickDeleteFile(e, "xml")}
-                sx={{ marginLeft: 3 }}
+                sx={{ marginLeft: 2 }}
               >
                 <DeleteIcon style={{ width: 32, height: 32 }} />
               </IconButton>
@@ -160,11 +151,9 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
         </>
       )}
 
-      <Grid size={6} />
-
       {!paymentProofDownloadUrl ? (
         <>
-          <Grid size={3} sx={{ marginTop: -5 }}>
+          <Grid size={12}>
             <input
               type="file"
               id="comprobantePago"
@@ -177,29 +166,26 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
               <Button
                 variant="outlined"
                 component="span"
-                style={{ marginTop: 14 }}
               >
                 Cargar Comprobante Pago
                 <FileUploadIcon />
               </Button>
             </label>
-            {errors.facturaPDF && (
-              <p style={{ color: "#d32f2f", fontSize: "12px" }}>
-                Archivo requerido
-              </p>
-            )}
-          </Grid>
-          <Grid size={3} sx={{ marginTop: -1 }}>
             {paymentProofFileName && (
-              <p style={{ marginTop: 0, color: "rgba(0, 0, 0, 0.6)" }}>
+              <span style={{ marginLeft: 16, color: "rgba(0, 0, 0, 0.6)" }}>
                 {`Nombre del Archivo: ${paymentProofFileName}`}
+              </span>
+            )}
+            {errors.facturaPDF && (
+              <p style={{ color: "#d32f2f", fontSize: "12px", marginTop: 4 }}>
+                Archivo requerido
               </p>
             )}
           </Grid>
         </>
       ) : (
         <>
-          <Grid size={3} sx={{ marginTop: -1 }}>
+          <Grid size={12}>
             <Link
               href={paymentProofDownloadUrl}
               target="_blank"
@@ -207,8 +193,6 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
             >
               Descargar Comprobante
             </Link>
-          </Grid>
-          <Grid size={3} sx={{ marginTop: -3 }}>
             <Tooltip title="Eliminar Comprobante">
               <IconButton
                 color="error"
@@ -220,7 +204,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
                     invoiceId: id!.toString(),
                   });
                 }}
-                sx={{ marginLeft: 3 }}
+                sx={{ marginLeft: 2 }}
               >
                 <DeleteIcon style={{ width: 32, height: 32 }} />
               </IconButton>
@@ -228,14 +212,25 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           </Grid>
         </>
       )}
+      <Grid size={12}>
+        <TextField
+          id="nota"
+          label="Nota"
+          name="nota"
+          multiline
+          rows={5}
+          fullWidth
+          value={values.nota || ""}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          inputProps={{ maxLength: 4000 }}
+        />
+      </Grid>
 
-      <Grid size={6} />
-
-      <Grid size={2} sx={{ marginTop: -3 }}>
+      <Grid size={12}>
         <Button
           variant="contained"
           sx={{ backgroundColor: mainBackgroundColor }}
-          fullWidth
           disabled={disableButtons}
           onClick={() => {
             setOnClickGuardar(onClickGuardar + 1);
@@ -245,6 +240,6 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar }: props) => {
           <SaveIcon sx={{ marginLeft: 1 }} />
         </Button>
       </Grid>
-    </>
+    </Grid>
   );
 };

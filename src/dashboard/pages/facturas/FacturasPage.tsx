@@ -5,9 +5,15 @@ import { FacturaTable } from "./components/facturaTable/FacturaTable";
 import { useFacturasPage } from "./hooks/useFacturasPage";
 import { DetalleFacturaModal } from "./components/detalleFacturaModal/DetalleFacturaModal";
 import { NuevaFactura } from "./components/nuevaFactura/NuevaFactura";
+import { Comments } from "../../../components/common/comments/Comments";
 
 export const FacturasPage = () => {
-  const { showFilter, onClickShowFilter } = useFacturasPage();
+  const {
+    showFilter,
+    onClickShowFilter,
+    openCommentsModal,
+    handleCloseCommentsModal,
+  } = useFacturasPage();
 
   return (
     <Grid container spacing={2}>
@@ -16,6 +22,11 @@ export const FacturasPage = () => {
       <FacturaTable />
       <DetalleFacturaModal />
       <NuevaFactura />
+      <Comments
+        openModal={openCommentsModal}
+        handleClose={handleCloseCommentsModal}
+        isProveedor={false}
+      />
     </Grid>
   );
 };

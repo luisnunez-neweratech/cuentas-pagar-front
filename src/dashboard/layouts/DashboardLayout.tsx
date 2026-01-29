@@ -48,7 +48,7 @@ const DashboardLayout = () => {
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", overflow: "hidden" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar style={{ backgroundColor: mainBackgroundColor }}>
@@ -151,7 +151,7 @@ const DashboardLayout = () => {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: "100%" }}>
         <DrawerHeader />
         {isLoading && <CircularLoading />}
         <Outlet />
@@ -162,7 +162,8 @@ const DashboardLayout = () => {
             marginLeft: "auto",
             marginRight: "auto",
             marginTop: 50,
-            color: 'grey'
+            color: "grey",
+            width: "100%",
           }}
         >
           v {appInfo.version}

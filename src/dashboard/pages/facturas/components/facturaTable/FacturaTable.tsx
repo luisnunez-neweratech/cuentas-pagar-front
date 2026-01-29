@@ -26,6 +26,9 @@ import dayjs from "dayjs";
 import { CircularLoading } from "../../../../../components/common/CircularLoading";
 import { TipoDocumento } from "../../interfaces/TipoDocumento";
 import { StatusReembolso } from "../../interfaces/StatusReembolso";
+import ChatIcon from "@mui/icons-material/Chat";
+import { mainBackgroundColor } from "../../../../../lib/constants";
+import { getFacturaId } from "../../../factura/lib/facturas";
 
 const cellHeaderStyle = { fontWeight: "bold" };
 
@@ -33,9 +36,17 @@ interface props {
   invoice: InvoiceListResponse;
   onEdit: (id: number) => void;
   onRowClick: (invoice: InvoiceListResponse) => void;
+  handleOpenModal: () => void;
+  statusFacturaData?: any;
 }
 
-function Row({ invoice, onEdit, onRowClick }: props) {
+function Row({
+  invoice,
+  onEdit,
+  onRowClick,
+  statusFacturaData,
+  handleOpenModal,
+}: props) {
   const [open, setOpen] = React.useState(false);
 
   const formatDate = (date: string | null) => {
@@ -44,10 +55,15 @@ function Row({ invoice, onEdit, onRowClick }: props) {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("es-MX", {
-      style: "currency",
-      currency: invoice.currencyCode || "MXN",
-    }).format(amount);
+    try {
+      return new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: invoice.currencyCode || "MXN",
+      }).format(amount);
+    } catch (e) {
+      console.log(e);
+      return amount.toString();
+    }
   };
 
   const getDocumentTypeLabel = (type: number) => {
@@ -58,7 +74,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
 
   const getReimbursementStatusLabel = (status: number) => {
     const statusObj = Object.values(StatusReembolso).find(
-      (s) => s.value === status
+      (s) => s.value === status,
     );
     return statusObj?.label || "N/A";
   };
@@ -74,6 +90,38 @@ function Row({ invoice, onEdit, onRowClick }: props) {
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
+        </TableCell>
+        <TableCell>
+          <Tooltip title="Editar">
+            <IconButton
+              color="primary"
+              edge="start"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(invoice.id);
+              }}
+              sx={{ marginRight: 3 }}
+              disabled={
+                invoice.invoiceStatusId ===
+                getFacturaId("PAGADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                getFacturaId("CANCELADA", statusFacturaData) ||
+                invoice.invoiceStatusId ===
+                getFacturaId("REEMBOLSADA", statusFacturaData)
+              }
+            >
+              <ModeEditIcon style={{ width: 20, height: 20 }} />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          <Tooltip title="Ver Notas">
+            <IconButton color="inherit" edge="start" onClick={handleOpenModal}>
+              <ChatIcon
+                style={{ width: 24, height: 24, color: mainBackgroundColor }}
+              />
+            </IconButton>
+          </Tooltip>
         </TableCell>
         <TableCell
           component="th"
@@ -108,24 +156,6 @@ function Row({ invoice, onEdit, onRowClick }: props) {
         </TableCell>
         <TableCell onClick={() => onRowClick(invoice)}>
           {getReimbursementStatusLabel(invoice.reimbursementStatus)}
-        </TableCell>
-        <TableCell>
-          <Tooltip title="Editar">
-            <IconButton
-              color="primary"
-              edge="start"
-              onClick={(e) => {
-                e.stopPropagation();
-                onEdit(invoice.id);
-              }}
-              sx={{ marginRight: 3 }}
-              disabled={
-                invoice.invoiceStatusId === 53 || invoice.invoiceStatusId === 54
-              } // 53 pagada , 54 cancelada
-            >
-              <ModeEditIcon style={{ width: 20, height: 20 }} />
-            </IconButton>
-          </Tooltip>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -227,7 +257,8 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                       )}
                     </TableCell>
                     <TableCell>
-                      {invoice.hasPaymentProof && invoice.paymentProofDownloadUrl ? (
+                      {invoice.hasPaymentProof &&
+                        invoice.paymentProofDownloadUrl ? (
                         <Link
                           href={invoice.paymentProofDownloadUrl}
                           target="_blank"
@@ -238,6 +269,21 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                       ) : (
                         "N/A"
                       )}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+
+              <Table size="small" aria-label="proyecto" sx={{ marginTop: 2 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Proyecto</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {invoice.project || "N/A"}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -258,7 +304,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                 <TableHead>
                   <TableRow>
                     <TableCell></TableCell>
-                    <TableCell></TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -266,25 +312,31 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell component="th" scope="row">
                       Subtotal
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.subtotal)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.subtotal)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       Descuento
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.discount)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.discount)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       IVA
                     </TableCell>
-                    <TableCell>{formatCurrency(invoice.taxIVA)}</TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(invoice.taxIVA)}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
                       IVA Retenido
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       {formatCurrency(invoice.taxIVARetained)}
                     </TableCell>
                   </TableRow>
@@ -292,7 +344,7 @@ function Row({ invoice, onEdit, onRowClick }: props) {
                     <TableCell component="th" scope="row">
                       ISR Retenido
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="right">
                       {formatCurrency(invoice.taxISRRetained)}
                     </TableCell>
                   </TableRow>
@@ -316,6 +368,8 @@ export const FacturaTable = () => {
     handleChangePage,
     handleChangeRowsPerPage,
     handleEdit,
+    handleOpenCommentsModal,
+    statusFacturaData,
   } = useFacturaTable();
 
   if (isLoading) {
@@ -328,6 +382,8 @@ export const FacturaTable = () => {
         <TableHead>
           <TableRow>
             <TableCell />
+            <TableCell style={cellHeaderStyle}></TableCell>
+            <TableCell style={cellHeaderStyle}>Notas</TableCell>
             <TableCell style={cellHeaderStyle}>Proveedor</TableCell>
             <TableCell style={cellHeaderStyle}>No. Factura</TableCell>
             <TableCell style={cellHeaderStyle}>Tipo</TableCell>
@@ -338,7 +394,6 @@ export const FacturaTable = () => {
             <TableCell style={cellHeaderStyle}>Subtotal</TableCell>
             <TableCell style={cellHeaderStyle}>Total</TableCell>
             <TableCell style={cellHeaderStyle}>Estatus Reembolso</TableCell>
-            <TableCell style={cellHeaderStyle}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -348,6 +403,10 @@ export const FacturaTable = () => {
               invoice={invoice}
               onEdit={handleEdit}
               onRowClick={() => rowClick(invoice)}
+              handleOpenModal={() =>
+                handleOpenCommentsModal(invoice.id.toString())
+              }
+              statusFacturaData={statusFacturaData}
             />
           ))}
         </TableBody>

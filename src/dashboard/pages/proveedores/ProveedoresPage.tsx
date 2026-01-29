@@ -9,7 +9,14 @@ export const ProveedoresPage = () => {
   const { showFilter, onClickShowFilter } = useProveedoresPage();
 
   return (
-    <Grid container spacing={2}>
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+      }}
+    >
       <HeaderButtons {...{ onClickShowFilter, showFilter }} />
       <Filters {...{ showFilter }} />
       <ProveedorTable />

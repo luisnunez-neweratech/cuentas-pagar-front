@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { deleteMonedaVenta } from "../../services/monedaVenta.service";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { axiosErrorMessage } from "../../../../../lib/axiosError";
 
 interface Props {
   refetch: () => void;
@@ -15,13 +15,9 @@ export const useMutations = ({ refetch }: Props) => {
       refetch();
     },
     onError: (error) => {
-      console.log(error);
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-        return;
-      }
-      toast.error("Error al eliminar la moneda de venta");
-      return;
+      toast.error(
+        axiosErrorMessage(error, "Error al eliminar la moneda de venta"),
+      );
     },
   });
 

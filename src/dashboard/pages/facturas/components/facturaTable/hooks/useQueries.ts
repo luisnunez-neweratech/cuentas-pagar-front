@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getInvoicesPaged } from "../../../services/invoice.service";
 import { useFacturasPageStore } from "../../../store/FacturasPage.store";
+import { getStatusFactura } from "../../../../factura/services/factura.service";
 
 interface Props {
   page: number;
@@ -61,5 +62,10 @@ export const useQueries = ({ page, rowsPerPage }: Props) => {
       }),
   });
 
-  return { data, isLoading, error, isError };
+   const { data: statusFacturaData } = useQuery({
+      queryKey: ["CatalogMaster", "GetAll", "InvoiceStatus"],
+      queryFn: () => getStatusFactura(),
+    });
+
+  return { data, isLoading, error, isError, statusFacturaData };
 };
