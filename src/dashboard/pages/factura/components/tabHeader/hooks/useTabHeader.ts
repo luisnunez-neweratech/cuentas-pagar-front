@@ -359,8 +359,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   total:
                     +values.subtotal! -
                     +values.descuento! +
-                    +values.impuestos! -
-                    +values.ivaRetenido! -
+                    +values.impuestos! +
+                    +values.ivaRetenido! +
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
                   exchangeRate: getExchangeRate(
@@ -475,8 +475,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   total:
                     +values.subtotal! -
                     +values.descuento! +
-                    +values.impuestos! -
-                    +values.ivaRetenido! -
+                    +values.impuestos! +
+                    +values.ivaRetenido! +
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
