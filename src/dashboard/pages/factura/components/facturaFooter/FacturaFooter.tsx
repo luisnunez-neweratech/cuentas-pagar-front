@@ -174,7 +174,7 @@ export const FacturaFooter = ({ onClickGuardar, setOnClickGuardar, values, handl
                 <FileUploadIcon />
               </Button>
             </label>
-            {paymentProofFileName && (
+            {paymentProofFileName && !isComprobanteDisabled() && (
               <span style={{ marginLeft: 16, color: "rgba(0, 0, 0, 0.6)" }}>
                 {`Nombre del Archivo: ${paymentProofFileName}`}
               </span>

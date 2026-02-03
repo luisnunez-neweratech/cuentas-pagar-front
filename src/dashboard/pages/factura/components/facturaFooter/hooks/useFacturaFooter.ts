@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFacturaStore } from "../../../store/Factura.store";
 import { useParams } from "react-router";
 import { useMutations } from "./useMutations";
@@ -67,6 +67,12 @@ export const useFacturaFooter = () => {
     };
     return false;
   };
+
+  useEffect(() => {
+    if (isComprobanteDisabled()) {
+      setPaymentProofFile(null as any);
+    }
+  }, [stateFactura.tipoDocumentoId]);
 
   return {
     handlePdfFileChange,
