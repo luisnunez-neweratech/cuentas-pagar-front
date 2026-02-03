@@ -16,7 +16,6 @@ import { useMutations } from "./useMutations";
 import { isNotMonedaMXN } from "../../../lib/moneda";
 import { getFacturaId } from "../../../lib/facturas";
 import { InvoiceDocumentType } from "../../../../facturas/interfaces/InvoiceListResponse";
-import { set } from "rsuite/esm/internals/utils/date";
 
 interface props {
   onClickGuardar: number;
@@ -719,34 +718,34 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   }, [values.proveedorId]);
 
   useEffect(() => {
-        if (!statusFacturaData) return;
+    if (!statusFacturaData) return;
 
-        let dataFiltered = statusFacturaData;
-        //filter out status 'POR REEMBOLSAR' and 'REEMBOLSADA' if tipoDocumentoId is 'Nota de Credito'
-        if (values.tipoDocumentoId === InvoiceDocumentType.NotaCredito) {
-          dataFiltered = statusFacturaData.filter(
-            (statusFilter: any) =>
-              statusFilter.itemName !== "POR REEMBOLSAR" &&
-              statusFilter.itemName !== "REEMBOLSADA",
-          );
-        }
+    let dataFiltered = statusFacturaData;
+    //filter out status 'POR REEMBOLSAR' and 'REEMBOLSADA' if tipoDocumentoId is 'Nota de Credito'
+    if (values.tipoDocumentoId === InvoiceDocumentType.NotaCredito) {
+      dataFiltered = statusFacturaData.filter(
+        (statusFilter: any) =>
+          statusFilter.itemName !== "POR REEMBOLSAR" &&
+          statusFilter.itemName !== "REEMBOLSADA",
+      );
+    }
 
-        const newStatusFactura: {value: number, label: string}[] = dataFiltered.map((status: any) => {
-          return {
-            value: status.id,
-            label: status.itemName,
-          };
-        });
+    const newStatusFactura: { value: number, label: string }[] = dataFiltered.map((status: any) => {
+      return {
+        value: status.id,
+        label: status.itemName,
+      };
+    });
 
-        setConvertStatusFactura(newStatusFactura ?? []);
+    setConvertStatusFactura(newStatusFactura ?? []);
 
-        if (values.statusFacturaId) {
-          const exists = newStatusFactura.find(
-            s => s.value === values.statusFacturaId);
-          if (!exists) {
-            setFieldValue("statusFacturaId", null);
-          }
-        }
+    if (values.statusFacturaId) {
+      const exists = newStatusFactura.find(
+        s => s.value === values.statusFacturaId);
+      if (!exists) {
+        setFieldValue("statusFacturaId", null);
+      }
+    }
   }, [statusFacturaData, values.tipoDocumentoId]);
 
   useEffect(() => {
