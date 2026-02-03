@@ -21,7 +21,6 @@ interface props {
   onClickGuardar: number;
 }
 
-
 export const useTabHeader = ({ onClickGuardar }: props) => {
   const { id } = useParams();
 
