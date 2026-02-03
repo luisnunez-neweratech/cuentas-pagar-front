@@ -310,7 +310,7 @@ function Row({
                 <TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Subtotal
+                      Importe Total Detalle
                     </TableCell>
                     <TableCell align="right">
                       {formatCurrency(invoice.subtotal)}

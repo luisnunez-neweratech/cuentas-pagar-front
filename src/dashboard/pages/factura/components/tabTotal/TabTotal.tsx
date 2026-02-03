@@ -24,7 +24,7 @@ export const TabTotal = ({
           variant="outlined"
           size="small"
           id="subtotal"
-          label="Subtotal"
+          label="Importe Total Detalle"
           value={values.subtotal}
           onValueChange={(newValues) => {
             let { value } = newValues;
