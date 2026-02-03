@@ -20,11 +20,13 @@ export const useFacturaXml = () => {
   const setMassImportResponse = useFacturaXMLStore(
     (state) => state.setMassImportResponse,
   );
+  const openResultsModal = useFacturaXMLStore((state) => state.openResultsModal);
+  const setOpenResultsModal = useFacturaXMLStore((state) => state.setOpenResultsModal);
 
   const fileInputXmlRef = useRef<HTMLInputElement>(null);
 
   const [xmlFileName, setXmlFileName] = useState("");
-  const [xmlFile, setXmlFile] = useState<FileList | null>(null);
+  const [xmlFile, setXmlFile] = useState<any>(null);
 
   const clearValues = () => {
     setXmlFileName("");
@@ -40,7 +42,8 @@ export const useFacturaXml = () => {
     setFacturaResult,
     handleOpenModal,
     clearValues,
-    setMassImportResponse
+    setMassImportResponse,
+    setOpenResultsModal
   });
 
   const handleXmlFileChange = (event: any) => {
@@ -57,10 +60,10 @@ export const useFacturaXml = () => {
 
   const onClickCargarInformacion = () => {
     setIsLoading(true);
-    if (xmlFile!.length === 1) {
-      importDocumentosMutation.mutate({ xml: xmlFile });
-    } else {
+    if (xmlFile!.length > 0) {
       importMultipleDocumentosMutation.mutate({ xmls: xmlFile });
+    } else if (xmlFile) {
+      importDocumentosMutation.mutate({ xml: xmlFile });
     }
   };
 
@@ -79,6 +82,8 @@ export const useFacturaXml = () => {
     infoMessages: facturaResult.messages ?? [],
     warningMessages: facturaResult.warnings ?? [],
     fileInputXmlRef,
-    isLoading
+    isLoading,
+    openResultsModal,
+    setOpenResultsModal
   };
 };

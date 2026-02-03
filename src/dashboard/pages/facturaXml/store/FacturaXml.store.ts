@@ -28,6 +28,8 @@ export interface FacturaXMLState {
   handleOpenModal: () => void;
   handleCloseModal: () => void;
   massImportResponse: MassImportResponse;
+  openResultsModal: boolean;
+  setOpenResultsModal: (openResultsModal: boolean) => void;
 
   facturaResult: any;
   setFacturaResult: (facturaResult: any) => void;
@@ -49,6 +51,7 @@ const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
     processingTimeSeconds: 0,
     summary: "",
   },
+  openResultsModal: false,
 
   handleOpenModal: () => {
     set({ openModal: true });
@@ -61,6 +64,9 @@ const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
   },
   setMassImportResponse: (massImportResponse: MassImportResponse) => {
     set({ massImportResponse });
+  },
+  setOpenResultsModal: (openResultsModal: boolean) => {
+    set({ openResultsModal });
   },
 });
 

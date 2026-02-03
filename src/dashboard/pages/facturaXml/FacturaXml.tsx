@@ -15,10 +15,10 @@ export const FacturaXml = () => {
     infoMessages,
     warningMessages,
     fileInputXmlRef,
-    isLoading
+    isLoading,
+    openResultsModal,
+    setOpenResultsModal
   } = useFacturaXml();
-
-  const [openResultsModal, setOpenResultsModal] = useState(false);
 
   const sampleData: MassImportResponse = {
     "totalProcessed": 27,
@@ -714,13 +714,6 @@ export const FacturaXml = () => {
           onClick={onClickCargarInformacion}
         >
           Cargar Información
-        </Button>
-        <Button
-          variant="text"
-          onClick={() => setOpenResultsModal(true)}
-          sx={{ ml: 1 }}
-        >
-          Resultados Test
         </Button>
       </Grid>
       <XmlLoadedModal

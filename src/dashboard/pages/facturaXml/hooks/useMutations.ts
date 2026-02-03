@@ -9,6 +9,7 @@ interface Props {
   handleOpenModal: () => void;
   clearValues: () => void;
   setMassImportResponse: (data: any) => void;
+  setOpenResultsModal: (openResultsModal: boolean) => void;
 }
 
 export const useMutations = ({
@@ -17,6 +18,7 @@ export const useMutations = ({
   handleOpenModal,
   clearValues,
   setMassImportResponse,
+  setOpenResultsModal
 }: Props) => {
   const importDocumentosMutation = useMutation({
     mutationFn: importFacturaFiles,
@@ -65,7 +67,7 @@ export const useMutations = ({
       } else {
         console.log('data', data)
         setMassImportResponse(data);
-        handleOpenModal();
+        setOpenResultsModal(true)
       }
     },
   });
