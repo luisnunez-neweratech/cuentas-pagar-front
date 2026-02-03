@@ -2,16 +2,13 @@ import { cuentasApi } from "../../../../api/cuentasApi";
 
 interface importFacturaFilesProps {
   xml: any;
-  pdf: any;
 }
 
 export const importFacturaFiles = async ({
-  xml,
-  pdf,
+  xml
 }: importFacturaFilesProps): Promise<any> => {
   const formData = new FormData();
   formData.append("xmlFile", xml);
-  formData.append("pdfFile", pdf);
 
   const { data } = await cuentasApi.post(`/Invoice/ImportFromXml`, formData, {
     headers: {
@@ -20,3 +17,24 @@ export const importFacturaFiles = async ({
   });
   return data;
 };
+
+interface importMultipleFacturaFilesProps {
+  xmls: any;
+}
+
+export const importMultipleFacturaFiles = async ({
+  xmls
+}: importMultipleFacturaFilesProps): Promise<any> => {
+  const formData = new FormData();
+  for (let i = 0; i < xmls.length; i++) {
+    formData.append('xmlFiles', xmls[i]);
+  }
+
+  const { data } = await cuentasApi.post(`/Invoice/ImportBulkFromXml`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
+};
+
