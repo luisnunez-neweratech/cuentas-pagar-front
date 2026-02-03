@@ -51,6 +51,7 @@ export const MassImportResultsModal = ({
 
 
     const massImportResponse = useFacturaXMLStore((state) => state.massImportResponse);
+    const setOpenResultsModal = useFacturaXMLStore((state) => state.setOpenResultsModal);
 
     if (!massImportResponse) return null;
 
@@ -78,7 +79,7 @@ export const MassImportResultsModal = ({
         {
             field: "fileName", headerName: "Archivo", width: 150,
             renderCell: (params) => (
-                params.row.invoiceId ? <Link to={`/facturas/${params.row.invoiceId}`}>{params.value}</Link> : params.row.fileName
+                params.row.invoiceId ? <Link to={`/facturas/${params.row.invoiceId}`} onClick={() => setOpenResultsModal(false)}>{params.value}</Link> : params.row.fileName
             )
         },
         {
