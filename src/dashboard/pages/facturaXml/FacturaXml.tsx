@@ -732,7 +732,6 @@ export const FacturaXml = () => {
       <MassImportResultsModal
         open={openResultsModal}
         onClose={() => setOpenResultsModal(false)}
-        data={sampleData}
       />
     </Grid>
   );

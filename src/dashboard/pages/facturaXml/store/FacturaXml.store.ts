@@ -1,12 +1,37 @@
 import { type StateCreator, create } from "zustand";
 
+interface ImportResultItem {
+  fileName?: string;
+  success: boolean;
+  invoiceId?: number;
+  invoiceNumber?: string;
+  fiscalFolio?: string;
+  supplierRfc?: string;
+  supplierName?: string;
+  total?: number;
+  errorMessage?: string[];
+  messages: string[];
+  warnings?: string[];
+}
+
+interface MassImportResponse {
+  totalProcessed: number;
+  successful: number;
+  failed: number;
+  results: ImportResultItem[];
+  processingTimeSeconds: number;
+  summary: string;
+}
+
 export interface FacturaXMLState {
   openModal: boolean;
   handleOpenModal: () => void;
   handleCloseModal: () => void;
+  massImportResponse: MassImportResponse;
 
   facturaResult: any;
   setFacturaResult: (facturaResult: any) => void;
+  setMassImportResponse: (massImportResponse: MassImportResponse) => void;
 }
 
 const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
@@ -15,6 +40,14 @@ const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
     invoiceId: null,
     messages: [],
     warnings: [],
+  },
+  massImportResponse: {
+    totalProcessed: 0,
+    successful: 0,
+    failed: 0,
+    results: [],
+    processingTimeSeconds: 0,
+    summary: "",
   },
 
   handleOpenModal: () => {
@@ -25,6 +58,9 @@ const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
   },
   setFacturaResult: (facturaResult: any) => {
     set({ facturaResult });
+  },
+  setMassImportResponse: (massImportResponse: MassImportResponse) => {
+    set({ massImportResponse });
   },
 });
 

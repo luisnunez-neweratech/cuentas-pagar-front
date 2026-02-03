@@ -17,11 +17,14 @@ export const useFacturaXml = () => {
     (state) => state.setFacturaResult,
   );
   const facturaResult = useFacturaXMLStore((state) => state.facturaResult);
+  const setMassImportResponse = useFacturaXMLStore(
+    (state) => state.setMassImportResponse,
+  );
 
   const fileInputXmlRef = useRef<HTMLInputElement>(null);
 
   const [xmlFileName, setXmlFileName] = useState("");
-  const [_xmlFile, setXmlFile] = useState(null);
+  const [xmlFile, setXmlFile] = useState<FileList | null>(null);
 
   const clearValues = () => {
     setXmlFileName("");
@@ -32,11 +35,12 @@ export const useFacturaXml = () => {
 
   };
 
-  const { importDocumentosMutation } = useMutations({
+  const { importDocumentosMutation, importMultipleDocumentosMutation } = useMutations({
     setIsLoading,
     setFacturaResult,
     handleOpenModal,
     clearValues,
+    setMassImportResponse
   });
 
   const handleXmlFileChange = (event: any) => {
@@ -46,14 +50,18 @@ export const useFacturaXml = () => {
         setXmlFile(event.target.files[0]);
       } else {
         setXmlFileName(`${event.target.files.length} archivos seleccionados`);
-        //setXmlFile(event.target.files); TODO: Implementar carga de múltiples archivos
+        setXmlFile(event.target.files);
       }
     }
   };
 
   const onClickCargarInformacion = () => {
     setIsLoading(true);
-    importDocumentosMutation.mutate({ xml: _xmlFile });
+    if (xmlFile!.length === 1) {
+      importDocumentosMutation.mutate({ xml: xmlFile });
+    } else {
+      importMultipleDocumentosMutation.mutate({ xmls: xmlFile });
+    }
   };
 
   const onClickCloseModal = () => {

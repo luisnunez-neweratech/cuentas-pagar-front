@@ -14,6 +14,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import { NumericFormat } from "react-number-format";
 import { Link } from "react-router";
+import { useFacturaXMLStore } from "../../store/FacturaXml.store";
 
 export interface ImportResultItem {
     fileName?: string;
@@ -41,15 +42,17 @@ export interface MassImportResponse {
 interface MassImportResultsModalProps {
     open: boolean;
     onClose: () => void;
-    data: MassImportResponse | null;
 }
 
 export const MassImportResultsModal = ({
     open,
-    onClose,
-    data,
+    onClose
 }: MassImportResultsModalProps) => {
-    if (!data) return null;
+
+
+    const massImportResponse = useFacturaXMLStore((state) => state.massImportResponse);
+
+    if (!massImportResponse) return null;
 
     const columns: GridColDef[] = [
         {
@@ -137,22 +140,22 @@ export const MassImportResultsModal = ({
                     <Grid container spacing={2}>
                         <Grid size={3}>
                             <Typography variant="body2">
-                                Total Procesados: <strong>{data.totalProcessed}</strong>
+                                Total Procesados: <strong>{massImportResponse.totalProcessed}</strong>
                             </Typography>
                         </Grid>
                         <Grid size={3}>
                             <Typography variant="body2" color="success.main">
-                                Exitosos: <strong>{data.successful}</strong>
+                                Exitosos: <strong>{massImportResponse.successful}</strong>
                             </Typography>
                         </Grid>
                         <Grid size={3}>
                             <Typography variant="body2" color="error.main">
-                                Fallidos: <strong>{data.failed}</strong>
+                                Fallidos: <strong>{massImportResponse.failed}</strong>
                             </Typography>
                         </Grid>
                         <Grid size={3}>
                             <Typography variant="body2">
-                                Tiempo: <strong>{data.processingTimeSeconds}s</strong>
+                                Tiempo: <strong>{massImportResponse.processingTimeSeconds}s</strong>
                             </Typography>
                         </Grid>
                     </Grid>
@@ -160,7 +163,7 @@ export const MassImportResultsModal = ({
 
                 <div style={{ height: 500, width: "100%" }}>
                     <DataGrid
-                        rows={data.results}
+                        rows={massImportResponse.results}
                         columns={columns}
                         getRowId={(row) => row.fileName} // unique identifier
                         initialState={{
