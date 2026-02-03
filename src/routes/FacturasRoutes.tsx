@@ -27,7 +27,8 @@ export const FacturasRoutes = () => {
   return (
     <Routes>
       {/* Main routes */}
-      <Route path="/" element={<DashboardLayout />}>
+      <Route path="/" element={<DashboardLayout />} >
+        <Route index element={<Navigate to="facturas" replace />} />
         <Route path="proveedor">
           <Route index element={<ProveedoresPage />} />
           <Route path=":id" element={<ProveedorOcasionalPage />} />

@@ -26,7 +26,7 @@ export const useDashboardLayout = () => {
     if (location.pathname.includes("/catalogos")) {
       return 2;
     }
-    return -1;
+    return 0;
   };
 
   const [optionSelected, setOptionSelected] = useState<number>(checkPathname());
@@ -85,7 +85,7 @@ export const useDashboardLayout = () => {
         break;
       default:
         navigate("/");
-        setOptionSelected(-1);
+        setOptionSelected(0);
         break;
     }
   };
