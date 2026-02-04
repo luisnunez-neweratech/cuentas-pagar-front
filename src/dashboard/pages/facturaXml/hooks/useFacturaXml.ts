@@ -13,6 +13,18 @@ export const useFacturaXml = () => {
   const handleCloseModal = useFacturaXMLStore(
     (state) => state.handleCloseModal,
   );
+
+  const proveedorExisteModal = useFacturaXMLStore((state) => state.proveedorExisteModal);
+  const handleOpenProveedorExisteModal = useFacturaXMLStore((state) => state.handleOpenProveedorExisteModal);
+  const setProveedorExisteMessage = useFacturaXMLStore((state) => state.setProveedorExisteMessage);
+  const setXmlSendFile = useFacturaXMLStore((state) => state.setXmlSendFile);
+  const xmlSendFile = useFacturaXMLStore((state) => state.xmlSendFile);
+  const xmlFileName = useFacturaXMLStore((state) => state.xmlFileName);
+  const setXmlFileName = useFacturaXMLStore((state) => state.setXmlFileName);
+  const handleCloseProveedorExisteModal = useFacturaXMLStore(
+    (state) => state.handleCloseProveedorExisteModal,
+  );
+
   const setFacturaResult = useFacturaXMLStore(
     (state) => state.setFacturaResult,
   );
@@ -22,49 +34,44 @@ export const useFacturaXml = () => {
   );
   const openResultsModal = useFacturaXMLStore((state) => state.openResultsModal);
   const setOpenResultsModal = useFacturaXMLStore((state) => state.setOpenResultsModal);
+  const clearValues = useFacturaXMLStore((state) => state.clearValues);
 
   const fileInputXmlRef = useRef<HTMLInputElement>(null);
 
-  const [xmlFileName, setXmlFileName] = useState("");
-  const [xmlFile, setXmlFile] = useState<any>(null);
-
-  const clearValues = () => {
-    setXmlFileName("");
-    setXmlFile(null);
-    if (fileInputXmlRef.current) {
-      fileInputXmlRef.current.value = "";
-    }
-
-  };
-
-  const { importDocumentosMutation, importMultipleDocumentosMutation } = useMutations({
+  const { importMultipleDocumentosMutation, validarDocumentoMutation } = useMutations({
     setIsLoading,
     setFacturaResult,
     handleOpenModal,
     clearValues,
     setMassImportResponse,
-    setOpenResultsModal
+    setOpenResultsModal,
+    setProveedorExisteMessage,
+    handleOpenProveedorExisteModal
   });
 
   const handleXmlFileChange = (event: any) => {
     if (event.target.files.length > 0) {
       if (event.target.files.length === 1) {
         setXmlFileName(`Nombre del Archivo: ${event.target.files[0].name}`);
-        setXmlFile(event.target.files[0]);
+        setXmlSendFile(event.target.files[0]);
       } else {
         setXmlFileName(`${event.target.files.length} archivos seleccionados`);
-        setXmlFile(event.target.files);
+        setXmlSendFile(event.target.files);
       }
     }
   };
 
   const onClickCargarInformacion = () => {
     setIsLoading(true);
-    if (xmlFile!.length > 0) {
-      importMultipleDocumentosMutation.mutate({ xmls: xmlFile });
-    } else if (xmlFile) {
-      importDocumentosMutation.mutate({ xml: xmlFile });
+    if (xmlSendFile!.length > 0) {
+      importMultipleDocumentosMutation.mutate({ xmls: xmlSendFile });
+    } else if (xmlSendFile) {
+      validarDocumentoMutation.mutate({ xml: xmlSendFile });
     }
+    // TODO check if the user selects the same file
+    /*  if (fileInputXmlRef.current) {
+       fileInputXmlRef.current.value = '';
+     } */
   };
 
   const onClickCloseModal = () => {
@@ -83,6 +90,8 @@ export const useFacturaXml = () => {
     warningMessages: facturaResult.warnings ?? [],
     fileInputXmlRef,
     isLoading,
+    proveedorExisteModal,
+    handleCloseProveedorExisteModal,
     openResultsModal,
     setOpenResultsModal
   };

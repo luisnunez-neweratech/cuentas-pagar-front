@@ -2,6 +2,7 @@ import { Button, Grid } from "@mui/material";
 import { useFacturaXml } from "./hooks/useFacturaXml";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { XmlLoadedModal } from "./components/xmlLoadedModal/XmlLoadedModal";
+import { ProveedorExisteModal } from "./components/proveedorExisteModal/ProveedorExisteModal";
 import { MassImportResultsModal } from "./components/massImportResultsModal/MassImportResultsModal";
 
 export const FacturaXml = () => {
@@ -15,6 +16,8 @@ export const FacturaXml = () => {
     warningMessages,
     fileInputXmlRef,
     isLoading,
+    proveedorExisteModal,
+    handleCloseProveedorExisteModal,
     openResultsModal,
     setOpenResultsModal
   } = useFacturaXml();
@@ -68,6 +71,10 @@ export const FacturaXml = () => {
         onClose={onClickCloseModal}
         warnings={warningMessages}
         info={infoMessages}
+      />
+      <ProveedorExisteModal
+        open={proveedorExisteModal}
+        onClose={handleCloseProveedorExisteModal}
       />
       <MassImportResultsModal
         open={openResultsModal}
