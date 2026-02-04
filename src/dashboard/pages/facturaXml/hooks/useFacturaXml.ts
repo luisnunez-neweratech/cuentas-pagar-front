@@ -13,6 +13,13 @@ export const useFacturaXml = () => {
   const handleCloseModal = useFacturaXMLStore(
     (state) => state.handleCloseModal,
   );
+
+  const proveedorExisteModal = useFacturaXMLStore((state) => state.proveedorExisteModal);
+  const handleOpenProveedorExisteModal = useFacturaXMLStore((state) => state.handleOpenProveedorExisteModal);
+  const handleCloseProveedorExisteModal = useFacturaXMLStore(
+    (state) => state.handleCloseProveedorExisteModal,
+  );
+
   const setFacturaResult = useFacturaXMLStore(
     (state) => state.setFacturaResult,
   );
@@ -85,6 +92,9 @@ export const useFacturaXml = () => {
     warningMessages: facturaResult.warnings ?? [],
     fileInputXmlRef,
     fileInputPdfRef,
-    isLoading
+    isLoading,
+    proveedorExisteModal,
+    handleCloseProveedorExisteModal,
+    message: `El proveedor con RFC 'TMO1306279CX' no existe en la base de datos y se creará automáticamente al cargar la factura como proveedor OCASIONAL con los siguientes datos:\n\n• RFC: TMO1306279CX\n• Nombre: XTU MEJOR OPCION EN OFICINAS\n• Régimen Fiscal: 601\n• Tipo de Persona: Persona Moral (12 caracteres)\n• Tipo de Proveedor: Ocasional\n• Término de Pago: Inmediato\n\n¿Desea continuar?`
   };
 };
