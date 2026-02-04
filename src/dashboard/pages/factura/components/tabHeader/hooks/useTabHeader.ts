@@ -15,6 +15,7 @@ import { useQueries } from "./useQueries";
 import { useMutations } from "./useMutations";
 import { isNotMonedaMXN } from "../../../lib/moneda";
 import { getFacturaId } from "../../../lib/facturas";
+import { InvoiceDocumentType } from "../../../../facturas/interfaces/InvoiceListResponse";
 
 interface props {
   onClickGuardar: number;
@@ -359,8 +360,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   total:
                     +values.subtotal! -
                     +values.descuento! +
-                    +values.impuestos! -
-                    +values.ivaRetenido! -
+                    +values.impuestos! +
+                    +values.ivaRetenido! +
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
                   exchangeRate: getExchangeRate(
@@ -475,8 +476,8 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
                   total:
                     +values.subtotal! -
                     +values.descuento! +
-                    +values.impuestos! -
-                    +values.ivaRetenido! -
+                    +values.impuestos! +
+                    +values.ivaRetenido! +
                     +values.isrRetenido!,
                   currencyId: values.monedaId!,
                   scheduledPaymentDate: values.fechaProgramadaPago!,
@@ -717,7 +718,19 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
   }, [values.proveedorId]);
 
   useEffect(() => {
-    const newStatusFactura = statusFacturaData?.map((status: any) => {
+    if (!statusFacturaData) return;
+
+    let dataFiltered = statusFacturaData;
+    //filter out status 'POR REEMBOLSAR' and 'REEMBOLSADA' if tipoDocumentoId is 'Nota de Credito'
+    if (values.tipoDocumentoId === InvoiceDocumentType.NotaCredito) {
+      dataFiltered = statusFacturaData.filter(
+        (statusFilter: any) =>
+          statusFilter.itemName !== "POR REEMBOLSAR" &&
+          statusFilter.itemName !== "REEMBOLSADA",
+      );
+    }
+
+    const newStatusFactura: { value: number, label: string }[] = dataFiltered.map((status: any) => {
       return {
         value: status.id,
         label: status.itemName,
@@ -725,7 +738,15 @@ export const useTabHeader = ({ onClickGuardar }: props) => {
     });
 
     setConvertStatusFactura(newStatusFactura ?? []);
-  }, [statusFacturaData]);
+
+    if (values.statusFacturaId) {
+      const exists = newStatusFactura.find(
+        s => s.value === values.statusFacturaId);
+      if (!exists) {
+        setFieldValue("statusFacturaId", null);
+      }
+    }
+  }, [statusFacturaData, values.tipoDocumentoId]);
 
   useEffect(() => {
     if (onClickGuardar > 0) {

@@ -24,54 +24,54 @@ export const useFacturaXml = () => {
     (state) => state.setFacturaResult,
   );
   const facturaResult = useFacturaXMLStore((state) => state.facturaResult);
+  const setMassImportResponse = useFacturaXMLStore(
+    (state) => state.setMassImportResponse,
+  );
+  const openResultsModal = useFacturaXMLStore((state) => state.openResultsModal);
+  const setOpenResultsModal = useFacturaXMLStore((state) => state.setOpenResultsModal);
 
   const fileInputXmlRef = useRef<HTMLInputElement>(null);
-  const fileInputPdfRef = useRef<HTMLInputElement>(null);
 
   const [xmlFileName, setXmlFileName] = useState("");
-  const [_xmlFile, setXmlFile] = useState(null);
-
-  const [pdfFileName, setPdfFileName] = useState("");
-  const [_pdfFile, setPdfFile] = useState(null);
+  const [xmlFile, setXmlFile] = useState<any>(null);
 
   const clearValues = () => {
     setXmlFileName("");
-    setPdfFileName("");
     setXmlFile(null);
-    setPdfFile(null);
     if (fileInputXmlRef.current) {
       fileInputXmlRef.current.value = "";
-    }
-    if (fileInputPdfRef.current) {
-      fileInputPdfRef.current.value = "";
     }
 
   };
 
-  const { importDocumentosMutation } = useMutations({
+  const { importDocumentosMutation, importMultipleDocumentosMutation } = useMutations({
     setIsLoading,
     setFacturaResult,
     handleOpenModal,
     clearValues,
+    setMassImportResponse,
+    setOpenResultsModal
   });
 
   const handleXmlFileChange = (event: any) => {
     if (event.target.files.length > 0) {
-      setXmlFileName(event.target.files[0].name);
-      setXmlFile(event.target.files[0]);
-    }
-  };
-
-  const handlePdfFileChange = (event: any) => {
-    if (event.target.files.length > 0) {
-      setPdfFileName(event.target.files[0].name);
-      setPdfFile(event.target.files[0]);
+      if (event.target.files.length === 1) {
+        setXmlFileName(`Nombre del Archivo: ${event.target.files[0].name}`);
+        setXmlFile(event.target.files[0]);
+      } else {
+        setXmlFileName(`${event.target.files.length} archivos seleccionados`);
+        setXmlFile(event.target.files);
+      }
     }
   };
 
   const onClickCargarInformacion = () => {
     setIsLoading(true);
-    importDocumentosMutation.mutate({ xml: _xmlFile, pdf: _pdfFile });
+    if (xmlFile!.length > 0) {
+      importMultipleDocumentosMutation.mutate({ xmls: xmlFile });
+    } else if (xmlFile) {
+      importDocumentosMutation.mutate({ xml: xmlFile });
+    }
   };
 
   const onClickCloseModal = () => {
@@ -83,18 +83,17 @@ export const useFacturaXml = () => {
   return {
     handleXmlFileChange,
     xmlFileName,
-    handlePdfFileChange,
-    pdfFileName,
     onClickCargarInformacion,
     openModal,
     onClickCloseModal,
     infoMessages: facturaResult.messages ?? [],
     warningMessages: facturaResult.warnings ?? [],
     fileInputXmlRef,
-    fileInputPdfRef,
     isLoading,
     proveedorExisteModal,
     handleCloseProveedorExisteModal,
-    message: `El proveedor con RFC 'TMO1306279CX' no existe en la base de datos y se creará automáticamente al cargar la factura como proveedor OCASIONAL con los siguientes datos:\n\n• RFC: TMO1306279CX\n• Nombre: XTU MEJOR OPCION EN OFICINAS\n• Régimen Fiscal: 601\n• Tipo de Persona: Persona Moral (12 caracteres)\n• Tipo de Proveedor: Ocasional\n• Término de Pago: Inmediato\n\n¿Desea continuar?`
+    message: `El proveedor con RFC 'TMO1306279CX' no existe en la base de datos y se creará automáticamente al cargar la factura como proveedor OCASIONAL con los siguientes datos:\n\n• RFC: TMO1306279CX\n• Nombre: XTU MEJOR OPCION EN OFICINAS\n• Régimen Fiscal: 601\n• Tipo de Persona: Persona Moral (12 caracteres)\n• Tipo de Proveedor: Ocasional\n• Término de Pago: Inmediato\n\n¿Desea continuar?`,
+    openResultsModal,
+    setOpenResultsModal
   };
 };

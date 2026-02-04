@@ -109,11 +109,11 @@ const DashboardLayout = () => {
                   },
                   open
                     ? {
-                        justifyContent: "initial",
-                      }
+                      justifyContent: "initial",
+                    }
                     : {
-                        justifyContent: "center",
-                      },
+                      justifyContent: "center",
+                    },
                 ]}
                 onClick={() => optionClicked(index)}
               >
@@ -125,11 +125,11 @@ const DashboardLayout = () => {
                     },
                     open
                       ? {
-                          mr: 3,
-                        }
+                        mr: 3,
+                      }
                       : {
-                          mr: "auto",
-                        },
+                        mr: "auto",
+                      },
                   ]}
                 >
                   {iconDrawer(index)}
@@ -139,11 +139,11 @@ const DashboardLayout = () => {
                   sx={[
                     open
                       ? {
-                          opacity: 1,
-                        }
+                        opacity: 1,
+                      }
                       : {
-                          opacity: 0,
-                        },
+                        opacity: 0,
+                      },
                   ]}
                 />
               </ListItemButton>
