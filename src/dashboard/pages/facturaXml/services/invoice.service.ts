@@ -36,7 +36,7 @@ export const importMultipleFacturaFiles = async ({
     },
   });
   return data;
-};
+}
 
 interface validateFileProps {
   xml: any;

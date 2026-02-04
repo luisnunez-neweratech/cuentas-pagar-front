@@ -39,9 +39,21 @@ export interface FacturaXMLState {
   xmlSendFile: any;
   setXmlSendFile: (xmlSendFile: any) => void;
 
+  xmlFileName: any;
+  setXmlFileName: (xmlFileName: any) => void;
+
   facturaResult: any;
   setFacturaResult: (facturaResult: any) => void;
   setMassImportResponse: (massImportResponse: MassImportResponse) => void;
+
+  clearValues: () => void;
+
+  supplierExists: boolean;
+  setSupplierExists: (supplierExists: boolean) => void;
+
+  invoiceAlreadyExists: boolean;
+  setInvoiceAlreadyExists: (invoiceAlreadyExists: boolean) => void;
+
 }
 
 const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
@@ -68,6 +80,10 @@ const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
   setXmlSendFile: (xmlSendFile: any) => {
     set({ xmlSendFile });
   },
+  xmlFileName: "",
+  setXmlFileName: (xmlFileName: any) => {
+    set({ xmlFileName });
+  },
 
   proveedorExisteModal: false,
   handleOpenProveedorExisteModal: () => {
@@ -91,6 +107,20 @@ const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
   },
   setOpenResultsModal: (openResultsModal: boolean) => {
     set({ openResultsModal });
+  },
+
+  clearValues: () => {
+    set({ xmlFileName: "", xmlSendFile: null, supplierExists: false, invoiceAlreadyExists: false });
+  },
+
+  supplierExists: false,
+  setSupplierExists: (supplierExists: boolean) => {
+    set({ supplierExists });
+  },
+
+  invoiceAlreadyExists: false,
+  setInvoiceAlreadyExists: (invoiceAlreadyExists: boolean) => {
+    set({ invoiceAlreadyExists });
   },
 });
 

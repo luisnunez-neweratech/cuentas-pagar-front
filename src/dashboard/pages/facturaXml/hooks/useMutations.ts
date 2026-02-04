@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { importFacturaFiles, importMultipleFacturaFiles, validateFile } from "../services/invoice.service";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
+import { useFacturaXMLStore } from "../store/FacturaXml.store";
 
 interface Props {
   setIsLoading: (isLoading: boolean) => void;
@@ -25,6 +26,9 @@ export const useMutations = ({
   handleOpenProveedorExisteModal
 }: Props) => {
 
+  const setSupplierExists = useFacturaXMLStore((state) => state.setSupplierExists);
+  const setInvoiceAlreadyExists = useFacturaXMLStore((state) => state.setInvoiceAlreadyExists);
+
   const importDocumentosMutation = useMutation({
     mutationFn: importFacturaFiles,
     onError: (error) => {
@@ -39,7 +43,7 @@ export const useMutations = ({
     onSettled: (data, error) => {
       setIsLoading(false);
       if (error) {
-        //clearValues();
+        clearValues();
         if (error instanceof AxiosError) {
           toast.error(error.response?.data.error);
           return;
@@ -71,7 +75,6 @@ export const useMutations = ({
           return;
         }
       } else {
-        console.log('data', data)
         setMassImportResponse(data);
         setOpenResultsModal(true)
       }
@@ -100,6 +103,8 @@ export const useMutations = ({
       } else {
         setProveedorExisteMessage(data.message);
         handleOpenProveedorExisteModal();
+        setSupplierExists(data.supplierExists);
+        setInvoiceAlreadyExists(data.invoiceAlreadyExists);
       }
     },
   });
