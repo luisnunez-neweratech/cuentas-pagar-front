@@ -1,12 +1,15 @@
 import { Backdrop, Box, Button, Grid, Paper } from "@mui/material"
+import { useFacturaXMLStore } from "../../store/FacturaXml.store";
 
 interface props {
     open: boolean;
     onClose: () => void;
-    message: string;
 }
 
-export const ProveedorExisteModal = ({ open, onClose, message }: props) => {
+export const ProveedorExisteModal = ({ open, onClose }: props) => {
+
+    const proveedorExisteMessage = useFacturaXMLStore((state) => state.proveedorExisteMessage);
+
     return (
         <Backdrop
             sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
@@ -34,7 +37,7 @@ export const ProveedorExisteModal = ({ open, onClose, message }: props) => {
                 >
                     <Grid container spacing={2}>
                         <Grid size={12}>
-                            <p>{message}</p>
+                            <pre style={{ whiteSpace: "pre-wrap", fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif` }}>{proveedorExisteMessage}</pre>
                         </Grid>
                         <Grid size={6}>
                             <Button

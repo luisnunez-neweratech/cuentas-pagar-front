@@ -38,3 +38,21 @@ export const importMultipleFacturaFiles = async ({
   return data;
 };
 
+interface validateFileProps {
+  xml: any;
+}
+
+export const validateFile = async ({
+  xml
+}: validateFileProps): Promise<any> => {
+  const formData = new FormData();
+  formData.append("xmlFile", xml);
+
+  const { data } = await cuentasApi.post(`/Invoice/ValidateSupplierBeforeImport`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
+};
+

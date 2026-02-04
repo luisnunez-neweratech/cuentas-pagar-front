@@ -18,7 +18,6 @@ export const FacturaXml = () => {
     isLoading,
     proveedorExisteModal,
     handleCloseProveedorExisteModal,
-    message,
     openResultsModal,
     setOpenResultsModal
   } = useFacturaXml();
@@ -74,9 +73,8 @@ export const FacturaXml = () => {
         info={infoMessages}
       />
       <ProveedorExisteModal
-        open={true}
+        open={proveedorExisteModal}
         onClose={handleCloseProveedorExisteModal}
-        message={message}
       />
       <MassImportResultsModal
         open={openResultsModal}

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { importFacturaFiles, importMultipleFacturaFiles } from "../services/invoice.service";
+import { importFacturaFiles, importMultipleFacturaFiles, validateFile } from "../services/invoice.service";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
@@ -10,6 +10,8 @@ interface Props {
   clearValues: () => void;
   setMassImportResponse: (data: any) => void;
   setOpenResultsModal: (openResultsModal: boolean) => void;
+  setProveedorExisteMessage: (proveedorExisteMessage: string) => void;
+  handleOpenProveedorExisteModal: () => void;
 }
 
 export const useMutations = ({
@@ -18,8 +20,11 @@ export const useMutations = ({
   handleOpenModal,
   clearValues,
   setMassImportResponse,
-  setOpenResultsModal
+  setOpenResultsModal,
+  setProveedorExisteMessage,
+  handleOpenProveedorExisteModal
 }: Props) => {
+
   const importDocumentosMutation = useMutation({
     mutationFn: importFacturaFiles,
     onError: (error) => {
@@ -28,7 +33,7 @@ export const useMutations = ({
         toast.error(error.message);
         return;
       }
-      toast.error("Error al subir los documentos");
+      toast.error("Error al subir el documento");
       return;
     },
     onSettled: (data, error) => {
@@ -45,6 +50,7 @@ export const useMutations = ({
       }
     },
   });
+
   const importMultipleDocumentosMutation = useMutation({
     mutationFn: importMultipleFacturaFiles,
     onError: (error) => {
@@ -72,11 +78,38 @@ export const useMutations = ({
     },
   });
 
+  const validarDocumentoMutation = useMutation({
+    mutationFn: validateFile,
+    onError: (error) => {
+      console.log('error', error)
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+        return;
+      }
+      toast.error("Error al validar el documento");
+      return;
+    },
+    onSettled: (data, error) => {
+      setIsLoading(false);
+      if (error) {
+        clearValues();
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data.error);
+          return;
+        }
+      } else {
+        setProveedorExisteMessage(data.message);
+        handleOpenProveedorExisteModal();
+      }
+    },
+  });
+
 
 
   return {
     importDocumentosMutation,
-    importMultipleDocumentosMutation
+    importMultipleDocumentosMutation,
+    validarDocumentoMutation
   };
 };
 
