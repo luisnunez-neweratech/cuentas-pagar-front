@@ -10,7 +10,7 @@ export const importFacturaFiles = async ({
   const formData = new FormData();
   formData.append("xmlFile", xml);
 
-  const { data } = await cuentasApi.post(`/Invoice/ImportFromXml`, formData, {
+  const { data } = await cuentasApi.post(`/Invoice/ImportFromXml?confirmCreateSupplier=true`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

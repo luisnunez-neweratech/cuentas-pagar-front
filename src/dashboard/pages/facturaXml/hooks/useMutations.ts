@@ -39,7 +39,7 @@ export const useMutations = ({
     onSettled: (data, error) => {
       setIsLoading(false);
       if (error) {
-        clearValues();
+        //clearValues();
         if (error instanceof AxiosError) {
           toast.error(error.response?.data.error);
           return;

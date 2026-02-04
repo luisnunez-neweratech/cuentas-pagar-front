@@ -1,5 +1,5 @@
 import { Backdrop, Box, Button, Grid, Paper } from "@mui/material"
-import { useFacturaXMLStore } from "../../store/FacturaXml.store";
+import { useProveedorExisteModal } from "./hooks/useProveedorExisteModal";
 
 interface props {
     open: boolean;
@@ -8,7 +8,7 @@ interface props {
 
 export const ProveedorExisteModal = ({ open, onClose }: props) => {
 
-    const proveedorExisteMessage = useFacturaXMLStore((state) => state.proveedorExisteMessage);
+    const { handleAceptar, handleCancelar, proveedorExisteMessage } = useProveedorExisteModal({ onClose });
 
     return (
         <Backdrop
@@ -44,7 +44,7 @@ export const ProveedorExisteModal = ({ open, onClose }: props) => {
                                 sx={{ marginTop: 2 }}
                                 fullWidth
                                 variant="contained"
-                                onClick={onClose}
+                                onClick={handleAceptar}
                                 color="success"
                             >
                                 Aceptar
@@ -55,7 +55,7 @@ export const ProveedorExisteModal = ({ open, onClose }: props) => {
                                 sx={{ marginTop: 2 }}
                                 fullWidth
                                 variant="contained"
-                                onClick={onClose}
+                                onClick={handleCancelar}
                                 color="error"
                             >
                                 Cancelar

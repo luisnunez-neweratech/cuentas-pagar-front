@@ -17,6 +17,7 @@ export const useFacturaXml = () => {
   const proveedorExisteModal = useFacturaXMLStore((state) => state.proveedorExisteModal);
   const handleOpenProveedorExisteModal = useFacturaXMLStore((state) => state.handleOpenProveedorExisteModal);
   const setProveedorExisteMessage = useFacturaXMLStore((state) => state.setProveedorExisteMessage);
+  const setXmlSendFile = useFacturaXMLStore((state) => state.setXmlSendFile);
   const handleCloseProveedorExisteModal = useFacturaXMLStore(
     (state) => state.handleCloseProveedorExisteModal,
   );
@@ -39,6 +40,7 @@ export const useFacturaXml = () => {
   const clearValues = () => {
     setXmlFileName("");
     setXmlFile(null);
+    setXmlSendFile(null);
     if (fileInputXmlRef.current) {
       fileInputXmlRef.current.value = "";
     }
@@ -61,6 +63,7 @@ export const useFacturaXml = () => {
       if (event.target.files.length === 1) {
         setXmlFileName(`Nombre del Archivo: ${event.target.files[0].name}`);
         setXmlFile(event.target.files[0]);
+        setXmlSendFile(event.target.files[0]);
       } else {
         setXmlFileName(`${event.target.files.length} archivos seleccionados`);
         setXmlFile(event.target.files);
@@ -74,7 +77,6 @@ export const useFacturaXml = () => {
       importMultipleDocumentosMutation.mutate({ xmls: xmlFile });
     } else if (xmlFile) {
       validarDocumentoMutation.mutate({ xml: xmlFile });
-      //importDocumentosMutation.mutate({ xml: xmlFile });
     }
   };
 

@@ -36,6 +36,8 @@ export interface FacturaXMLState {
   handleCloseProveedorExisteModal: () => void;
   proveedorExisteMessage: string;
   setProveedorExisteMessage: (proveedorExisteMessage: string) => void;
+  xmlSendFile: any;
+  setXmlSendFile: (xmlSendFile: any) => void;
 
   facturaResult: any;
   setFacturaResult: (facturaResult: any) => void;
@@ -61,6 +63,10 @@ const storeFacturaXML: StateCreator<FacturaXMLState> = (set) => ({
   proveedorExisteMessage: "",
   setProveedorExisteMessage: (proveedorExisteMessage: string) => {
     set({ proveedorExisteMessage });
+  },
+  xmlSendFile: null,
+  setXmlSendFile: (xmlSendFile: any) => {
+    set({ xmlSendFile });
   },
 
   proveedorExisteModal: false,
